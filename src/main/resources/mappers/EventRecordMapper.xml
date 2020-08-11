@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scott.dao.EventRecordDao">
+    <!-- Result Map-->
+    <resultMap id="AlarmResultMap" type="com.scott.entity.AlarmRecordEntity">
+        <result column="EquipmentName" property="EquipmentName"/>
+        <result column="Phase" property="Phase"/>
+        <result column="Space" property="Space"/>
+        <result column="DeviceName" property="DeviceName"/>
+        <result column="Trigger_Date" property="Trigger_Date"/>
+        <result column="RecordType" property="RecordType"/>
+    </resultMap>
+    <sql id="Example_state">
+        WHERE a.DeviceID=b.DeviceID AND a.DeviceType=#{DeviceType}
+        <trim suffixOverrides=",">
+            <if test="start !=null and start != ''">
+                and a.Trigger_Date> #{start}
+            </if>
+            <if test="End !=null and End != ''">
+                and a.Trigger_Date &lt; #{End}
+            </if>
+            <if test="RecordType == 0 ">
+
+            </if>
+            <if test="RecordType == 2 ">
+                and a.RecordType&amp;0x01000000=0x01000000
+            </if>
+            <if test="RecordType == 1 ">
+                and (a.RecordType&amp;0x02000000=0x02000000 or a.RecordType&amp;0x04000000=0x04000000 or a.RecordType&amp;0x08000000=0x08000000)
+            </if>
+            order by a.Trigger_Date DESC
+        </trim>
+    </sql>
+    <sql id="Example_state2">
+        WHERE a.operatorid=b.OperatorID
+        <trim suffixOverrides=",">
+            <if test="start !=null and start != ''">
+                and a.Trigger_Date> #{start}
+            </if>
+            <if test="End !=null and End != ''">
+                and a.Trigger_Date &lt; #{End}
+            </if>
+            order by a.Trigger_Date DESC
+        </trim>
+    </sql>
+
+    <!-- 查告警记录数据 -->
+    <select id="AlarmRecordCount" resultType="java.lang.Integer" parameterType="Object">
+        SELECT count(*)
+        FROM `pubalarmrecords` a LEFT JOIN pubdevice b ON a.DeviceID=b.DeviceID AND a.DeviceType=#{DeviceType}
+        <include refid="Example_state"/>
+    </select>
+    <select id="getAlarmRecordList" resultMap="AlarmResultMap" parameterType="Object">
+        SELECT a.DeviceType,a.Trigger_Date,a.RecordType,b.Phase,b.Space,b.DeviceName
+        FROM `pubalarmrecords` a LEFT JOIN pubdevice b ON a.DeviceID=b.DeviceID AND a.DeviceType=#{DeviceType}
+        <include refid="Example_state"/>
+        <if test="pager.orderCondition != null and pager.orderCondition != ''">
+            ${pager.orderCondition}
+        </if>
+        <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+            ${pager.mysqlQueryCondition}
+        </if>
+    </select>
+
+</mapper>   

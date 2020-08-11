@@ -1,0 +1,125 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>jQuery EasyUI</title>
+	<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="themes/icon.css">
+	<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="datagrid-transposedview.js"></script>
+	<script>
+		$(function(){
+			$('#tt').datagrid({
+				showHeader:true,
+				view:transposedview,
+				headerWidth:180,
+				itemWidth:60,
+				title:'DataGrid - TransposedView - Profit & Loss Statement',
+				width:500,
+				height:250,
+				singleSelect:true,
+				nowrap:false,
+				data:{
+					"total":1,
+					"rows":[
+						{
+							"Year":"2012",
+							"Product sales":"$12,000",
+							"Service sales":"$3,000",
+							"Total Operating Revenue":"$15,000",
+							"Cost of goods sold":"$7,000",
+							"Gross Profit":"$8,000",
+							"Rent":"$1,500",
+							"Insurance":"$250",
+							"Office suppliese":"$150",
+							"Utilities":"$100",
+							"Total Overhead":"$2,000",
+							"Operating Income":"$6,000",
+							"Loan interest":"($500)",
+							"Earnings Before Income Taxes":"$5,500",
+							"Income Taxes":"$500",
+							"Net Earnings":"$5,000"
+						},
+						{
+							"Year":"2013",
+							"Product sales":"$15,000",
+							"Service sales":"$4,000",
+							"Total Operating Revenue":"$16,000",
+							"Cost of goods sold":"$8,000",
+							"Gross Profit":"$9,000",
+							"Rent":"$2,500",
+							"Insurance":"$250",
+							"Office suppliese":"$150",
+							"Utilities":"$200",
+							"Total Overhead":"$3,100",
+							"Operating Income":"$7,000",
+							"Loan interest":"($800)",
+							"Earnings Before Income Taxes":"$6,500",
+							"Income Taxes":"$700",
+							"Net Earnings":"$5,500"
+						},
+						{
+							"Year":"2014",
+							"Product sales":"$20,000",
+							"Service sales":"$6,000",
+							"Total Operating Revenue":"$25,000",
+							"Cost of goods sold":"$11,000",
+							"Gross Profit":"$12,000",
+							"Rent":"$2,500",
+							"Insurance":"$550",
+							"Office suppliese":"$350",
+							"Utilities":"$500",
+							"Total Overhead":"$7,000",
+							"Operating Income":"$12,000",
+							"Loan interest":"($900)",
+							"Earnings Before Income Taxes":"$8,500",
+							"Income Taxes":"$700",
+							"Net Earnings":"$9,000"
+						}
+					]
+				},
+				columns:[[
+					{field:'Year',title:'Year',align:'right'},
+					{field:'Product sales',title:'Product ID',align:'right'},
+					{field:'Service sales',title:'List Price',align:'right'},
+					{field:'Total Operating Revenue',title:'Total Operating Revenue',align:'right'},
+					{field:'Cost of goods sold',title:'Unit Cost',align:'right'},
+					{field:'Gross Profit',title:'Gross Profit',align:'right'},
+					{field:'Rent',title:'Attribute',align:'right'},
+					{field:'Insurance',title:'Status',align:'right'},
+					{field:'Office suppliese',title:'Office suppliese',align:'right'},
+					{field:'Utilities',title:'Utilities',align:'right'},
+					{field:'Total Overhead',title:'Total Overhead',align:'right'},
+					{field:'Operating Income',title:'Operating Income',align:'right'},
+					{field:'Loan interest',title:'Loan interest',align:'right'},
+					{field:'Earnings Before Income Taxes',title:'Earnings Before Income Taxes',align:'right'},
+					{field:'Income Taxes',title:'Income Taxes',align:'right'},
+					{field:'Net Earnings',title:'Net Earnings',align:'right'}
+				]]
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>DataGrid - TransposedView</h1>
+	columns:[[
+  					{field:'deviceID',title:'设备ID',align:'right'},
+  					{field:'sampleTime',title:'采集时间',align:'right'},
+  					{field:'h2ppm',title:'氢气(ppm)',align:'right'},
+  					{field:'COppm',title:'一氧化碳(ppm)',align:'right'},
+  					{field:'CO2ppm',title:'二氧化碳(ppm)',align:'right'},
+  					{field:'CH4ppm',title:'甲烷(ppm)',align:'right'},
+  					{field:'c2H2ppm',title:'乙炔(ppm)',align:'right'},
+  					{field:'c2H4ppm',title:'乙烯(ppm)',align:'right'},
+  					{field:'c2H6ppm',title:'乙烷(ppm)',align:'right'},
+  					{field:'totHyd',title:'总可燃气体(ppm)',align:'right'},
+  					{field:'n2',title:'氮气(ppm)',align:'right'},
+  					{field:'oilTmp',title:'油位(ppm)',align:'right'},
+  					{field:'mst',title:'微水(ppm)',align:'right'},
+  					{field:'remark',title:'状态',align:'right'},
+  				]],
+	<table id="tt"></table>
+</body>
+</html>

@@ -1,0 +1,30 @@
+# 数据库配置
+spring:
+  datasource:
+    url: jdbc:p6spy:mysql://localhost:3306/scac-3000ykz?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver #com.mysql.cj.jdbc.Driver
+    username: root
+    password: 19910227730X
+    type: com.alibaba.druid.pool.DruidDataSource
+  mvc:
+    view:
+      prefix: /jsp/
+      suffix: .jsp
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+      additional-paths: src/main/java #重启目录
+      exclude: WEB-INF/**
+  application:
+    name: cac
+server:
+  port: 8081
+mybatis-plus:
+  mapper-locations: classpath:mappers/*.xml
+  # 关闭mybatis-plus的banner打印
+  global-config:
+    banner: false
+logging:
+  config: classpath:logback-spring.xml
+#  level:
+#    com.scott.dao: debug

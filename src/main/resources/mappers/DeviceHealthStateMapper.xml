@@ -1,0 +1,1268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scott.dao.DeviceHealthStateDao" >
+<!-- Result Map-->
+<resultMap id="yxHistroyDataResult" type="com.scott.entity.YXhistroyData" >
+	<result property="deviceID" column="DeviceID"/>
+	<result property="sampleTime" column="sampleTime"/>
+	<result property="phyHealth" column="phyHealth"/>
+	<result property="supDevRun" column="supDevRun"/>
+	<result property="moDevConf" column="moDevConf"/>
+	<result property="health" column="health"/>
+	<result property="gasUnPresAlm" column="gasUnPresAlm"/>
+	<result property="gasLowPresAlm" column="gasLowPresAlm"/>
+	<result property="actCyGasSta" column="actCyGasSta"/>
+	<result property="gasBot" column="gasBot"/>
+	<result property="gasLowPresAlm2" column="gasLowPresAlm2"/>
+	<result property="gasUnPresAlm2" column="gasUnPresAlm2"/>
+</resultMap>
+<resultMap id="TypeDeviceResult" type="com.scott.entity.DeviceEntity" >
+	<result column="DeviceID" property="DeviceID"/>
+	<result column="DeviceName" property="DeviceName"/>
+	<result column="DeviceType" property="DeviceType"/>
+</resultMap>
+<resultMap id="ycDataResult" type="com.scott.entity.DataEntity" >
+	<result property="value" column="yc_value"/>
+	<result property="refname" column="yc_refname"/>
+	<result property="time" column="yc_time"/>
+	<result property="quality" column="quality"/>
+	<result property="ied_type_id" column="ied_type_id"/>
+</resultMap>
+<resultMap id="sbushDataResult" type="com.scott.entity.SbushDataEntity" >
+	<result property="id" column="DeviceID"/>
+	<result property="sampleTime" column="SampleTime"/>
+	<result property="leakAA" column="LeakAA"/>
+	<result property="absReactA" column="AbsReactA"/>
+	<result property="dieLossA" column="DieLossA"/>
+	<result property="leakAB" column="LeakAB"/>
+	<result property="absReactB" column="AbsReactB"/>
+	<result property="dieLossB" column="DieLossB"/>
+	<result property="leakAC" column="LeakAC"/>
+	<result property="absReactC" column="AbsReactC"/>
+	<result property="dieLossC" column="DieLossC"/>
+	<result property="totRelA" column="TotRelA"/>
+	<result property="remark" column="Remark"/>
+	
+	<result property="appPaDsch" column="AppPaDsch"/>
+	<result property="acuPaDsch" column="AcuPaDsch"/>
+	<result property="avDsch" column="AvDsch"/>
+	<result property="maxDsch" column="MaxDsch"/>
+	<result property="dschCnt" column="DschCnt"/>
+	
+	<result property="lscAmp" column="LSCAmp"/>
+	<result property="equCa" column="EquCa"/>
+	<result property="losFact" column="LosFact"/>
+</resultMap>
+<resultMap id="yxDataResult" type="com.scott.entity.DataEntity" >
+	<result property="id" column="yx_id"/>
+	<result property="ln_inst_name" column="ln_inst_name"/>
+	<result property="value" column="yx_value"/>
+	<result property="refname" column="yx_refname"/>
+	<result property="time" column="yx_time"/>
+</resultMap>
+
+<resultMap id="MessageResult" type="com.scott.entity.MessageEntity" >
+	<result column="DeviceName" property="DeviceName"/>
+	<result column="Space" property="Space"/>
+	<result column="DeviceType" property="DeviceType"/>
+	<result column="Remark" property="Remark"/>
+</resultMap>
+<resultMap id="StomAlarmResult" type="com.scott.entity.StomAlarmEntity" >
+	<result column="DeviceID" property="DeviceID"/>
+	<result column="H2ThresHold" property="H2ThresHold"/>
+	<result column="C2H2ThresHold" property="C2H2ThresHold"/>
+	<result column="THThresHold" property="THThresHold"/>
+	<result column="H2Change" property="H2Change"/>
+	<result column="C2H2Change" property="C2H2Change"/>
+	<result column="THChange" property="THChange"/>
+	<result column="MstThresHold" property="MstThresHold"/>
+</resultMap>
+<resultMap id="Sf6AlarmResult" type="com.scott.entity.Sf6AlarmEntity" >
+	<result column="DeviceID" property="DeviceID"/>
+	<result column="PressureThreshold" property="PressureThreshold"/>
+	<result column="PressureThresholdName" property="PressureThresholdName"/>
+</resultMap>
+<resultMap id="SmoamAlarmResult" type="com.scott.entity.SmoamAlarmEntity" >
+	<result column="DeviceID" property="DeviceID"/>
+	<result column="TotalCurrentThresHold" property="TotalCurrentThresHold"/>
+</resultMap>
+<resultMap id="ScomAlarmResult" type="com.scott.entity.ScomAlarmEntity" >
+	<result column="DeviceID" property="DeviceID"/>
+	<result column="TotalCurrentThresHold" property="TotalCurrentThresHold"/>
+</resultMap>
+<resultMap id="SpdmAlarmResult" type="com.scott.entity.SpdmAlarmEntity" >
+	<result column="DeviceID" property="DeviceID"/>
+	<result column="PaDschThresHold" property="PaDschThresHold"/>
+</resultMap>
+<resultMap id="YXResultMapStoM" type="com.scott.entity.StomYxEntity" >
+	<result property="H2ppm" column="H2ppm"/>
+	<result property="COppm" column="COppm"/>
+	<result property="CO2ppm" column="CO2ppm"/>
+	<result property="CH4ppm" column="CH4ppm"/>
+	<result property="C2H2ppm" column="C2H2ppm"/>
+	<result property="C2H4ppm" column="C2H4ppm"/>
+	<result property="C2H6ppm" column="C2H6ppm"/>
+	<result property="TotHyd" column="TotHyd"/>
+	<result property="N2" column="N2"/>
+	<result property="OilTmp" column="OilTmp"/>
+	<result property="GasPres" column="GasPres"/>
+	<result property="Mst" column="Mst"/>
+	<result column="GasUnPresAlm" property="GasUnPresAlm"/>
+	<result column="SupDevRun" property="SupDevRun"/>
+	<result column="MoDevConf" property="MoDevConf"/>
+	<result column="GasLowPresAlm" property="GasLowPresAlm"/>
+	<result column="ActCyGasSta" property="ActCyGasSta"/>
+	<result column="GasBot" property="GasBot"/>
+	<result column="Health" property="Health"/>
+	<result column="H2Alm" property="H2Alm"/>
+	<result column="C2H2Alm" property="C2H2Alm"/>
+	<result column="TotHydcAlm" property="TotHydcAlm"/>
+</resultMap>
+<resultMap id="YXDateResultMapStoM" type="com.scott.entity.StomYxEntity" >
+	<result property="H2ppm" column="SampleTime"/>
+	<result property="COppm" column="SampleTime"/>
+	<result property="CO2ppm" column="SampleTime"/>
+	<result property="CH4ppm" column="SampleTime"/>
+	<result property="C2H2ppm" column="SampleTime"/>
+	<result property="C2H4ppm" column="SampleTime"/>
+	<result property="C2H6ppm" column="SampleTime"/>
+	<result property="TotHyd" column="SampleTime"/>
+	<result property="N2" column="SampleTime"/>
+	<result property="OilTmp" column="SampleTime"/>
+	<result property="GasPres" column="SampleTime"/>
+	<result property="Mst" column="SampleTime"/>
+	<result property="GasUnPresAlm" column="GasUnPresAlmDate"/>
+	<result property="SupDevRun" column="SupDevRunDate"/>
+	<result property="MoDevConf" column="MoDevConfDate"/>
+	<result property="GasLowPresAlm" column="GasLowPresAlmDate"/>
+	<result property="ActCyGasSta" column="ActCyGasStaDate"/>
+	<result property="GasBot" column="GasBotDate"/>
+	<result property="Health" column="HealthDate"/>
+	<result property="H2Alm" column="H2AlmDate"/>
+	<result property="C2H2Alm" column="C2H2AlmDate"/>
+	<result property="TotHydcAlm" column="TotHydcAlmDate"/>
+</resultMap>
+<resultMap id="YXDateResultMapSf6" type="com.scott.entity.Sf6YxEntity" >
+	<result property="Tmp" column="SampleTime"/>
+	<result property="Pres" column="SampleTime"/>
+	<result property="Hum" column="SampleTime"/>
+	<result property="SupDevRun" column="SupDevRunDate"/>
+	<result property="MoDevConf" column="MoDevConfDate"/>
+	<result property="DenAlm" column="DenAlmDate"/>
+	<result property="Health" column="HealthDate"/>
+</resultMap>
+<resultMap id="YXResultMapSf6" type="com.scott.entity.Sf6YxEntity" >
+	<result property="DeviceID" column="ID"/>
+	<result property="Tmp" column="Tmp"/>
+	<result property="Pres" column="Pressure"/>
+	<result property="Hum" column="Den"/>
+	<result property="SupDevRun" column="SupDevRun"/>
+	<result property="MoDevConf" column="MoDevConf"/>
+	<result property="DenAlm" column="DenAlm"/>
+	<result property="Health" column="Health"/>
+</resultMap>
+<resultMap id="YXDateResultMapSmoam" type="com.scott.entity.SmoamYxEntity" >
+	<result property="TotA" column="SampleTime"/>
+	<result property="RisA" column="SampleTime"/>
+	<result property="RisCaRte" column="SampleTime"/>
+	<result property="LastLigTm" column="SampleTime"/>
+	<result property="LigCnt" column="SampleTime"/>
+	<result property="SupDevRun" column="SupDevRunDate"/>
+	<result property="MoDevConf" column="MoDevConfDate"/>
+	<result property="Health" column="HealthDate"/>
+</resultMap>
+<resultMap id="YXResultMapSmoam" type="com.scott.entity.SmoamYxEntity" >
+	<result property="DeviceID" column="ID"/>
+	<result property="TotA" column="TotA"/>
+	<result property="RisA" column="RisA"/>
+	<result property="RisCaRte" column="RisCaRte"/>
+	<result property="LastLigTm" column="LastLigTm"/>
+	<result property="LigCnt" column="LigCnt"/>
+	<result property="SupDevRun" column="SupDevRun"/>
+	<result property="MoDevConf" column="MoDevConf"/>
+	<result property="Health" column="Health"/>
+</resultMap>
+<resultMap id="YXDateResultMapScom" type="com.scott.entity.ScomYxEntity" >
+	<result property="CGAmp" column="SampleTime"/>
+	<result property="SupDevRun" column="SupDevRunDate"/>
+	<result property="MoDevConf" column="MoDevConfDate"/>
+	<result property="CGAlm" column="CGAlmDate"/>
+	<result property="Health" column="HealthDate"/>
+</resultMap>
+<resultMap id="YXResultMapScom" type="com.scott.entity.ScomYxEntity" >
+	<result property="DeviceID" column="ID"/>
+	<result property="CGAmp" column="CGAmp"/>
+	<result property="SupDevRun" column="SupDevRun"/>
+	<result property="MoDevConf" column="MoDevConf"/>
+	<result property="CGAlm" column="CGAlm"/>
+	<result property="Health" column="Health"/>
+</resultMap>
+<resultMap id="YXDateResultMapSpdm" type="com.scott.entity.SpdmYxEntity" >
+	<result property="AcuPaDsch" column="SampleTime"/>
+	<result property="UhfPaDsch" column="SampleTime"/>
+	<result property="Phase" column="SampleTime"/>
+	<result property="PlsNum" column="SampleTime"/>
+	<result property="PaDschAlm" column="PaDschAlmDate"/>
+	<result property="SupDevRun" column="SupDevRunDate"/>
+	<result property="MoDevConf" column="MoDevConfDate"/>
+	<result property="Health" column="HealthDate"/>
+</resultMap>
+<resultMap id="YXResultMapSpdm" type="com.scott.entity.SpdmYxEntity" >
+	<result property="DeviceID" column="ID"/>
+	<result property="AcuPaDsch" column="AcuPaDsch"/>
+	<result property="UhfPaDsch" column="UhfPaDsch"/>
+	<result property="Phase" column="Phase"/>
+	<result property="PlsNum" column="PlsNum"/>
+	<result property="PaDschAlm" column="PaDschAlm"/>
+	<result property="SupDevRun" column="SupDevRun"/>
+	<result property="MoDevConf" column="MoDevConf"/>
+	<result property="Health" column="Health"/>
+</resultMap>
+<resultMap id="BaseResultMap" type="com.scott.entity.DeviceHealthStateEntity" >
+	<result column="id" property="id"/>
+	<result column="age" property="age"/>
+	<result column="name" property="name"/>
+	<result column="salary" property="salary"/>
+	<result column="createdt" property="createdt"/>
+</resultMap>
+<resultMap id="YSPResultMap" type="com.scott.entity.stom_dataEntity" >
+	<result column="SampleTime" property="SampleTime"/>
+	<result column="H2ppm" property="H2ppm"/>
+	<result column="COppm" property="COppm"/>
+	<result column="CO2ppm" property="CO2ppm"/>
+	<result column="CH4ppm" property="CH4ppm"/>
+	<result column="C2H2ppm" property="C2H2ppm"/>
+	<result column="C2H4ppm" property="C2H4ppm"/>
+	<result column="C2H6ppm" property="C2H6ppm"/>
+	<result column="TotHyd" property="TotHyd"/>
+	<result column="N2" property="N2"/>
+	<result column="Mst" property="Mst"/>
+	<result column="OilTmp" property="OilTmp"/>
+	<result column="GasPres" property="GasPres"/>
+	<result column="Remark" property="Remark"/>
+</resultMap>
+<resultMap id="YSPDateResultMap" type="com.scott.entity.stom_dataEntity" >
+	<result column="SampleTime" property="SampleTime"/>
+	<result column="H2ppm" property="SampleTime"/>
+	<result column="COppm" property="SampleTime"/>
+	<result column="CO2ppm" property="SampleTime"/>
+	<result column="CH4ppm" property="SampleTime"/>
+	<result column="C2H2ppm" property="SampleTime"/>
+	<result column="C2H4ppm" property="SampleTime"/>
+	<result column="C2H6ppm" property="SampleTime"/>
+	<result column="TotHyd" property="SampleTime"/>
+	<result column="N2" property="SampleTime"/>
+	<result column="Mst" property="SampleTime"/>
+	<result column="OilTmp" property="SampleTime"/>
+	<result column="GasPres" property="SampleTime"/>
+	<result column="Remark" property="SampleTime"/>
+</resultMap>
+<resultMap id="ListResultMapSf6" type="com.scott.entity.Sf6_dataEntity" >
+	<result column="DeviceID" property="DeviceID"/>
+	<result column="SampleTime" property="SampleTime"/>
+	<result column="Tmp" property="Tmp"/>
+	<result column="Pres" property="Pres"/>
+	<result column="Hum" property="Hum"/>
+	<result column="MicrWat" property="MicrWat"/>
+	<result column="Den" property="Den"/>
+	<result column="Remark" property="Remark"/>
+</resultMap>
+<resultMap id="ListResultMapSMOAM" type="com.scott.entity.SMOAM_dataEntity" >
+	<result column="DeviceID" property="DeviceID"/>
+	<result column="SampleTime" property="SampleTime"/>
+	<result column="TotA" property="TotA"/>
+	<result column="RisA" property="RisA"/>
+	<result column="RisCaRte" property="RisCaRte"/>
+	<result column="LastLigTm" property="LastLigTm"/>
+	<result column="LigCnt" property="LigCnt"/>
+	<result column="Remark" property="Remark"/>
+</resultMap>
+<resultMap id="ListResultMapSCOM" type="com.scott.entity.SCOM_dataEntity" >
+	<result column="DeviceID" property="DeviceID"/>
+	<result column="SampleTime" property="SampleTime"/>
+	<result column="CGAmp" property="CGAmp"/>
+	<result column="ClpGAmp" property="ClpGAmp"/>
+	<result column="Amp1" property="Amp1"/>
+	<result column="MainOil" property="MainOil"/>
+	<result column="PreOil" property="PreOil"/>
+	<result column="SltcOil" property="SltcOil"/>
+	<result column="Tmp1" property="Tmp1"/>
+	<result column="Tmp2" property="Tmp2"/>
+	<result column="Tmp3" property="Tmp3"/>
+	<result column="Tmp4" property="Tmp4"/>
+	<result column="Tmp5" property="Tmp5"/>
+	<result column="Tmp6" property="Tmp6"/>
+	<result column="Tmp7" property="Tmp7"/>
+	<result column="Tmp8" property="Tmp8"/>
+	<result column="Pre1" property="Pre1"/>
+	<result column="Pre2" property="Pre2"/>
+
+	<result column="Remark" property="Remark"/>
+</resultMap>
+<resultMap id="ListResultMapSPDM" type="com.scott.entity.Spdm_dataEntity" >
+	<result column="DeviceID" property="DeviceID"/>
+	<result column="SampleTime" property="SampleTime"/>
+	<result column="AcuPaDsch" property="AcuPaDsch"/>
+	<result column="UhfPaDsch" property="UhfPaDsch"/>
+	<result column="Phase" property="Phase"/>
+	<result column="PlsNum" property="PlsNum"/>
+	<result column="Remark" property="Remark"/>
+</resultMap>
+<resultMap id="ListResultMapYX" type="com.scott.entity.YXHistoryEntity" >
+	<result column="DeviceID" property="DeviceID"/>
+	<result column="ReportDate" property="ReportDate"/>
+	<result column="ConstMember" property="ConstMember"/>
+	<result column="Value" property="Value"/>
+</resultMap>
+<!-- jeecg_person table all fields -->
+<sql id="Base_Column_List" >
+	 id,age,name,salary,createdt
+</sql>
+
+  <!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+</sql>
+<!-- 查询条件 -->
+<sql id="Example_state">
+where 1=1
+	<trim  suffixOverrides="," >
+		<if test="startTime !=null and startTime != ''" >
+		    and a.sampleTime> #{startTime} 
+		</if>
+		<if test="endTime !=null and endTime != ''" >
+		    and a.sampleTime &lt; #{endTime} 
+		</if>
+	</trim>
+	order by a.sampleTime desc
+</sql>
+<!-- <sql id="YXExample_state">
+where 1=1
+	<trim  suffixOverrides="," >
+		<if test="startTime !=null and startTime != ''" >
+		    and a.ReportDate> #{startTime}
+		</if>
+		<if test="endTime !=null and endTime != ''" >
+		    and a.ReportDate &lt; #{endTime}
+		</if>
+		<if test='state!="0"' >
+			and a.ConstMember=#{state}
+		 </if>
+	</trim>
+	order by a.ReportDate desc
+</sql> -->
+
+<sql id="YXExample_state">
+where 1=1
+	<trim  suffixOverrides="," >
+		<if test="startTime !=null and startTime != ''" >
+		    and a.SampleTime> #{startTime}
+		</if>
+		<if test="endTime !=null and endTime != ''" >
+		    and a.SampleTime &lt; #{endTime}
+		</if>
+	</trim>
+	order by a.SampleTime desc
+</sql>
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+  insert into jeecg_person(id,age,name,salary,createdt)
+ values(#{id},#{age},#{name},#{salary},#{createdt})
+</insert>
+
+<!-- 根据id，修改记录-->
+ <update id="update" parameterType="Object" >
+  update jeecg_person set age=#{age},name=#{name},salary=#{salary},createdt=#{createdt} where id=#{id}
+ </update>
+
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update jeecg_person set
+	<trim  suffixOverrides="," >
+	<if test="age != null  ">
+		age=#{age},
+	</if>
+	<if test="name != null  ">
+		name=#{name},
+	</if>
+	<if test="salary != null  ">
+		salary=#{salary},
+	</if>
+	<if test="createdt != null  ">
+		createdt=#{createdt},
+	</if>
+	</trim> where id=#{id}
+</update>
+
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete 	 from jeecg_person where id = #{id}
+</delete>
+
+<!-- 根据id查询 会员 -->
+<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" />
+	 from jeecg_person where id = #{id}
+</select>
+
+<!-- 会员 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from jeecg_person
+	<include refid="Example_Where_Clause"/>
+</select>
+<!-- chart查询条件 -->
+<sql id="Example_chart">
+where a.DeviceID = b.DeviceID and a.DeviceID= #{id}
+	<trim  suffixOverrides="," >
+		<if test="startTime !=null and startTime != ''" >
+		    and sampleTime> #{startTime}
+		</if>
+		<if test="endTime !=null and endTime != ''" >
+		    and sampleTime &lt; #{endTime}
+		</if>
+	</trim>
+</sql>
+<select id="YSPHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from stom_history_data  where deviceID=#{id}) a <include refid="Example_state"/>
+</select>
+
+<!-- 查询会员列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">
+	select
+	<include refid="Base_Column_List"/>
+	from jeecg_person
+	<include refid="Example_Where_Clause"/>
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查询YX历史数据的refname -->
+<!-- 查询b.yx_refname和a.yx_time || a.yx_time用于判断时间 || refname不带有分页功能
+<select id="getYXHistoryRefname" resultMap="yxDataResult"  parameterType="Object">
+select * from (
+	(SELECT b.yx_desc as yx_refname,a.yx_time,a.yx_value
+			FROM iec61850_yx_data_amc a,iec61850_yx_data_inst_amc b
+			WHERE b.ln_inst_name=#{ln_inst_name} AND b.yx_id=a.yx_id and b.ld_inst_name=#{ld_inst_name})
+	UNION
+ 	(SELECT b.yc_desc as yc_refname,a.yc_time,a.yc_value
+			FROM iec61850_yc_data_amc a,iec61850_yc_data_inst_amc b
+			WHERE b.ln_inst_name=#{ln_inst_name} AND b.yc_id=a.yc_id and b.ld_inst_name=#{ld_inst_name})
+ 	 -->
+ 	<!--  UNION
+ 	(SELECT b.yk_desc as yk_refname,a.yk_time,a.yk_value
+			FROM iec61850_yk_data_amc a,iec61850_yk_data_inst_amc b
+			WHERE b.ln_inst_name=#{ln_inst_name} AND b.yk_id=a.yk_id and b.ld_inst_name=#{ld_inst_name})
+)a	where 1=1
+</select> -->
+<!-- 通过Refname查询 || a.yx_time用于判断时间 || 带有分页功能
+<select id="getYXHistoryByrefname" resultMap="yxDataResult"  parameterType="Object">
+select * from (
+	(SELECT b.yx_id,b.ln_inst_name,b.yx_desc as yx_refname,a.yx_time,a.yx_value
+			FROM iec61850_yx_data_amc a,iec61850_yx_data_inst_amc b
+			WHERE b.yx_id=a.yx_id
+			and b.yx_id=#{id}
+			and b.yx_desc=#{refname})
+	UNION
+	(SELECT b.yc_id,b.ln_inst_name,b.yc_desc as yc_refname,a.yc_time,a.yc_value
+			FROM iec61850_yc_data_amc a,iec61850_yc_data_inst_amc b
+			WHERE b.yc_id=a.yc_id
+				  and b.yc_id=#{id}
+				  AND b.yc_desc=#{refname}) -->
+	<!--UNION
+	(SELECT b.yk_id,b.ln_inst_name,b.yk_desc as yk_refname,a.yk_time,a.yk_value
+			FROM iec61850_yk_data_amc a,iec61850_yk_data_inst_amc b
+			WHERE b.ln_inst_name=#{ln_inst_name}
+				  AND b.yk_id=a.yk_id
+				  AND b.ld_inst_name=#{ld_inst_name}
+				  AND b.yk_desc=#{refname})
+)a   where 1=1
+	<trim  suffixOverrides="," >
+		<if test="startTime !=null and startTime != ''" >
+		    and a.yx_time> #{startTime}
+		</if>
+		<if test="endTime !=null and endTime != ''" >
+		    and a.yx_time &lt; #{endTime}
+		</if>
+	</trim>
+	order by a.yx_time desc
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>-->
+<!-- 数量Byrefname -->
+<!--  
+<select id="YXHistoryCountByrefname" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (
+		(SELECT b.yx_desc as yx_refname,a.yx_time,a.yx_value
+				FROM iec61850_yx_data_amc a,iec61850_yx_data_inst_amc b
+				WHERE b.ln_inst_name=#{ln_inst_name}
+				AND b.yx_id=a.yx_id
+				and b.ld_inst_name=#{ld_inst_name}
+				and b.yx_desc=#{refname})
+		UNION
+		(SELECT b.yc_desc as yc_refname,a.yc_time,a.yc_value
+				FROM iec61850_yc_data_amc a,iec61850_yc_data_inst_amc b
+				WHERE b.ln_inst_name=#{ln_inst_name}
+				AND b.yc_id=a.yc_id
+				and b.ld_inst_name=#{ld_inst_name}
+				and b.yc_desc=#{refname})
+		UNION
+		(SELECT b.yk_desc as yk_refname,a.yk_time,a.yk_value
+				FROM iec61850_yk_data_amc a,iec61850_yk_data_inst_amc b
+				WHERE b.ln_inst_name=#{ln_inst_name}
+				AND b.yk_id=a.yk_id
+				and b.ld_inst_name=#{ld_inst_name}
+				and b.yk_desc=#{refname})
+		)
+	a where 1=1
+	<trim  suffixOverrides="," >
+		<if test="startTime !=null and startTime != ''" >
+		    and a.yx_time> #{startTime}
+		</if>
+		<if test="endTime !=null and endTime != ''" >
+		    and a.yx_time &lt; #{endTime}
+		</if>
+	</trim>
+</select>-->
+<!-- 查询油色谱历史数据 -->
+<select id="getYSPHistory" resultMap="YSPResultMap"  parameterType="Object">
+select * from (
+	select
+	*
+	from stom_history_data
+	where deviceID=#{id})
+a   <include refid="Example_state"/>
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+<!-- 查询套管历史数据 -->
+<select id="getSbushHistoryDataCount" resultType="java.lang.Integer"  parameterType="Object">
+SELECT count(1) FROM sbush_history_data where DeviceID=#{id} 
+	<if test="startTime !=null and startTime != ''" >
+		    and sampleTime> #{startTime}
+		</if>
+		<if test="endTime !=null and endTime != ''" >
+		    and sampleTime &lt; #{endTime}
+		</if>
+</select>
+<!-- 查询套管历史数据 -->
+<select id="getSbushHistoryData" resultMap="sbushDataResult"  parameterType="Object">
+	SELECT * FROM sbush_history_data WHERE DeviceID=#{id} 
+	<if test="startTime !=null and startTime != ''" >
+		    and sampleTime> #{startTime}
+		</if>
+		<if test="endTime !=null and endTime != ''" >
+		    and sampleTime &lt; #{endTime}
+		</if>
+</select>
+<!-- 查询局放历史数据 -->
+<select id="getSpdcHistoryDataCount" resultType="java.lang.Integer"  parameterType="Object">
+SELECT count(1) FROM spdc_history_data where DeviceID=#{id} 
+	<if test="startTime !=null and startTime != ''" >
+		    and sampleTime> #{startTime}
+		</if>
+		<if test="endTime !=null and endTime != ''" >
+		    and sampleTime &lt; #{endTime}
+		</if>
+</select>
+<!-- 查询局放历史数据 -->
+<select id="getSpdcHistoryData" resultMap="sbushDataResult"  parameterType="Object">
+	SELECT * FROM spdc_history_data WHERE DeviceID=#{id} 
+	<if test="startTime !=null and startTime != ''" >
+		    and sampleTime> #{startTime}
+		</if>
+		<if test="endTime !=null and endTime != ''" >
+		    and sampleTime &lt; #{endTime}
+		</if>
+</select>
+<!-- 查询红外测温历史数据 -->
+<select id="InfraredHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from Infrared_history_data  where deviceID=#{id}) a <include refid="Example_state"/>
+</select>
+<select id="getInfraredHistory" resultMap="ListResultMapSf6"  parameterType="Object">
+select * from (
+		select
+		*
+		from Infrared_history_data
+		where deviceID=#{id})
+a   <include refid="Example_state"/>
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+<!-- 查询SF6历史数据 -->
+<select id="SF6HistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from sf6_history_data  where deviceID=#{id}) a <include refid="Example_state"/>
+</select>
+<select id="getSF6History" resultMap="ListResultMapSf6"  parameterType="Object">
+select * from (
+		select
+		*
+		from sf6_history_data
+		where deviceID=#{id})
+a   <include refid="Example_state"/>
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查询避雷器历史数据 -->
+<select id="SMOAMHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from smoam_history_data  where deviceID=#{id}) a <include refid="Example_state"/>
+</select>
+<select id="getSMOAMHistory" resultMap="ListResultMapSMOAM"  parameterType="Object">
+select * from (
+	select
+	*
+	from smoam_history_data
+	where deviceID=#{id})
+a   <include refid="Example_state"/>
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+
+<!-- 查铁芯历史数据 -->
+<select id="SCOMHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from sptr_history_data  where deviceID=#{id}) a <include refid="Example_state"/>
+</select>
+<select id="getSCOMHistory" resultMap="ListResultMapSCOM"  parameterType="Object">
+select * from (
+	select
+	*
+	from sptr_history_data
+	where deviceID=#{id})
+a   <include refid="Example_state"/>
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+<!-- 查局放历史数据 -->
+<select id="SpdmHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from spdm_history_data  where deviceID=#{id}) a <include refid="Example_state"/>
+</select>
+<select id="getSpdmHistoryData" resultMap="ListResultMapSPDM"  parameterType="Object">
+select * from (
+	select
+	*
+	from spdm_history_data
+	where deviceID=#{id})
+a   <include refid="Example_state"/>
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+<!-- 获取SpaceAlarm数据-->
+<select id="getStomAlarm" resultMap="StomAlarmResult"  parameterType="Object">
+select * from stom_alarm_param
+</select>
+<select id="getSf6Alarm" resultMap="Sf6AlarmResult"  parameterType="Object">
+select * from sf6_alarm_param
+</select>
+<select id="getSmoamAlarm" resultMap="SmoamAlarmResult"  parameterType="Object">
+select * from smoam_alarm_param
+</select>
+<select id="getScomAlarm" resultMap="ScomAlarmResult"  parameterType="Object">
+select * from scom_alarm_param
+</select>
+<select id="getSpdmAlarm" resultMap="SpdmAlarmResult"  parameterType="Object">
+select * from spdm_alarm_param
+</select>
+<!-- 获取设备名称-->
+<select id="getDeviceName" resultType="String"  parameterType="Object">
+select DeviceName from pubdevice where DeviceID=#{id}
+</select>
+<!-- 获取SpaceDetail数据-->
+<select id="getDetailListDevice" resultMap="TypeDeviceResult"  parameterType="Object">
+select DeviceID,DeviceName from pubdevice where DeviceType=#{Type}
+</select>
+<select id="getStomDetailByDate" resultMap="YXResultMapStoM"  parameterType="Object">
+select * from (select a.DeviceName ,a.DeviceID,
+b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm,
+b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a
+left join stom_history_data b
+ on a.DeviceID=b.DeviceID
+	where a.DeviceType='1' and b.SampleTime &lt; #{_time} order by SampleTime desc ) c  group by DeviceID
+</select>
+<select id="getSf6DetailByDate" resultMap="YXResultMapSf6"  parameterType="Object">
+select * from (select a.DeviceName ,a.DeviceID as ID, b.* from pubdevice a
+left join sf6_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='2' and b.SampleTime &lt; #{_time} order by SampleTime desc ) c  group by DeviceID
+</select>
+<select id="getSmoamDetailByDate" resultMap="YXResultMapSmoam"  parameterType="Object">
+select * from (select a.DeviceName ,a.DeviceID,b.SampleTime,
+b.TotA, b.RisA, b.RisCaRte , b.LastLigTm,b.LigCnt,b.Remark from pubdevice a
+left join smoam_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='3' and b.SampleTime &lt; #{_time} order by SampleTime desc ) c  group by DeviceID
+</select>
+<select id="getScomDetailByDate" resultMap="YXResultMapScom"  parameterType="Object">
+select * from (select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join scom_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='4' and b.SampleTime &lt; #{_time} order by SampleTime desc ) c  group by DeviceID
+</select>
+<select id="getSpdmDetailByDate" resultMap="YXResultMapSpdm"  parameterType="Object">
+select * from (select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join spdm_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='19' and b.SampleTime &lt; #{_time} order by SampleTime desc ) c  group by DeviceID
+</select>
+<select id="getStomDetail" resultMap="YXResultMapStoM"  parameterType="Object">
+select a.DeviceName ,a.DeviceID,
+b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm,
+b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a
+left join stom_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='1'
+</select>
+<select id="getSf6Detail" resultMap="YXResultMapSf6"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID, b.* from pubdevice a
+left join sf6_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='2'
+</select>
+<select id="getSmoamDetail" resultMap="YXResultMapSmoam"  parameterType="Object">
+select a.DeviceName ,a.DeviceID,b.SampleTime,
+b.TotA, b.RisA, b.RisCaRte , b.LastLigTm,b.LigCnt,b.Remark from pubdevice a
+left join smoam_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='3'
+</select>
+<select id="getScomDetail" resultMap="YXResultMapScom"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join scom_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='4'
+</select>
+<select id="getSpdmDetail" resultMap="YXResultMapSpdm"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join spdm_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='19'
+</select>
+<select id="getStomDetailDate" resultMap="YXDateResultMapStoM"  parameterType="Object">
+select a.DeviceName ,a.DeviceID,
+b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm,
+b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a
+left join stom_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='1'
+</select>
+<select id="getStomDetailDateByDate" resultMap="YXDateResultMapStoM"  parameterType="Object">
+select * from (select a.DeviceName ,a.DeviceID,
+b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm,
+b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a
+left join stom_history_data b
+ on a.DeviceID=b.DeviceID
+	where a.DeviceType='1' and b.SampleTime &lt; #{_time} order by SampleTime desc ) c  group by DeviceID
+</select>
+<select id="getSf6DetailDate" resultMap="YXDateResultMapSf6"  parameterType="Object">
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Pres,b.Hum,b.Tmp , b. Remark from pubdevice a
+left join sf6_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='2'
+</select>
+<select id="getSf6DetailDateByDate" resultMap="YXDateResultMapSf6"  parameterType="Object">
+select * from (select a.DeviceName ,a.DeviceID, b.SampleTime, b.Pres,b.Hum,b.Tmp , b. Remark from pubdevice a
+				left join sf6_data b
+ 				on a.DeviceID=b.DeviceID
+				where a.DeviceType='2' and b.SampleTime &lt; #{_time} order by SampleTime desc ) c  group by DeviceID
+</select>
+<select id="getSmoamDetailDate" resultMap="YXDateResultMapSmoam"  parameterType="Object">
+select a.DeviceName ,a.DeviceID,b.SampleTime,
+b.TotA, b.RisA, b.RisCaRte , b.LastLigTm,b.LigCnt,b.Remark from pubdevice a
+left join smoam_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='3'
+</select>
+<select id="getSmoamDetailDateByDate" resultMap="YXDateResultMapSmoam"  parameterType="Object">
+select * from (select a.DeviceName ,a.DeviceID,b.SampleTime,
+				b.TotA, b.RisA, b.RisCaRte , b.LastLigTm,b.LigCnt,b.Remark from pubdevice a
+				left join smoam_data b
+				 on a.DeviceID=b.DeviceID
+				where a.DeviceType='3' and b.SampleTime &lt; #{_time} order by SampleTime desc ) c  group by DeviceID
+</select>
+<select id="getScomDetailDate" resultMap="YXDateResultMapScom"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join scom_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='4'
+</select>
+<select id="getScomDetailDateByDate" resultMap="YXDateResultMapScom"  parameterType="Object">
+select * from (select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+				left join scom_data b
+				 on a.DeviceID=b.DeviceID
+				where a.DeviceType='4' and b.SampleTime &lt; #{_time} order by SampleTime desc ) c  group by DeviceID
+</select>
+<select id="getSpdmDetailDate" resultMap="YXDateResultMapSpdm"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join spdm_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='19'
+</select>
+<select id="getSpdmDetailDateByDate" resultMap="YXDateResultMapSpdm"  parameterType="Object">
+select * from (select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+				left join spdm_data b
+				 on a.DeviceID=b.DeviceID
+				where a.DeviceType='19' and b.SampleTime &lt; #{_time} order by SampleTime desc ) c  group by DeviceID
+</select>
+
+<!-- 获取SpaceDetail数据区域筛选-->
+<select id="getStomDetailBySpace" resultMap="YXResultMapStoM"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join stom_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='1' and a.Space = #{space}
+</select>
+<select id="getSf6DetailBySpace" resultMap="YXResultMapSf6"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join sf6_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='2' and a.Space = #{space}
+</select>
+<select id="getSmoamDetailBySpace" resultMap="YXResultMapSmoam"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join smoam_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='3' and a.Space = #{space}
+</select>
+<select id="getScomDetailBySpace" resultMap="YXResultMapScom"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join scom_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='4' and a.Space = #{space}
+</select>
+<select id="getSpdmDetailBySpace" resultMap="YXResultMapSpdm"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join spdm_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='19' and a.Space = #{space}
+</select>
+<select id="getStomDetailDateBySpace" resultMap="YXDateResultMapStoM"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join stom_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='1' and a.Space = #{space}
+</select>
+<select id="getSf6DetailDateBySpace" resultMap="YXDateResultMapSf6"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join sf6_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='2' and a.Space = #{space}
+</select>
+<select id="getSmoamDetailDateBySpace" resultMap="YXDateResultMapSmoam"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join smoam_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='3' and a.Space = #{space}
+</select>
+<select id="getScomDetailDateBySpace" resultMap="YXDateResultMapScom"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join scom_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='4' and a.Space = #{space}
+</select>
+<select id="getSpdmDetailDateBySpace" resultMap="YXDateResultMapSpdm"  parameterType="Object">
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
+left join spdm_data b
+ on a.DeviceID=b.DeviceID
+where a.DeviceType='19' and a.Space = #{space}
+</select>
+
+<!-- 导出油色谱历史数据 -->
+<select id="exportYSPHistory" resultMap="YSPResultMap"  parameterType="Object">
+select * from stom_history_data where deviceID=#{id}   and sampleTime> #{startTime}  and sampleTime &lt; #{endTime}
+</select>
+
+<!-- 导出红外测温历史数据 -->
+<select id="exportInfraredHistory" resultMap="ListResultMapSf6"  parameterType="Object">
+select * from Infrared_history_data where deviceID=#{id}     and sampleTime> #{startTime}  and sampleTime &lt; #{endTime}
+</select>
+
+<!-- 导出SF6历史数据 -->
+<select id="exportSF6History" resultMap="ListResultMapSf6"  parameterType="Object">
+select * from sf6_history_data where deviceID=#{id}     and sampleTime> #{startTime}  and sampleTime &lt; #{endTime}
+</select>
+
+<!-- 导出避雷器历史数据 -->
+<select id="exportSMOAMHistory" resultMap="ListResultMapSMOAM"  parameterType="Object">
+select * from smoam_history_data where deviceID=#{id}   and sampleTime> #{startTime}  and sampleTime &lt; #{endTime}
+</select>
+
+<!-- 导出铁芯历史数据 -->
+<select id="exportSCOMHistory" resultMap="ListResultMapSCOM"  parameterType="Object">
+select * from scom_history_data where deviceID=#{id}    and sampleTime> #{startTime}  and sampleTime &lt; #{endTime}
+</select>
+
+<!-- 导出局放历史数据 -->
+<select id="exportSpdmHistoryData" resultMap="ListResultMapSPDM"  parameterType="Object">
+select * from spdm_history_data where deviceID=#{id}    and sampleTime> #{startTime}  and sampleTime &lt; #{endTime}
+</select>
+<!-- 导出辅助设备历史数据 -->
+<!--  
+<select id="exportYXHistory" resultMap="yxDataResult"  parameterType="Object">
+select * from (
+	(SELECT b.yx_id,b.ln_inst_name,b.yx_desc as yx_refname,a.yx_time,a.yx_value
+			FROM iec61850_yx_data_amc a,iec61850_yx_data_inst_amc b
+			WHERE b.yx_id=a.yx_id
+			and b.yx_id=#{id}
+			and b.yx_desc=#{refname})
+	UNION
+	(SELECT b.yc_id,b.ln_inst_name,b.yc_desc as yc_refname,a.yc_time,a.yc_value
+			FROM iec61850_yc_data_amc a,iec61850_yc_data_inst_amc b
+			WHERE b.yc_id=a.yc_id
+			and b.yc_id=#{id}
+			AND b.yc_desc=#{refname})-->
+	<!--UNION
+	(SELECT b.yk_id,b.ln_inst_name,b.yk_desc as yk_refname,a.yk_time,a.yk_value
+			FROM iec61850_yk_data_amc a,iec61850_yk_data_inst_amc b
+			WHERE b.ln_inst_name=#{ln_inst_name}
+				  AND b.yk_id=a.yk_id
+				  AND b.ld_inst_name=#{ld_inst_name}
+				  AND b.yk_desc=#{refname})
+)a   where 1=1
+	and a.yx_time> #{startTime}
+	and a.yx_time &lt; #{endTime}
+	order by a.yx_time desc
+</select>
+-->
+
+
+<!-- chart中的同类设备 -->
+<select id="getDeviceByType" resultMap="TypeDeviceResult"  parameterType="Object">
+	select * from pubdevice where DeviceType=#{DeviceType};
+</select>
+<select id="getInfraredByType" resultMap="TypeDeviceResult"  parameterType="Object">
+	select * from pubdevice_Infrared;
+</select>
+<!-- 红外测温chart中的数据 -->
+<select id="getInfraredChart_history" resultMap="ListResultMapSf6"  parameterType="Object">
+	select a.* ,b.deviceName from Infrared_history_data a , pubdevice_Infrared b <include refid="Example_chart"/>
+</select>
+<!-- 六氟化硫chart中的数据 -->
+<select id="getSF6Chart_history" resultMap="ListResultMapSf6"  parameterType="Object">
+	select a.* ,b.deviceName from sf6_history_data a , pubdevice b <include refid="Example_chart"/>
+</select>
+<select id="getSF6Chart_dealt" resultMap="ListResultMapSf6"  parameterType="Object">
+	select * from sf6_dealt_data  <include refid="Example_chart"/>
+</select>
+
+<!-- 油色谱chart中的数据 -->
+<select id="getStomChart_history" resultMap="YSPResultMap"  parameterType="Object">
+	select a.* ,b.deviceName from stom_history_data a , pubdevice b <include refid="Example_chart"/>
+</select>
+<select id="getStomChart_dealt" resultMap="YSPResultMap"  parameterType="Object">
+	select * from stom_dealt_data <include refid="Example_chart"/>
+</select>
+
+<!-- 避雷器chart中的数据 -->
+<select id="getSmoamChart_history" resultMap="ListResultMapSMOAM"  parameterType="Object">
+	select a.* ,b.deviceName from smoam_history_data a , pubdevice b<include refid="Example_chart"/>
+</select>
+<select id="getSmoamChart_dealt" resultMap="ListResultMapSMOAM"  parameterType="Object">
+	select * from smoam_dealt_data <include refid="Example_chart"/>
+</select>
+
+<!-- 铁芯chart中的数据 -->
+<select id="getScomChart_history" resultMap="ListResultMapSCOM"  parameterType="Object">
+	select a.* ,b.deviceName from scom_history_data a , pubdevice b<include refid="Example_chart"/>
+</select>
+<select id="getScomChart_dealt" resultMap="ListResultMapSCOM"  parameterType="Object">
+	select * from scom_dealt_data <include refid="Example_chart"/>
+</select>
+
+<select id="getSpdmChart_history" resultMap="ListResultMapSPDM"  parameterType="Object">
+	select a.* ,b.deviceName from spdm_history_data a , pubdevice b<include refid="Example_chart"/>
+</select>
+
+<select id="getDeviceLN" resultType="String"  parameterType="Object">
+	SELECT IEC61850LD_LN from pubdevice WHERE DeviceID=#{id}
+</select>
+
+<!-- 遥信遥测数据 -->
+<!-- 获取辅助设备lnldname
+<select id="getyxlnldByid" resultType="String" parameterType="Object" >
+	select CONCAT(ld_inst_name,'-',ln_inst_name) FROM iec61850_yx_data_inst_amc WHERE yx_id=#{id}
+</select> -->
+<select id="getyxLDLN" resultType="String" parameterType="Object" >
+	SELECT IEC61850LD_LN  FROM pubdevice WHERE DeviceID=#{id}
+</select>
+<select id="getyxDesc" resultType="String" parameterType="Object" >
+	SELECT refdesc FROM refname_desc WHERE refname=#{refname}
+</select>
+<!--<select id="getStomYXData" resultMap="ycDataResult" parameterType="Object" >-->
+<!--	SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata-->
+<!--			WHERE dopath like '${_parameter}%'-->
+<!--</select>-->
+<!-- 局放实时数据 -->
+<select id="getYXData" resultMap="ycDataResult" parameterType="Object" >
+	SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata
+			WHERE dopath like '${_parameter}%' 
+	<!--
+	SELECT t.DeviceID AS ied_type_id,t.SampleTime AS yc_time,a.yc_desc AS yc_refname,t.val as yc_value,t.Remark AS quality FROM(
+		SELECT DeviceID,SampleTime,'LeakAA' AS DeviceName,LeakAA AS val,Remark FROM sbush_data WHERE DeviceID='${_parameter}' UNION 
+		SELECT DeviceID,SampleTime,'DieLossA' AS DeviceName,DieLossA AS val,Remark FROM sbush_data WHERE DeviceID='${_parameter}' UNION 
+		SELECT DeviceID,SampleTime,'AbsReactA' AS DeviceName,AbsReactA AS val,Remark FROM sbush_data WHERE DeviceID='${_parameter}' UNION 
+		SELECT DeviceID,SampleTime,'LeakAB' AS DeviceName,LeakAB AS val,Remark FROM sbush_data WHERE DeviceID='${_parameter}' UNION 
+		SELECT DeviceID,SampleTime,'AbsReactB' AS DeviceName,AbsReactB AS val,Remark FROM sbush_data WHERE DeviceID='${_parameter}' UNION 
+		SELECT DeviceID,SampleTime,'DieLossB' AS DeviceName,DieLossB AS val,Remark FROM sbush_data WHERE DeviceID='${_parameter}' UNION 
+		SELECT DeviceID,SampleTime,'LeakAC' AS DeviceName,LeakAC AS val,Remark FROM sbush_data WHERE DeviceID='${_parameter}' UNION 
+		SELECT DeviceID,SampleTime,'AbsReactC' AS DeviceName,AbsReactC AS val,Remark FROM sbush_data WHERE DeviceID='${_parameter}' UNION 
+		SELECT DeviceID,SampleTime,'DieLossC' AS DeviceName,DieLossC AS val,Remark FROM sbush_data WHERE DeviceID='${_parameter}' UNION 
+		SELECT DeviceID,SampleTime,'TotRelA' AS DeviceName,TotRelA AS val,Remark FROM sbush_data WHERE DeviceID='${_parameter}' UNION
+		
+		SELECT DeviceID,SampleTime,'AppPaDsch' AS DeviceName,AppPaDsch AS val,'' FROM spdc_data WHERE DeviceID='${_parameter}'  UNION
+		SELECT DeviceID,SampleTime,'AcuPaDsch' AS DeviceName,AcuPaDsch AS val,'' FROM spdc_data WHERE DeviceID='${_parameter}' UNION
+		SELECT DeviceID,SampleTime,'AvDsch' AS DeviceName,AvDsch AS val,'' FROM spdc_data WHERE DeviceID='${_parameter}'  UNION
+		SELECT DeviceID,SampleTime,'MaxDsch' AS DeviceName,MaxDsch AS val,'' FROM spdc_data WHERE DeviceID='${_parameter}' UNION
+		SELECT DeviceID,SampleTime,'DschCnt' AS DeviceName,DschCnt AS val,'' FROM spdc_data WHERE DeviceID='${_parameter}' 
+	)t,iec61850_yc_data_inst a WHERE t.DeviceName=a.yc_refname
+--></select>
+<!--  
+<select id="getYCDataCount" resultType="java.lang.Integer" parameterType="Object" >
+	select Count(*) from(select * from(
+		SELECT b.yc_desc as yc_refname,a.yc_time,a.yc_value FROM iec61850_yc_data_amc a,iec61850_yc_data_inst_amc b
+			WHERE b.ln_inst_name=#{ln_inst_name} AND b.yc_id=a.yc_id and b.ld_inst_name=#{ld_inst_name} ORDER BY yc_time DESC
+	)c GROUP BY c.yc_refname
+	union
+	select * from(
+		SELECT b.yx_desc as yx_refname,a.yx_time,a.yx_value FROM iec61850_yx_data_amc a,iec61850_yx_data_inst_amc b
+			WHERE b.ln_inst_name=#{ln_inst_name} AND b.yx_id=a.yx_id and b.ld_inst_name=#{ld_inst_name} ORDER BY yx_time DESC
+	)c GROUP BY c.yx_refname) a where 1=1
+</select> -->
+<!--  
+<select id="getYCData" resultMap="ycDataResult" parameterType="Object" >
+	select * from(
+		SELECT b.yc_desc as yc_refname,a.yc_time,a.yc_value FROM iec61850_yc_data_amc a,iec61850_yc_data_inst_amc b
+			WHERE b.ln_inst_name=#{ln_inst_name} AND b.yc_id=a.yc_id and b.ld_inst_name=#{ld_inst_name} ORDER BY yc_time DESC
+	)c GROUP BY c.yc_refname
+	union
+	select * from(
+		SELECT b.yx_desc as yx_refname,a.yx_time,a.yx_value FROM iec61850_yx_data_amc a,iec61850_yx_data_inst_amc b
+			WHERE b.ln_inst_name=#{ln_inst_name} AND b.yx_id=a.yx_id and b.ld_inst_name=#{ld_inst_name} ORDER BY yx_time DESC
+	)c GROUP BY c.yx_refname
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>-->
+<!--  
+<select id="getYCDataCount_yc" resultType="java.lang.Integer" parameterType="Object" >
+	select Count(*) from(select * from(
+		SELECT b.yc_desc as yc_refname,a.yc_time,a.yc_value FROM iec61850_yc_data_amc a,iec61850_yc_data_inst_amc b
+			WHERE b.ln_inst_name=#{ln_inst_name} AND a.yc_id=#{id} AND b.yc_id=a.yc_id and b.ld_inst_name=#{ld_inst_name} ORDER BY yc_time DESC
+	)c GROUP BY c.yc_refname) a where 1=1
+</select>
+<select id="getYCData_yc" resultMap="ycDataResult" parameterType="Object" >
+	select * from(
+		SELECT b.yc_desc as yc_refname,a.yc_time,a.yc_value FROM iec61850_yc_data_amc a,iec61850_yc_data_inst_amc b
+			WHERE a.yc_id=#{id} AND b.yc_id=a.yc_id ORDER BY yc_time DESC
+	)c GROUP BY c.yc_refname
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+<select id="getYXData_yc" resultMap="ycDataResult" parameterType="Object" >
+	select * from(
+		SELECT b.yc_desc as yc_refname,a.yc_time,a.yc_value FROM iec61850_yc_data_amc a,iec61850_yc_data_inst_amc b
+			WHERE a.yc_id=#{id} AND b.yc_id=a.yc_id ORDER BY yc_time DESC
+	)c GROUP BY c.yc_refname
+
+</select>
+<select id="getYCDataCount_yx" resultType="java.lang.Integer" parameterType="Object" >
+	select Count(*) from(select * from(
+		SELECT b.yx_desc as yx_refname,a.yx_time,a.yx_value FROM iec61850_yx_data_amc a,iec61850_yx_data_inst_amc b
+			WHERE b.ln_inst_name=#{ln_inst_name} AND a.yx_id=#{id} AND b.yx_id=a.yx_id and b.ld_inst_name=#{ld_inst_name} ORDER BY yx_time DESC
+	)c GROUP BY c.yx_refname) a where 1=1
+</select>
+<select id="getYCData_yx" resultMap="yxDataResult" parameterType="Object" >
+	select * from(
+		SELECT b.yx_desc as yx_refname,a.yx_time,a.yx_value FROM iec61850_yx_data_amc a,iec61850_yx_data_inst_amc b
+			WHERE b.ln_inst_name=#{ln_inst_name} AND a.yx_id=#{id} AND b.yx_id=a.yx_id and b.ld_inst_name=#{ld_inst_name} ORDER BY yx_time DESC
+	)c GROUP BY c.yx_refname
+	<if test="pager.orderCondition != null and pager.orderCondition != ''" >
+      ${pager.orderCondition}
+    </if>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>-->
+<select id="getStomYx" resultMap="YXResultMapStoM"  parameterType="Object">
+	SELECT * from stom_data  WHERE DeviceID=#{DeviceID}
+</select>
+<select id="getStomYxDate" resultMap="YXDateResultMapStoM"  parameterType="Object">
+	SELECT * from stom_data  WHERE DeviceID=#{DeviceID}
+</select>
+<select id="getInfraredYx" resultMap="YXResultMapSf6"  parameterType="Object">
+	SELECT * from Infrared_data WHERE DeviceID=#{DeviceID}
+</select>
+<select id="getInfraredYxDate" resultMap="YXDateResultMapSf6"  parameterType="Object">
+	SELECT * from Infrared_data  WHERE DeviceID=#{DeviceID}
+</select>
+<select id="getSf6Yx" resultMap="YXResultMapSf6"  parameterType="Object">
+	SELECT * from sf6_data WHERE DeviceID=#{DeviceID}
+</select>
+<select id="getSf6YxDate" resultMap="YXDateResultMapSf6"  parameterType="Object">
+	SELECT * from sf6_data  WHERE DeviceID=#{DeviceID}
+</select>
+
+<select id="getSmoamYx" resultMap="YXResultMapSmoam"  parameterType="Object">
+	SELECT * from smoam_data WHERE DeviceID=#{DeviceID}
+</select>
+<select id="getSmoamYxDate" resultMap="YXDateResultMapSmoam"  parameterType="Object">
+	SELECT * from smoam_data WHERE DeviceID=#{DeviceID}
+</select>
+
+<select id="getScomYx" resultMap="YXResultMapScom"  parameterType="Object">
+	SELECT * from scom_data WHERE DeviceID=#{DeviceID}
+</select>
+<select id="getScomYxDate" resultMap="YXDateResultMapScom"  parameterType="Object">
+	SELECT * from scom_data WHERE DeviceID=#{DeviceID}
+</select>
+
+<select id="getSpdmYx" resultMap="YXResultMapSpdm"  parameterType="Object">
+	SELECT * from spdm_data WHERE DeviceID=#{DeviceID}
+</select>
+<select id="getSpdmYxDate" resultMap="YXDateResultMapSpdm"  parameterType="Object">
+	SELECT * from spdm_data WHERE DeviceID=#{DeviceID}
+</select>
+
+<!-- 获取遥信历史数据 -->
+<!-- <select id="StomYXHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from stom_historyworkstate  where deviceID=#{id}) a <include refid="YXExample_state"/>
+</select>
+<select id="getstomYXHistoryData" resultMap="ListResultMapYX"  parameterType="Object">
+select * from (select  * from stom_historyworkstate where deviceID=#{id})a
+	<include refid="YXExample_state"/>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+<select id="Sf6YXHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from sf6_historyworkstate  where deviceID=#{id}) a <include refid="YXExample_state"/>
+</select>
+<select id="getSf6YXHistoryData" resultMap="ListResultMapYX"  parameterType="Object">
+select * from (select  * from sf6_historyworkstate where deviceID=#{id})a
+	<include refid="YXExample_state"/>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+<select id="SmoamYXHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from smoam_historyworkstate  where deviceID=#{id}) a <include refid="YXExample_state"/>
+</select>
+<select id="getSmoamYXHistoryData" resultMap="ListResultMapYX"  parameterType="Object">
+select * from (select  * from smoam_historyworkstate where deviceID=#{id})a
+	<include refid="YXExample_state"/>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+<select id="ScomYXHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from scom_historyworkstate  where deviceID=#{id}) a <include refid="YXExample_state"/>
+</select>
+<select id="getScomYXHistoryData" resultMap="ListResultMapYX"  parameterType="Object">
+select * from (select  * from scom_historyworkstate where deviceID=#{id})a
+	<include refid="YXExample_state"/>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select>
+<select id="SpdmYXHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from spdm_historyworkstate  where deviceID=#{id}) a <include refid="YXExample_state"/>
+</select>
+<select id="getSpdmYXHistoryData" resultMap="ListResultMapYX"  parameterType="Object">
+select * from (select  * from spdm_historyworkstate where deviceID=#{id})a
+	<include refid="YXExample_state"/>
+    <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if>
+</select> -->
+
+	<select id="StomYXHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from stom_yx_his_data where DeviceID=#{id}) a <include refid="YXExample_state"/>
+</select>
+<select id="getstomYXHistoryData" resultMap="yxHistroyDataResult"  parameterType="Object">
+select * from (select  * from stom_yx_his_data where DeviceID=#{id})a
+	<include refid="YXExample_state"/>
+    <!-- <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if> -->
+</select>
+<select id="Sf6YXHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from sf6_yx_his_data where DeviceID=#{id}) a <include refid="YXExample_state"/>
+</select>
+<select id="getSf6YXHistoryData" resultMap="yxHistroyDataResult"  parameterType="Object">
+select * from (select  * from sf6_yx_his_data where DeviceID=#{id})a
+	<include refid="YXExample_state"/>
+    <!-- <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if> -->
+</select>
+<select id="SmoamYXHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from smoam_yx_his_data where DeviceID=#{id}) a <include refid="YXExample_state"/>
+</select>
+<select id="getSmoamYXHistoryData" resultMap="yxHistroyDataResult"  parameterType="Object">
+select * from (select  * from smoam_yx_his_data where DeviceID=#{id})a
+	<include refid="YXExample_state"/>
+    <!-- <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if> -->
+</select>
+<select id="ScomYXHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from scom_yx_his_data where DeviceID=#{id}) a <include refid="YXExample_state"/>
+</select>
+<select id="getScomYXHistoryData" resultMap="yxHistroyDataResult"  parameterType="Object">
+select * from (select  * from scom_yx_his_data where DeviceID=#{id})a
+	<include refid="YXExample_state"/>
+    <!-- <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if> -->
+</select>
+<select id="SpdmYXHistoryCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from (select * from spdm_yx_his_data where DeviceID=#{id}) a <include refid="YXExample_state"/>
+</select>
+<select id="getSpdmYXHistoryData" resultMap="yxHistroyDataResult"  parameterType="Object">
+select * from (select  * from spdm_yx_his_data where DeviceID=#{id})a
+	<include refid="YXExample_state"/>
+    <!-- <if test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''" >
+       ${pager.mysqlQueryCondition}
+    </if> -->
+</select>
+</mapper>

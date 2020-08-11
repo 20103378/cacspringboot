@@ -1,0 +1,93 @@
+	#equipmentList{
+      		height:20%;
+      	}
+      	#device_data_list{
+      		height:30%;
+      	}
+      	#list1{
+      		height:30%;
+      	}
+      	#list2{
+      		height:60%;
+      	}
+      	#list3{
+      		height:95%;
+      	}
+      	#i2List{
+      		height:95%;
+      	}
+    	#list_103{
+      		height:95%;
+      	}
+      	#i2List_103{
+      		height:95%;
+      	}
+      	label{
+      		width:150px
+      	}#monitor{
+			height:400px;
+			width:430px;
+			border:1px solid #000
+			margin-right: 0px;
+             margin-bottom: 0px;
+             float:left;
+      	}#select_div{
+      		height:200px;
+	width:200px;
+      		float:left;
+      	}
+      	#tab_I1ToI2{
+      }
+      #tab_I1ToI2 td{
+      	height:50px;
+      }
+      #tab_I1ToI2 td:first-child{
+      }
+      #div_ldein{
+    		height:80%;
+			margin-riht: 0px;
+         	margin-bottom: 0px;
+      }
+      #tab_ldein{
+      	width:1000px;
+      	height:700px
+      }
+   	  #div_space{
+   		height:80%;
+		margin-riht: 0px;
+       	margin-bottom: 0px;
+      }
+      #tab_space{
+      	width:1000px;
+      	height:700px
+      }
+      #refname_desc_div{
+   		height:80%;
+		margin-riht: 0px;
+       	margin-bottom: 0px;
+      }
+      #refname_desc_tb{
+      	width:1000px;
+      	height:700px
+      }
+      #ied_field,#data_field{
+      	padding-right: 50px;
+		width: -moz-fit-content;
+    	float: left;
+    	margin-right:30px;
+    	border-color:#fff;
+      }
+	#cllys_tab,#jdName_tab{
+		width:1000px;
+      	height:700px
+	}
+     #div_ldein{
+  		height:95%;
+		margin-riht: 0px;
+       	margin-bottom: 0px;
+      }
+      .cb{
+      	margin:0px;
+      	padding:0px;
+
+      }

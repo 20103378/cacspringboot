@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scott.dao.LEDConfigurationDao">
+	<resultMap id="iec61850_ied_inst_EntityMap" type="com.scott.entity.OsicfgEntity" >
+		<result column="iedid" property="iedid"/>
+		<result column="ied_name" property="AR_Name"/>
+		<result column="ied_desc" property="NetAddr"/>
+	</resultMap>
+
+	<update id="update_osicfg" parameterType="Object">
+		UPDATE `iec61850_ied_inst` SET ied_name=#{AR_Name},ied_desc=#{NetAddr} WHERE
+		ied_name=#{AR_Name_old}
+	</update>
+	<select id="getId" resultType="String" parameterType="Object">
+		Select max(iedid) from iec61850_ied_inst
+	</select>
+	<select id="findIfUsed" resultType="Integer" parameterType="String">
+		Select COUNT(*) from iec61850_ied_inst WHERE ied_name=#{AR_Name_old};
+	</select>
+	<select id="findOsicfg" resultMap="iec61850_ied_inst_EntityMap">
+		select * from iec61850_ied_inst;
+	</select>
+	<insert id="add_osicfg" parameterType="Object">
+		INSERT into iec61850_ied_inst (iedid,ied_name,ied_desc) VALUES
+		(#{iedid},#{AR_Name},#{NetAddr})
+	</insert>
+	<insert id="del_osicfg" parameterType="Object">
+		delete from iec61850_ied_inst where ied_name = #{AR_Name};
+	</insert>
+	<insert id="del_yc_inst" parameterType="Object">
+		delete from iec61850_yc_data_inst where ld_inst_name like '%${AR_Name}%';
+	</insert>
+	<insert id="del_yx_inst" parameterType="Object">
+		delete from iec61850_yx_data_inst where ld_inst_name like '%${AR_Name}%';
+	</insert>
+	<insert id="del_yk_inst" parameterType="Object">
+		delete from iec61850_yk_data_inst where ld_inst_name like '%${AR_Name}%';
+	</insert>
+	<delete id="del_yc_instAll" parameterType="Object">
+		Delete from
+		iec61850_ied_inst
+	</delete>
+</mapper>   
+

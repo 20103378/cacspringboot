@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+  <state id="default_point">
+    <color>0xFF0000</color>
+    <size>5</size>
+  </state>
+  <state id="refresh_rate">
+    <color>1000</color>
+  </state>
+  <state id="background_color">
+    <color>1000</color>
+  </state>
+  <state id="map_switch">
+    <color>1</color>
+  </state>
+</map>
+

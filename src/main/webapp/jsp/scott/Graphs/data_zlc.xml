@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map>
+  <state id="default_point">
+    <color>0xFF0000</color>
+    <size>5</size>
+  </state>
+  <state id="refresh_rate">
+    <color>1000</color>
+  </state>
+  <state id="background_color">
+    <color>1000</color>
+  </state>
+  <state id="map_switch">
+    <color>1</color>
+  </state>
+  <state id="point">
+    <devid>D0054</devid>
+    <name>宁金5906线A相高压电抗器变压器电量监测,2017-02-25 11:07:30</name>
+    <dtype>4</dtype>
+    <info>0</info>
+    <data>null</data>
+    <loc>-15,90</loc>
+  </state>
+  <state id="point">
+    <devid>D0056</devid>
+    <name>宁金5906线B相高压电抗器变压器电量监测,2017-02-25 13:39:48</name>
+    <dtype>4</dtype>
+    <info>0</info>
+    <data>null</data>
+    <loc>-15,91</loc>
+  </state>
+  <state id="point">
+    <devid>D0058</devid>
+    <name>宁金5906线C相高压电抗器变压器电量监测,2017-02-25 13:41:13</name>
+    <dtype>4</dtype>
+    <info>0</info>
+    <data>null</data>
+    <loc>-15,92</loc>
+  </state>
+  <state id="point">
+    <devid>D0060</devid>
+    <name>宁华5916线A相高压电抗器变压器电量监测,2017-02-25 12:13:09</name>
+    <dtype>4</dtype>
+    <info>0</info>
+    <data>null</data>
+    <loc>-15,93</loc>
+  </state>
+  <state id="point">
+    <devid>D0062</devid>
+    <name>宁华5916线B相高压电抗器变压器电量监测,2017-02-25 13:40:04</name>
+    <dtype>4</dtype>
+    <info>0</info>
+    <data>null</data>
+    <loc>-15,94</loc>
+  </state>
+  <state id="point">
+    <devid>D0064</devid>
+    <name>宁华5916线C相高压电抗器变压器电量监测,2017-02-25 13:41:04</name>
+    <dtype>4</dtype>
+    <info>0</info>
+    <data>null</data>
+    <loc>-15,95</loc>
+  </state>
+  <state id="point">
+    <devid>D0053</devid>
+    <name>宁金5906线A相高压电抗器绝缘油监测,2017-02-25 10:48:52</name>
+    <dtype>1</dtype>
+    <info>0</info>
+    <data>3.917173,4635.927734,455.739532,0.0,0.0,3.098333,8.668994,0.0,0.037</data>
+    <loc>-15,96</loc>
+  </state>
+  <state id="point">
+    <devid>D0055</devid>
+    <name>宁金5906线B相高压电抗器绝缘油监测,2017-02-25 13:30:24</name>
+    <dtype>1</dtype>
+    <info>0</info>
+    <data>5.214552,4395.936035,579.484009,13.510074,0.0,1.595634,2.439831,17.545561,0.036</data>
+    <loc>-15,97</loc>
+  </state>
+  <state id="point">
+    <devid>D0057</devid>
+    <name>宁金5906线C相高压电抗器绝缘油监测,2017-02-25 13:26:30</name>
+    <dtype>1</dtype>
+    <info>0</info>
+    <data>0.0,318.677582,0.0,2.201114,0.0,0.0,0.533244,2.734354,0.135</data>
+    <loc>-15,98</loc>
+  </state>
+  <state id="point">
+    <devid>D0059</devid>
+    <name>宁华5916线A相高压电抗器绝缘油监测,2017-02-25 12:07:49</name>
+    <dtype>1</dtype>
+    <info>0</info>
+    <data>4.065296,4232.349609,453.761932,25.68117,0.0,4.871444,6.616776,37.169422,0.022</data>
+    <loc>-15,99</loc>
+  </state>
+  <state id="point">
+    <devid>D0061</devid>
+    <name>宁华5916线B相高压电抗器绝缘油监测,2017-02-25 13:45:26</name>
+    <dtype>1</dtype>
+    <info>0</info>
+    <data>0.0,4919.727051,620.197693,0.0,0.0,5.035517,7.52499,12.56051,0.019</data>
+    <loc>-16,90</loc>
+  </state>
+  <state id="point">
+    <devid>D0063</devid>
+    <name>宁华5916线C相高压电抗器绝缘油监测,2017-02-25 13:37:03</name>
+    <dtype>1</dtype>
+    <info>0</info>
+    <data>0.0,6692.747559,893.845459,0.0,0.0,7.68641,7.364467,15.050879,0.027</data>
+    <loc>-16,91</loc>
+  </state>
+</map>
+

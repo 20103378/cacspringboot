@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scott.dao.ConnStateDao" >
+<!-- Result Map-->
+<resultMap id="TreeResultMap" type="com.scott.entity.TreeConnEntity" >
+	<result column="id" property="id"/>
+	<result column="text" property="text"/>
+</resultMap>
+
+<resultMap id="connStateMap" type="com.scott.entity.TreeConnEntity" >
+	<result column="id" property="id"/>
+	<result column="text" property="text"/>
+	<result column="iedstate" property="iedstate"/>
+	<result column="datastate" property="datastate"/>
+	<result column="systime" property="systime"/>
+	<result column="deviceip" property="deviceip"/>
+</resultMap>
+
+<resultMap id="programStateMap" type="com.scott.entity.CacExeStateEntity" >
+	<result column="exe_name" property="exeName"/>
+	<result column="exe_state" property="exeState"/>
+	<result column="exe_state_timestamp" property="exeStateTimestamp"/>
+	<result column="update_state_timestamp" property="updateStateTimestamp"/>
+	<result column="run_num" property="runNum"/>
+</resultMap>
+
+<resultMap id="CacCagConnStateMap" type="com.scott.entity.CacCagConnStateEntity" >
+	<result column="state_time" property="state_time"/>
+	<result column="conn_state" property="conn_state"/>
+	<result column="client_name" property="client_name"/>
+	<result column="client_ip" property="client_ip"/>
+</resultMap>
+<resultMap id="CacIedConnStateMap" type="com.scott.entity.CacIedConnStateEntity" >
+	<result column="state_time" property="state_time"/>
+	<result column="conn_state" property="conn_state"/>
+	<result column="ied_name" property="ied_name"/>
+	<result column="ied_ip" property="ied_ip"/>
+</resultMap>
+
+<select id="getEmuListData" resultMap="TreeResultMap" parameterType="Object">
+		select ied_name id,ied_name text ,ied_state iedstate,update_state_timestamp systime,ied_state_timestamp deviceip from iec61850_ied_state GROUP BY ied_name
+</select>
+
+<select id="getDataByID" resultMap="connStateMap" parameterType="String">
+	<!-- select
+		a.ied_name id,
+		a.ied_name text,
+		a.ied_state iedstate,
+		a.update_state_timestamp systime,
+		a.ied_state_timestamp updatetime,
+		b.ied_desc deviceip
+	from iec61850_ied_state a ,
+		iec61850_ied_inst b
+	where a.ied_name = #{id}
+		and b.ied_name like concat(#{id},'%')
+	GROUP BY text; -->   <!-- 修改 sqlite -->
+	select
+		a.ied_name id,
+		a.ied_name text,
+		a.ied_state iedstate,
+		a.update_state_timestamp systime,
+		a.ied_state_timestamp updatetime,
+		b.ied_desc deviceip
+	from iec61850_ied_state a ,
+		iec61850_ied_inst b
+	where a.ied_name = #{id}
+		and b.ied_name like #{id}||'%'
+	GROUP BY text;
+</select>
+
+<select id="getHistoryData" resultMap="connStateMap" parameterType="Map">
+	select ied_name id,ied_name text ,ied_state iedstate,data_state datastate,ied_state_time systime from iec61850_ied_history_state where ied_name=#{id} and ied_state_time like #{time}
+
+</select>
+
+<!-- <select id="getEmuListData" resultMap="TreeResultMap" parameterType="Object">
+	select iedid id,ld_inst_name text ,iedstate,datastate,systime,deviceip  from iec61850_istate GROUP BY ld_inst_name
+</select>
+
+<select id="getDataByID" resultMap="connStateMap" parameterType="String">
+	select iedid id,ld_inst_name text,iedstate,datastate,systime,deviceip from iec61850_istate where iedid=#{id}  GROUP BY ld_inst_name
+</select>
+
+<select id="getHistoryData" resultMap="connStateMap" parameterType="Map">
+	select iedid id,ld_inst_name text,iedstate,datastate,systime,deviceip from iec61850_istate_history_data where iedid=#{id} and systime like #{time}
+</select> -->
+
+<select id="getAMCListData" resultMap="connStateMap" parameterType="Object">
+	select exe_name as text ,exe_state as iedstate, exe_state_timestamp as systime , update_state_timestamp as updatetime ,run_num as deviceip  from cac_exe_state;
+</select>
+<select id="get104connData" resultMap="connStateMap" parameterType="Object">
+	select client_name as text ,client_state as iedstate, conn_state_timestamp as systime , update_state_timestamp as updatetime ,client_ip as deviceip  from i2_conn_state;
+</select>
+<!-- 查找程序状态 -->
+<select id="getProgramListData" resultMap="programStateMap">
+	select * from cac_exe_state;
+</select>
+
+<!-- cac与各装置通讯日志-->
+<select id="getCACStateListData" resultMap="CacIedConnStateMap">
+	select * from cac_ied_conn_his_state;
+</select>
+<!-- cac与cag通讯日志 -->
+<select id="getCAGStateListData" resultMap="CacCagConnStateMap">
+	select * from cac_cag_conn_his_state;
+</select>
+</mapper>
+

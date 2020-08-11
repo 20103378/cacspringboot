@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scott.dao.SystemStateDao" >
+<!-- Result Map-->
+<resultMap id="ProcstateResultMap" type="com.scott.entity.ProcstateEntity" >
+	<result column="pid" property="pid"/>
+	<result column="pname" property="pname"/>
+	<result column="systime" property="systime"/>
+	<result column="cpu" property="cpu"/>
+	<result column="mem" property="mem"/>
+</resultMap>
+
+<!-- 查询条件 -->
+<sql id="Example_state">
+where pid=#{id}
+	<trim  suffixOverrides="," >
+		<if test="startTime !=null and startTime != ''" >
+		    and systime > #{startTime}
+		</if>
+	</trim>
+	<trim  suffixOverrides="," >
+		<if test="endTime !=null and endTime != ''" >
+		    and systime &lt; #{endTime}
+		</if>
+	</trim>
+</sql>
+
+
+<select id="getData" resultMap="ProcstateResultMap"  parameterType="Object">
+select '0' as pid ,
+	'未使用' as pname ,'' as systime ,(
+	select 100-Sum(data_val ) from df_mem_cpu a
+	where a.item_id  in ('1006' , '1008'  ) )as cpu
+union
+	select item_id as pid , item_name as pname ,data_time as systime,data_val as cpu from df_mem_cpu
+	where item_id  in  ('1006' , '1008'  )
+</select>
+<select id="getOsData" resultMap="ProcstateResultMap"  parameterType="Object">
+select '0' as pid ,
+	'未使用' as pname ,'' as systime ,(
+	select 100-Sum(data_val ) from df_mem_cpu a
+	where a.item_id  in ('1007' , '1009'  ) )as mem
+union
+	select item_id as pid , item_name as pname ,data_time as systime,data_val as cpu from df_mem_cpu
+	where item_id  in ('1007' , '1009'  )
+</select>
+<select id="getCpData" resultMap="ProcstateResultMap"  parameterType="Object">
+select item_id as pid , item_name as pname ,data_time as systime,  CONCAT(data_val,data_unit) as cpu  from df_mem_cpu;
+</select>
+
+</mapper>
+

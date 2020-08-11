@@ -1,0 +1,818 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scott.dao.SystemConfigurationDao">
+	<!-- Result Map -->
+	<resultMap id="StationResultMap" type="com.scott.entity.Station_InfoEntity">
+		<result column="station" property="station" />
+		<result column="name" property="name" />
+		<result column="content" property="address" />
+	</resultMap>
+	<resultMap id="ycDataResult" type="com.scott.entity.DataEntity">
+		<result property="value" column="yc_value" />
+		<result property="refname" column="yc_refname" />
+		<result property="time" column="yc_time" />
+	</resultMap>
+	<resultMap id="RefnameDescResultMap" type="com.scott.entity.Refname_descEntity">
+		<result column="refname" property="refname" />
+		<result column="refdesc" property="refdesc" />
+	</resultMap>
+	<resultMap id="SpaceResultMap" type="com.scott.entity.EquipmentSpaceEntity">
+		<result column="SpaceId" property="SpaceId" />
+		<result column="SpaceName" property="SpaceName" />
+		<result column="ObjectVoltage" property="ObjectVoltage" />
+		<result column="SpaceTag" property="SpaceTag" />
+	</resultMap>
+	<resultMap id="EquipmentResultMap" type="com.scott.entity.EquipmentEntity">
+		<result column="EquipmentID" property="EquipmentID" />
+		<result column="EquipmentName" property="EquipmentName" />
+		<result column="Phase" property="Phase" />
+		<result column="ObjectVoltage" property="ObjectVoltage" />
+		<result column="SpaceName" property="SpaceName" />
+		<result column="ManufactoryName" property="ManufactoryName" />
+		<result column="DeviceType" property="DeviceType" />
+		<result column="SpaceId" property="SpaceId" />
+		<result column="Remark" property="Remark" />
+	</resultMap>
+	<resultMap id="ZJ103Map" type="com.scott.entity.ZJ103Entity">
+		<result column="DeviceID" property="DeviceID" />
+		<result column="DeviceName" property="DeviceName" />
+		<result column="CommAddress" property="CommAddress" />
+		<result column="DeviceType" property="DeviceType" />
+		<result column="IEC61850LD_LN" property="IEC61850LD_LN" />
+		<result column="DevPhase" property="DevPhase" />
+	</resultMap>
+	<resultMap id="DeviceResultMap" type="com.scott.entity.DeviceEntity">
+		<result column="DeviceID" property="DeviceID" />
+		<result column="DeviceName" property="DeviceName" />
+		<result column="DeviceType" property="DeviceType" />
+		<result column="ManufactoryName" property="ManufactoryName" />
+		<result column="DeviceProductID" property="DeviceProductID" />
+		<result column="DeviceLocation" property="DeviceLocation" />
+		<result column="StartOperateTime" property="StartOperateTime" />
+		<result column="EquipmentID" property="EquipmentID" />
+		<result column="IED_IP" property="IED_IP" />
+		<result column="PosY" property="PosY" />
+		<result column="PosX" property="PosX" />
+		<result column="IEC61850LD_LN" property="IEC61850LD_LN" />
+		<result column="StopSoundAlarm" property="StopSoundAlarm" />
+		<result column="StopUse" property="StopUse" />
+		<result column="Remark" property="Remark" />
+		<result column="Space" property="Space" />
+		<result column="Phase" property="Phase" />
+		<result column="Smperiod" property="Smperiod" />
+	</resultMap>
+	<!-- SF6告警 -->
+	<resultMap id="Sf6AlarmMap" type="com.scott.entity.Sf6AlarmEntity">
+		<result column="DeviceID" property="DeviceID" />
+		<result column="PressureThreshold" property="PressureThreshold" />
+	</resultMap>
+	<!-- 油色谱告警 -->
+	<resultMap id="StomAlarmMap" type="com.scott.entity.StomAlarmEntity">
+		<result column="DeviceID" property="DeviceID" />
+		<result column="H2ThresHold" property="H2ThresHold" />
+		<result column="C2H2ThresHold" property="C2H2ThresHold" />
+		<result column="THThresHold" property="THThresHold" />
+		<result column="H2Change" property="H2Change" />
+		<result column="C2H2Change" property="C2H2Change" />
+		<result column="THChange" property="THChange" />
+		<result column="MstThresHold" property="MstThresHold" />
+	</resultMap>
+	<!-- 避雷器告警 -->
+	<resultMap id="SmoamAlarmMap" type="com.scott.entity.SmoamAlarmEntity">
+		<result column="DeviceID" property="DeviceID" />
+		<result column="TotalCurrentThresHold" property="TotalCurrentThresHold" />
+	</resultMap>
+	<!-- 铁芯告警 -->
+	<resultMap id="ScomAlarmMap" type="com.scott.entity.ScomAlarmEntity">
+		<result column="DeviceID" property="DeviceID" />
+		<result column="TotalCurrentThresHold" property="TotalCurrentThresHold" />
+	</resultMap>
+	<!-- 工况告警 -->
+	<resultMap id="SconditionAlarmMap" type="com.scott.entity.SconditionAlarmEntity">
+		<result column="DeviceID" property="DeviceID" />
+		<result column="OilTempThresHold" property="OilTempThresHold" />
+	</resultMap>
+	<!-- i2数据 -->
+	<resultMap id="I2ResultMap" type="com.scott.entity.I2TableEntity">
+		<result column="i2id" property="i2id" />
+		<result column="i1type" property="i1type" />
+		<result column="i1id" property="i1id" />
+		<result column="i2_refname" property="i2_refname" />
+		<result column="i2_desc" property="i2_desc" />
+	</resultMap>
+	<!-- yc_data_inst表 -->
+	<resultMap id="YcDataResultMap" type="com.scott.entity.YcDataInstEntity">
+		<result column="yc_id" property="yc_id" />
+		<result column="ied_type_id" property="ied_type_id" />
+		<result column="ld_inst_name" property="ld_inst_name" />
+		<result column="ln_inst_name" property="ln_inst_name" />
+		<result column="yc_refname" property="yc_refname" />
+		<result column="yc_desc" property="yc_desc" />
+	</resultMap>
+	<resultMap id="YxDataResultMap" type="com.scott.entity.YcDataInstEntity">
+		<result column="yx_id" property="yc_id" />
+		<result column="ied_type_id" property="ied_type_id" />
+		<result column="ld_inst_name" property="ld_inst_name" />
+		<result column="ln_inst_name" property="ln_inst_name" />
+		<result column="yx_refname" property="yc_refname" />
+		<result column="yx_desc" property="yc_desc" />
+	</resultMap>
+	<resultMap id="YkDataResultMap" type="com.scott.entity.YcDataInstEntity">
+		<result column="yk_id" property="yc_id" />
+		<result column="ied_type_id" property="ied_type_id" />
+		<result column="ld_inst_name" property="ld_inst_name" />
+		<result column="ln_inst_name" property="ln_inst_name" />
+		<result column="yk_refname" property="yc_refname" />
+		<result column="yk_desc" property="yc_desc" />
+	</resultMap>
+	<!-- 查询条件 -->
+	<sql id="Example_state">
+		where 1=1
+		<trim suffixOverrides=",">
+			<if test="DeviceID !=null and DeviceID != ''">
+				and DeviceID=#{DeviceID}
+			</if>
+		</trim>
+	</sql>
+	<select id="getYXDataRefname" resultMap="ycDataResult"
+		parameterType="Object">
+		SELECT dopath as yc_refname FROM iec61850c_realdata
+	</select>
+	<!-- 生成XML -->
+	<select id="getDeviceBySpace_ft" resultMap="DeviceResultMap"
+		parameterType="Object">
+		select a.DeviceID ,
+		a.DeviceName ,
+		a.DeviceType ,
+		b.SampleTime as StartOperateTime,
+		b.Remark
+		from pubdevice a,
+		sf6_data b
+		where a.DeviceID=b.DeviceID
+		and ( a.Space='低端换流变' or a.Space='高端换流变' or
+		a.Space='站用变')
+		UNION
+		select a.DeviceID ,
+		a.DeviceName ,
+		a.DeviceType ,
+		b.SampleTime as StartOperateTime,
+		b.Remark
+		from pubdevice a,
+		scom_data b
+		where a.DeviceID=b.DeviceID
+		and ( a.Space='低端换流变' or a.Space='高端换流变' or
+		a.Space='站用变')
+		UNION
+		select a.DeviceID ,
+		a.DeviceName ,
+		a.DeviceType ,
+		b.SampleTime as StartOperateTime,
+		b.Remark
+		from pubdevice a,
+		smoam_data b
+		where a.DeviceID=b.DeviceID
+		and ( a.Space='低端换流变' or a.Space='高端换流变' or
+		a.Space='站用变')
+		UNION
+		select a.DeviceID ,
+		a.DeviceName ,
+		a.DeviceType ,
+		b.SampleTime as StartOperateTime,
+		b.Remark
+		from pubdevice a,
+		spdm_data b
+		where a.DeviceID=b.DeviceID
+		and a.Space != '微气象'
+		and ( a.Space='低端换流变'
+		or a.Space='高端换流变' or a.Space='站用变')
+		UNION
+		select a.DeviceID ,
+		a.DeviceName ,
+		a.DeviceType ,
+		b.SampleTime as StartOperateTime,
+		b.Remark
+		from pubdevice a,
+		stom_data b
+		where a.DeviceID=b.DeviceID
+		and (
+		a.Space='低端换流变' or a.Space='高端换流变' or a.Space='站用变');
+	</select>
+	<select id="getDeviceBySpace" resultMap="DeviceResultMap"
+		parameterType="Object">
+		select a.DeviceID ,
+		a.DeviceName ,
+		a.DeviceType ,
+		b.SampleTime as
+		StartOperateTime,
+		b.Remark
+		from pubdevice a,
+		sf6_data b
+		where
+		a.DeviceID=b.DeviceID
+		and a.Space=#{Space}
+		UNION
+		select a.DeviceID ,
+		a.DeviceName ,
+		a.DeviceType ,
+		b.SampleTime as StartOperateTime,
+		b.Remark
+		from pubdevice a,
+		scom_data b
+		where a.DeviceID=b.DeviceID
+		and
+		a.Space=#{Space}
+		UNION
+		select a.DeviceID ,
+		a.DeviceName ,
+		a.DeviceType ,
+		b.SampleTime as StartOperateTime,
+		b.Remark
+		from pubdevice a,
+		smoam_data b
+		where a.DeviceID=b.DeviceID
+		and a.Space=#{Space}
+		UNION
+		select a.DeviceID
+		,
+		a.DeviceName ,
+		a.DeviceType ,
+		b.SampleTime as StartOperateTime,
+		b.Remark
+		from pubdevice a,
+		spdm_data b
+		where a.DeviceID=b.DeviceID
+		and
+		a.Space != '微气象'
+		and a.Space=#{Space}
+		UNION
+		select a.DeviceID ,
+		a.DeviceName ,
+		a.DeviceType ,
+		b.SampleTime as StartOperateTime,
+		b.Remark
+		from pubdevice a,
+		stom_data b
+		where a.DeviceID=b.DeviceID
+		and
+		a.Space=#{Space};
+		<!-- select DeviceID,DeviceName,DeviceType,time from pubdevice where Space=#{Space} -->
+	</select>
+
+	<!-- 获取站点信息 -->
+	<select id="getStation" resultMap="StationResultMap"
+		parameterType="Object">
+		select * from pubunitinfo
+	</select>
+	<!-- 修改站点信息 -->
+	<update id="updateStation" parameterType="Object">
+		UPDATE pubunitinfo set
+		station=#{station} ,address=#{address},name=#{name};
+	</update>
+
+
+	<select id="EquipmentListCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from pubequipment
+	</select>
+	<!-- 获取主设备信息 -->
+	<select id="getEquipmentList" resultMap="EquipmentResultMap"
+		parameterType="Object">
+		select
+		a.EquipmentID,a.EquipmentName,a.Phase,a.DeviceType,a.SpaceId,a.Remark,a.ManufactoryName
+		from pubequipment a
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+
+	</select>
+
+	<!-- 根据主设备ID查询设备信息 -->
+	<select id="DeviceListCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from pubdevice where
+		EquipmentID=#{EquipmentID}
+	</select>
+	<select id="getDeviceList" resultMap="DeviceResultMap"
+		parameterType="Object">
+		SELECT * FROM pubdevice where EquipmentID=#{EquipmentID}
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+	<select id="DeviceMaxId" resultType="java.lang.String"
+		parameterType="Object">
+		select MAX(DeviceID) from pubdevice
+	</select>
+	<!-- 更新设备 -->
+	<update id="update_device" parameterType="Object">
+		UPDATE pubdevice
+		SET
+		IED_IP=#{IED_IP},DeviceLocation=#{DeviceLocation},DeviceName=#{DeviceName},
+		DeviceProductID=#{DeviceProductID},DeviceType=#{DeviceType},EquipmentID=#{EquipmentID},
+		IEC61850LD_LN=#{IEC61850LD_LN},ManufactoryName=#{ManufactoryName},PosX=#{PosX},PosY=#{PosY},
+		Remark=#{Remark},Space=#{Space},StartOperateTime=#{StartOperateTime},
+		StopSoundAlarm=#{StopSoundAlarm},StopUse=#{StopUse},Phase=#{Phase}
+		WHERE DeviceID=#{DeviceID}
+	</update>
+	<!-- 插入设备 -->
+	<insert id="insert_device" parameterType="Object">
+		INSERT INTO
+		pubdevice(DeviceID,EquipmentID,DeviceProductID,DeviceType,IED_IP,DeviceName,
+		DeviceLocation,StartOperateTime,ManufactoryName,Remark,PosX,PosY,IEC61850LD_LN,Space,StopUse,
+		StopSoundAlarm)
+		VALUES(#{DeviceID},#{EquipmentID},#{DeviceProductID},#{DeviceType},#{IED_IP}
+		,#{DeviceName},#{DeviceLocation},#{StartOperateTime},#{ManufactoryName},#{Remark},#{PosX},
+		#{PosY},#{IEC61850LD_LN},#{Space},#{StopUse},#{StopSoundAlarm})
+	</insert>
+
+
+	<!-- 获取站点信息 -->
+	<select id="getrefname" resultMap="RefnameDescResultMap"
+		parameterType="Object">
+		select * from refname_desc
+	</select>
+	<!-- 查询refnameFlag -->
+	<select id="getrefnameFlag" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from refname_desc where
+		refname=#{refname}
+	</select>
+	<!-- 修改站点信息 -->
+	<update id="update_refname" parameterType="Object">
+		UPDATE refname_desc
+		set refdesc=#{refdesc} where refname=#{refname};
+	</update>
+	<!-- 删除主设备记录 -->
+	<delete id="delete_refname" parameterType="Object">
+		delete from
+		refname_desc where refname = #{refname}
+	</delete>
+	<!-- 插入主设备记录 -->
+	<insert id="add_refname" parameterType="Object">
+		insert into
+		refname_desc(refname,refdesc)
+		values(#{refname},#{refdesc})
+	</insert>
+
+
+
+	<!-- 更新主设备记录 -->
+	<update id="update_equipment" parameterType="Object">
+		UPDATE pubequipment
+		set
+		EquipmentName='${EquipmentName}',Phase='${Phase}',DeviceType='${DeviceType}',ManufactoryName='${ManufactoryName}',Remark='${Remark}'
+		where EquipmentID='${EquipmentID}';
+	</update>
+
+
+
+	<!-- 删除主设备记录 -->
+	<delete id="delete_equipment" parameterType="Object">
+		delete from
+		pubequipment where EquipmentID = #{EquipmentID}
+	</delete>
+
+	<!-- 插入主设备记录 -->
+	<insert id="add_equipment" parameterType="Object">
+		insert into
+		pubequipment(EquipmentID,EquipmentName,Phase,ManufactoryName,DeviceType,Remark)
+		<!-- values('#{EquipmentID}','#{EquipmentName,Phase}','#{ObjectVoltage}','#{paceName}','#{ManufactoryName}','#{DeviceType}','#{SpaceId}') -->
+		values(#{EquipmentID},#{EquipmentName},#{Phase},#{ManufactoryName},#{DeviceType},#{Remark})
+	</insert>
+
+	<!-- 查询区域 -->
+	<select id="getEquipmentSapce" resultMap="SpaceResultMap"
+		parameterType="Object">
+		select * from pubspace
+	</select>
+<!--	&lt;!&ndash; 查询区域MAXID &ndash;&gt;-->
+<!--	<select id="getMAXSapceID" resultType="java.lang.String"-->
+<!--		parameterType="Object">-->
+<!--		select MAX(SpaceId) from pubspace-->
+<!--	</select>-->
+	<!-- 查询区域Flag -->
+	<select id="getinsertFlag_space" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from pubspace where SpaceId=#{SpaceId}
+	</select>
+
+	<!-- 插入区域 -->
+	<insert id="insertspace" parameterType="Object">
+		insert into
+		pubspace(SpaceId,SpaceName,ObjectVoltage,SpaceTag)
+		values(#{SpaceId},#{SpaceName},#{ObjectVoltage},#{SpaceTag})
+	</insert>
+	<!-- 更新区域 -->
+	<update id="updatespace" parameterType="Object">
+		UPDATE pubspace set
+		SpaceName='${SpaceName}',ObjectVoltage='${ObjectVoltage}',SpaceTag='${SpaceTag}'
+		where SpaceId='${SpaceId}';
+	</update>
+	<!-- 删除主设备记录 -->
+	<delete id="delete_space" parameterType="Object">
+		delete from pubspace
+		where SpaceId = #{SpaceId}
+	</delete>
+
+
+	<!-- 查询最大主设备ID信息 -->
+	<select id="getNextEquipmentID" resultType="java.lang.String"
+		parameterType="Object">
+		select max(EquipmentID) from pubequipment
+	</select>
+	<select id="getNextDeviceID" resultType="java.lang.String"
+		parameterType="Object">
+		select max(DeviceID) from pubdevice
+	</select>
+
+	<!-- 删除设备记录 -->
+	<delete id="delete_device" parameterType="Object">
+		delete from pubdevice
+		where DeviceID = #{DeviceID}
+	</delete>
+
+	<!-- 查询SF6告警表 -->
+	<select id="getSf6Monitor" resultMap="Sf6AlarmMap"
+		parameterType="Object">
+		select * from sf6_alarm_param
+		<include refid="Example_state" />
+	</select>
+
+	<!-- 查询油色谱告警表 -->
+	<select id="getStomMonitor" resultMap="StomAlarmMap"
+		parameterType="Object">
+		select * from stom_alarm_param
+		<include refid="Example_state" />
+	</select>
+	<!-- 查询避雷器告警表 -->
+	<select id="getSmoamMonitor" resultMap="SmoamAlarmMap"
+		parameterType="Object">
+		select * from smoam_alarm_param
+		<include refid="Example_state" />
+	</select>
+	<!-- 查询铁芯告警表 -->
+	<select id="getScomMonitor" resultMap="ScomAlarmMap"
+		parameterType="Object">
+		select * from scom_alarm_param
+		<include refid="Example_state" />
+	</select>
+	<!-- 查询工况告警表 -->
+	<select id="getSconditionMonitor" resultMap="SconditionAlarmMap"
+		parameterType="Object">
+		select * from scondition_alarm_param
+		<include refid="Example_state" />
+	</select>
+
+	<!-- 查询复选框表 -->
+	<select id="getCheckBox" resultMap="DeviceResultMap"
+		parameterType="Object">
+		select * from pubdevice where deviceType=#{DeviceType}
+		and
+		EquipmentID=#{EquipmentID} and DeviceID!=#{DeviceID}
+	</select>
+
+	<!-- 插入sf6告警配置 -->
+	<insert id="insertSf6Monitor" parameterType="Object">
+		INSERT INTO
+		sf6_alarm_param VALUES(#{DeviceID},#{PressureThreshold})
+	</insert>
+	<!-- 修改sf6告警配置 -->
+	<update id="updateSf6Monitor" parameterType="Object">
+		UPDATE
+		sf6_alarm_param SET PressureThreshold=#{PressureThreshold} WHERE
+		DeviceID=#{DeviceID}
+	</update>
+
+	<!-- 插入stom告警配置 -->
+	<insert id="insertStomMonitor" parameterType="Object">
+		INSERT INTO
+		stom_alarm_param
+		VALUES(#{DeviceID},#{H2ThresHold},#{C2H2ThresHold},#{THThresHold},#{H2Change},#{C2H2Change},#{THChange},#{MstThresHold})
+	</insert>
+	<!-- 修改stom告警配置 -->
+	<update id="updateStomMonitor" parameterType="Object">
+		UPDATE
+		stom_alarm_param SET
+		H2ThresHold=#{H2ThresHold},C2H2ThresHold=#{C2H2ThresHold},THThresHold=#{THThresHold},H2Change=#{H2Change},C2H2Change=#{C2H2Change},THChange=#{THChange},MstThresHold=#{MstThresHold}
+		WHERE DeviceID=#{DeviceID}
+	</update>
+	<!-- 插入smoam告警配置 -->
+	<insert id="insertSmoamMonitor" parameterType="Object">
+		INSERT INTO
+		smoam_alarm_param VALUES(#{DeviceID},#{TotalCurrentThresHold})
+	</insert>
+	<!-- 修改smoam告警配置 -->
+	<update id="updateSmoamMonitor" parameterType="Object">
+		UPDATE
+		smoam_alarm_param SET TotalCurrentThresHold=#{TotalCurrentThresHold}
+		WHERE DeviceID=#{DeviceID}
+	</update>
+
+	<!-- 插入scom告警配置 -->
+	<insert id="insertScomMonitor" parameterType="Object">
+		INSERT INTO
+		scom_alarm_param VALUES(#{DeviceID},#{TotalCurrentThresHold})
+	</insert>
+	<!-- 修改scom告警配置 -->
+	<update id="updateScomMonitor" parameterType="Object">
+		UPDATE
+		scom_alarm_param SET TotalCurrentThresHold=#{TotalCurrentThresHold}
+		WHERE DeviceID=#{DeviceID}
+	</update>
+
+	<!-- 插入工况告警配置 -->
+	<insert id="insertSconditionMonitor" parameterType="Object">
+		INSERT INTO
+		scondition_alarm_param
+		VALUES(#{DeviceID},#{OilTempThresHold})
+	</insert>
+	<!-- 修改工况告警配置 -->
+	<update id="updateSconditionMonitor" parameterType="Object">
+		UPDATE
+		scondition_alarm_param SET OilTempThresHold=#{OilTempThresHold}
+		WHERE
+		DeviceID=#{DeviceID}
+	</update>
+
+	<!-- 查询导出数据 -->
+	<select id="getExportList" resultMap="DeviceResultMap"
+		parameterType="Object">
+		select * from pubdevice
+	</select>
+
+	<!-- 查询I2列表数据 -->
+	<select id="I2ListCount" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from i1toi2_data_inst
+	</select>
+	<select id="getI2Data" resultMap="I2ResultMap" parameterType="Object">
+		SELECT * FROM i1toi2_data_inst
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
+	</select>
+	<!-- 查询103列表数据 -->
+	<update id="updateZJ103" parameterType="Object">
+		UPDATE pubdevice_zj103
+		SET DeviceID=#{DeviceID},DeviceType=#{DeviceType}
+		WHERE
+		IEC61850LD_LN=#{IEC61850LD_LN}
+	</update>
+	<insert id="insertZJ103" parameterType="Object">
+		INSERT INTO
+		pubdevice_zj103 (DeviceID,DeviceType,IEC61850LD_LN)
+		VALUES(#{DeviceID},#{DeviceType},#{IEC61850LD_LN});
+	</insert>
+	<select id="ZJ103Count" resultType="java.lang.Integer"
+		parameterType="Object">
+		select count(1) from pubdevice_zj103
+	</select>
+	<select id="getZJ103CountByln" resultType="java.lang.Integer"
+		parameterType="Object">
+		SELECT COUNT(*) FROM pubdevice_zj103 WHERE
+		IEC61850LD_LN=#{IEC61850LD_LN}
+	</select>
+	<select id="ZJ103DeviceIDMax" resultType="java.lang.String"
+		parameterType="Object">
+		select MAX(DeviceId) from pubdevice_zj103
+	</select>
+
+	<!-- <select id="ZJ103_ln" resultType="java.lang.String" parameterType="Object"> 
+		select DeviceType from pubdevice_zj103_ln where IEC61850LD_LN=#{IEC61850LD_LN} 
+		</select> -->
+
+	<select id="getI2Data_103" resultMap="ZJ103Map" parameterType="Object">
+		SELECT * FROM pubdevice_zj103
+		<!-- if test="pager.orderCondition != null and pager.orderCondition != 
+			''" > ${pager.orderCondition} </if> <if test="pager.mysqlQueryCondition != 
+			null and pager.mysqlQueryCondition != ''" > ${pager.mysqlQueryCondition} 
+			</if -->
+	</select>
+	<delete id="delete_103" parameterType="Object">
+		delete from
+		pubdevice_zj103 where DeviceID=#{DeviceID}
+	</delete>
+	<select id="Updata_103" parameterType="Object">
+		UPDATE pubdevice_zj103 SET
+		CommAddress=#{CommAddress} WHERE
+		DeviceID=#{DeviceID}
+	</select>
+	<select id="submit_103_devPhase" parameterType="Object">
+		UPDATE
+		pubdevice_zj103 SET CommAddress=#{CommAddress},DevPhase=#{DevPhase}
+		WHERE DeviceID=#{DeviceID}
+	</select>
+	<select id="getI2Data_export" resultMap="I2ResultMap"
+		parameterType="Object">
+		SELECT * FROM i1toi2_data_inst
+	</select>
+	<!-- 查询yc_data_inst数据 -->
+	<select id="getycNameList" resultMap="YcDataResultMap"
+		parameterType="Object">
+		SELECT * FROM `iec61850_yc_data_inst` where
+		ld_inst_name=#{ld_inst_name} and
+		ln_inst_name=#{ln_inst_name}
+	</select>
+	<select id="getykNameList" resultMap="YkDataResultMap"
+		parameterType="Object">
+		SELECT * FROM `iec61850_yk_data_inst` where
+		ld_inst_name=#{ld_inst_name} and
+		ln_inst_name=#{ln_inst_name}
+	</select>
+	<select id="getyxNameList" resultMap="YxDataResultMap"
+		parameterType="Object">
+		SELECT * FROM `iec61850_yx_data_inst` where
+		ld_inst_name=#{ld_inst_name} and
+		ln_inst_name=#{ln_inst_name}
+	</select>
+
+	<!-- 红外测温增删改 -->
+	<select id="getInfraredFlag" resultType="java.lang.Integer"
+		parameterType="Object">
+		SELECT count(1) FROM pubdevice_Infrared where DeviceID =
+		#{DeviceID}
+	</select>
+	<insert id="insertInfraredTable" parameterType="Object">
+		INSERT INTO
+		pubdevice_Infrared VALUES(#{DeviceID},#{DeviceName})
+	</insert>
+	<update id="updateInfraredTable" parameterType="Object">
+		update
+		pubdevice_Infrared set DeviceName=#{DeviceName}
+		where
+		DeviceID=#{DeviceID}
+	</update>
+
+	<!-- i2表增删改 -->
+	<select id="getinsertFlag" resultType="java.lang.Integer"
+		parameterType="Object">
+		SELECT count(1) FROM i1toi2_data_inst where i2id =
+		#{i2id}
+	</select>
+	<insert id="insertI2Table" parameterType="Object">
+		INSERT INTO
+		i1toi2_data_inst
+		VALUES(#{i2id},#{i1type},#{i1id},#{i2_refname},#{i2_desc})
+	</insert>
+	<update id="updateI2Table" parameterType="Object">
+		update i1toi2_data_inst
+		set
+		i1type=#{i1type},i1id=#{i1id},i2_refname=#{i2_refname},i2_desc=#{i2_desc}
+		where i2id=#{i2id}
+	</update>
+	<delete id="delete_I2" parameterType="Object">
+		delete from
+		i1toi2_data_inst where i2id = #{i2id}
+	</delete>
+
+	<!-- 根据i1id查询61850ld ln数据 -->
+	<select id="getycIEC61850LD_LN" resultMap="YcDataResultMap"
+		parameterType="Object">
+		SELECT * FROM `iec61850_yc_data_inst` where
+		yc_id=#{i1id}
+	</select>
+	<select id="getykIEC61850LD_LN" resultMap="YkDataResultMap"
+		parameterType="Object">
+		SELECT * FROM `iec61850_yk_data_inst` where
+		yk_id=#{i1id}
+	</select>
+	<select id="getyxIEC61850LD_LN" resultMap="YxDataResultMap"
+		parameterType="Object">
+		SELECT * FROM `iec61850_yx_data_inst` where
+		yx_id=#{i1id}
+	</select>
+
+
+	<!-- 增删改查iec61850_yx_data_inst部分 -->
+	<select id="getyxCount" resultType="Integer" parameterType="Object">
+		SELECT COUNT(*) FROM `iec61850_yx_data_inst` WHERE
+		ld_inst_name=#{ld_inst_name} and ln_inst_name=#{ln_inst_name} and
+		yx_refname=#{yx_refname};
+	</select>
+	<update id="updateyx" parameterType="Object">
+		UPDATE iec61850_yx_data_inst
+		SET link_yx_refname =
+		#{link_yc_refname},
+		yx_desc=#{desc}
+		WHERE ld_inst_name=#{ld_inst_name} and
+		ln_inst_name=#{ln_inst_name} and
+		yx_refname=#{yx_refname}
+	</update>
+	<insert id="insertyx" parameterType="Object">
+		INSERT INTO iec61850_yx_data_inst
+		(yx_id,ld_inst_name,ln_inst_name,yx_refname,yx_desc)
+		VALUES(#{yx_id},#{ld_inst_name},#{ln_inst_name},#{yx_refname},#{desc})
+	</insert>
+	<select id="getycCount" resultType="Integer" parameterType="Object">
+		SELECT COUNT(*) FROM `iec61850_yc_data_inst` WHERE yc_id=#{yx_id} ;
+	</select>
+	<!-- <select id="getycCount" resultType="Integer" parameterType="Object"> 
+		SELECT COUNT(*) FROM `iec61850_yc_data_inst` WHERE ld_inst_name=#{ld_inst_name} 
+		and ln_inst_name=#{ln_inst_name} and yc_refname=#{yx_refname}; </select> -->
+	<!-- <update id="updateyc" parameterType="Object"> UPDATE iec61850_yc_data_inst 
+		SET yc_id=#{yx_id} ,link_yc_refname=#{link_yc_refname} ,yc_desc = #{desc} 
+		WHERE ld_inst_name=#{ld_inst_name} and ln_inst_name=#{ln_inst_name} and yc_refname=#{yx_refname} 
+		</update> -->
+	<insert id="insertyc" parameterType="Object"> INSERT INTO
+		iec61850_yc_data_inst
+		(yc_id,ld_inst_name,ln_inst_name,yc_refname,yc_desc) VALUES
+		(#{yx_id},#{ld_inst_name},#{ln_inst_name},#{yx_refname},#{desc})
+	</insert>
+<!--	<insert id="insertycList" parameterType="Object">-->
+<!--		INSERT INTO iec61850_yc_data_inst-->
+<!--		(yc_id,ld_inst_name,ln_inst_name,yc_refname,yc_desc)-->
+<!--		VALUES-->
+<!--		<foreach collection="list" item="ycInst" separator=",">-->
+<!--			(#{ycInst.yx_id},#{ycInst.ld_inst_name},#{ycInst.ln_inst_name},#{ycInst.yx_refname},#{ycInst.desc})-->
+<!--		</foreach>-->
+
+<!--	</insert>-->
+<!--	<insert id="insertyxList" parameterType="Object">-->
+<!--		INSERT INTO iec61850_yx_data_inst-->
+<!--		(yx_id,ld_inst_name,ln_inst_name,yx_refname,yx_desc)-->
+<!--		VALUES-->
+<!--		<foreach collection="list" item="yxInst" separator=",">-->
+<!--			(#{yxInst.yx_id},#{yxInst.ld_inst_name},#{yxInst.ln_inst_name},#{yxInst.yx_refname},#{yxInst.desc})-->
+<!--		</foreach>-->
+
+<!--	</insert>-->
+
+	<select id="getykCount" resultType="Integer" parameterType="Object">
+		SELECT COUNT(*) FROM `iec61850_yk_data_inst` WHERE
+		ld_inst_name=#{ld_inst_name} and ln_inst_name=#{ln_inst_name} and
+		yk_refname=#{yx_refname} and yk_fc=#{fc};
+	</select>
+	<update id="updateyk" parameterType="Object">
+		UPDATE iec61850_yk_data_inst
+		SET yk_id=#{yx_id}
+		,link_yk_refname=#{link_yc_refname},yk_desc=#{desc}
+		WHERE ld_inst_name=#{ld_inst_name} and ln_inst_name=#{ln_inst_name}
+		and
+		yk_refname=#{yx_refname} and yk_fc=#{fc}
+	</update>
+	<insert id="insertyk" parameterType="Object">
+		INSERT INTO
+		iec61850_yk_data_inst
+		(yk_id,ld_inst_name,ln_inst_name,yk_fc,yk_refname,yk_desc)
+		VALUES(#{yx_id},#{ld_inst_name},#{ln_inst_name},#{fc},#{yx_refname},#{desc});
+	</insert>
+	<insert id="insertSGCByk" parameterType="Object">
+		INSERT INTO
+		iec61850_yk_data_inst
+		(yk_id,ld_inst_name,ln_inst_name,yk_fc,yk_refname,yk_desc)
+		VALUES(#{yx_id},#{ld_inst_name},#{ln_inst_name},'SP',#{yx_refname},#{desc});
+	</insert>
+
+	<!-- 对iec61850_ln_inst表进行操作 -->
+	<select id="getLnCount" resultType="Integer" parameterType="Object">
+		SELECT COUNT(*) FROM `iec61850_ln_inst` WHERE
+		ld_inst_name=#{ld_inst_name} and ln_inst_name=#{ln_inst_name};
+	</select>
+	<update id="updateLn" parameterType="Object">
+		UPDATE iec61850_ln_inst SET
+		ied_name=#{ied_name},ied_desc=#{ied_desc},ld_inst_desc=#{ld_inst_desc},
+		ln_inst_desc=#{ln_inst_desc} WHERE ld_inst_name=#{ld_inst_name} and
+		ln_inst_name=#{ln_inst_name}
+	</update>
+	<insert id="insertLn" parameterType="Object">
+		INSERT INTO iec61850_ln_inst
+		(ied_name,ied_desc,ld_inst_name,ld_inst_desc,
+		ln_inst_name,ln_inst_desc)
+		VALUES(#{ied_name},#{ied_desc},#{ld_inst_name},#{ld_inst_desc},#{ln_inst_name}
+		,#{ln_inst_desc});
+	</insert>
+
+	<!-- 根据ln获取点序号 -->
+	<select id="getyxByld" resultMap="YxDataResultMap"
+		parameterType="Object">
+		Select * from iec61850_yx_data_inst where ld_inst_name
+		like '%${ldinst}%';
+	</select>
+	<select id="getykByld" resultMap="YkDataResultMap"
+		parameterType="Object">
+		Select * from iec61850_yk_data_inst where ld_inst_name
+		like '%${ldinst}%';
+	</select>
+	<select id="getycByld" resultMap="YcDataResultMap"
+		parameterType="Object">
+		Select * from iec61850_yc_data_inst where ld_inst_name
+		like '%${ldinst}%';
+	</select>
+
+
+</mapper>
+

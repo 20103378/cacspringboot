@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MOA DESC="避雷器">
+  <IED>
+    <BASIC_INFO DESC="基本信息">
+      <NAME DESC="装置名称">避雷器在线监测IED</NAME>
+      <MODEL DESC="装置型号">SMOAM-3000</MODEL>
+      <HW_VER DESC="硬件版本">V1.0.0</HW_VER>
+      <SW_VER DESC="软件版本">V1.4.2.3</SW_VER>
+      <FACTORY DESC="装置生产厂家">杭州申昊信息科技有限公司</FACTORY>
+      <PROD_TIME DESC="出厂日期">2013-06-08</PROD_TIME>
+      <USED_TIME DESC="投运日期">2013-06-18</USED_TIME>
+      <CODE DESC="出厂编号">2013061801</CODE>
+    </BASIC_INFO>
+    <CONDITION_INFO DESC="工况信息">
+      <APP DESC="应用1">
+        <NAME DESC="名称">状态分析及监控软件</NAME>
+        <MD5 DESC="MD5码">1</MD5>
+      </APP>
+      <APP DESC="应用2">
+        <NAME DESC="名称">数据采集程序</NAME>
+        <MD5 DESC="MD5码">2</MD5>
+      </APP>
+      <APP DESC="应用3">
+        <NAME DESC="名称">IED通讯服务程序</NAME>
+        <MD5 DESC="MD5码">3</MD5>
+      </APP>
+      <APP DESC="应用4">
+        <NAME DESC="名称">IED通讯转发程序</NAME>
+        <MD5 DESC="MD5码">4</MD5>
+      </APP>
+      <APP DESC="应用5">
+        <NAME DESC="名称">运行错误监测程序</NAME>
+        <MD5 DESC="MD5码">5</MD5>
+      </APP>
+    </CONDITION_INFO>
+  </IED>
+  <SENSOR>
+    <BASIC_INFO DESC="基本信息">
+      <NAME DESC="装置名称">避雷器传感器</NAME>
+      <MODEL DESC="装置型号">SMOAM-3000</MODEL>
+      <HW_VER DESC="硬件版本">V1.0.0</HW_VER>
+      <SW_VER DESC="软件版本">V1.1.0</SW_VER>
+      <FACTORY DESC="装置生产厂家">杭州申昊信息科技有限公司</FACTORY>
+      <PROD_TIME DESC="出厂日期">2013-05-12</PROD_TIME>
+      <USED_TIME DESC="投运日期">2013-06-18</USED_TIME>
+      <CODE DESC="出厂编号">20130512</CODE>
+    </BASIC_INFO>
+    <CONDITION_INFO DESC="工况信息">
+      <APP DESC="应用">
+        <NAME DESC="名称">传感器程序</NAME>
+        <MD5 DESC="MD5码">6</MD5>
+      </APP>
+    </CONDITION_INFO>
+  </SENSOR>
+</MOA>
