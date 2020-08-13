@@ -46,7 +46,7 @@ jeecg.spaceDetailState = function () {
                 async: false,
                 cache: false,
                 type: 'POST',
-                url: ctxPath + '/treeDevice/getSpaceNameByType.do?Type=' + Type,
+                url: ctxPath + '/treeDevice/getSpaceNameByType?Type=' + Type,
                 success: function (data) {
                     var Sel;
                     Sel = data;//提取data为rows
@@ -71,7 +71,7 @@ jeecg.spaceDetailState = function () {
 //                 async: false,
 //                 cache: false,
 //                 type: 'POST',
-//                 url: ctxPath + '/deviceHealthState/getDetailListDevice.do?Type=' + type,
+//                 url: ctxPath + '/deviceHealthState/getDetailListDevice?Type=' + type,
 //                 error: function () {// 请求失败处理函数
 //                     jeecg.alert('错误信息', '数据请求失败', 'error');
 //                 },
@@ -102,7 +102,7 @@ jeecg.spaceDetailState = function () {
                     async: false,
                     cache: false,
                     type: 'POST',
-                    url: ctxPath + '/deviceHealthState/getStomDetailList.do?_off=' + _off + "&_time=" + _time,
+                    url: ctxPath + '/deviceHealthState/getStomDetailList?_off=' + _off + "&_time=" + _time,
                     error: function () {// 请求失败处理函数
                         jeecg.alert('错误信息', '数据请求失败', 'error');
                     },
@@ -180,7 +180,7 @@ jeecg.spaceDetailState = function () {
                     async: false,
                     cache: false,
                     type: 'POST',
-                    url: ctxPath + '/deviceHealthState/getSf6DetailList.do?_off=' + _off + "&_time=" + _time,
+                    url: ctxPath + '/deviceHealthState/getSf6DetailList?_off=' + _off + "&_time=" + _time,
                     error: function () {// 请求失败处理函数
                         jeecg.alert('错误信息', '数据请求失败', 'error');
                     },
@@ -233,7 +233,7 @@ jeecg.spaceDetailState = function () {
                     async: false,
                     cache: false,
                     type: 'POST',
-                    url: ctxPath + '/deviceHealthState/getSmoamDetailList.do?_off=' + _off + "&_time=" + _time,
+                    url: ctxPath + '/deviceHealthState/getSmoamDetailList?_off=' + _off + "&_time=" + _time,
                     error: function () {// 请求失败处理函数
                         jeecg.alert('错误信息', '数据请求失败', 'error');
                     },
@@ -288,7 +288,7 @@ jeecg.spaceDetailState = function () {
                     async: false,
                     cache: false,
                     type: 'POST',
-                    url: ctxPath + '/deviceHealthState/getScomDetailList.do?_off=' + _off + "&_time=" + _time,
+                    url: ctxPath + '/deviceHealthState/getScomDetailList?_off=' + _off + "&_time=" + _time,
                     error: function () {// 请求失败处理函数
                         jeecg.alert('错误信息', '数据请求失败', 'error');
                     },
@@ -353,7 +353,7 @@ jeecg.spaceDetailState = function () {
                     async: false,
                     cache: false,
                     type: 'POST',
-                    url: ctxPath + '/deviceHealthState/getSpdmDetailList.do?_off=' + _off + "&_time=" + _time,
+                    url: ctxPath + '/deviceHealthState/getSpdmDetailList?_off=' + _off + "&_time=" + _time,
                     error: function () {// 请求失败处理函数
                         jeecg.alert('错误信息', '数据请求失败', 'error');
                     },
@@ -409,7 +409,7 @@ jeecg.spaceDetailState = function () {
                     async: false,
                     cache: false,
                     type: 'POST',
-                    url: ctxPath + '/deviceHealthState/getSf6DetailList.do',
+                    url: ctxPath + '/deviceHealthState/getSf6DetailList',
                     error: function () {// 请求失败处理函数
                         jeecg.alert('错误信息', '数据请求失败', 'error');
                     },
@@ -470,7 +470,7 @@ function getDeviceBySpace(space) {
             async: false,
             cache: false,
             type: 'POST',
-            url: ctxPath + '/deviceHealthState/getStomDetailListBySpace.do?space=' + space,
+            url: ctxPath + '/deviceHealthState/getStomDetailListBySpace?space=' + space,
             error: function () {// 请求失败处理函数
                 jeecg.alert('错误信息', '数据请求失败', 'error');
             },
@@ -546,7 +546,7 @@ function getDeviceBySpace(space) {
             async: false,
             cache: false,
             type: 'POST',
-            url: ctxPath + '/deviceHealthState/getSf6DetailListBySpace.do?space=' + space,
+            url: ctxPath + '/deviceHealthState/getSf6DetailListBySpace?space=' + space,
             error: function () {// 请求失败处理函数
                 jeecg.alert('错误信息', '数据请求失败', 'error');
             },
@@ -599,7 +599,7 @@ function getDeviceBySpace(space) {
             async: false,
             cache: false,
             type: 'POST',
-            url: ctxPath + '/deviceHealthState/getSmoamDetailListBySpace.do?space=' + space,
+            url: ctxPath + '/deviceHealthState/getSmoamDetailListBySpace?space=' + space,
             error: function () {// 请求失败处理函数
                 jeecg.alert('错误信息', '数据请求失败', 'error');
             },
@@ -654,7 +654,7 @@ function getDeviceBySpace(space) {
             async: false,
             cache: false,
             type: 'POST',
-            url: ctxPath + '/deviceHealthState/getScomDetailListBySpace.do?space=' + space,
+            url: ctxPath + '/deviceHealthState/getScomDetailListBySpace?space=' + space,
             error: function () {// 请求失败处理函数
                 jeecg.alert('错误信息', '数据请求失败', 'error');
             },
@@ -705,7 +705,7 @@ function getDeviceBySpace(space) {
             async: false,
             cache: false,
             type: 'POST',
-            url: ctxPath + '/deviceHealthState/getSpdmDetailListBySpace.do?space=' + space,
+            url: ctxPath + '/deviceHealthState/getSpdmDetailListBySpace?space=' + space,
             error: function () {// 请求失败处理函数
                 jeecg.alert('错误信息', '数据请求失败', 'error');
             },
@@ -763,7 +763,7 @@ function export_Word() {
             async: false,
             cache: false,
             type: 'POST',
-            url: ctxPath + '/deviceHealthState/getStomDetailListExportWord.do',
+            url: ctxPath + '/deviceHealthState/getStomDetailListExportWord',
             success: function (data) {
                 var head_data, json;
                 head_data = [];
@@ -792,7 +792,7 @@ function export_Word() {
             async: false,
             cache: false,
             type: 'POST',
-            url: ctxPath + '/deviceHealthState/getSf6DetailListExportWord.do',
+            url: ctxPath + '/deviceHealthState/getSf6DetailListExportWord',
             success: function (data) {
                 var head_data, json;
                 head_data = [];
@@ -809,7 +809,7 @@ function export_Word() {
             async: false,
             cache: false,
             type: 'POST',
-            url: ctxPath + '/deviceHealthState/getSmoamDetailListExportWord.do',
+            url: ctxPath + '/deviceHealthState/getSmoamDetailListExportWord',
             success: function (data) {
                 var head_data, json;
                 head_data = [];
@@ -832,7 +832,7 @@ function export_Word() {
             async: false,
             cache: false,
             type: 'POST',
-            url: ctxPath + '/deviceHealthState/getScomDetailListExportWord.do',
+            url: ctxPath + '/deviceHealthState/getScomDetailListExportWord',
             success: function (data) {
                 var head_data, json;
                 head_data = [];
@@ -849,7 +849,7 @@ function export_Word() {
             async: false,
             cache: false,
             type: 'POST',
-            url: ctxPath + '/deviceHealthState/getSpdmDetailListExportWord.do',
+            url: ctxPath + '/deviceHealthState/getSpdmDetailListExportWord',
             success: function (data) {
                 var head_data, json;
                 head_data = [];

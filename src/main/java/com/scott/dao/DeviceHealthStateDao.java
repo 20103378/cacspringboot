@@ -168,6 +168,9 @@ public interface DeviceHealthStateDao<T> extends BaseDao<T> {
 
     List<DeviceEntity> getDeviceByType(String DeviceType);
 
+    DeviceEntity getDeviceByDeviceId(String deviceID);
+
+
     List<Sf6_dataEntity> getSF6Chart_history(Map<String, Object> param);
 
     List<Sf6_dataEntity> getSF6Chart_dealt(Map<String, Object> param);
@@ -234,8 +237,11 @@ public interface DeviceHealthStateDao<T> extends BaseDao<T> {
 
     List<ScomYxEntity> getScomYxDate(Map<String, Object> param);
 
-    List<SpdmYxEntity> getSpdmYx(Map<String, Object> param);
-
+    /**
+     * 查询局放数据
+     * @param param
+     * @return
+     */
     List<SpdmYxEntity> getSpdmYxDate(Map<String, Object> param);
 
     //遥信历史数据
@@ -266,6 +272,7 @@ public interface DeviceHealthStateDao<T> extends BaseDao<T> {
     List<SbushDataEntity> getSpdcHistoryData(HistoryPage page);
 
     int getSpdcHistoryDataCount(HistoryPage page);
+
 //	//油色谱实时数据
 //	 List<DataEntity> getStomYXData(String id);
 

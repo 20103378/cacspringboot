@@ -32,74 +32,26 @@ jeecg.yx = function () {
             var DeviceType = $("#txtType").val();
             if (DeviceType == "19") {
                 // document.getElementById("table_amc").style.display='none';
-                document.getElementById("table_cac").style.display = 'none';
-                _this.SetSpdmYxData();
-            }
-            if (DeviceType == "amc") {
                 // document.getElementById("table_cac").style.display = 'none';
-                // _this.SetYxData_amc();
+                // _this.SetSpdmYxData();
             }
-            if (DeviceType == "hwcw") {
-                document.getElementById("table_cac").style.display = 'none';
-                document.getElementById("table_amc").style.display = 'none';
-                // $(".tabs li:eq(3)").hide();
-                // $(".tabs li:eq(4)").hide();
-                _this.SetInfraredYxData();
+            // if (DeviceType == "amc") {
+            //     // document.getElementById("table_cac").style.display = 'none';
+            //     // _this.SetYxData_amc();
+            // }
+            // if (DeviceType == "hwcw") {
+            //     // document.getElementById("table_cac").style.display = 'none';
+            //     // document.getElementById("table_amc").style.display = 'none';
+            //     // // $(".tabs li:eq(3)").hide();
+            //     // // $(".tabs li:eq(4)").hide();
+            //     // _this.SetInfraredYxData();
+            // }
+            if (DeviceType == "8" || DeviceType == "amc" || DeviceType == "hwcw") {
             } else {
                 // document.getElementById("table_amc").style.display='none';
                 document.getElementById("table_cac").style.display = 'none';
                 _this.SetSbushYxData();
             }
-        },
-        SetInfraredYxData: function () {
-            $('#Infrared_data').datagrid.defaults.columns = [[{
-                field: 'title',
-                title: '测量值',
-                align: 'left'
-            }, {
-                field: 'tmp',
-                title: '温度',
-                align: 'left'
-            },]];
-            var id = $("#txtID").val();
-            var _url = "getInfraredYx";
-            var formdata = {};
-            // if(id<10){
-            // id='A000'+id;
-            // }else if(id<100){
-            // id='A00'+id;
-            // }else if(id<1000){
-            // id='A0'+id;
-            // }else if(id<10000){
-            // id='A'+id;
-            // }
-            formdata['DeviceID'] = id;
-            $.ajax({
-                async: false,
-                cache: false,
-                url: _url,
-                type: "POST",
-                data: formdata,
-                error: function () {
-                },
-                success: function (data) {
-                    data[0]["title"] = "采集时间";
-                    data[1]["title"] = "参数值";
-                    $('#yx_data-list').datagrid.defaults.data = {
-                        "total": 1,
-                        "rows": data
-                    };
-                }
-            });
-            $('#Infrared_data').datagrid({
-                showHeader: true,
-                view: transposedview,
-                headerWidth: 180,
-                itemWidth: 200,
-                title: $("#txtName").val(),
-                singleSelect: true,
-                nowrap: false
-            });
         },
         // 套管实时数据
         SetSbushYxData: function () {
@@ -116,52 +68,52 @@ jeecg.yx = function () {
                 false);
             _box.init();
         },
-        SetSpdmYxData: function () {
-            $('#yx_data-list').datagrid.defaults.columns = [[{
-                field: 'title',
-                title: '测量值',
-                align: 'left'
-            }, {
-                field: 'acuPaDsch',
-                title: '局放声学水平',
-                align: 'left'
-            }, {
-                field: 'uhfPaDsch',
-                title: '局放UHF水平',
-                align: 'left'
-            }, {
-                field: 'phase',
-                title: '放电相位',
-                align: 'left'
-            }, {
-                field: 'plsNum',
-                title: '脉冲次数',
-                align: 'left'
-            },
-
-            ]];
-            var id = $("#txtID").val();
-            var _url = "getSpdmYx";
-            var formdata = {};
-            formdata['DeviceID'] = id;
-            $.ajax({
-                async: false,
-                cache: false,
-                url: _url,
-                type: "POST",
-                data: formdata,
-                error: function () {
-                },
-                success: function (data) {
-                    data[0]["title"] = "采集时间";
-                    data[1]["title"] = "参数值";
-                    $('#yx_data-list').datagrid.defaults.data = {
-                        "total": 1,
-                        "rows": data
-                    };
-                }
-            });
-        },
+        // SetSpdmYxData: function () {
+        //     $('#yx_data-list').datagrid.defaults.columns = [[{
+        //         field: 'title',
+        //         title: '测量值',
+        //         align: 'left'
+        //     }, {
+        //         field: 'acuPaDsch',
+        //         title: '局放声学水平',
+        //         align: 'left'
+        //     }, {
+        //         field: 'uhfPaDsch',
+        //         title: '局放UHF水平',
+        //         align: 'left'
+        //     }, {
+        //         field: 'phase',
+        //         title: '放电相位',
+        //         align: 'left'
+        //     }, {
+        //         field: 'plsNum',
+        //         title: '脉冲次数',
+        //         align: 'left'
+        //     },
+        //
+        //     ]];
+        //     var id = $("#txtID").val();
+        //     var _url = "getSpdmYx";
+        //     var formdata = {};
+        //     formdata['DeviceID'] = id;
+        //     $.ajax({
+        //         async: false,
+        //         cache: false,
+        //         url: _url,
+        //         type: "POST",
+        //         data: formdata,
+        //         error: function () {
+        //         },
+        //         success: function (data) {
+        //             data[0]["title"] = "采集时间";
+        //             data[1]["title"] = "参数值";
+        //             $('#yx_data-list').datagrid.defaults.data = {
+        //                 "total": 1,
+        //                 "rows": data
+        //             };
+        //         }
+        //     });
+        // },
         showData: {
             dataGrid: {
                 // title: $("#txtName").val(),
@@ -210,30 +162,6 @@ jeecg.yx = function () {
                 }]]
             }
         },
-        // SetYxData_amc: function () {
-        //     $(".tabs li:eq(2)").hide();
-        //     var DeviceType = $("#txtType").val();
-        //     var ln_inst_name = $('#txtName').val();
-        //     ln_inst_name = ln_inst_name.replace("#", "@");
-        //     var amc_id = $("#txtID").val();
-        //     var _box = null;
-        //     if (DeviceType == "amc") {
-        //         //alert("123");
-        //         var table_name = '#yx_data-list_amc';
-        //         _this.showData.dataGrid.url = "getYCData?ln_inst_name="
-        //             + ln_inst_name + "&id=" + amc_id;
-        //         _box = new YDataGrid(_this.showData, table_name, false, true,
-        //             true, false);
-        //         _box.init();
-        //     }
-        //     // if(DeviceType=="yx"){
-        //     // var table_name='#yx_data-list';
-        //     // _this.showData.dataGrid.url="getYXData?ln_inst_name="+ln_inst_name+"&ld_inst_name="+ld_inst_name;
-        //     // _box = new
-        //     // YDataGrid(_this.showData,table_name,false,true,true,true);
-        //     // _box.init();
-        //     // }
-        // }
     };
     return _this;
 }();

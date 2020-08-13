@@ -114,12 +114,12 @@
 		<input type="hidden" id="txtName" name="hiddenField"
 			value=<%=(String)session.getAttribute("DeviceName")%> />
 		<script type="text/javascript" src="<%=basePath%>/js/Innerjs/spaceDetailState.js"></script>
-		<script type="text/javascript" src="<%=basePath%>/js/tableExport/jquery.base64.js"></script>
-		<script type="text/javascript" src="<%=basePath%>/js/tableExport/tableExport.js"></script>
-		<script type="text/javascript" src="<%=basePath%>/js/tableExport/jspdf/libs/sprintf.js"></script>
-		<script type="text/javascript" src="<%=basePath%>/js/tableExport/jspdf/jspdf.js"></script>
-		<script type="text/javascript" src="<%=basePath%>/js/tableExport/jspdf/libs/base64.js"></script>
-		<script type="text/javascript" src="<%=basePath%>/js/tableExport/html2canvas.js"></script>
+<%--		<script type="text/javascript" src="<%=basePath%>/js/tableExport/jquery.base64.js"></script>--%>
+<%--		<script type="text/javascript" src="<%=basePath%>/js/tableExport/tableExport.js"></script>--%>
+<%--		<script type="text/javascript" src="<%=basePath%>/js/tableExport/jspdf/libs/sprintf.js"></script>--%>
+<%--		<script type="text/javascript" src="<%=basePath%>/js/tableExport/jspdf/jspdf.js"></script>--%>
+<%--		<script type="text/javascript" src="<%=basePath%>/js/tableExport/jspdf/libs/base64.js"></script>--%>
+<%--		<script type="text/javascript" src="<%=basePath%>/js/tableExport/html2canvas.js"></script>--%>
 		<script type="text/javascript" src="<%=basePath%>/js/commons/tableExport.js"></script>
 		<script type="text/javascript" src="<%=basePath%>/js/commons/tableExport_test.js"></script>
 

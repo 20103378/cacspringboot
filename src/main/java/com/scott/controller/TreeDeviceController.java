@@ -26,6 +26,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
+
 /**
  * <br>
  * <b>功能：</b>JeecgPersonController<br>
@@ -68,20 +69,18 @@ public class TreeDeviceController extends BaseAction {
         HtmlUtil.writerJson(response, lst);
     }
 
-    @RequestMapping("/getSpaceName")
+    @RequestMapping("/getDeviceTypeEnum")
     @ResponseBody
-    public Map getSpaceName(HttpServletResponse response) {
-        //设备区域
-        List<TreeDeviceEntity> space = treeDeviceService.getPubspaceName();
+    public Map getDeviceTypeEnum() {
+//        //设备区域
+//        List<TreeDeviceEntity> space = treeDeviceService.getPubspaceName();
         //设备类型
         List<Integer> values = treeDeviceService.getPubDeviceTypeList();
         List<Map> typeEnums = PubDeviceTypeEnum.getDeviceTypeEnumsByValues(values);
-
         Map map = new HashMap(3);
-        map.put("space", space);
+//        map.put("space", space);
         map.put("deviceType", typeEnums);
         return map;
-//        HtmlUtil.writerJson(response, map);
     }
 
     /**
@@ -365,21 +364,21 @@ public class TreeDeviceController extends BaseAction {
 //        HtmlUtil.writerJson(response, EntityName);
 //    }
 
-    @RequestMapping("/getImgListBySelect")
-    @ResponseBody
-    public List getImgListBySelect(String space, String deviceType) {
-        List<TreeDeviceEntity> entityList = treeDeviceService.getImgListBySelect(space, deviceType);
-        return entityList;
-    }
-
-    @RequestMapping("/getOtherImgListBySelect")
-    @ResponseBody
-    public List getOtherImgListBySelect(String space, String deviceType) {
-        //todo 当前的数值
-        List<TreeDeviceEntity> entityList = treeDeviceService.getOtherImgListBySelect(space, deviceType);
-        computDeviceImgStatus(entityList);
-        return entityList;
-    }
+//    @RequestMapping("/getImgListBySelect")
+//    @ResponseBody
+//    public List getImgListBySelect(String space, String deviceType) {
+//        List<TreeDeviceEntity> entityList = treeDeviceService.getImgListBySelect(space, deviceType);
+//        return entityList;
+//    }
+//
+//    @RequestMapping("/getOtherImgListBySelect")
+//    @ResponseBody
+//    public List getOtherImgListBySelect(String space, String deviceType) {
+//        //todo 当前的数值
+//        List<TreeDeviceEntity> entityList = treeDeviceService.getOtherImgListBySelect(space, deviceType);
+//        computDeviceImgStatus(entityList);
+//        return entityList;
+//    }
 
     /**
      * 计算设备运行状态

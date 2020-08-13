@@ -33,7 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -62,9 +61,8 @@ public class SystemConfigurationController extends BaseAction {
     private LEDConfigurationService<TreeDeviceEntity> LEDService;
 
     @RequestMapping("/list")
-    public ModelAndView list() throws Exception {
-        Map<String, Object> context = getRootMap();
-        return forword("scott/demo/systemConfiguration", context);
+    public String list(){
+        return "scott/demo/systemConfiguration";
     }
 
     /**
@@ -72,23 +70,17 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/getStation")
     @ResponseBody
-    public List getStation(HttpServletResponse response) {
+    public List getStation() {
         List<Station_InfoEntity> dataList = systemConfigurationService.getStation();
         return  dataList;
-//        if (dataList == null || "".equals(dataList)) {
-//            HtmlUtil.writerJson(response, "");
-//        } else {
-//            HtmlUtil.writerJson(response, dataList);
-//        }
-
     }
 
     /**
      * 修改站点数据
      */
     @RequestMapping("/updateStation")
-    public void updateStation(Station_InfoEntity entity, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        systemConfigurationService.updateStation(entity);
+    public boolean updateStation(Station_InfoEntity entity){
+        return systemConfigurationService.updateStation(entity)>0;
     }
 
 //    /**

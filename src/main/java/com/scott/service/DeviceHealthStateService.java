@@ -349,6 +349,9 @@ public class DeviceHealthStateService<T> extends BaseService<T> {
     public List<DeviceEntity> getDeviceByType(String DeviceType) throws Exception{
 		return getDao().getDeviceByType(DeviceType);
 	}
+	public DeviceEntity getDeviceByDeviceId(String deviceID){
+		return getDao().getDeviceByDeviceId(deviceID);
+	}
     /**
      * 选择设备类型获取红外测温设备
      */
@@ -528,10 +531,6 @@ public class DeviceHealthStateService<T> extends BaseService<T> {
 	}
 	public List<ScomYxEntity> getScomYxDate(Map<String, Object> param ) throws Exception{
 		return getDao().getScomYxDate(param);
-	}
-
-	public List<SpdmYxEntity> getSpdmYx(Map<String, Object> param ) throws Exception{
-		return getDao().getSpdmYx(param);
 	}
 	public List<SpdmYxEntity> getSpdmYxDate(Map<String, Object> param ) throws Exception{
 		return getDao().getSpdmYxDate(param);

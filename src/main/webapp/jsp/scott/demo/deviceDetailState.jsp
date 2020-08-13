@@ -150,8 +150,8 @@
 			style="text-align: center; height: 20px; display: none">
 			<img src="<%=basePath%>/images/state/Green.png">正常</img> <img
 				src="<%=basePath%>/images/state/Yellow.png">故障</img> <img
-				src="<%=basePath%>/images/state/Red.png">告警</img> <img
-				src="<%=basePath%>/images/state/Gray.png">停用</img>
+<%--				src="<%=basePath%>/images/state/Red.png">告警</img> <img--%>
+<%--				src="<%=basePath%>/images/state/Gray.png">停用</img>--%>
 		</div>
 		<input type="hidden" id="txtID" name="hiddenField"
 			value=<%=(String)session.getAttribute("DeviceID")%> />

@@ -4534,3 +4534,267 @@ select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice
 select a.DeviceID as id, a.DeviceName as text, a.DeviceType as nodetype , b.Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join spdm_data b on a.DeviceID=b.DeviceID and a.Space != '微气象' UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join weather_data b on a.DeviceID=b.DeviceID ORDER BY nodetype ,text;;
 2020-08-11 17:33:39 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-11 17:33:39 | 耗时 4 ms | SQL 语句：
 select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice where DeviceType != '5' ORDER BY nodetype ,text;;
+2020-08-11 17:44:51 INFO  cac main com.CacApplication Starting CacApplication on nanadeMacBook-Pro.local with PID 950 (/Users/nana/IdeaProjects/cac/target/classes started by nana in /Users/nana/IdeaProjects/cac)
+2020-08-11 17:44:51 INFO  cac main com.CacApplication No active profile set, falling back to default profiles: default
+2020-08-11 17:44:53 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat initialized with port(s): 8081 (http)
+2020-08-11 17:44:53 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Initializing ProtocolHandler ["http-nio-8081"]
+2020-08-11 17:44:53 INFO  cac main org.apache.catalina.core.StandardService Starting service [Tomcat]
+2020-08-11 17:44:53 INFO  cac main org.apache.catalina.core.StandardEngine Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-11 17:44:53 INFO  cac main org.apache.jasper.servlet.TldScanner At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2020-08-11 17:44:53 INFO  cac main org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring embedded WebApplicationContext
+2020-08-11 17:44:53 INFO  cac main org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Root WebApplicationContext: initialization completed in 2113 ms
+2020-08-11 17:44:54 INFO  cac main com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure Init DruidDataSource
+2020-08-11 17:44:54 INFO  cac main com.alibaba.druid.pool.DruidDataSource {dataSource-1} inited
+2020-08-11 17:45:21 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService
+2020-08-11 17:45:21 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'febsAsyncThreadPool'
+2020-08-11 17:45:22 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Starting ProtocolHandler ["http-nio-8081"]
+2020-08-11 17:45:22 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat started on port(s): 8081 (http) with context path ''
+2020-08-11 17:45:22 INFO  cac main com.CacApplication Started CacApplication in 51.119 seconds (JVM running for 57.578)
+2020-08-11 17:45:24 INFO  cac http-nio-8081-exec-1 org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-11 17:45:24 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Initializing Servlet 'dispatcherServlet'
+2020-08-11 17:45:24 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Completed initialization in 9 ms
+2020-08-11 17:45:24 INFO  cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 访问了index方法
+2020-08-11 17:45:30 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:45:29 | 耗时 22 ms | SQL 语句：
+select id,email,pwd,nickName,state,loginCount,loginTime,deleted,createTime,updateTime,createBy,updateBy,superAdmin from sys_user where email='admin' and pwd='202CB962AC59075B964B07152D234B70';
+2020-08-11 17:45:30 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:45:30 | 耗时 11 ms | SQL 语句：
+update sys_user set email='admin',pwd='202CB962AC59075B964B07152D234B70',nickName='杭州申昊',state=0,loginCount=766,loginTime='2020-08-11T17:45:30.073+0800',deleted=0,updateTime=now(),createBy=NULL,updateBy=NULL where id=1;
+2020-08-11 17:45:30 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:45:30 | 耗时 4 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-11 17:45:30 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:45:30 | 耗时 1 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-11 17:45:30 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-11 17:45:30 | 耗时 4 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-11 17:45:30 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-11 17:45:30 | 耗时 3 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-11 17:45:30 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-11 17:45:30 | 耗时 2 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-11 17:45:30 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-11 17:45:30 | 耗时 2 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-11 17:45:30 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-11 17:45:30 | 耗时 11 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-11 17:45:31 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-11 17:45:31 | 耗时 0 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-11 17:45:31 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-11 17:45:31 | 耗时 2 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-11 17:45:31 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-11 17:45:31 | 耗时 144 ms | SQL 语句：
+select a.DeviceID as id, a.DeviceName as text, a.DeviceType as nodetype , b.Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join spdm_data b on a.DeviceID=b.DeviceID and a.Space != '微气象' UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join weather_data b on a.DeviceID=b.DeviceID ORDER BY nodetype ,text;;
+2020-08-11 17:45:31 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:45:31 | 耗时 2 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice where DeviceType != '5' ORDER BY nodetype ,text;;
+2020-08-11 17:45:31 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:45:31 | 耗时 0 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-11 17:45:31 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:45:31 | 耗时 0 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-11 17:45:31 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-11 17:45:31 | 耗时 131 ms | SQL 语句：
+select a.DeviceID as id, a.DeviceName as text, a.DeviceType as nodetype , b.Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join spdm_data b on a.DeviceID=b.DeviceID and a.Space != '微气象' UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join weather_data b on a.DeviceID=b.DeviceID ORDER BY nodetype ,text;;
+2020-08-11 17:45:31 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-11 17:45:31 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice where DeviceType != '5' ORDER BY nodetype ,text;;
+2020-08-11 17:45:38 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-11 17:45:38 | 耗时 1 ms | SQL 语句：
+select * from pubunitinfo;
+2020-08-11 17:45:58 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:45:58 | 耗时 0 ms | SQL 语句：
+select * from pubunitinfo;
+2020-08-11 17:46:10 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:46:10 | 耗时 1 ms | SQL 语句：
+select * from pubunitinfo;
+2020-08-11 17:47:01 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-11 17:47:01 | 耗时 53 ms | SQL 语句：
+UPDATE pubunitinfo set station='伊克昭换流站1' ,address='',name='国家电网运行分公司锡蒙管理处';;
+2020-08-11 17:47:12 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-11 17:47:12 | 耗时 89 ms | SQL 语句：
+UPDATE pubunitinfo set station='伊克昭换流站1' ,address='',name='国家电网运行分公司锡蒙管理处';;
+2020-08-11 17:48:38 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-11 17:48:38 | 耗时 97 ms | SQL 语句：
+UPDATE pubunitinfo set station='伊克昭换流站1' ,address='',name='国家电网运行分公司锡蒙管理处';;
+2020-08-11 17:48:41 INFO  cac SpringContextShutdownHook org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Shutting down ExecutorService 'febsAsyncThreadPool'
+2020-08-11 17:49:51 INFO  cac main com.CacApplication Starting CacApplication on nanadeMacBook-Pro.local with PID 1157 (/Users/nana/IdeaProjects/cac/target/classes started by nana in /Users/nana/IdeaProjects/cac)
+2020-08-11 17:49:51 INFO  cac main com.CacApplication No active profile set, falling back to default profiles: default
+2020-08-11 17:49:54 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat initialized with port(s): 8081 (http)
+2020-08-11 17:49:54 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Initializing ProtocolHandler ["http-nio-8081"]
+2020-08-11 17:49:54 INFO  cac main org.apache.catalina.core.StandardService Starting service [Tomcat]
+2020-08-11 17:49:54 INFO  cac main org.apache.catalina.core.StandardEngine Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-11 17:49:54 INFO  cac main org.apache.jasper.servlet.TldScanner At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2020-08-11 17:49:54 INFO  cac main org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring embedded WebApplicationContext
+2020-08-11 17:49:54 INFO  cac main org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Root WebApplicationContext: initialization completed in 3034 ms
+2020-08-11 17:49:54 INFO  cac main com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure Init DruidDataSource
+2020-08-11 17:49:54 INFO  cac main com.alibaba.druid.pool.DruidDataSource {dataSource-1} inited
+2020-08-11 17:49:56 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService
+2020-08-11 17:49:56 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'febsAsyncThreadPool'
+2020-08-11 17:49:56 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Starting ProtocolHandler ["http-nio-8081"]
+2020-08-11 17:49:56 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat started on port(s): 8081 (http) with context path ''
+2020-08-11 17:49:56 INFO  cac main com.CacApplication Started CacApplication in 25.866 seconds (JVM running for 31.625)
+2020-08-11 17:50:19 INFO  cac http-nio-8081-exec-1 org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-11 17:50:19 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Initializing Servlet 'dispatcherServlet'
+2020-08-11 17:50:19 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Completed initialization in 8 ms
+2020-08-11 17:50:21 INFO  cac http-nio-8081-exec-2 com.jeecg.controller.MainAction 访问了index方法
+2020-08-11 17:50:25 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-11 17:50:25 | 耗时 15 ms | SQL 语句：
+select id,email,pwd,nickName,state,loginCount,loginTime,deleted,createTime,updateTime,createBy,updateBy,superAdmin from sys_user where email='admin' and pwd='202CB962AC59075B964B07152D234B70';
+2020-08-11 17:50:25 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-11 17:50:25 | 耗时 19 ms | SQL 语句：
+update sys_user set email='admin',pwd='202CB962AC59075B964B07152D234B70',nickName='杭州申昊',state=0,loginCount=767,loginTime='2020-08-11T17:50:25.817+0800',deleted=0,updateTime=now(),createBy=NULL,updateBy=NULL where id=1;
+2020-08-11 17:50:25 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:50:25 | 耗时 2 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-11 17:50:25 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:50:25 | 耗时 1 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-11 17:50:26 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-11 17:50:26 | 耗时 1 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-11 17:50:26 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:50:26 | 耗时 1 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-11 17:50:26 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:50:26 | 耗时 5 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-11 17:50:26 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:50:26 | 耗时 2 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-11 17:50:26 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:50:26 | 耗时 13 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-11 17:50:27 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-11 17:50:27 | 耗时 1 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-11 17:50:27 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-11 17:50:27 | 耗时 2 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-11 17:50:27 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-11 17:50:27 | 耗时 179 ms | SQL 语句：
+select a.DeviceID as id, a.DeviceName as text, a.DeviceType as nodetype , b.Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join spdm_data b on a.DeviceID=b.DeviceID and a.Space != '微气象' UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join weather_data b on a.DeviceID=b.DeviceID ORDER BY nodetype ,text;;
+2020-08-11 17:50:27 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:50:27 | 耗时 6 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice where DeviceType != '5' ORDER BY nodetype ,text;;
+2020-08-11 17:50:27 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-11 17:50:27 | 耗时 1 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-11 17:50:27 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-11 17:50:27 | 耗时 0 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-11 17:50:27 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-11 17:50:27 | 耗时 133 ms | SQL 语句：
+select a.DeviceID as id, a.DeviceName as text, a.DeviceType as nodetype , b.Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join spdm_data b on a.DeviceID=b.DeviceID and a.Space != '微气象' UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join weather_data b on a.DeviceID=b.DeviceID ORDER BY nodetype ,text;;
+2020-08-11 17:50:27 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:50:27 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice where DeviceType != '5' ORDER BY nodetype ,text;;
+2020-08-11 17:50:36 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-11 17:50:36 | 耗时 0 ms | SQL 语句：
+select * from pubunitinfo;
+2020-08-11 17:50:42 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:50:42 | 耗时 43 ms | SQL 语句：
+UPDATE pubunitinfo set station='伊克昭换流站2' ,address='',name='国家电网运行分公司锡蒙管理处';;
+2020-08-11 17:51:10 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-11 17:51:10 | 耗时 11 ms | SQL 语句：
+UPDATE pubunitinfo set station='伊克昭换流站2' ,address='',name='国家电网运行分公司锡蒙管理处';;
+2020-08-11 17:52:00 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-11 17:52:00 | 耗时 77 ms | SQL 语句：
+UPDATE pubunitinfo set station='伊克昭换流站2' ,address='',name='国家电网运行分公司锡蒙管理处';;
+2020-08-11 17:52:32 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-11 17:52:32 | 耗时 74 ms | SQL 语句：
+UPDATE pubunitinfo set station='伊克昭换流站2' ,address='',name='国家电网运行分公司锡蒙管理处';;
+2020-08-11 17:52:45 INFO  cac SpringContextShutdownHook org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Shutting down ExecutorService 'febsAsyncThreadPool'
+2020-08-11 17:52:45 INFO  cac SpringContextShutdownHook com.alibaba.druid.pool.DruidDataSource {dataSource-1} closed
+2020-08-11 17:53:48 INFO  cac main com.CacApplication Starting CacApplication on nanadeMacBook-Pro.local with PID 1325 (/Users/nana/IdeaProjects/cac/target/classes started by nana in /Users/nana/IdeaProjects/cac)
+2020-08-11 17:53:48 INFO  cac main com.CacApplication No active profile set, falling back to default profiles: default
+2020-08-11 17:53:50 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat initialized with port(s): 8081 (http)
+2020-08-11 17:53:50 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Initializing ProtocolHandler ["http-nio-8081"]
+2020-08-11 17:53:50 INFO  cac main org.apache.catalina.core.StandardService Starting service [Tomcat]
+2020-08-11 17:53:50 INFO  cac main org.apache.catalina.core.StandardEngine Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-11 17:53:50 INFO  cac main org.apache.jasper.servlet.TldScanner At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2020-08-11 17:53:50 INFO  cac main org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring embedded WebApplicationContext
+2020-08-11 17:53:50 INFO  cac main org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Root WebApplicationContext: initialization completed in 2120 ms
+2020-08-11 17:53:50 INFO  cac main com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure Init DruidDataSource
+2020-08-11 17:53:50 INFO  cac main com.alibaba.druid.pool.DruidDataSource {dataSource-1} inited
+2020-08-11 17:53:51 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService
+2020-08-11 17:53:51 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'febsAsyncThreadPool'
+2020-08-11 17:53:51 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Starting ProtocolHandler ["http-nio-8081"]
+2020-08-11 17:53:51 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat started on port(s): 8081 (http) with context path ''
+2020-08-11 17:53:51 INFO  cac main com.CacApplication Started CacApplication in 24.159 seconds (JVM running for 29.82)
+2020-08-11 17:54:01 INFO  cac http-nio-8081-exec-1 org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-11 17:54:02 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Initializing Servlet 'dispatcherServlet'
+2020-08-11 17:54:02 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Completed initialization in 7 ms
+2020-08-11 17:54:03 INFO  cac http-nio-8081-exec-2 com.jeecg.controller.MainAction 访问了index方法
+2020-08-11 17:54:08 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-11 17:54:08 | 耗时 12 ms | SQL 语句：
+select id,email,pwd,nickName,state,loginCount,loginTime,deleted,createTime,updateTime,createBy,updateBy,superAdmin from sys_user where email='admin' and pwd='202CB962AC59075B964B07152D234B70';
+2020-08-11 17:54:08 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-11 17:54:08 | 耗时 58 ms | SQL 语句：
+update sys_user set email='admin',pwd='202CB962AC59075B964B07152D234B70',nickName='杭州申昊',state=0,loginCount=768,loginTime='2020-08-11T17:54:08.580+0800',deleted=0,updateTime=now(),createBy=NULL,updateBy=NULL where id=1;
+2020-08-11 17:54:08 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:54:08 | 耗时 1 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-11 17:54:08 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:54:08 | 耗时 1 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-11 17:54:09 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-11 17:54:09 | 耗时 1 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-11 17:54:09 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:54:09 | 耗时 1 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-11 17:54:09 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:54:09 | 耗时 2 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-11 17:54:09 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:54:09 | 耗时 3 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-11 17:54:09 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:54:09 | 耗时 17 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-11 17:54:09 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-11 17:54:09 | 耗时 1 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-11 17:54:09 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-11 17:54:09 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-11 17:54:10 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-11 17:54:10 | 耗时 135 ms | SQL 语句：
+select a.DeviceID as id, a.DeviceName as text, a.DeviceType as nodetype , b.Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join spdm_data b on a.DeviceID=b.DeviceID and a.Space != '微气象' UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join weather_data b on a.DeviceID=b.DeviceID ORDER BY nodetype ,text;;
+2020-08-11 17:54:10 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-11 17:54:10 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice where DeviceType != '5' ORDER BY nodetype ,text;;
+2020-08-11 17:54:10 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:54:10 | 耗时 1 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-11 17:54:10 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:54:10 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-11 17:54:10 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-11 17:54:10 | 耗时 135 ms | SQL 语句：
+select a.DeviceID as id, a.DeviceName as text, a.DeviceType as nodetype , b.Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join spdm_data b on a.DeviceID=b.DeviceID and a.Space != '微气象' UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join weather_data b on a.DeviceID=b.DeviceID ORDER BY nodetype ,text;;
+2020-08-11 17:54:10 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-11 17:54:10 | 耗时 2 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice where DeviceType != '5' ORDER BY nodetype ,text;;
+2020-08-11 17:54:14 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-11 17:54:14 | 耗时 3 ms | SQL 语句：
+select * from pubunitinfo;
+2020-08-11 17:54:19 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-11 17:54:19 | 耗时 13 ms | SQL 语句：
+UPDATE pubunitinfo set station='伊克昭换流站1' ,address='',name='国家电网运行分公司锡蒙管理处';;
+2020-08-11 17:56:15 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-11 17:56:15 | 耗时 15 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-11 17:56:15 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-11 17:56:15 | 耗时 1 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-11 17:56:15 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-11 17:56:15 | 耗时 1 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-11 17:56:15 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-11 17:56:15 | 耗时 0 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-11 17:56:15 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-11 17:56:15 | 耗时 1 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-11 17:56:15 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-11 17:56:15 | 耗时 1 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-11 17:56:15 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-11 17:56:15 | 耗时 6 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-11 17:56:16 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:56:16 | 耗时 1 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-11 17:56:16 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-11 17:56:16 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-11 17:56:16 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-11 17:56:16 | 耗时 158 ms | SQL 语句：
+select a.DeviceID as id, a.DeviceName as text, a.DeviceType as nodetype , b.Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join spdm_data b on a.DeviceID=b.DeviceID and a.Space != '微气象' UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join weather_data b on a.DeviceID=b.DeviceID ORDER BY nodetype ,text;;
+2020-08-11 17:56:16 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-11 17:56:16 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice where DeviceType != '5' ORDER BY nodetype ,text;;
+2020-08-11 17:56:16 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:56:16 | 耗时 0 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-11 17:56:16 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 17:56:16 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-11 17:56:16 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-11 17:56:16 | 耗时 140 ms | SQL 语句：
+select a.DeviceID as id, a.DeviceName as text, a.DeviceType as nodetype , b.Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join spdm_data b on a.DeviceID=b.DeviceID and a.Space != '微气象' UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join weather_data b on a.DeviceID=b.DeviceID ORDER BY nodetype ,text;;
+2020-08-11 17:56:16 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-11 17:56:16 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice where DeviceType != '5' ORDER BY nodetype ,text;;
+2020-08-11 17:56:24 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-11 17:56:24 | 耗时 3 ms | SQL 语句：
+select * from pubunitinfo;
+2020-08-11 17:56:28 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-11 17:56:28 | 耗时 111 ms | SQL 语句：
+UPDATE pubunitinfo set station='伊克昭换流站2' ,address='',name='国家电网运行分公司锡蒙管理处';;
+2020-08-11 17:58:52 INFO  cac SpringContextShutdownHook org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Shutting down ExecutorService 'febsAsyncThreadPool'
+2020-08-11 17:58:52 INFO  cac SpringContextShutdownHook com.alibaba.druid.pool.DruidDataSource {dataSource-1} closed
+2020-08-11 18:00:03 INFO  cac main com.CacApplication Starting CacApplication on nanadeMacBook-Pro.local with PID 1515 (/Users/nana/IdeaProjects/cac/target/classes started by nana in /Users/nana/IdeaProjects/cac)
+2020-08-11 18:00:03 INFO  cac main com.CacApplication No active profile set, falling back to default profiles: default
+2020-08-11 18:00:05 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat initialized with port(s): 8081 (http)
+2020-08-11 18:00:05 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Initializing ProtocolHandler ["http-nio-8081"]
+2020-08-11 18:00:05 INFO  cac main org.apache.catalina.core.StandardService Starting service [Tomcat]
+2020-08-11 18:00:05 INFO  cac main org.apache.catalina.core.StandardEngine Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-11 18:00:05 INFO  cac main org.apache.jasper.servlet.TldScanner At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2020-08-11 18:00:05 INFO  cac main org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring embedded WebApplicationContext
+2020-08-11 18:00:05 INFO  cac main org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Root WebApplicationContext: initialization completed in 2057 ms
+2020-08-11 18:00:05 INFO  cac main com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure Init DruidDataSource
+2020-08-11 18:00:05 INFO  cac main com.alibaba.druid.pool.DruidDataSource {dataSource-1} inited
+2020-08-11 18:00:06 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService
+2020-08-11 18:00:06 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'febsAsyncThreadPool'
+2020-08-11 18:00:07 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Starting ProtocolHandler ["http-nio-8081"]
+2020-08-11 18:00:07 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat started on port(s): 8081 (http) with context path ''
+2020-08-11 18:00:07 INFO  cac main com.CacApplication Started CacApplication in 23.895 seconds (JVM running for 29.552)
+2020-08-11 18:01:17 INFO  cac http-nio-8081-exec-1 org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-11 18:01:17 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Initializing Servlet 'dispatcherServlet'
+2020-08-11 18:01:17 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Completed initialization in 8 ms
+2020-08-11 18:01:17 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-11 18:01:17 | 耗时 172 ms | SQL 语句：
+select a.DeviceID as id, a.DeviceName as text, a.DeviceType as nodetype , b.Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join spdm_data b on a.DeviceID=b.DeviceID and a.Space != '微气象' UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join weather_data b on a.DeviceID=b.DeviceID ORDER BY nodetype ,text;;
+2020-08-11 18:01:18 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-11 18:01:18 | 耗时 5 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice where DeviceType != '5' ORDER BY nodetype ,text;;
+2020-08-11 18:01:18 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-11 18:01:18 | 耗时 156 ms | SQL 语句：
+select a.DeviceID as id, a.DeviceName as text, a.DeviceType as nodetype , b.Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join spdm_data b on a.DeviceID=b.DeviceID and a.Space != '微气象' UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join weather_data b on a.DeviceID=b.DeviceID ORDER BY nodetype ,text;;
+2020-08-11 18:01:18 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-11 18:01:18 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice where DeviceType != '5' ORDER BY nodetype ,text;;
+2020-08-11 18:06:17 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-11 18:06:17 | 耗时 143 ms | SQL 语句：
+select a.DeviceID as id, a.DeviceName as text, a.DeviceType as nodetype , b.Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join spdm_data b on a.DeviceID=b.DeviceID and a.Space != '微气象' UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join weather_data b on a.DeviceID=b.DeviceID ORDER BY nodetype ,text;;
+2020-08-11 18:06:17 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-11 18:06:17 | 耗时 5 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice where DeviceType != '5' ORDER BY nodetype ,text;;
+2020-08-11 18:06:17 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-11 18:06:17 | 耗时 142 ms | SQL 语句：
+select a.DeviceID as id, a.DeviceName as text, a.DeviceType as nodetype , b.Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join spdm_data b on a.DeviceID=b.DeviceID and a.Space != '微气象' UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID UNION select a.DeviceID , a.DeviceName , a.DeviceType , b.Remark from pubdevice a left join weather_data b on a.DeviceID=b.DeviceID ORDER BY nodetype ,text;;
+2020-08-11 18:06:17 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-11 18:06:17 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype from pubdevice where DeviceType != '5' ORDER BY nodetype ,text;;
+2020-08-11 18:07:54 INFO  cac SpringContextShutdownHook org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Shutting down ExecutorService 'febsAsyncThreadPool'
+2020-08-11 18:07:54 INFO  cac SpringContextShutdownHook com.alibaba.druid.pool.DruidDataSource {dataSource-1} closed

@@ -14,11 +14,23 @@ import lombok.Data;
 public class SpdmYxEntity extends BaseEntity {
 	//
 	private String DeviceName;
+	/**
+	 * 局放声学水平
+	 */
 	private Object AcuPaDsch;
+	/**
+	 * 局放UHF水平
+	 */
 	private Object UhfPaDsch;
+	/**
+	 * 放电相位
+	 */
 	private Object Phase;
+	/**
+	 * 脉冲次数
+	 */
 	private Object PlsNum;
-	//
+
 	private String PaDschAlm;
 	private String SupDevRun;
 	private String MoDevConf;
@@ -27,12 +39,5 @@ public class SpdmYxEntity extends BaseEntity {
 	private String SampleTime;
 	private String Type;
 	private String Remark;
-
-	public SpdmYxEntity(int l) {
-        this.AcuPaDsch="无数据";
-        this.UhfPaDsch="无数据";
-        this.Phase="无数据";
-        this.PlsNum="无数据";
-    }
 }
 

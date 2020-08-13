@@ -268,7 +268,7 @@ select
 	DeviceType as nodetype,
 	'0' as ln_inst_name
 	from 	pubdevice
--- 	where   DeviceType != '5'
+	where   DeviceType != '5'
 	order by DeviceType
 </select>
 	<!--获取设备数据列表  -->

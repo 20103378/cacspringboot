@@ -122,7 +122,8 @@ jeecg.DeviceTree = function () {
                     if (id.indexOf(nodeID) < 0) {
                         var nodetxt = node.text;
                         nodetxt = nodetxt.replace("#", "@");
-                        var url = encodeURI(ctxPath + '/deviceHealthState/DeviceDetail?DeviceID=' + id + '&DeviceType=' + node.attributes.Nodetype + '&DeviceName=' + nodetxt);
+                        var url = encodeURI(ctxPath + '/deviceHealthState/deviceDetail?deviceID=' + id);
+                            //+ '&DeviceType=' + node.attributes.Nodetype + '&DeviceName=' + nodetxt);
                         jeecg.main.addTab(nodetxt, url);
                         nodeID = id;
                     }

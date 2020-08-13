@@ -32,8 +32,8 @@ public class SystemConfigurationService<T> extends BaseService<T> {
         return getDao().getStation();
     }
 
-    public void updateStation(Station_InfoEntity entity) {
-        getDao().updateStation(entity);
+    public int updateStation(Station_InfoEntity entity) {
+        return getDao().updateStation(entity);
     }
 
     /**

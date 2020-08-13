@@ -1,5 +1,6 @@
 package com.scott.controller;
 
+import com.base.entity.PubDeviceTypeEnum;
 import com.base.util.GetXml;
 import com.base.util.HtmlUtil;
 import com.base.util.UrlUtil;
@@ -17,6 +18,7 @@ import org.jdom.xpath.XPath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,12 +41,9 @@ import java.util.*;
 public class DeviceHealthStateController extends BaseAction {
 
 
-    // Servrice start
     @Autowired(required = false)
     // 自动注入，不需要生成set方法了，required=false表示没有实现类，也不会报错。
     private DeviceHealthStateService<DeviceHealthStateEntity> deviceHealthStateService;
-    private TreeDeviceService<TreeDeviceEntity, DeviceStateEntity, Sf6_dataEntity, stom_dataEntity, SMOAM_dataEntity, SCOM_dataEntity, Spdm_dataEntity> treeDeviceService;
-
 
     /**
      * 跳转健康信息页
@@ -53,9 +52,8 @@ public class DeviceHealthStateController extends BaseAction {
      * @throws Exception
      */
     @RequestMapping("/list")
-    public ModelAndView list() {
-        Map<String, Object> context = getRootMap();
-        return forword("scott/demo/deviceHealthState", context);
+    public String list() {
+        return "scott/demo/deviceHealthState";
     }
 
     /**
@@ -65,29 +63,19 @@ public class DeviceHealthStateController extends BaseAction {
      * @throws Exception
      */
 
-    @RequestMapping("/DeviceDetail")
-    public ModelAndView DeviceDetail(HttpServletRequest request) throws Exception {
-        Map<String, Object> context = getRootMap();
+    @RequestMapping("/deviceDetail")
+    public String DeviceDetail(String deviceID, HttpServletRequest request) {
+        DeviceEntity deviceEntity = deviceHealthStateService.getDeviceByDeviceId(deviceID);
         //获取传过来的条件值并存到session中
-        String id = request.getParameter("DeviceID");
         HttpSession session = request.getSession();
         session.removeAttribute("DeviceID");
-        session.setAttribute("DeviceID", id);
-        String DeviceType = request.getParameter("DeviceType");
+        session.setAttribute("DeviceID", deviceID);
         session.removeAttribute("DeviceType");
-        session.setAttribute("DeviceType", DeviceType);
-        String name = request.getParameter("DeviceName");
-        name = new String(name.getBytes("ISO-8859-1"), "UTF-8");
-        name = name.replace("@", "#");
-        int index = name.indexOf(",");
-        if (index > 0) {
-            name = name.substring(0, index);
-        }
-        name = name.replaceAll(" ", "");
+        session.setAttribute("DeviceType", deviceEntity.getDeviceType());
         session.removeAttribute("DeviceName");
-        session.setAttribute("DeviceName", name);
+        session.setAttribute("DeviceName", deviceEntity.getDeviceName());
         //跳转到设备健康页面
-        return forword("scott/demo/deviceDetailState", context);
+        return "scott/demo/deviceDetailState";
     }
 
     /**
@@ -96,59 +84,14 @@ public class DeviceHealthStateController extends BaseAction {
      * @return
      * @throws Exception
      */
-    @RequestMapping("/SpaceDetail")
-    public ModelAndView SpaceDetail(HttpServletRequest request) throws Exception {
-//        request.setCharacterEncoding("utf-8");
-//        response.setCharacterEncoding("utf-8");
-        Map<String, Object> context = getRootMap();
+    @RequestMapping("/spaceDetail")
+    public String spaceDetail(String deviceType, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        String DeviceType = request.getParameter("DeviceType");
         session.removeAttribute("DeviceType");
-        session.setAttribute("DeviceType", DeviceType);
-        String name = request.getParameter("DeviceName");
-        name = new String(name.getBytes("ISO-8859-1"), "UTF-8");
-        name = name.replace("@", "#");
-        int index = name.indexOf(",");
-        if (index > 0) {
-            name = name.substring(0, index);
-        }
-        name = name.replaceAll(" ", "");
-        System.out.println(name);
+        session.setAttribute("DeviceType", deviceType);
         session.removeAttribute("DeviceName");
-        session.setAttribute("DeviceName", name);
-        return forword("scott/demo/spaceDetailState", context);
-    }
-
-    /**
-     * 跳转二级设备页
-     *
-     * @return
-     * @throws Exception
-     */
-
-    @RequestMapping("/EquipmentDetail")
-    public ModelAndView EquipmentDetail(HttpServletRequest request) {
-//        request.setCharacterEncoding("utf-8");
-//        response.setCharacterEncoding("utf-8");
-        Map<String, Object> context = getRootMap();
-        String id = request.getParameter("DeviceID");
-        HttpSession session = request.getSession();
-        session.removeAttribute("DeviceID");
-        session.setAttribute("DeviceID", id);
-        String DeviceType = request.getParameter("DeviceType");
-        session.removeAttribute("DeviceType");
-        session.setAttribute("DeviceType", DeviceType);
-        String name = request.getParameter("DeviceName");
-        name = name.replace("@", "#");
-        int index = name.indexOf(",");
-        if (index > 0) {
-            name = name.substring(0, index);
-        }
-        //name=new String(name.getBytes("ISO-8859-1"),"UTF-8");
-        name = name.replaceAll(" ", "");
-        session.removeAttribute("DeviceName");
-        session.setAttribute("DeviceName", name);
-        return forword("scott/demo/EquipmentDetailState", context);
+        session.setAttribute("DeviceName", PubDeviceTypeEnum.getValueEnum(deviceType).getText());
+        return "scott/demo/spaceDetailState";
     }
 
 
@@ -158,60 +101,6 @@ public class DeviceHealthStateController extends BaseAction {
         List<DeviceEntity> date = deviceHealthStateService.getDetailListDevice(Type);
         HtmlUtil.writerJson(response, date);
     }
-
-//    //二级设备页面
-//    @RequestMapping("/getEquipmentDetailList")
-//    public void getEquipmentDetailList(String equipmentId,
-//                                       HttpServletResponse response) throws Exception {
-//        List<Object> dataList = new ArrayList<Object>();
-//        List<DeviceEntity> equipment = deviceHealthStateService.getEquipment(equipmentId);
-//        for (int n = 0; n < equipment.size(); n++) {
-//            String type = equipment.get(n).getDeviceType();
-//            if ("1".equals(type)) {
-//                List<StomYxEntity> data = deviceHealthStateService.getStomDetail(equipmentId);
-//                for (int ii = 0; ii < data.size(); ii++) {
-//                    dataList.add(data.get(ii));
-//                }
-//            } else if ("2".equals(type)) {
-////		    	List<Sf6YxEntity> date = deviceHealthStateService.getSf6DetailDate();
-//                List<Sf6YxEntity> data = deviceHealthStateService.getSf6Detail(equipmentId);
-//                for (int ii = 0; ii < data.size(); ii++) {
-////					dataList.add(date.get(ii));
-//                    dataList.add(data.get(ii));
-//                }
-//            } else if ("3".equals(type)) {
-////		    	List<SmoamYxEntity> date = deviceHealthStateService.getSmoamDetailDate();
-//                List<SmoamYxEntity> data = deviceHealthStateService.getSmoamDetail(equipmentId);
-//                for (int ii = 0; ii < data.size(); ii++) {
-////					dataList.add(date.get(ii));
-//                    dataList.add(data.get(ii));
-//                }
-//            } else if ("4".equals(type)) {
-////		    	List<ScomYxEntity> date = deviceHealthStateService.getScomDetailDate();
-//                List<ScomYxEntity> data = deviceHealthStateService.getScomDetail(equipmentId);
-//                for (int ii = 0; ii < data.size(); ii++) {
-////					dataList.add(date.get(ii));
-//                    dataList.add(data.get(ii));
-//                }
-//            } else if ("8".equals(type)) {
-////		    	List<WeatherEntity> date = deviceHealthStateService.getWeatherDetailDate();
-//                List<WeatherEntity> data = deviceHealthStateService.getWeatherDetail(equipmentId);
-//                for (int ii = 0; ii < data.size(); ii++) {
-////					dataList.add(date.get(ii));
-//                    dataList.add(data.get(ii));
-//                }
-//            } else if ("19".equals(type)) {
-////		    	List<SpdmYxEntity> date = deviceHealthStateService.getSpdmDetailDate();
-//                List<SpdmYxEntity> data = deviceHealthStateService.getSpdmDetail(equipmentId);
-//                for (int ii = 0; ii < data.size(); ii++) {
-////					dataList.add(date.get(ii));
-//                    dataList.add(data.get(ii));
-//                }
-//            }
-//        }
-//
-//        HtmlUtil.writerJson(response, dataList);
-//    }
 
     @RequestMapping("/getStomDetailList")
     public void getStomDetailList(boolean _off, String _time,
@@ -1474,44 +1363,43 @@ public class DeviceHealthStateController extends BaseAction {
 //        HtmlUtil.writerJson(response, jsonMap);
 //    }
 
-    /**
-     * 获取红外测温遥信数据
-     *
-     * @param DeviceID
-     * @param response
-     * @throws Exception
-     */
-    @RequestMapping("/getInfraredYx")
-    public void getInfraredYx(String DeviceID, HttpServletResponse response)
-            throws Exception {
-        Map<String, Object> param = new HashMap<String, Object>();
-        List<Sf6YxEntity> EntityList;
-        List<Sf6YxEntity> DateList;
-
-        param.put("DeviceID", DeviceID);
-        EntityList = deviceHealthStateService.getInfraredYx(param);
-        DateList = deviceHealthStateService.getInfraredYxDate(param);
-        if (EntityList.size() == 0) {
-            Sf6YxEntity SpdmYxEntity_null = new Sf6YxEntity(1);
-            EntityList.add(SpdmYxEntity_null);
-        }
-        if (EntityList.get(0) == null) {
-            EntityList.remove(0);
-            Sf6YxEntity SpdmYxEntity_null = new Sf6YxEntity(1);
-            EntityList.add(SpdmYxEntity_null);
-        }
-        if (DateList.size() == 0) {
-            Sf6YxEntity SpdmYxEntity_null = new Sf6YxEntity(1);
-            DateList.add(SpdmYxEntity_null);
-        }
-        if (DateList.get(0) == null) {
-            DateList.remove(0);
-            Sf6YxEntity SpdmYxEntity_null = new Sf6YxEntity(1);
-            DateList.add(SpdmYxEntity_null);
-        }
-        DateList.add(EntityList.get(0));
-        HtmlUtil.writerJson(response, DateList);
-    }
+//    /**
+//     * 获取红外测温遥信数据
+//     *
+//     * @param DeviceID
+//     * @param response
+//     * @throws Exception
+//     */
+//    @RequestMapping("/getInfraredYx")
+//    public void getInfraredYx(String DeviceID, HttpServletResponse response)
+//            throws Exception {
+//        Map<String, Object> param = new HashMap<String, Object>();
+//        List<Sf6YxEntity> EntityList;
+//        List<Sf6YxEntity> DateList;
+//        param.put("DeviceID", DeviceID);
+//        EntityList = deviceHealthStateService.getInfraredYx(param);
+//        DateList = deviceHealthStateService.getInfraredYxDate(param);
+//        if (EntityList.size() == 0) {
+//            Sf6YxEntity SpdmYxEntity_null = new Sf6YxEntity(1);
+//            EntityList.add(SpdmYxEntity_null);
+//        }
+//        if (EntityList.get(0) == null) {
+//            EntityList.remove(0);
+//            Sf6YxEntity SpdmYxEntity_null = new Sf6YxEntity(1);
+//            EntityList.add(SpdmYxEntity_null);
+//        }
+//        if (DateList.size() == 0) {
+//            Sf6YxEntity SpdmYxEntity_null = new Sf6YxEntity(1);
+//            DateList.add(SpdmYxEntity_null);
+//        }
+//        if (DateList.get(0) == null) {
+//            DateList.remove(0);
+//            Sf6YxEntity SpdmYxEntity_null = new Sf6YxEntity(1);
+//            DateList.add(SpdmYxEntity_null);
+//        }
+//        DateList.add(EntityList.get(0));
+//        HtmlUtil.writerJson(response, DateList);
+//    }
 
     @RequestMapping("/getSf6Yx")
     public void getSf6Yx(String DeviceID, HttpServletResponse response)
@@ -1612,37 +1500,15 @@ public class DeviceHealthStateController extends BaseAction {
         HtmlUtil.writerJson(response, DateList);
     }
 
-    @RequestMapping("/getSpdmYx")
-    public void getSpdmYx(String DeviceID, HttpServletResponse response)
-            throws Exception {
-        Map<String, Object> param = new HashMap<String, Object>();
-        List<SpdmYxEntity> EntityList;
-        List<SpdmYxEntity> DateList;
-
-        param.put("DeviceID", DeviceID);
-        EntityList = deviceHealthStateService.getSpdmYx(param);
-        DateList = deviceHealthStateService.getSpdmYxDate(param);
-        if (EntityList.size() == 0) {
-            SpdmYxEntity SpdmYxEntity_null = new SpdmYxEntity(1);
-            EntityList.add(SpdmYxEntity_null);
-        }
-        if (EntityList.get(0) == null) {
-            EntityList.remove(0);
-            SpdmYxEntity SpdmYxEntity_null = new SpdmYxEntity(1);
-            EntityList.add(SpdmYxEntity_null);
-        }
-        if (DateList.size() == 0) {
-            SpdmYxEntity SpdmYxEntity_null = new SpdmYxEntity(1);
-            DateList.add(SpdmYxEntity_null);
-        }
-        if (DateList.get(0) == null) {
-            DateList.remove(0);
-            SpdmYxEntity SpdmYxEntity_null = new SpdmYxEntity(1);
-            DateList.add(SpdmYxEntity_null);
-        }
-        DateList.add(EntityList.get(0));
-        HtmlUtil.writerJson(response, DateList);
-    }
+//    @RequestMapping("/getSpdmYx")
+//    @ResponseBody
+//    public List getSpdmYx(String DeviceID)
+//            throws Exception {
+//        Map<String, Object> param = new HashMap<String, Object>();
+//        param.put("DeviceID", DeviceID);
+//        List<SpdmYxEntity> dateList = deviceHealthStateService.getSpdmYxDate(param);
+//        return dateList;
+//    }
 
     /**
      * 获取遥信历史数据开始

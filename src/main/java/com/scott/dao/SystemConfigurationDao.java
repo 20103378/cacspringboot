@@ -24,7 +24,7 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
 
     List<Station_InfoEntity> getStation();
 
-    void updateStation(Station_InfoEntity entity);
+    int updateStation(Station_InfoEntity entity);
 
     int EquipmentListCount(BasePage page);
 

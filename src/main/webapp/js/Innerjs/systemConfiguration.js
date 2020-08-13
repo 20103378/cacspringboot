@@ -167,13 +167,7 @@ jeecg.systemConfiguration = function() {
 						$("#txtStation").val(data[0].station);
 						$("#txtUnitName").val(data[0].name);
 						$("#txtUnitAddress").val(data[0].address);
-					}/*
-						 * else{ $(".tabs li:eq(1)").hide(); $(".tabs
-						 * li:eq(2)").hide(); $(".tabs li:eq(3)").hide();
-						 * $(".tabs li:eq(4)").hide(); $(".tabs
-						 * li:eq(5)").hide(); }
-						 */
-
+					}
 				}
 			});
 
@@ -1394,25 +1388,48 @@ function updateStation() {
 	formData['station'] = $("#txtStation").val();
 	formData['name'] = $("#txtUnitName").val();
 	formData['address'] = $("#txtUnitAddress").val();
+
 	$.ajax({
 		async : false,
 		cache : false,
 		type : 'POST',
 		data : formData,
-		url : "updateStation",
-		error : function() {
-			alert("修改失败!");
-		},
+		url : ctxPath + "/systemConfiguration/updateStation",
+		// error : function() {
+		// 	alert("修改失败")
+		// },
 		success : function(data) {
-			alert("修改成功");
-			$(".tabs li:eq(1)").show();
-			$(".tabs li:eq(2)").show();
-			$(".tabs li:eq(3)").show();
-			$(".tabs li:eq(4)").show();
-			$(".tabs li:eq(5)").show();
-			jeecg.systemConfiguration.initStation();
+			if(data){
+				alert("修改成功");
+				$(".tabs li:eq(1)").show();
+				$(".tabs li:eq(2)").show();
+				$(".tabs li:eq(3)").show();
+				$(".tabs li:eq(4)").show();
+				$(".tabs li:eq(5)").show();
+				jeecg.systemConfiguration.initStation();
+			}else {
+				alert("修改失败")
+
+			}
+
 		}
 	});
+	// $.ajax({
+	// 	async : false,
+	// 	cache : false,
+	// 	type : 'POST',
+	// 	data : formData,
+	// 	url : "updateStation",
+	// 	success : function(data) {
+	// 		alert("修改成功");
+	// 		$(".tabs li:eq(1)").show();
+	// 		$(".tabs li:eq(2)").show();
+	// 		$(".tabs li:eq(3)").show();
+	// 		$(".tabs li:eq(4)").show();
+	// 		$(".tabs li:eq(5)").show();
+	// 		jeecg.systemConfiguration.initStation();
+	// 	}
+	// });
 };
 
 $(function() {
