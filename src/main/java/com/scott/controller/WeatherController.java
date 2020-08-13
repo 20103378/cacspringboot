@@ -30,17 +30,17 @@ public class WeatherController extends BaseAction {
     private com.scott.service.WeatherService<WeatherEntity> WeatherService;
 
     @RequestMapping("/getCurrentWeather")
-    public void getOsicfgXml(HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public WeatherEntity getOsicfgXml(){
         List<WeatherEntity> weather = WeatherService.getWeather();
-        WeatherEntity weatherEntity = new WeatherEntity();
+        WeatherEntity data = new WeatherEntity();
         if(CollectionUtils.isEmpty(weather)){
-            weatherEntity.setTemperature("--");
-            weatherEntity.setHumidity("--");
-            weatherEntity.setWindDirection("--");
-            weatherEntity.setWindSpeed("--");
+            data.setTemperature("--");
+            data.setHumidity("--");
+            data.setWindDirection("--");
+            data.setWindSpeed("--");
         }else {
-            weatherEntity = weather.get(0);
+            data = weather.get(0);
         }
-        HtmlUtil.writerJson(response, weatherEntity);
+        return data;
     }
 }

@@ -419,31 +419,6 @@ public class DeviceHealthStateController extends BaseAction {
         HtmlUtil.writerJson(response, dataList);
     }
 
-//    @RequestMapping("/getWeatherDetailList")
-//    public void getWeatherDetailList(boolean _off, String _time,
-//                                     HttpServletResponse response) throws Exception {
-//        List<WeatherEntity> dataList = new ArrayList<WeatherEntity>();
-//        if (_off == false) {
-//            List<WeatherEntity> date = deviceHealthStateService.getWeatherDetailDate();
-//            List<WeatherEntity> data = deviceHealthStateService.getWeatherDetail();
-////			List<WeatherEntity> Alarm = new ArrayList<WeatherEntity>();
-//
-//            for (int ii = 0; ii < data.size(); ii++) {
-//                dataList.add(date.get(ii));
-//                dataList.add(data.get(ii));
-//            }
-//        } else {
-//            List<WeatherEntity> date = deviceHealthStateService.getWeatherDetailDateByDate(_time);
-//            List<WeatherEntity> data = deviceHealthStateService.getWeatherDetailByDate(_time);
-////    		List<WeatherEntity> Alarm = new ArrayList<WeatherEntity>();
-//            for (int ii = 0; ii < data.size(); ii++) {
-//                dataList.add(date.get(ii));
-//                dataList.add(data.get(ii));
-//            }
-//        }
-//        HtmlUtil.writerJson(response, dataList);
-//    }
-
     //根据区域名称找到stom的数据列表
     @RequestMapping("/getStomDetailListBySpace")
     public void getStomDetailListBySpace(String space,
@@ -508,21 +483,6 @@ public class DeviceHealthStateController extends BaseAction {
         HtmlUtil.writerJson(response, dataList);
     }
 
-//    @RequestMapping("/getWeatherDetailListBySpace")
-//    public void getWeatherDetailListBySpace(String space,
-//                                            HttpServletResponse response) throws Exception {
-//        space = new String(space.getBytes("iso8859-1"), "utf-8");
-//        List<WeatherEntity> date = deviceHealthStateService.getWeatherDetailDateBySpace(space);
-//        List<WeatherEntity> data = deviceHealthStateService.getWeatherDetailBySpace(space);
-//        List<WeatherEntity> Alarm = new ArrayList<WeatherEntity>();
-//        List<WeatherEntity> dataList = new ArrayList<WeatherEntity>();
-//        for (int ii = 0; ii < data.size(); ii++) {
-//            dataList.add(date.get(ii));
-//            dataList.add(data.get(ii));
-//        }
-//        HtmlUtil.writerJson(response, dataList);
-//    }
-
     @RequestMapping("/getSpdmDetailListBySpace")
     public void getSpdmDetailListBySpace(String space,
                                          HttpServletResponse response) throws Exception {
@@ -537,81 +497,6 @@ public class DeviceHealthStateController extends BaseAction {
         }
         HtmlUtil.writerJson(response, dataList);
     }
-    /**
-     * 获取YX历史数据的Refname
-     * @param url
-     * @param classifyId
-     * @return
-     * @throws Exception
-     */
-    /*@RequestMapping("/getYXHistoryRefname")
-    public void getYXHistoryRefname(HistoryPage page,
-            HttpServletResponse response,HttpServletRequest request) throws Exception {
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        //获取ln和ld
-        request.setCharacterEncoding("utf-8");
-        String DeviceType = request.getParameter("ln_inst_name");
-        String UTF8_DeviceType=new String(DeviceType.getBytes("ISO-8859-1"),"UTF-8");
-        page.setLn_inst_name(UTF8_DeviceType);
-        String id = request.getParameter("id");
-        String str="";
-        str = deviceHealthStateService.getyxlnldByid(id);
-        if(str==null){
-            page.setLd_inst_name(UTF8_DeviceType.split("-")[1]);
-            page.setLn_inst_name(UTF8_DeviceType.split("-")[0]);
-        }else{
-            page.setLd_inst_name(str.split("-")[0]);
-            page.setLn_inst_name(str.split("-")[1]);
-        }
-        List<DataEntity> dataList =deviceHealthStateService.getYXHistoryRefname(page);
-        jsonMap.put("total", page.getPager().getRowCount());
-        jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
-    }*/
-
-//    /**
-//     * 通过当前选择的Refname获取YX历史数据
-//     *
-//     * @param url
-//     * @param classifyId
-//     * @return
-//     * @throws Exception
-//     */
-//    @RequestMapping("/getYXHistoryDataByRefname") //注解为getYXHistoryDataByRefname.do的AJAX请求
-//    public void getYXHistoryDataByRefname(HistoryPage page, //HistoryPage实体类里必须包含有请求发送来的data用于接收
-//                                          HttpServletResponse response, HttpServletRequest request) throws Exception {
-//        Map<String, Object> jsonMap = new HashMap<String, Object>();
-//        //获取ln和ld
-//        request.setCharacterEncoding("utf-8");
-//        String DeviceType = request.getParameter("ln_inst_name");
-//        DeviceType = DeviceType.replace("@", "#");
-//        int index = DeviceType.indexOf(",");
-//        if (index > 0) {
-//            DeviceType = DeviceType.substring(0, index);
-//        }
-//        String UTF8_DeviceType = new String(DeviceType.getBytes("ISO-8859-1"), "UTF-8");
-//        String Devicerefname = request.getParameter("refname");
-//        String UTF8_Devicerefname;
-//        if (Devicerefname != null) {
-//            UTF8_Devicerefname = new String(Devicerefname.getBytes("ISO-8859-1"), "UTF-8");
-//            if (UTF8_Devicerefname.indexOf(",") >= 0) {
-//                UTF8_Devicerefname = UTF8_Devicerefname.replaceAll(",", "#");
-//            }
-//        } else {
-//            UTF8_Devicerefname = UTF8_DeviceType;
-//        }
-//        page.setRefname(UTF8_Devicerefname);
-////        page.setRefname("");
-//        String id = request.getParameter("id");
-//        if (id.indexOf("A") > -1) {
-//            id = id.substring(2);
-//        }
-//
-//        List<DataEntity> dataList = deviceHealthStateService.getYXHistoryByrefname(page);//引用Service中的方法
-//        jsonMap.put("total", page.getPager().getRowCount());
-//        jsonMap.put("rows", dataList);
-//        HtmlUtil.writerJson(response, jsonMap);
-//    }
 
     /**
      * 获取油色谱历史数据
@@ -808,42 +693,6 @@ public class DeviceHealthStateController extends BaseAction {
         HtmlUtil.writerJson(response, jsonMap);
     }
 
-//    /**
-//     * 获取气象历史数据
-//     *
-//     * @param url
-//     * @param classifyId
-//     * @return
-//     * @throws Exception
-//     */
-//    @RequestMapping("/getWeatherHistoryData")
-//    public void getWeatherHistoryData(HistoryPage page,
-//                                      HttpServletResponse response) throws Exception {
-//        Map<String, Object> jsonMap = new HashMap<String, Object>();
-//        List<WeatherEntity> dataList = deviceHealthStateService.getWeatherHistory(page);
-//        jsonMap.put("total", page.getPager().getRowCount());
-//        jsonMap.put("rows", dataList);
-//        HtmlUtil.writerJson(response, jsonMap);
-//    }
-
-//    /**
-//     * 导出气象历史数据
-//     *
-//     * @param url
-//     * @param classifyId
-//     * @return
-//     * @throws Exception
-//     */
-//    @RequestMapping("/exportWeatherHistoryData")
-//    public void exportWeatherHistoryData(HistoryPage page,
-//                                         HttpServletResponse response) throws Exception {
-//        Map<String, Object> jsonMap = new HashMap<String, Object>();
-//        List<WeatherEntity> dataList = deviceHealthStateService.getWeatherHistory(page);
-//        jsonMap.put("total", page.getPager().getRowCount());
-//        jsonMap.put(" dataList", dataList);
-//        HtmlUtil.writerJson(response, jsonMap);
-//    }
-
     /**
      * 获取工况历史数据
      *
@@ -872,38 +721,6 @@ public class DeviceHealthStateController extends BaseAction {
         jsonMap.put("dataList", dataList);
         HtmlUtil.writerJson(response, jsonMap);
     }
-
-//    @RequestMapping("/exportYXHistory")
-//    public void exportYXHistory(HistoryPage page,
-//                                HttpServletResponse response, HttpServletRequest request) throws Exception {
-//        Map<String, Object> jsonMap = new HashMap<String, Object>();
-//        request.setCharacterEncoding("utf-8");
-//        String DeviceType = request.getParameter("ln_inst_name");
-//        DeviceType = DeviceType.replace("@", "#");
-//        int index = DeviceType.indexOf(",");
-//        if (index > 0) {
-//            DeviceType = DeviceType.substring(0, index);
-//        }
-//        String UTF8_DeviceType = new String(DeviceType.getBytes("ISO-8859-1"), "UTF-8");
-//        String Devicerefname = request.getParameter("refname");
-//        String UTF8_Devicerefname;
-//        if (Devicerefname != null) {
-//            UTF8_Devicerefname = new String(Devicerefname.getBytes("ISO-8859-1"), "UTF-8");
-//            if (UTF8_Devicerefname.indexOf(",") >= 0) {
-//                UTF8_Devicerefname = UTF8_Devicerefname.replaceAll(",", "#");
-//            }
-//        } else {
-//            UTF8_Devicerefname = UTF8_DeviceType;
-//        }
-//        page.setRefname(UTF8_Devicerefname);
-//        String id = request.getParameter("id");
-//        if (id.indexOf("A") > -1) {
-//            id = id.substring(2);
-//        }
-//        List<DataEntity> dataList = deviceHealthStateService.exportYXHistory(page);
-//        jsonMap.put("dataList", dataList);
-//        HtmlUtil.writerJson(response, jsonMap);
-//    }
 
     /**
      * 获取图表中同类设备
@@ -1098,40 +915,6 @@ public class DeviceHealthStateController extends BaseAction {
         HtmlUtil.writerJson(response, maps);
     }
 
-//    /**
-//     * 获取气象图表中需要的数据
-//     *
-//     * @param url
-//     * @param classifyId
-//     * @return
-//     * @throws Exception
-//     */
-//    @RequestMapping("/getWeatherChart_Value")
-//    public void getWeatherChart_history(
-//            HttpServletResponse response, HttpServletRequest request) throws Exception {
-//        Map<String, Object> param = new HashMap<String, Object>();
-//        Map<String, List<WeatherEntity>> maps = new HashMap<String, List<WeatherEntity>>();
-//        String startTime = request.getParameter("_startTime");
-//        String endTime = request.getParameter("_endTime");
-//        if (startTime == null || startTime == "") {
-//            startTime = getStatetime();
-//        }
-//        param.put("startTime", startTime);
-//        param.put("endTime", endTime);
-//        String id = request.getParameter("DeviceID");
-//        String[] ids = id.split(",");
-//        for (int nn = 1; nn < ids.length; nn++) {
-//            id = ids[nn].split("_")[1];
-//            param.put("id", id);
-//            List<WeatherEntity> dataList = null;
-//            dataList = deviceHealthStateService.getWeatherChart_history(param);
-//            if (dataList.size() > 0) {
-//                maps.put("dataList" + nn, dataList);
-//            }
-//        }
-//        HtmlUtil.writerJson(response, maps);
-//    }
-
     /**
      * 获取局放图表中需要的数据
      *
@@ -1226,40 +1009,6 @@ public class DeviceHealthStateController extends BaseAction {
         return preMonday;
     }
 
-    //获取遥信数据
-    @RequestMapping("/getStomYx")
-    public void getStomYx(String DeviceID, HttpServletResponse response)
-            throws Exception {
-        Map<String, Object> param = new HashMap<String, Object>();
-        List<StomYxEntity> EntityList;
-        List<StomYxEntity> DateList;
-
-        param.put("DeviceID", DeviceID);
-        EntityList = deviceHealthStateService.getStomYx(param);
-        DateList = deviceHealthStateService.getStomYxDate(param);
-        if (EntityList.size() == 0) {
-            StomYxEntity StomYxEntity_null = new StomYxEntity(1);
-            EntityList.add(StomYxEntity_null);
-        }
-        if (EntityList.get(0) == null) {
-            EntityList.remove(0);
-            StomYxEntity StomYxEntity_null = new StomYxEntity(1);
-            EntityList.add(StomYxEntity_null);
-        }
-        if (DateList.size() == 0) {
-            StomYxEntity StomYxEntity_null = new StomYxEntity(1);
-            DateList.add(StomYxEntity_null);
-        }
-        if (DateList.get(0) == null) {
-            DateList.remove(0);
-            StomYxEntity StomYxEntity_null = new StomYxEntity(1);
-            DateList.add(StomYxEntity_null);
-        }
-        DateList.add(EntityList.get(0));
-
-        HtmlUtil.writerJson(response, DateList);
-    }
-
     @RequestMapping("/getYXData")
     public void getYXData(HistoryPage page,
                           HttpServletResponse response, HttpServletRequest request) throws Exception {
@@ -1322,193 +1071,6 @@ public class DeviceHealthStateController extends BaseAction {
         jsonMap.put("rows", dataList);
         HtmlUtil.writerJson(response, jsonMap);
     }
-
-//    @RequestMapping("/getYCData")
-//    public void getYCData(HistoryPage page,
-//                          HttpServletResponse response, HttpServletRequest request) throws Exception {
-//        Map<String, Object> jsonMap = new HashMap<String, Object>();
-//        //获取ln和ld
-//        request.setCharacterEncoding("utf-8");
-//        page.setLd_inst_name("");
-//        page.setLn_inst_name("");
-////	      String str = deviceHealthStateService.getLnAndLd(data);
-//        String id = request.getParameter("id");
-//        String id_find;
-//        if (id.indexOf("A") > -1) {
-//            id = id.substring(2);
-//            if (id.indexOf("y") > -1) {
-//                id_find = id.substring(2);
-//            } else {
-//                id_find = id;
-//            }
-//        } else {
-//            if (id.indexOf("y") > -1) {
-//                id_find = id.substring(2);
-//            } else {
-//                id_find = id;
-//            }
-//        }
-//
-//        page.setId(id_find);
-//        List<DataEntity> dataList = null;
-//        if (id.indexOf("yc") > -1) {
-//            dataList = deviceHealthStateService.getYCData_yc(page);
-//        } else if (id.indexOf("yx") > -1) {
-//            dataList = deviceHealthStateService.getYCData_yx(page);
-//        } else {
-//            //dataList =deviceHealthStateService.getYCData(page);
-//        }
-//        jsonMap.put("total", page.getPager().getRowCount());
-//        jsonMap.put("rows", dataList);
-//        HtmlUtil.writerJson(response, jsonMap);
-//    }
-
-//    /**
-//     * 获取红外测温遥信数据
-//     *
-//     * @param DeviceID
-//     * @param response
-//     * @throws Exception
-//     */
-//    @RequestMapping("/getInfraredYx")
-//    public void getInfraredYx(String DeviceID, HttpServletResponse response)
-//            throws Exception {
-//        Map<String, Object> param = new HashMap<String, Object>();
-//        List<Sf6YxEntity> EntityList;
-//        List<Sf6YxEntity> DateList;
-//        param.put("DeviceID", DeviceID);
-//        EntityList = deviceHealthStateService.getInfraredYx(param);
-//        DateList = deviceHealthStateService.getInfraredYxDate(param);
-//        if (EntityList.size() == 0) {
-//            Sf6YxEntity SpdmYxEntity_null = new Sf6YxEntity(1);
-//            EntityList.add(SpdmYxEntity_null);
-//        }
-//        if (EntityList.get(0) == null) {
-//            EntityList.remove(0);
-//            Sf6YxEntity SpdmYxEntity_null = new Sf6YxEntity(1);
-//            EntityList.add(SpdmYxEntity_null);
-//        }
-//        if (DateList.size() == 0) {
-//            Sf6YxEntity SpdmYxEntity_null = new Sf6YxEntity(1);
-//            DateList.add(SpdmYxEntity_null);
-//        }
-//        if (DateList.get(0) == null) {
-//            DateList.remove(0);
-//            Sf6YxEntity SpdmYxEntity_null = new Sf6YxEntity(1);
-//            DateList.add(SpdmYxEntity_null);
-//        }
-//        DateList.add(EntityList.get(0));
-//        HtmlUtil.writerJson(response, DateList);
-//    }
-
-    @RequestMapping("/getSf6Yx")
-    public void getSf6Yx(String DeviceID, HttpServletResponse response)
-            throws Exception {
-        Map<String, Object> param = new HashMap<String, Object>();
-        List<Sf6YxEntity> EntityList;
-        List<Sf6YxEntity> DateList;
-
-        param.put("DeviceID", DeviceID);
-        EntityList = deviceHealthStateService.getSf6Yx(param);
-        DateList = deviceHealthStateService.getSf6YxDate(param);
-        if (EntityList.size() == 0) {
-            Sf6YxEntity Sf6YxEntity_null = new Sf6YxEntity(1);
-            EntityList.add(Sf6YxEntity_null);
-        }
-        if (EntityList.get(0) == null) {
-            EntityList.remove(0);
-            Sf6YxEntity Sf6YxEntity_null = new Sf6YxEntity(1);
-            EntityList.add(Sf6YxEntity_null);
-        }
-        if (DateList.size() == 0) {
-            Sf6YxEntity Sf6YxEntity_null = new Sf6YxEntity(1);
-            DateList.add(Sf6YxEntity_null);
-        }
-        if (DateList.get(0) == null) {
-            DateList.remove(0);
-            Sf6YxEntity Sf6YxEntity_null = new Sf6YxEntity(1);
-            DateList.add(Sf6YxEntity_null);
-        }
-        DateList.add(EntityList.get(0));
-
-        HtmlUtil.writerJson(response, DateList);
-    }
-
-    @RequestMapping("/getSmoamYx")
-    public void getSmoamYx(String DeviceID, HttpServletResponse response)
-            throws Exception {
-        Map<String, Object> param = new HashMap<String, Object>();
-        List<SmoamYxEntity> EntityList;
-        List<SmoamYxEntity> DateList;
-
-        param.put("DeviceID", DeviceID);
-        EntityList = deviceHealthStateService.getSmoamYx(param);
-        DateList = deviceHealthStateService.getSmoamYxDate(param);
-        if (EntityList.size() == 0) {
-
-            SmoamYxEntity SmoamYxEntity_null = new SmoamYxEntity(1);
-            EntityList.add(SmoamYxEntity_null);
-        }
-        if (EntityList.get(0) == null) {
-            EntityList.remove(0);
-            SmoamYxEntity SmoamYxEntity_null = new SmoamYxEntity(1);
-            EntityList.add(SmoamYxEntity_null);
-        }
-        if (DateList.size() == 0) {
-
-            SmoamYxEntity SmoamYxEntity_null = new SmoamYxEntity(1);
-            DateList.add(SmoamYxEntity_null);
-        }
-        if (DateList.get(0) == null) {
-            DateList.remove(0);
-            SmoamYxEntity SmoamYxEntity_null = new SmoamYxEntity(1);
-            DateList.add(SmoamYxEntity_null);
-        }
-        DateList.add(EntityList.get(0));
-        HtmlUtil.writerJson(response, DateList);
-    }
-
-    @RequestMapping("/getScomYx")
-    public void getScomYx(String DeviceID, HttpServletResponse response)
-            throws Exception {
-        Map<String, Object> param = new HashMap<String, Object>();
-        List<ScomYxEntity> EntityList;
-        List<ScomYxEntity> DateList;
-
-        param.put("DeviceID", DeviceID);
-        EntityList = deviceHealthStateService.getScomYx(param);
-        DateList = deviceHealthStateService.getScomYxDate(param);
-        if (EntityList.size() == 0) {
-            ScomYxEntity ScomYxEntity_null = new ScomYxEntity(1);
-            EntityList.add(ScomYxEntity_null);
-        }
-        if (EntityList.get(0) == null) {
-            EntityList.remove(0);
-            ScomYxEntity ScomYxEntity_null = new ScomYxEntity(1);
-            EntityList.add(ScomYxEntity_null);
-        }
-        if (DateList.size() == 0) {
-            ScomYxEntity ScomYxEntity_null = new ScomYxEntity(1);
-            DateList.add(ScomYxEntity_null);
-        }
-        if (DateList.get(0) == null) {
-            DateList.remove(0);
-            ScomYxEntity ScomYxEntity_null = new ScomYxEntity(1);
-            DateList.add(ScomYxEntity_null);
-        }
-        DateList.add(EntityList.get(0));
-        HtmlUtil.writerJson(response, DateList);
-    }
-
-//    @RequestMapping("/getSpdmYx")
-//    @ResponseBody
-//    public List getSpdmYx(String DeviceID)
-//            throws Exception {
-//        Map<String, Object> param = new HashMap<String, Object>();
-//        param.put("DeviceID", DeviceID);
-//        List<SpdmYxEntity> dateList = deviceHealthStateService.getSpdmYxDate(param);
-//        return dateList;
-//    }
 
     /**
      * 获取遥信历史数据开始
