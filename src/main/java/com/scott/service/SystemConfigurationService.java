@@ -35,7 +35,9 @@ public class SystemConfigurationService<T> extends BaseService<T> {
     public int updateStation(Station_InfoEntity entity) {
         return getDao().updateStation(entity);
     }
-
+    public int insertStation(Station_InfoEntity entity) {
+        return getDao().insertStation(entity);
+    }
     /**
      * 查询主设备数据
      *
@@ -114,35 +116,39 @@ public class SystemConfigurationService<T> extends BaseService<T> {
     public void add_equipment(EquipmentEntity entity) {
         getDao().add_equipment(entity);
     }
-
+    public EquipmentEntity findEquipmentByIEC61850LD(String iec61850LD) {
+        return getDao().findEquipmentByIEC61850LD(iec61850LD);
+    }
     public void delete_equipment(EquipmentEntity entity) {
         getDao().delete_equipment(entity);
     }
 
-    public List<EquipmentSpaceEntity> getEquipmentSapce() {
-        return getDao().getEquipmentSapce();
+    public List<EquipmentSpaceEntity> getEquipmentSpace() {
+        return getDao().getEquipmentSpace();
     }
 
 //    public String getMAXSapceID() {
 //        return getDao().getMAXSapceID();
 //    }
 
-    public int getinsertFlag_space(EquipmentSpaceEntity space) {
-        return getDao().getinsertFlag_space(space);
+    public int getinsertFlag_space(String spaceId) {
+        return getDao().getinsertFlag_space(spaceId);
     }
 
-    public void updatespace(EquipmentSpaceEntity space) {
-        getDao().updatespace(space);
+    public void updateSpace(EquipmentSpaceEntity space) {
+        getDao().updateSpace(space);
     }
 
-    public void insertspace(EquipmentSpaceEntity space) {
-        getDao().insertspace(space);
+    public void insertSpace(EquipmentSpaceEntity space) {
+        getDao().insertSpace(space);
     }
 
-    public void delete_space(EquipmentSpaceEntity space) {
-        getDao().delete_space(space);
+    public void deleteSpace(String spaceId) {
+        getDao().deleteSpace(spaceId);
     }
-
+    public List<EquipmentSpaceEntity> findSpace() {
+        return getDao().findSpace();
+    }
     public List<String> getNextEquipmentID() {
         return getDao().getNextEquipmentID();
     }
@@ -260,8 +266,8 @@ public class SystemConfigurationService<T> extends BaseService<T> {
         return getDao().ZJ103DeviceIDMax();
     }
 
-    public int getZJ103CountByln(ZJ103Entity DeviceID) {
-        return getDao().getZJ103CountByln(DeviceID);
+    public int getZJ103CountByln(String IEC61850LD_LN) {
+        return getDao().getZJ103CountByln(IEC61850LD_LN);
     }
 
     public List<ZJ103Entity> getI2Data_103(BasePage page) {
@@ -354,6 +360,7 @@ public class SystemConfigurationService<T> extends BaseService<T> {
         getDao().updateyx(entity);
     }
 
+
     public void insertyx(Data_instEntity entity) {
         getDao().insertyx(entity);
     }
@@ -368,6 +375,9 @@ public class SystemConfigurationService<T> extends BaseService<T> {
 
     public void insertyc(Data_instEntity entity) {
         getDao().insertyc(entity);
+    }
+    public void updateyc(Data_instEntity entity) {
+        getDao().updateyc(entity);
     }
 
 //    public void insertycList(List<Data_instEntity> ycInst) {
@@ -391,8 +401,8 @@ public class SystemConfigurationService<T> extends BaseService<T> {
     }
 
     //对ln表进行操作
-    public int getLnCount(InstNodeEntity entity) {
-        return getDao().getLnCount(entity);
+    public int getLnCount(String ld_inst_name, String ln_inst_name) {
+        return getDao().getLnCount(ld_inst_name,ln_inst_name);
     }
 
     public void updateLn(InstNodeEntity entity) {

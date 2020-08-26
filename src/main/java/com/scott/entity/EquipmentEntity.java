@@ -15,13 +15,14 @@ import lombok.Data;
 public class EquipmentEntity extends BaseEntity {
 
 
-	private String EquipmentID;//设备编码
-	private String EquipmentName;//设备名称
-	private String Phase;//设备相别
-	private Integer DeviceType;//   设备类型
-	private String ObjectVoltage;// 电压等级
-	private String SpaceId;// 区域ID
-	private String ManufactoryName;
-	private String Remark;
+	private String equipmentID;//设备编码
+	private String equipmentName;//设备名称
+	private String phase;//设备相别
+	private Integer deviceType;//   设备类型
+	private String objectVoltage;// 电压等级
+	private String spaceId;// 区域ID
+	private String manufactoryName;
+	private String remark;
+	private String iec61850LD; //主设备编码
 }
 

@@ -53,15 +53,15 @@ public class TreeDeviceController extends BaseAction {
     public void getZoneEmuList(HttpServletResponse response) {
         TreeViewUtil<TreeDeviceEntity> util = new TreeViewUtil<>();
         List<TreeDeviceEntity> entityList = new ArrayList<>();
-//        //获取单位信息
-        List<TreeDeviceEntity> InfoName = treeDeviceService.getUnitinfo();
+////        //获取单位信息
+//        List<TreeDeviceEntity> InfoName = treeDeviceService.getUnitinfo();
         //获取空间名称
         List<TreeDeviceEntity> spaceName = treeDeviceService.getPubspaceName();
         //获取设备
         List<TreeDeviceEntity> equipment = treeDeviceService.getEquipmentName();
         //获去所有的设备名称
         List<TreeDeviceEntity> deviceName = treeDeviceService.getZoneEmuList();
-        entityList.addAll(InfoName);
+//        entityList.addAll(InfoName);
         entityList.addAll(spaceName);
         entityList.addAll(equipment);
         entityList.addAll(deviceName);
@@ -322,16 +322,18 @@ public class TreeDeviceController extends BaseAction {
     }
 
     @RequestMapping("/getSpaceNameByType")
-    public void getSpaceNameByType(String Type, HttpServletResponse response) {
-        List<TreeDeviceEntity> SpaceName = treeDeviceService.getPubspaceNameByType(Type);
-        HtmlUtil.writerJson(response, SpaceName);
+    @ResponseBody
+    public List getSpaceNameByType(String Type) {
+        List<TreeDeviceEntity> spaceName = treeDeviceService.getPubspaceNameByType(Type);
+        return spaceName;
+
     }
 
     @RequestMapping("/getImgList")
-    public void getImgList(HttpServletResponse response) {
-        Map<String, Object> param = new HashMap<String, Object>();
-        List<TreeDeviceEntity> EntityList = treeDeviceService.getImgList(param);
-        HtmlUtil.writerJson(response, EntityList);
+    @ResponseBody
+    public List getImgList() {
+        List<TreeDeviceEntity> entityList = treeDeviceService.getImgList();
+        return entityList;
     }
 
     /*@RequestMapping("/getAmcImgList")

@@ -15,9 +15,9 @@ import lombok.Data;
 public class EquipmentSpaceEntity extends BaseEntity {
 
 
-	private String SpaceId;//区域ID
-	private String SpaceName;//区域名称
-	private String ObjectVoltage;//电压等级
-    private int SpaceTag;//区域标签
+	private String spaceId;//区域ID
+	private String spaceName;//区域名称
+	private String objectVoltage;//电压等级
+    private Integer spaceTag;//区域标签
 }
 

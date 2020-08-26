@@ -11,4 +11,6 @@ public class YcDataInstEntity extends BaseEntity {
 	private  String ln_inst_name;
 	private  String yc_refname;
 	private  String yc_desc;
+//	//todo 新加入
+//	private String table_data_type;
 }

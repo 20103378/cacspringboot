@@ -1,7 +1,7 @@
 # 数据库配置
 spring:
   datasource:
-    url: jdbc:p6spy:mysql://localhost:3306/scac-3000ykz?useUnicode=true&characterEncoding=utf8&autoReconnect=true
+    url: jdbc:p6spy:mysql://localhost:3306/test1?useUnicode=true&characterEncoding=utf8&autoReconnect=true
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver #com.mysql.cj.jdbc.Driver
     username: root
     password: 19910227730X
@@ -10,6 +10,11 @@ spring:
     view:
       prefix: /jsp/
       suffix: .jsp
+#    static-path-pattern: /image/**
+#  resources:
+#    static-locations: /Users/nana/Desktop/images/
+
+
   devtools:
     restart:
       enabled: true  #设置开启热部署

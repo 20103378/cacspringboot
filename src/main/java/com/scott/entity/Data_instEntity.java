@@ -10,7 +10,8 @@ import lombok.Data;
 @Data
 public class Data_instEntity extends BaseEntity {
 	private Integer yx_id ;
-	private Integer ied_type_id;
+	// todo 数据库改int类型为vachar类型
+	private String ied_type_id;
 	private String ld_inst_name;
 	private String ln_inst_name;
 	private String yx_refname;

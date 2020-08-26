@@ -30,17 +30,17 @@ public class UrlUtil {
 	}
 	public UrlUtil() {
 		super();
-		//读取配置文件
-		ResourceBundle resourcesTable = ResourceBundle.getBundle("config");
-		this.Osicfg = resourcesTable.getString("Osicfg");
-		this.cfgpath = resourcesTable.getString("cfgpath");
-		this.yspinf = resourcesTable.getString("yspinf");
-		this.sf6inf = resourcesTable.getString("sf6inf");
-		this.blqinf = resourcesTable.getString("blqinf");
-		this.jfinf = resourcesTable.getString("jfinf");
-		this.scominf = resourcesTable.getString("scominf");
-		this.locip = resourcesTable.getString("locIp");
-		this.proj = resourcesTable.getString("proj");
+//		//读取配置文件
+//		ResourceBundle resourcesTable = ResourceBundle.getBundle("config");
+//		this.Osicfg = resourcesTable.getString("Osicfg");
+//		this.cfgpath = resourcesTable.getString("cfgpath");
+//		this.yspinf = resourcesTable.getString("yspinf");
+//		this.sf6inf = resourcesTable.getString("sf6inf");
+//		this.blqinf = resourcesTable.getString("blqinf");
+//		this.jfinf = resourcesTable.getString("jfinf");
+//		this.scominf = resourcesTable.getString("scominf");
+//		this.locip = resourcesTable.getString("locIp");
+//		this.proj = resourcesTable.getString("proj");
 //		this.mapPath = resourcesTable.getString("mapPath");
 //		this.xlsUrl = resourcesTable.getString("xlsUrl");
 	}
@@ -55,7 +55,7 @@ public class UrlUtil {
 //	public final static String cfgpath="/datamap.cfg"; //cfg写入点路径
 
 	public String getOsicfg() {
-		return Osicfg;
+		return "/Users/nana/CAC/iec61850/";
 	}
 	public String getXlsUrl() {
 		return xlsUrl;

@@ -48,9 +48,9 @@ public class TreeDeviceService<T,T1,T2,T3,T4,T5,T6> extends BaseService<T> {
     {
         return getDao().getPubspaceNameByType(Type);
     }
-	public List<T> getImgList(java.util.Map<String, Object> param)
+	public List<T> getImgList()
 	{
-		return getDao().getImgList(param);
+		return getDao().getImgList();
 	}
 	public List<Integer> getPubDeviceTypeList(){
 		return getDao().getPubDeviceTypeList();

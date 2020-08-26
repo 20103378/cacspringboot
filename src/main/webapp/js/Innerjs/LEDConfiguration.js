@@ -31,7 +31,7 @@ jeecg.LEDConfiguration = function() {
 						}
 					});
 					// 提交 form
-					$('#pdfForm').attr("action", "uploadIcd.do").submit();
+					$('#pdfForm').attr("action", "uploadIcd").submit();
 				} else {
 					alert("上传的文件不可为空");
 				}
@@ -73,8 +73,8 @@ jeecg.LEDConfiguration = function() {
 			});
 		},
 		update : function(rowIndex, rowData) {
-			$("#txt_AR_Name1").val(rowData.AR_Name);
-			$("#txt_AR_Name2").html(rowData.AR_Name);
+			$("#txt_AR_Name1").val(rowData.arName);
+			$("#txt_AR_Name2").html(rowData.arName);
 			$("#txt_netAddr1").val(rowData.netAddr);
 			$("#txt_AR_Name2").hide();
 			ledWin.window('open');
@@ -82,23 +82,23 @@ jeecg.LEDConfiguration = function() {
 		commit : function() {
 			$("#ied_sub").unbind('click').click(function() {
 				var formData = {};
-				formData['NetAddr'] = $("#txt_netAddr1").val();
+				formData['netAddr'] = $("#txt_netAddr1").val();
 				if (_this.ipvalidate($("#txt_netAddr1").val()) == false) {
 					alert("ip地址格式不正确")
 					return;
 				}
-				formData['AR_Name'] = $("#txt_AR_Name1").val();
+				formData['arName'] = $("#txt_AR_Name1").val();
 				if ($("#txt_AR_Name2").html() == "") {
-					formData['AR_Name_old'] = $("#txt_AR_Name1").val();
+					formData['arNameOld'] = $("#txt_AR_Name1").val();
 				} else {
-					formData['AR_Name_old'] = $("#txt_AR_Name2").html();
+					formData['arNameOld'] = $("#txt_AR_Name2").html();
 				}
 				$.ajax({
 					async : false,
 					cache : false,
 					type : 'post',
 					data : formData,
-					url : ctxPath + "/LEDConfiguration/commitled.do",
+					url : ctxPath + "/LEDConfiguration/commitled",
 					success : function(data) {
 						ledWin.window('close');
 						$('#tab_ldein').datagrid('reload');
@@ -115,10 +115,11 @@ jeecg.LEDConfiguration = function() {
 		},
 		Del : function() {
 			var select_data = $("#tab_ldein").datagrid("getSelected");
-			if (window.confirm('确定要删除测量量名称'+select_data.AR_Name)) {
+			debugger
+			if (window.confirm('确定要删除测量量名称'+select_data.arName)) {
 				var formData = {};
-				var url = ctxPath + "/LEDConfiguration/del.do";
-				formData['AR_Name'] = select_data.AR_Name;
+				var url = ctxPath + "/LEDConfiguration/del";
+				formData['arName'] = select_data.arName;
 				$.ajax({
 					async : false,
 					cache : false,
@@ -136,11 +137,11 @@ jeecg.LEDConfiguration = function() {
 		},
 		DelSQl : function() {
 			var select_data = $("#tab_ldein").datagrid("getSelected");
-			if (window.confirm('确定要删除关于'+select_data.AR_Name+"的所有数据")) {
+			if (window.confirm('确定要删除关于'+select_data.arName+"的所有数据")) {
 				var select_data = $("#tab_ldein").datagrid("getSelected");
 				var formData = {};
-				var url = ctxPath + "/LEDConfiguration/delsql.do";
-				formData['AR_Name'] = select_data.AR_Name;
+				var url = ctxPath + "/LEDConfiguration/delsql";
+				formData['arName'] = select_data.arName;
 				$.ajax({
 					async : false,
 					cache : false,
@@ -163,7 +164,7 @@ jeecg.LEDConfiguration = function() {
 			}
 			;
 			// 监测文件目录是否存在,不存在则要求上传icd文件
-			var iedName = $("#tab_ldein").datagrid("getSelected").AR_Name;
+			var iedName = $("#tab_ldein").datagrid("getSelected").arName;
 			// 通过ajax请求数据
 			var formData = {};
 			formData['dIRName'] = iedName;
@@ -172,9 +173,9 @@ jeecg.LEDConfiguration = function() {
 				cache : false,
 				type : 'post',
 				data : formData,
-				url : "getIcdExistFlag.do",
+				url : "getIcdExistFlag",
 				success : function(data) {
-					if (data.message == "false") {
+					if (!data) {
 						alert("icd文件!不存在,请先导入");
 					} else {
 						$(".tabs li:eq(6)").show();
@@ -190,7 +191,7 @@ jeecg.LEDConfiguration = function() {
 			}
 			;
 			// 监测文件目录是否存在,不存在则要求上传icd文件
-			var iedName = $("#tab_ldein").datagrid("getSelected").AR_Name;
+			var iedName = $("#tab_ldein").datagrid("getSelected").arName;
 			// 通过ajax请求数据
 			var formData = {};
 			formData['dIRName'] = iedName;
@@ -199,9 +200,9 @@ jeecg.LEDConfiguration = function() {
 				cache : false,
 				type : 'post',
 				data : formData,
-				url : "getIcdExistFlag.do",
+				url : "getIcdExistFlag",
 				success : function(data) {
-					if (data.message == "false") {
+					if (!data) {
 						alert("icd文件!不存在,请先导入");
 					} else {
 						$(".tabs li:eq(7)").show();
@@ -211,10 +212,11 @@ jeecg.LEDConfiguration = function() {
 			});
 		},
 		addAllDevice : function() {
+			debugger
 			var ld_ln = _this.getLd_Ln();
 			var deviceType;
 			for ( var i = 0; i < ld_ln.length; i++) {
-				var ld_ln_name = ld_ln[i].ld_inst_name;
+				var ld_ln_name = ld_ln[i];
 				if (ld_ln_name.indexOf("SIML") != -1) {
 					deviceType = "1";
 				} else if (ld_ln_name.indexOf("SIMG") != -1) {
@@ -228,7 +230,7 @@ jeecg.LEDConfiguration = function() {
 					deviceType = "14";
 				}
 				var formData = {};
-				var url = ctxPath + "/systemConfiguration/insert_device.do";
+				var url = ctxPath + "/systemConfiguration/insert_device";
 				// formData['DeviceID'] = $("#txtID").val();
 				formData['EquipmentID'] = "M001";
 				formData['DeviceProductID'] = "";
@@ -279,7 +281,7 @@ jeecg.LEDConfiguration = function() {
 				async : false,
 				cache : false,
 				type : 'POST',
-				url : ctxPath + "/systemConfiguration/getLd_Ln.do",
+				url : ctxPath + "/systemConfiguration/getLd_Ln",
 				error : function() {// 请求失败处理函数
 					// alert("false");
 				},
@@ -307,15 +309,15 @@ jeecg.LEDConfiguration = function() {
 		config : {
 			dataGrid : {
 				title : $("#txtName").val(),
-				url : ctxPath + '/LEDConfiguration/getOsicfgXml.do',
+				url : ctxPath + '/LEDConfiguration/getOsicfgXml',
 				columns : [ [ {
-					field : 'AR_Name',
-					title : 'AR_Name',
+					field : 'arName',
+					title : 'IED节点名称',
 					width : fixWidth(0.12),
 					align : 'center',
 					sortable : true,
 					formatter : function(value, row, index) {
-						return row.AR_Name;
+						return row.arName;
 					}
 				}, {
 					field : 'netAddr',

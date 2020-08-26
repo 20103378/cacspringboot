@@ -29,11 +29,5 @@ public class Sf6YxEntity extends BaseEntity {
 	private String SampleTime;
 	private String Type;
 	private String Remark;
-
-	public Sf6YxEntity(int l) {
-        this.Tmp="无数据";
-        this.Pres="无数据";
-        this.Hum="无数据";
-    }
 }
 

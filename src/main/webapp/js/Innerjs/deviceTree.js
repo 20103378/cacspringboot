@@ -78,6 +78,7 @@ jeecg.DeviceTree = function () {
             $('#ZoneEmuList').click(_this.ShowLineData);
         },
         ShowLineData: function () {
+            debugger
             var node = $('#ZoneEmuList').tree('getSelected');
             if (node) {
                 var id = node.id;

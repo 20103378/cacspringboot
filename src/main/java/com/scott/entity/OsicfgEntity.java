@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class OsicfgEntity extends BaseEntity {
-	private String iedid;
-	private String NetAddr;
-	private String AR_Name;
-	private String AR_Name_old;
+	private String iedId;
+	private String netAddr;
+	private String arName;
+	private String arNameOld;
 }
 

@@ -77,20 +77,22 @@ jeecg.SpaceConfiguration = function(){
 				 return;
 			 }
 			 var formdata={};
-			 formdata['SpaceId'] = spaceid;
-			 formdata['SpaceName'] = spaceName;
-			 formdata['ObjectVoltage'] = objectVoltage;
-			 formdata['SpaceTag'] = spaceTag;
+			 formdata['spaceId'] = spaceid;
+			 formdata['spaceName'] = spaceName;
+			 formdata['objectVoltage'] = objectVoltage;
+			 formdata['spaceTag'] = spaceTag;
 			 $.ajax({
 				 async:false,
 				 cache:false,
 				 type:'post',
-				 url:"insertspace",
+				 url:"insertSpace",
 				 data:formdata,
-				 success:function(data){
+				 dataType: "json",
+				 success:function(){
 					 deviceWin.window('close');
 		        	 $('#tab_space').datagrid('reload');
-		        	 return
+					 alert("插入成功!")
+					 return
 				 },
 				 error:function(){
 					 alert("插入失败!")
@@ -273,19 +275,21 @@ jeecg.SpaceConfiguration = function(){
 			var delname= select_data.spaceName;
 			if(window.confirm("确定要删除"+delname+"["+delId+"]？")){
 				var formData = {};
-			    var url="delete_space";
-			    formData['SpaceId'] = delId;
+			    var url="deleteSpace";
+			    formData['spaceId'] = delId;
 				$.ajax({
 			         async: false,
 			         cache: false,
 			         type: 'POST',
 			         url: url,
 			         data: formData,
-			         error: function(){// 请求失败处理函数
-			        	 alert("false");
+					 dataType: "json",
+					error: function(){// 请求失败处理函数
+			        	 alert("删除失败！");
 			         },
-			         success: function(data){
-			        	 $('#tab_space').datagrid('reload');
+			         success: function(){
+						 alert("删除成功！");
+						 $('#tab_space').datagrid('reload');
 			         }
 			     });
              }
@@ -293,7 +297,7 @@ jeecg.SpaceConfiguration = function(){
 		config:{
 			dataGrid:{
 //				title: $("#txtName").val(),
-				url:"getEquipmentSapce",
+				url:"getEquipmentSpace",
 				columns:  [[
 	            {
 	                field: 'SpaceId',

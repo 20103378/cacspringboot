@@ -12,6 +12,9 @@
             <div class="easyui-tabs" region="center" border="false" data-options="tools:'#tab-tools'" style="overflow: hidden;">
                 <div title="站点管理"  data-options="closable:false" style="padding:10px;">
 				        <table style="font: 11px;">
+							<tr>
+								<input type="hidden" id="txtStationId" name="hiddenField"/>
+							</tr>
 				            <tr>
 				                <td style="height: 25px">
 				                	站点:
@@ -117,7 +120,7 @@
 					    <form id="editForm3" class="ui-form" method="post">
 								<table id="tab_led">
 									<tr>
-										<td>AR_Name</td>
+										<td>IED节点名称</td>
 										<td><input id="txt_AR_Name1" disabled="true" /></td>
 										<td><div id="txt_AR_Name2"></div></td>
 									</tr>
@@ -179,6 +182,14 @@
 		               							<select id="phase" class="easyui-combobox" style="width:145px;" panelHeight="150">
                     							</select>
 		               						</td>
+											<td><label>区域位置:</label>
+												<select id="spaceId" class="easyui-combobox" style="width:145px;" panelHeight="150">
+												</select>
+											</td>
+											<td><label>主设备编码:</label>
+												<select id="IEC61850LD" class="easyui-combobox" style="width:145px;" panelHeight="150">
+												</select>
+											</td>
 					    	 			</tr>
 					    	 			<tr>
 					    	 				<td><label>备注:</label>
@@ -399,10 +410,10 @@
 							    	<td>apName</td>
 									<td><input id="sel_apName" /></td>
 						    	</tr>
-						    	<tr>
-							    	<td>ldInst</td>
-									<td><input id="sel_ldInst" /></td>
-						    	</tr>
+<%--						    	<tr>--%>
+<%--							    	<td>ldInst</td>--%>
+<%--									<td><input id="sel_ldInst" /></td>--%>
+<%--						    	</tr>--%>
 						    </table>
 						  </fieldset>
 						</div>
@@ -412,6 +423,11 @@
 						  <fieldset id="data_field">
 						    <legend>数据来源</legend>
 						    <table>
+								<tr>
+									<td>逻辑设备</td>
+									<td colspan="5"><select id="sel_LD0" class="easyui-combobox" style="width:200px;" panelHeight="150">
+									</select></td>
+								</tr>
 						    	<tr>
 							    	<td>逻辑节点</td>
 									<td colspan="5"><select id="sel_LN0" class="easyui-combobox" style="width:200px;" panelHeight="150">
@@ -425,16 +441,16 @@
 		                   			<td></td>
 		                   			<td></td>
 						    	</tr>
-						    	<tr>
-		                   			<td>mms起始组号</td>
-									<td><input id="sel_zh"  value="0" />
-									</td>
-		                   			<td>mms起始点序号</td>
-									<td><input id="sel_dxh" value="0" />
-									</td>
-									<td><input id="bt_dxh"  type="button" value="一键生成" />
-									</td>
-						    	</tr>
+<%--						    	<tr>--%>
+<%--		                   			<td>mms起始组号</td>--%>
+<%--									<td><input id="sel_zh"  value="0" />--%>
+<%--									</td>--%>
+<%--		                   			<td>mms起始点序号</td>--%>
+<%--									<td><input id="sel_dxh" value="0" />--%>
+<%--									</td>--%>
+<%--									<td><input id="bt_dxh"  type="button" value="一键生成" />--%>
+<%--									</td>--%>
+<%--						    	</tr>--%>
 						    </table>
 						  </fieldset>
 						 </div>

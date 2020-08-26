@@ -38,9 +38,5 @@ public class ScomYxEntity extends BaseEntity {
 	private String SampleTime;
 	private String Type;
 	private String Remark;
-	public ScomYxEntity(int l) {
-        this.CGAmp="无数据";
-    }
-    
 }
 

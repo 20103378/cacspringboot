@@ -11,6 +11,7 @@ $(function() {
 	// });
 	// $('#btn_Station').click(updateStation);
 	$("#btn_Station").unbind('click').click(function() {
+		// 更新站点信息
 		updateStation();
 	});
 	$("#DownLoadXls").unbind('click').click(function() {
@@ -25,7 +26,7 @@ $(function() {
 								.attr(
 										"action",
 										ctxPath
-												+ '/systemConfiguration/exportCacParameterTable.do');
+												+ '/systemConfiguration/exportCacParameterTable');
 						$("#download_form").submit();
 					});
 	$("#ddlDeviceType").combobox({
@@ -96,13 +97,19 @@ $(function() {
 	});
 });
 jeecg.systemConfiguration = function() {
-	var DevTypeDesc = [ "主变", "油色谱及微水", "SF6气体压力", "避雷器及动作次数", "铁芯泄漏电流",
+	var DevTypeDesc = ["油色谱及微水", "SF6气体压力", "避雷器及动作次数", "铁芯泄漏电流",
 			"换流变运行工况", "SF6气体泄漏", "套管", "断路器", "分压器", "套管局放", "GIS", "开关柜",
 			"CT", "环境", "CVT", "电抗器", "PT", "微水", "局放", "主变局放", "GIS局放",
 			"耦合电容器", "油温", "母线", "母线CVT", "绝缘子", "线路CVT/OY", "发电机", "线路", "刀闸",
 			"油位" ];
 	var equipment_select = "";
 	var Ld_Ln = [];
+
+	var spaceIds = [];//区域位置选择
+	var phase_selects=[];//相位选择
+	var ldDevice_selects=[];//主设备编码
+	var deviceTypes = [];//主设备类型
+
 	var Ld_Ln_dev = [];
 	var _this = {
 		upload : function() {
@@ -139,11 +146,11 @@ jeecg.systemConfiguration = function() {
 									'getValue');
 							if (pubdevice_type == 0) {
 								// $('#LD_ExcelForm').attr("action",
-								// "upload_LD_Excel.do").submit();
+								// "upload_LD_Excel").submit();
 								alert("普通设备暂时无法导入");
 							} else if (pubdevice_type == 1) {
 								$('#LD_ExcelForm').attr("action",
-										"upload_Infrared_Excel.do").submit();
+										"upload_Infrared_Excel").submit();
 							} else {
 								alert("导入失败");
 							}
@@ -163,17 +170,70 @@ jeecg.systemConfiguration = function() {
 				error : function() {
 				},
 				success : function(data) {
-					if (data != '') {
-						$("#txtStation").val(data[0].station);
-						$("#txtUnitName").val(data[0].name);
-						$("#txtUnitAddress").val(data[0].address);
+					if(data == null){
+						alert("请输入站点")
+					}else {
+						debugger
+						$("#txtStationId").val(data.id);
+						$("#txtStation").val(data.station);
+						$("#txtUnitName").val(data.name);
+						$("#txtUnitAddress").val(data.address);
 					}
 				}
 			});
 
 		},
-		// 加载主设备列表
+		// 加载主设备类型、相别、区域位置、主设备LD编码枚举
+		// 主设备列表
 		initEquipmentList : function() {
+			// 获取区域位置
+			$.ajax({
+				async : false,
+				cache : false,
+				type : 'POST',
+				url : ctxPath + "/systemConfiguration/getAllSpace",
+				error : function() {// 请求失败处理函数
+					// alert("false");
+				},
+				success : function(map) {
+					// dele()
+					console.log();
+					var space = map.space;
+					var phase= map.phase;
+					var LDDevices = map.LDDevices;
+					deviceTypes = map.deviceTypes;
+					debugger
+					for (var i = 0; i < space.length; i++) {
+						spaceIds.push({
+							"text": space[i].spaceName,
+							"value": space[i].spaceId
+						});
+					}
+					for (var i = 0; i < phase.length; i++) {
+						phase_selects.push({
+							"text": phase[i],
+							"value": phase[i]
+						});
+					}
+					for (var i = 0; i < LDDevices.length; i++) {
+						ldDevice_selects.push({
+							"text": LDDevices[i],
+							"value": LDDevices[i]
+						});
+					}
+
+
+
+					console.log(spaceIds);
+					console.log(phase_selects);
+					console.log(ldDevice_selects);
+					console.log(deviceTypes);
+				}
+			});
+
+
+
+
 			var _box = null;
 			var tablename = "#equipmentList";
 			_box = new YDataGrid(_this.equipment_config, tablename, true,
@@ -193,7 +253,7 @@ jeecg.systemConfiguration = function() {
 			dataGrid : {
 				pageSize : 10,
 				title : '',
-				url : ctxPath + "/systemConfiguration/getEquipmentList.do",
+				url : ctxPath + "/systemConfiguration/getEquipmentList",
 				singleSelect : true,
 				columns : [ [ /*
 								 * { field : 'id', checkbox : true },
@@ -236,6 +296,16 @@ jeecg.systemConfiguration = function() {
 							width : 180,
 							formatter : function(value, row, index) {
 								return DevTypeDesc[row.deviceType];
+							}
+						},
+						{
+							field : 'SpaceId',
+							title : '区域位置',
+							align : 'center',
+							sortable : true,
+							width : 180,
+							formatter : function(value, row, index) {
+								return row.spaceId;
 							}
 						},
 						{
@@ -291,7 +361,7 @@ jeecg.systemConfiguration = function() {
 							iconCls : '',
 							handler : function() {
 								var _url = ctxPath
-										+ "/systemConfiguration/getExportList.do";
+										+ "/systemConfiguration/getExportList";
 								$
 										.ajax({
 											async : false,
@@ -354,7 +424,7 @@ jeecg.systemConfiguration = function() {
 					equipment_select = rowData.equipmentName;
 					equipment_manufactoryName = rowData.manufactoryName;
 					_this.device_config.dataGrid.url = ctxPath
-							+ "/systemConfiguration/getDeviceList.do?EquipmentID="
+							+ "/systemConfiguration/getDeviceList?EquipmentID="
 							+ rowData.equipmentID;
 					_box2 = new YDataGrid(_this.device_config, tablename, true,
 							false, true, true);
@@ -363,14 +433,14 @@ jeecg.systemConfiguration = function() {
 						async : false,
 						cache : false,
 						type : 'POST',
-						url : ctxPath + "/systemConfiguration/getLd_Ln.do",
+						url : ctxPath + "/systemConfiguration/getLd_Ln",
 						error : function() {// 请求失败处理函数
 							// alert("false");
 						},
 						success : function(data) {
 							for ( var i = 0; i < data.length; i++) {
 								Ld_Ln.push({
-									"text" : data[i].ld_inst_name.replace(';',
+									"text" : data[i].replace(';',
 											'/'),
 									"value" : i
 								});
@@ -387,7 +457,7 @@ jeecg.systemConfiguration = function() {
 		// 		async : false,
 		// 		cache : false,
 		// 		type : 'POST',
-		// 		url : ctxPath + "/systemConfiguration/restart.do",
+		// 		url : ctxPath + "/systemConfiguration/restart",
 		// 		error : function() {// 请求失败处理函数
 		// 			alert("false");
 		// 		},
@@ -398,46 +468,19 @@ jeecg.systemConfiguration = function() {
 		// },
 		// 主设备列表添加按钮事件
 		equipment_add : function() {
-			var deviceType_data, json;
-			deviceType_data = [];
-			var phase_data, json;
-			phase_data = [];
-			var objectVoltage_data, json;
-			objectVoltage_data = [];
-			// 查出
+			debugger
 			var nextID = _this.getNextID();
 			$("#equipmentID").val(nextID);
 			$("#equipmentID").attr("disabled", true);
-			$("#equipmentName").val("");
-			$("#manufactoryName").val("");
-			$("#Remark").val("");
-			for ( var i = 0; i < DevTypeDesc.length; i++) {
-				deviceType_data.push({
-					"text" : DevTypeDesc[i],
-					"value" : i
-				});
-			}
-			phase_data.push({
-				"text" : "A",
-				"value" : "A"
-			}, {
-				"text" : "B",
-				"value" : "B"
-			}, {
-				"text" : "C",
-				"value" : "C"
-			});
-			objectVoltage_data.push({
-				"text" : "AC-500kV"
-			}, {
-				"text" : "DC-800kV"
-			});
-			$("#deviceType").combobox("loadData", deviceType_data);
-			$("#deviceType").combobox('select', deviceType_data[0].value);
-			$("#phase").combobox("loadData", phase_data);
-			$("#phase").combobox('select', phase_data[0].value);
-			$("#objectVoltage").combobox("loadData", objectVoltage_data);
-			$("#objectVoltage").combobox('select', objectVoltage_data[0].value);
+			$("#deviceType").combobox("loadData", deviceTypes);
+			$("#deviceType").combobox('select', deviceTypes[0].value);
+			$("#phase").combobox("loadData", phase_selects);
+			$("#phase").combobox('select', phase_selects[0].value);
+			$("#spaceId").combobox("loadData", spaceIds);
+			$("#spaceId").combobox('select', spaceIds[0].value);
+			$("#IEC61850LD").combobox("loadData", ldDevice_selects);
+			$("#IEC61850LD").combobox('select', ldDevice_selects[0].value);
+
 			$('#equipment_submit').click(_this.addEquipment_submit);
 			$('#equipment_close').unbind('click').click(function() {
 				addDataWin.window('close');
@@ -448,26 +491,39 @@ jeecg.systemConfiguration = function() {
 		// 主设备修改添加提交事件
 		addEquipment_submit : function() {
 			var formData = {};
-			var url = ctxPath + "/systemConfiguration/add_equipment.do", EquipmentID, SpaceId, DeviceType, DeviceName, Phase, ManufactoryName, Remark;
+			var url = ctxPath + "/systemConfiguration/add_equipment", EquipmentID, SpaceId, DeviceType, DeviceName, Phase, ManufactoryName, Remark;
 			formData['EquipmentID'] = $("#equipmentID").val();
 			formData['DeviceType'] = $('#deviceType').combobox('getValue');
 			formData['EquipmentName'] = $("#equipmentName").val();
 			formData['Phase'] = $('#phase').combobox('getValue');
+			formData['SpaceId'] = $('#spaceId').combobox('getValue');
 			formData['ManufactoryName'] = $("#manufactoryName").val();
 			formData['Remark'] = $("#Remark").val();
+			formData['iec61850LD'] = $("#IEC61850LD").val();
+
 			$.ajax({
 				async : false,
 				cache : false,
 				type : 'POST',
 				url : url,
 				data : formData,
+				dataType:json,
 				success : function(data) {
-					addDataWin.window('close');
-					$('#equipmentList').datagrid('reload');
-				},
-				error : function() {// 请求失败处理函数
-					// alert("false");
+					if(data){
+						$("#equipmentName").val("");
+						$("#manufactoryName").val("");
+						$("#Remark").val("");
+						addDataWin.window('close');
+						$('#equipmentList').datagrid('reload');
+					}else {
+						alert("主设备已经存在")
+					}
+
 				}
+				// ,
+				// // error : function() {// 请求失败处理函数
+				// // 	alert("false");
+				// // }
 			});
 		},
 		getNextID : function() {
@@ -476,11 +532,13 @@ jeecg.systemConfiguration = function() {
 				async : false,
 				cache : false,
 				type : 'POST',
-				url : ctxPath + "/systemConfiguration/getNextEquipmentID.do",
+				url : ctxPath + "/systemConfiguration/getNextEquipmentID",
+				dataType:json,
 				error : function() {
 					alert("数据库连接异常");
 				},
 				success : function(data) {
+					debugger
 					if (data == "" || data == null) {
 						str = "M000";
 					} else {
@@ -503,7 +561,7 @@ jeecg.systemConfiguration = function() {
 		// 主设备修改按钮点击事件
 		edit_equipment : function(index) {
 			var deviceType_data, json;
-			var phase_data, json;
+			var phase_data;
 			deviceType_data = [];
 			phase_data = [];
 			var rows = $("#equipmentList").datagrid('getRows');
@@ -535,6 +593,8 @@ jeecg.systemConfiguration = function() {
 			$("#deviceType").combobox('select', select_data.deviceType);
 			$("#phase").combobox("loadData", phase_data);
 			$("#phase").combobox('select', select_data.phase);
+			$("#spaceId").combobox("loadData", spaceIds);
+			$("#spaceId").combobox('select', select_data.spaceId);
 			$("#manufactoryName").val(select_data.manufactoryName);
 			$("#Remark").val(select_data.remark);
 			$('#equipment_submit').click(_this.equipment_submit);
@@ -548,11 +608,13 @@ jeecg.systemConfiguration = function() {
 		// 修改界面提交事件
 		equipment_submit : function() {
 			var formData = {};
-			var url = ctxPath + "/systemConfiguration/update_equipment.do", EquipmentID, SpaceId, DeviceType, DeviceName, Phase, ManufactoryName, Remark
+			var url = ctxPath + "/systemConfiguration/update_equipment", EquipmentID, SpaceId, DeviceType, DeviceName, Phase, ManufactoryName, Remark
 			formData['EquipmentID'] = $("#equipmentID").val();
 			formData['DeviceType'] = $('#deviceType').combobox('getValue');
 			formData['EquipmentName'] = $("#equipmentName").val();
 			formData['Phase'] = $('#phase').combobox('getValue');
+			formData['SpaceId'] = $('#spaceId').combobox('getValue');
+
 			formData['ManufactoryName'] = $("#manufactoryName").val();
 			formData['Remark'] = $("#Remark").val();
 			$.ajax({
@@ -561,6 +623,7 @@ jeecg.systemConfiguration = function() {
 				type : 'POST',
 				url : url,
 				data : formData,
+				dataType:json,
 				error : function() {// 请求失败处理函数
 					alert("false");
 				},
@@ -575,7 +638,7 @@ jeecg.systemConfiguration = function() {
 		device_config : {
 			dataGrid : {
 				title : '',
-				url : ctxPath + "/systemConfiguration/getDeviceList.do",
+				url : ctxPath + "/systemConfiguration/getDeviceList",
 				singleSelect : true,
 				columns : [ [ /*
 								 * { field : 'id', checkbox : true },
@@ -796,7 +859,7 @@ jeecg.systemConfiguration = function() {
 					"getSmoamMonitorID", "getScomMonitorID",
 					"getSconditionMonitorID", "getSF6concentrationMonitorID");
 			url = ctxPath + "/systemConfiguration/" + url_arr[deviceType]
-					+ ".do";
+					+ "";
 			// 将告警表中的设备ID存储到数组中
 			$.ajax({
 				async : false,
@@ -877,12 +940,12 @@ jeecg.systemConfiguration = function() {
 										_url = ctxPath
 												+ "/systemConfiguration/"
 												+ url_update[deviceType]
-												+ ".do";
+												+ "";
 									} else {
 										_url = ctxPath
 												+ "/systemConfiguration/"
 												+ url_insert[deviceType]
-												+ ".do";
+												+ "";
 									}
 									$.ajax({
 										async : false,
@@ -929,7 +992,7 @@ jeecg.systemConfiguration = function() {
 				var deviceType = select_data.deviceType;
 				_this.monitor_config.dataGrid.url = ctxPath
 						+ "/systemConfiguration/" + url_arr[deviceType]
-						+ ".do?DeviceID=" + select_data.deviceID;
+						+ "?DeviceID=" + select_data.deviceID;
 				_box3 = new YDataGrid(_this.monitor_config, tablename, true,
 						false, true, false);
 				_box3.init();
@@ -941,7 +1004,7 @@ jeecg.systemConfiguration = function() {
 			}
 			// 加载复选框
 			var formData = {};
-			var url = ctxPath + "/systemConfiguration/getCheckBox.do";
+			var url = ctxPath + "/systemConfiguration/getCheckBox";
 			formData['DeviceID'] = $("#device_data_list").datagrid(
 					"getSelected").deviceID;
 			formData['DeviceType'] = $("#device_data_list").datagrid(
@@ -994,7 +1057,7 @@ jeecg.systemConfiguration = function() {
 				var rows = $("#equipmentList").datagrid('getRows');
 				var select_data = rows[index];
 				var formData = {};
-				var url = ctxPath + "/systemConfiguration/delete_equipment.do", EquipmentID, SpaceId, DeviceType, DeviceName, Phase, ManufactoryName, Remark
+				var url = ctxPath + "/systemConfiguration/delete_equipment", EquipmentID, SpaceId, DeviceType, DeviceName, Phase, ManufactoryName, Remark
 				formData['EquipmentID'] = select_data.equipmentID;
 				$.ajax({
 					async : false,
@@ -1002,6 +1065,7 @@ jeecg.systemConfiguration = function() {
 					type : 'POST',
 					url : url,
 					data : formData,
+					dataType:json,
 					error : function() {// 请求失败处理函数
 						alert("false");
 					},
@@ -1018,7 +1082,7 @@ jeecg.systemConfiguration = function() {
 				var rows = $("#device_data_list").datagrid('getRows');
 				var select_data = rows[index];
 				var formData = {};
-				var url = ctxPath + "/systemConfiguration/delete_device.do";
+				var url = ctxPath + "/systemConfiguration/delete_device";
 				// EquipmentID,SpaceId,DeviceType,DeviceName,Phase,ManufactoryName,Remark
 				formData['DeviceID'] = select_data.deviceID;
 				$.ajax({
@@ -1027,6 +1091,7 @@ jeecg.systemConfiguration = function() {
 					type : 'POST',
 					url : url,
 					data : formData,
+					dataType: json,
 					error : function() {// 请求失败处理函数
 						alert("false");
 					},
@@ -1039,7 +1104,7 @@ jeecg.systemConfiguration = function() {
 		},
 		// 设备修改点击事件
 		edit_device : function(index) {
-
+            debugger
 			deviceWin.window('open');
 			var equipment_data = $("#equipmentList").datagrid("getSelected");
 			$("#textMDev").val(equipment_data.equipmentName);
@@ -1048,9 +1113,10 @@ jeecg.systemConfiguration = function() {
 			var deviceType_data, json;
 			deviceType_data = [];
 			var rows = $("#device_data_list").datagrid('getRows');
+			debugger
 			var select_data = rows[index];
 			$("#IEC61850LD_LN").combobox("loadData", Ld_Ln_dev);
-			$("#IEC61850LD_LN").combobox('select', select_data.IEC61850LD_LN);
+			$("#IEC61850LD_LN").combobox('select', select_data.iEC61850LD_LN);
 			$("#txtDeviceID").val(select_data.deviceID);
 			$('#txtDeviceID').attr("disabled", true);
 			$("#txtDeviceName").val(select_data.deviceName);
@@ -1122,7 +1188,7 @@ jeecg.systemConfiguration = function() {
 			var formData = {};
 			var select_data = $("#device_data_list").datagrid("getSelected");
 			var equipment_data = $("#equipmentList").datagrid("getSelected");
-			var url = ctxPath + "/systemConfiguration/update_device.do";
+			var url = ctxPath + "/systemConfiguration/update_device";
 			formData['DeviceID'] = $("#txtDeviceID").val();
 			formData['EquipmentID'] = equipment_data.equipmentID;
 			formData['DeviceProductID'] = $('#txtcode').val();
@@ -1155,6 +1221,7 @@ jeecg.systemConfiguration = function() {
 				type : 'POST',
 				url : url,
 				data : formData,
+				dataType:json,
 				error : function() {// 请求失败处理函数
 					alert("数据库连接异常");
 				},
@@ -1171,7 +1238,7 @@ jeecg.systemConfiguration = function() {
 				async : false,
 				cache : false,
 				type : 'POST',
-				url : ctxPath + "/systemConfiguration/getNextDeviceID.do",
+				url : ctxPath + "/systemConfiguration/getNextDeviceID",
 				error : function() {
 					alert("数据库连接异常");
 				},
@@ -1199,6 +1266,7 @@ jeecg.systemConfiguration = function() {
 		},
 		// 设备添加点击事件
 		device_add : function() {
+			debugger
 			var equipment_data = $("#equipmentList").datagrid("getSelected");
 			var deviceType_data, json;
 			deviceType_data = [];
@@ -1269,7 +1337,7 @@ jeecg.systemConfiguration = function() {
 			var formData = {};
 			var select_data = $("#device_data_list").datagrid("getSelected");
 			var equipment_data = $("#equipmentList").datagrid("getSelected");
-			var url = ctxPath + "/systemConfiguration/insert_device.do";
+			var url = ctxPath + "/systemConfiguration/insert_device";
 			// formData['DeviceID'] = $("#txtID").val();
 			formData['EquipmentID'] = equipment_data.equipmentID;
 			formData['DeviceProductID'] = $('#txtcode').val();
@@ -1301,6 +1369,7 @@ jeecg.systemConfiguration = function() {
 				type : 'POST',
 				url : url,
 				data : formData,
+				dataType:json,
 				error : function() {// 请求失败处理函数
 					alert("数据库连接异常");
 				},
@@ -1312,6 +1381,7 @@ jeecg.systemConfiguration = function() {
 			});
 		},
 		selectdevType : function() {
+			debugger
 			Ld_Ln_dev = [];
 			var ddlDeviceType = $("#ddlDeviceType").combobox("getValue");
 			// $("#IEC61850LD_LN").combobox("loadData", []);
@@ -1342,7 +1412,8 @@ jeecg.systemConfiguration = function() {
 				for ( var i = 0; i < Ld_Ln.length; i++) {
 					var dev = Ld_Ln[i];
 					if (dev.text.indexOf("SSAR") != -1
-							|| dev.text.indexOf("ZSAR") != -1) {
+							|| dev.text.indexOf("ZSAR") != -1||
+						dev.text.indexOf("SLAR") != -1) {
 						Ld_Ln_dev.push({
 							"text" : dev.text,
 							"value" : dev.value
@@ -1361,23 +1432,38 @@ jeecg.systemConfiguration = function() {
 					}
 				}
 				break;
-			case '14':
-				for ( var i = 0; i < Ld_Ln.length; i++) {
-					var dev = Ld_Ln[i];
-					if (dev.text.indexOf("MMET") != -1) {
-						Ld_Ln_dev.push({
-							"text" : dev.text,
-							"value" : dev.value
-						});
+				case '7':
+					for ( var i = 0; i < Ld_Ln.length; i++) {
+						var dev = Ld_Ln[i];
+						if (dev.text.indexOf("SINS") != -1) {
+							Ld_Ln_dev.push({
+								"text" : dev.text,
+								"value" : dev.value
+							});
+						}
 					}
-				}
-				break;
+					break;
+				case '8':
+					for ( var i = 0; i < Ld_Ln.length; i++) {
+						var dev = Ld_Ln[i];
+						if (dev.text.indexOf("MMET") != -1) {
+							Ld_Ln_dev.push({
+								"text" : dev.text,
+								"value" : dev.value
+							});
+						}
+					}
+					break;
 			default: {
 				Ld_Ln_dev = Ld_Ln;
 			}
 			}
 			$("#IEC61850LD_LN").combobox("loadData", Ld_Ln_dev);
-			$("#IEC61850LD_LN").combobox('select', Ld_Ln_dev[0].value);
+			if(Ld_Ln_dev==null||Ld_Ln_dev.length==0){
+
+			}else {
+				$("#IEC61850LD_LN").combobox('select', Ld_Ln_dev[0].value);
+			}
 		}
 	};
 	return _this;
@@ -1385,9 +1471,11 @@ jeecg.systemConfiguration = function() {
 // 更新站点信息
 function updateStation() {
 	var formData = {};
+	debugger
 	formData['station'] = $("#txtStation").val();
 	formData['name'] = $("#txtUnitName").val();
 	formData['address'] = $("#txtUnitAddress").val();
+	formData['id'] = $("#txtStationId").val();
 
 	$.ajax({
 		async : false,
@@ -1459,7 +1547,7 @@ $(function() {
 	// 添加版本信息
 	$("#confirm_add").click(function() {
 		if ($("#addProgramForm").form('validate')) {
-			$("#addProgramForm").attr("action", 'addProgram.do');
+			$("#addProgramForm").attr("action", 'addProgram');
 			$("#addProgramForm").ajaxSubmit(function(message) {
 				/*
 				 * programVersionSearch();
@@ -1476,7 +1564,7 @@ $(function() {
 	// 修改版本信息
 	$("#confirm_edit").click(function() {
 		if ($("#editProgramForm").form('validate')) {
-			$("#editProgramForm").attr("action", 'editProgram.do');
+			$("#editProgramForm").attr("action", 'editProgram');
 			$("#editProgramForm").ajaxSubmit(function(message) {
 				/*
 				 * programVersionSearch();
@@ -1493,7 +1581,7 @@ $(function() {
 
 /*
  * function programVersionSearch() { $.ajax({ type : 'post', dataType : 'json',
- * url : 'ProgramVersion_search.do', success : function(data) {
+ * url : 'ProgramVersion_search', success : function(data) {
  * $("#programVersion").datagrid('loadData', { total : data.total, rows :
  * data.rows }); } }); };
  */
@@ -1526,7 +1614,7 @@ function dele() {
 		var programName = sys[0].programName;
 		$.ajax({
 			type : 'post',
-			url : 'delProgram.do?programName=' + programName,
+			url : 'delProgram?programName=' + programName,
 			success : function() {
 				/*
 				 * programVersionSearch();

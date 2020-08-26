@@ -97,11 +97,27 @@ public class DateUtil {
         return now.isAfter(from) && now.isBefore(to);
     }
 
+    public static Long computCuurentTimeDataPlus1(String dateString) {
+        Long time2 = 0L;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = sdf.parse(dateString);
+//            System.out.println(date);
+            time2 = date.getTime() + 86400000;
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+        return time2;
+    }
 
     public static void main(String[] args) {
-        System.out.println(DateUtil.formatFullTime( LocalDateTime.now()));
-        String[] a = "2018-12-09 12:08:19.000".split("\\.");
-
-            System.out.println(a[0]);
+        Long lo  = computCuurentTimeDataPlus1("2018-12-09 08:11:00");
+        System.out.println(lo);
     }
+//    public static void main(String[] args) {
+//        System.out.println(DateUtil.formatFullTime( LocalDateTime.now()));
+//        String[] a = "2018-12-09 12:08:19.000".split("\\.");
+//
+//            System.out.println(a[0]);
+//    }
 }

@@ -25,8 +25,14 @@ public interface TreeDeviceDao<T, T1, T2, T3, T4, T5, T6> extends BaseDao<T> {
 	 List<T> getUnitinfo();
 	 List<T> getPubspaceName();
 	 List<T> getEquipmentName();
+
+	/**
+	 * 根据type获取空间名称（如type=1:低端换流变）
+	 * @param Type
+	 * @return
+	 */
 	 List<T> getPubspaceNameByType(String Type);
-	 List<T> getImgList(java.util.Map<String, Object> param);
+	 List<T> getImgList();
 	 List<Integer> getPubDeviceTypeList();
 	 List<T> getOtherImgList(String SampleTime);
 	 List<String> getRemarkImgList();

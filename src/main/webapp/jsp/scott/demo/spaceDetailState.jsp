@@ -113,6 +113,7 @@
 			value=<%=(String)session.getAttribute("DeviceType")%> />
 		<input type="hidden" id="txtName" name="hiddenField"
 			value=<%=(String)session.getAttribute("DeviceName")%> />
+		<script type="text/javascript" src="<%=basePath%>/js/Innerjs/deviceDetailState.js"></script>
 		<script type="text/javascript" src="<%=basePath%>/js/Innerjs/spaceDetailState.js"></script>
 <%--		<script type="text/javascript" src="<%=basePath%>/js/tableExport/jquery.base64.js"></script>--%>
 <%--		<script type="text/javascript" src="<%=basePath%>/js/tableExport/tableExport.js"></script>--%>

@@ -1,7 +1,6 @@
 package com.scott.controller;
-
-import com.base.util.HtmlUtil;
 import com.base.util.UrlUtil;
+import com.base.util.edit.ICDUtils;
 import com.base.web.BaseAction;
 import com.scott.entity.OsicfgEntity;
 import com.scott.entity.TreeDeviceEntity;
@@ -14,16 +13,11 @@ import org.jdom.output.XMLOutputter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <b>LED接入页面控制类<br>
@@ -39,157 +33,82 @@ public class LEDConfigurationController extends BaseAction {
     private LEDConfigurationService<TreeDeviceEntity> LEDService;
 
     @RequestMapping("/list")
-    public ModelAndView list() throws Exception {
-        Map<String, Object> context = getRootMap();
-        return forword("scott/demo/LEDConfiguration", context);
+    public String list(){
+        return "scott/demo/LEDConfiguration";
     }
 
+    /**
+     * 1。ied接入配置查询
+     * @return
+     */
     @RequestMapping("/getOsicfgXml")
-    public void getOsicfgXml(HttpServletResponse response) throws Exception {
-        List<OsicfgEntity> osicfgList = LEDService.findOsicfg();
-//        Document document;
-//        SAXBuilder bulider = new SAXBuilder();
-//        InputStream inSt = new FileInputStream(UrlUtil.getUrlUtil().getOsicfg() + "osicfg.xml");
-//        document = bulider.build(inSt);
-//        Element root = document.getRootElement(); // 获取根节点对象
-//        List<Element> Networklist = root.getChildren("NetworkAddressing");
-//        for (Element el : Networklist) {
-//            List<Element> RemoteAddressList = el.getChildren("RemoteAddressList");
-//            for (Element el2 : RemoteAddressList) {
-//                List<Element> RemoteAddress = el2.getChildren("RemoteAddress");
-//                for (Element el3 : RemoteAddress) {
-//                    OsicfgEntity temp = new OsicfgEntity();
-//                    List<Element> AR_Name = el3.getChildren("AR_Name");
-//                    temp.setAR_Name(AR_Name.get(0).getText());
-//                    List<Element> NetAddr = el3.getChildren("NetAddr");
-//                    temp.setNetAddr(NetAddr.get(0).getText());
-//                    osicfgList.add(temp);
-//                }
-//            }
-//        }
-//		if(a==1){
-//			for (int i = 0; i <= osicfgList.size() - 1; i++) {
-//				OsicfgEntity OE = new OsicfgEntity();
-//				OE.setAR_Name(osicfgList.get(i).getAR_Name());
-//				OE.setNetAddr(osicfgList.get(i).getNetAddr());
-//				OE.setAR_Name_old(osicfgList.get(i).getAR_Name());
-//				String id = getId();
-//				OE.setIedid(id);
-//				LEDService.add_osicfg(OE);
-//			}
-//		}
-        HtmlUtil.writerJson(response, osicfgList);
+    @ResponseBody
+    public List getOsicfgXml(){
+        return LEDService.find_iec61850_ied_inst();
     }
 
+    /**
+     * 2。动态编辑icd文件
+     * @param entity
+     * @param response
+     * @throws Exception
+     */
     @RequestMapping("/commitled")
-    public void commitled(OsicfgEntity entity, HttpServletResponse response) throws Exception {
+    @ResponseBody
+    public String commitled(OsicfgEntity entity) throws Exception {
+        ICDUtils.commitled(entity, LEDService);
+        return "修改成功";
+    }
+
+    /**
+     * ied接入配置，删除配置
+     * @param arName
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/del")
+    @ResponseBody
+    public List del(String arName) throws Exception {
         List<OsicfgEntity> osicfgList = new ArrayList<OsicfgEntity>();
         SAXBuilder bulider = new SAXBuilder();
         InputStream inSt = new FileInputStream(UrlUtil.getUrlUtil().getOsicfg() + "osicfg.xml");
         Document document = bulider.build(inSt);
         Element root = document.getRootElement();        //获取根节点对象
-        List<Element> Networklist = root.getChildren("NetworkAddressing");
-        int flag = LEDService.findIfUsed(entity.getAR_Name_old());
-        if (flag == 1) {
-            //开始修改xml
-            for (Element el : Networklist) {
-                List<Element> RemoteAddressList = el.getChildren("RemoteAddressList");
-                for (Element el2 : RemoteAddressList) {
-                    List<Element> RemoteAddress = el2.getChildren("RemoteAddress");
-                    for (Element el3 : RemoteAddress) {
-                        Element AR_Name = el3.getChild("AR_Name");
-                        Element NetAddr = el3.getChild("NetAddr");
-                        if (AR_Name.getText().equals(entity.getAR_Name_old())) {
-                            AR_Name.setText(entity.getAR_Name());
-                            NetAddr.setText(entity.getNetAddr());
-                        }
+        List<Element> networkList = root.getChildren("NetworkAddressing");
+
+        //开始删除xml
+        for (Element el : networkList) {
+            List<Element> remoteAddressList = el.getChildren("RemoteAddressList");
+            for (Element el2 : remoteAddressList) {
+                List<Element> remoteAddress = el2.getChildren("RemoteAddress");
+                Element del_e = null;
+                for (Element el3 : remoteAddress) {
+                    Element AR_Name = el3.getChild("AR_Name");
+                    if (AR_Name.getText().equals(arName)) {
+                        del_e = el3;
+                        break;
                     }
                 }
+                el2.removeContent(del_e);
             }
-            //开始更新数据库
-            LEDService.update_osicfg(entity);
         }
-        if (flag == 0) {
-            Element new_el = new Element("RemoteAddress");
-            Element new_AR_Name = new Element("AR_Name");
-            new_AR_Name.setText(entity.getAR_Name());
-            Element new_AP_Title = new Element("AP_Title");
-            new_AP_Title.setText("1 3 9999 23");
-            Element new_AE_Qualifier = new Element("AE_Qualifier");
-            new_AE_Qualifier.setText("23");
-            Element new_Psel = new Element("Psel");
-            new_Psel.setText("00 00 00 01");
-            Element new_Ssel = new Element("Ssel");
-            new_Ssel.setText("00 01");
-            Element new_Tsel = new Element("Tsel");
-            new_Tsel.setText("00 01");
-            Element new_NetAddr = new Element("NetAddr");
-            new_NetAddr.setText(entity.getNetAddr());
-            new_NetAddr.setAttribute("Type", "IPADDR");
-            new_el.addContent(new_AR_Name);
-            new_el.addContent(new_AP_Title);
-            new_el.addContent(new_AE_Qualifier);
-            new_el.addContent(new_Psel);
-            new_el.addContent(new_Ssel);
-            new_el.addContent(new_Tsel);
-            new_el.addContent(new_NetAddr);
-            //开始添加xml
-            for (Element el : Networklist) {
-                List<Element> RemoteAddressList = el.getChildren("RemoteAddressList");
-                RemoteAddressList.get(0).addContent(new_el);
-            }
-            //开始更新数据库
-            //获取加入序号
-            String id = getId();
-            entity.setIedid(id);
-            LEDService.add_osicfg(entity);
-        }
+        //开始同步删除数据库
+        LEDService.del_iec61850_ied_inst(arName);
+        //开始删除整个led文件夹
         XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
         out.output(document, new FileOutputStream(UrlUtil.getUrlUtil().getOsicfg() + "osicfg.xml"));
-        HtmlUtil.writerJson(response, osicfgList);
+        return osicfgList;
     }
 
-    @RequestMapping("/del")
-    public void del(OsicfgEntity entity,
-                    HttpServletResponse response, HttpServletRequest request) throws Exception {
-        List<OsicfgEntity> osicfgList = new ArrayList<OsicfgEntity>();
-        Document document;
-        String file_path = "";
-        file_path = UrlUtil.getUrlUtil().getOsicfg();
-        String xmlName = "osicfg.xml";
-        SAXBuilder bulider = new SAXBuilder();
-        InputStream inSt = new FileInputStream(file_path + xmlName);
-        document = bulider.build(inSt);
-        Element root = document.getRootElement();        //获取根节点对象
-        List<Element> Networklist = root.getChildren("NetworkAddressing");
-
-        //开始删除xml
-        for (Element el : Networklist) {
-            List<Element> RemoteAddressList = el.getChildren("RemoteAddressList");
-            for (Element el2 : RemoteAddressList) {
-                List<Element> RemoteAddress = el2.getChildren("RemoteAddress");
-                Element del_e = null;
-                for (Element el3 : RemoteAddress) {
-                    Element AR_Name = el3.getChild("AR_Name");
-                    if (AR_Name.getText().equals(entity.getAR_Name())) {
-                        del_e = el3;
-                        break;
-                    }
-                    ;
-                }
-                el2.removeContent(del_e);
-            }
-        }
-        //开始同步删除数据库
-        LEDService.del_osicfg(entity);
-        //开始删除整个led文件夹
-        XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
-        out.output(document, new FileOutputStream(file_path + xmlName));
-        HtmlUtil.writerJson(response, osicfgList);
-    }
-
+    /**
+     * 测量量删除配置
+     * @param entity
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/delsql")
-    public void delsql(OsicfgEntity entity, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    @ResponseBody
+    public List delsql(OsicfgEntity entity) throws Exception {
         List<OsicfgEntity> osicfgList = new ArrayList<OsicfgEntity>();
         Document document;
         String file_path = "";
@@ -208,27 +127,26 @@ public class LEDConfigurationController extends BaseAction {
                 Element del_e = null;
                 for (Element el3 : RemoteAddress) {
                     Element AR_Name = el3.getChild("AR_Name");
-                    if (AR_Name.getText().equals(entity.getAR_Name())) {
+                    if (AR_Name.getText().equals(entity.getArName())) {
                         del_e = el3;
                         break;
                     }
-                    ;
                 }
                 el2.removeContent(del_e);
             }
         }
         //开始同步删除数据库
-        LEDService.del_osicfg(entity);
-        LEDService.del_yc_inst(entity);
-        LEDService.del_yx_inst(entity);
-        LEDService.del_yk_inst(entity);
+        LEDService.del_iec61850_ied_inst(entity.getArName());
+        LEDService.del_yc_inst(entity.getArName());
+        LEDService.del_yx_inst(entity.getArName());
+        LEDService.del_yk_inst(entity.getArName());
         //开始删除整个led文件夹
         XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
         out.output(document, new FileOutputStream(file_path + xmlName));
-        HtmlUtil.writerJson(response, osicfgList);
+        return osicfgList;
     }
 
-    public String getId() throws Exception {
+    public String getId(){
         int i_id;
         String id = LEDService.getId();
         if (id == null) {
@@ -246,91 +164,4 @@ public class LEDConfigurationController extends BaseAction {
         return id;
     }
 
-    public void commitled(String dir_iedName, String dir_ip, LEDConfigurationService<TreeDeviceEntity> server) throws Exception {
-        this.LEDService = server;
-        OsicfgEntity entity = new OsicfgEntity();
-        entity.setAR_Name(dir_iedName);
-        entity.setAR_Name_old(dir_iedName);
-        entity.setNetAddr(dir_ip);
-
-        InputStream inSt = new FileInputStream(UrlUtil.getUrlUtil().getOsicfg() + "osicfg.xml");
-
-        SAXBuilder bulider = new SAXBuilder();
-        Document document = bulider.build(inSt);
-        Element root = document.getRootElement();        //获取根节点对象
-        List<Element> networklist = root.getChildren("NetworkAddressing");
-
-        int flag = LEDService.findIfUsed(entity.getAR_Name_old());
-        if (flag == 1) {
-            //开始修改xml
-            for (Element el : networklist) {
-                List<Element> RemoteAddressList = el.getChildren("RemoteAddressList");
-                for (Element el2 : RemoteAddressList) {
-                    List<Element> RemoteAddress = el2.getChildren("RemoteAddress");
-                    for (Element el3 : RemoteAddress) {
-                        Element AR_Name = el3.getChild("AR_Name");
-                        Element NetAddr = el3.getChild("NetAddr");
-                        if (AR_Name.getText().equals(entity.getAR_Name_old())) {
-                            AR_Name.setText(entity.getAR_Name());
-                            NetAddr.setText(entity.getNetAddr());
-                        }
-                    }
-                }
-            }
-            //开始更新数据库
-            LEDService.update_osicfg(entity);
-        }
-        if (flag == 0) {
-            Element new_el = new Element("RemoteAddress");
-            Element new_AR_Name = new Element("AR_Name");
-            new_AR_Name.setText(entity.getAR_Name());
-            Element new_AP_Title = new Element("AP_Title");
-            new_AP_Title.setText("1 3 9999 23");
-            Element new_AE_Qualifier = new Element("AE_Qualifier");
-            new_AE_Qualifier.setText("23");
-            Element new_Psel = new Element("Psel");
-            new_Psel.setText("00 00 00 01");
-            Element new_Ssel = new Element("Ssel");
-            new_Ssel.setText("00 01");
-            Element new_Tsel = new Element("Tsel");
-            new_Tsel.setText("00 01");
-            Element new_NetAddr = new Element("NetAddr");
-            new_NetAddr.setText(entity.getNetAddr());
-            new_NetAddr.setAttribute("Type", "IPADDR");
-            new_el.addContent(new_AR_Name);
-            new_el.addContent(new_AP_Title);
-            new_el.addContent(new_AE_Qualifier);
-            new_el.addContent(new_Psel);
-            new_el.addContent(new_Ssel);
-            new_el.addContent(new_Tsel);
-            new_el.addContent(new_NetAddr);
-            //开始添加xml
-            for (Element el : networklist) {
-                List<Element> remoteAddressList = el.getChildren("RemoteAddressList");
-                int count=0;
-                for (Element el2 : remoteAddressList) {
-                    List<Element> RemoteAddress = el2.getChildren("RemoteAddress");
-                    for (Element el3 : RemoteAddress) {
-                        Element AR_Name = el3.getChild("AR_Name");
-                        Element NetAddr = el3.getChild("NetAddr");
-                        if (AR_Name.getText().equals(entity.getAR_Name_old())) {
-                            AR_Name.setText(entity.getAR_Name());
-                            NetAddr.setText(entity.getNetAddr());
-                            count++;
-                        }
-                    }
-                }
-                if(count==0){
-                    remoteAddressList.get(0).addContent(new_el);
-                }
-            }
-            //开始更新数据库
-            //获取加入序号
-            String id = getId();
-            entity.setIedid(id);
-            LEDService.add_osicfg(entity);
-        }
-        XMLOutputter out = new XMLOutputter(Format.getPrettyFormat());
-        out.output(document, new FileOutputStream(UrlUtil.getUrlUtil().getOsicfg() + "osicfg.xml"));
-    }
 }

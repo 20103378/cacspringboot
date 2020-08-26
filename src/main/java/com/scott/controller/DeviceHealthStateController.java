@@ -4,11 +4,12 @@ import com.base.entity.PubDeviceTypeEnum;
 import com.base.util.GetXml;
 import com.base.util.HtmlUtil;
 import com.base.util.UrlUtil;
+import com.base.util.edit.DateUtil;
 import com.base.web.BaseAction;
 import com.scott.entity.*;
 import com.scott.page.HistoryPage;
 import com.scott.service.DeviceHealthStateService;
-import com.scott.service.TreeDeviceService;
+import com.scott.service.LEDConfigurationService;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -19,13 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -39,7 +38,6 @@ import java.util.*;
 @Controller
 @RequestMapping("/deviceHealthState")
 public class DeviceHealthStateController extends BaseAction {
-
 
     @Autowired(required = false)
     // 自动注入，不需要生成set方法了，required=false表示没有实现类，也不会报错。
@@ -71,7 +69,7 @@ public class DeviceHealthStateController extends BaseAction {
         session.removeAttribute("DeviceID");
         session.setAttribute("DeviceID", deviceID);
         session.removeAttribute("DeviceType");
-        session.setAttribute("DeviceType", deviceEntity.getDeviceType());
+        session.setAttribute("DeviceType", String.valueOf(deviceEntity.getDeviceType()));
         session.removeAttribute("DeviceName");
         session.setAttribute("DeviceName", deviceEntity.getDeviceName());
         //跳转到设备健康页面
@@ -94,409 +92,195 @@ public class DeviceHealthStateController extends BaseAction {
         return "scott/demo/spaceDetailState";
     }
 
-
-    @RequestMapping("/getDetailListDevice")
-    public void getDetailListDevice(String Type,
-                                    HttpServletResponse response) {
-        List<DeviceEntity> date = deviceHealthStateService.getDetailListDevice(Type);
-        HtmlUtil.writerJson(response, date);
-    }
-
+    /**
+     * type = 1 油色谱类型数据实时信息
+     *
+     * @param _off
+     * @param _time
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/getStomDetailList")
-    public void getStomDetailList(boolean _off, String _time,
-                                  HttpServletResponse response) throws Exception {
-        List<StomYxEntity> dataList = new ArrayList<StomYxEntity>();
+    @ResponseBody
+    public List getStomDetailList(boolean _off, String _time) {
+        List<StomYxEntity> dataList;
         if (_off == false) {
-            List<StomYxEntity> date = deviceHealthStateService.getStomDetailDate();
-            List<StomYxEntity> data = deviceHealthStateService.getStomDetail();
-//    		List<StomAlarmEntity> Alarm = deviceHealthStateService.getStomAlarm();
-            dataList = new ArrayList<StomYxEntity>();
-            for (int ii = 0; ii < data.size(); ii++) {
-                dataList.add(date.get(ii));
-                dataList.add(data.get(ii));
-                if (null == data.get(ii).getH2ppm()) {
-                    StomYxEntity AlarmData = new StomYxEntity(1);
-                    dataList.add(AlarmData);
-                    continue;
-                }
-            }
+            dataList = deviceHealthStateService.getStomDetail();
         } else {
-            List<StomYxEntity> date = deviceHealthStateService.getStomDetailDateByDate(_time);
-            List<StomYxEntity> data = deviceHealthStateService.getStomDetailByDate(_time);
-//    		List<StomAlarmEntity> Alarm = deviceHealthStateService.getStomAlarm();
-            dataList = new ArrayList<StomYxEntity>();
-            for (int ii = 0; ii < data.size(); ii++) {
-                dataList.add(date.get(ii));
-                dataList.add(data.get(ii));
-                if (null == data.get(ii).getH2ppm()) {
-                    StomYxEntity AlarmData = new StomYxEntity(1);
-                    dataList.add(AlarmData);
-                    continue;
-                }
-            }
+            dataList = deviceHealthStateService.getStomDetailByDate(_time);
         }
-        HtmlUtil.writerJson(response, dataList);
+        setStomYxAlarmData(dataList);
+        return dataList;
     }
 
-    @RequestMapping("/getStomDetailListExportWord")
-    public void getStomDetailListExportWord(
-            HttpServletResponse response) throws Exception {
-
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        List<StomYxEntity> data = deviceHealthStateService.getStomDetail();
-//		List<StomAlarmEntity> Alarm = deviceHealthStateService.getStomAlarm();
-        List<StomYxEntity> dataList = new ArrayList<StomYxEntity>();
-        Date dt = new Date();
-        Long time = dt.getTime();
-        for (int ii = 0; ii < data.size(); ii++) {
-            StomYxEntity AlarmData = data.get(ii);
-            if (null != AlarmData.getSampleTime()) {
-                String dateString = AlarmData.getSampleTime();
-                dateString = dateString.split(" ")[0];
-                Long time2 = 0L;
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    Date date = sdf.parse(dateString);
-                    time2 = date.getTime() + 86400000;
-                } catch (ParseException e) {
-                    System.out.println(e.getMessage());
-                }
-                if (time.compareTo(time2) > 0) {
-                    AlarmData.setType("超时");
-                } else {
-                    AlarmData.setType("正常");
-                }
-            } else {
-                AlarmData.setType("无实时数据");
-            }
-
-            dataList.add(AlarmData);
+    /**
+     * type = 2 SF6气体压力类型数据实时信息
+     *
+     * @param _off
+     * @param _time
+     * @return
+     */
+    @RequestMapping("/getSf6DetailList")
+    @ResponseBody
+    public List getSf6DetailList(boolean _off, String _time) {
+        List<Sf6YxEntity> dataList;
+        if (_off == false) {
+            dataList = deviceHealthStateService.getSf6Detail();
+        } else {
+            dataList = deviceHealthStateService.getSf6DetailByDate(_time);
         }
-        jsonMap.put("dataList", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        setSf6AlarmData(dataList);
+        return dataList;
     }
 
-    @RequestMapping("/getSf6DetailListExportWord")
-    public void getSf6DetailListExportWord(
-            HttpServletResponse response) throws Exception {
-        List<Sf6YxEntity> data = deviceHealthStateService.getSf6Detail();
-//		List<Sf6AlarmEntity> Alarm = deviceHealthStateService.getSf6Alarm();
-        List<Sf6YxEntity> dataList = new ArrayList<Sf6YxEntity>();
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        Date dt = new Date();
-        Long time = dt.getTime();
-        for (int ii = 0; ii < data.size(); ii++) {
-            Sf6YxEntity AlarmData = data.get(ii);
-            if (null != AlarmData.getSampleTime()) {
-                String dateString = AlarmData.getSampleTime();
-                dateString = dateString.split(" ")[0];
-                Long time2 = 0L;
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    Date date = sdf.parse(dateString);
-                    time2 = date.getTime() + 86400000;
-                } catch (ParseException e) {
-                    System.out.println(e.getMessage());
-                }
-                if (time.compareTo(time2) > 0) {
-                    AlarmData.setType("超时");
-                } else {
-                    AlarmData.setType("正常");
-                }
-            } else {
-                AlarmData.setType("无实时数据");
-            }
-            dataList.add(AlarmData);
+    /**
+     * type = 3 避雷器及动作次数
+     *
+     * @param _off
+     * @param _time
+     * @return
+     */
+    @RequestMapping("/getSmoamDetailList")
+    @ResponseBody
+    public List getSmoamDetailList(boolean _off, String _time) {
+        List<SmoamYxEntity> dataList;
+        if (_off == false) {
+            dataList = deviceHealthStateService.getSmoamDetail();
+        } else {
+            dataList = deviceHealthStateService.getSmoamDetailByDate(_time);
         }
-        jsonMap.put("dataList", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        getSmoamAlarmData(dataList);
+        return dataList;
     }
 
-    @RequestMapping("/getSmoamDetailListExportWord")
-    public void getSmoamDetailListExportWord(
-            HttpServletResponse response) throws Exception {
-        List<SmoamYxEntity> data = deviceHealthStateService.getSmoamDetail();
-//		List<SmoamAlarmEntity> Alarm = deviceHealthStateService.getSmoamAlarm();
-        List<SmoamYxEntity> dataList = new ArrayList<SmoamYxEntity>();
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        Date dt = new Date();
-        Long time = dt.getTime();
-        for (int ii = 0; ii < data.size(); ii++) {
-            SmoamYxEntity AlarmData = data.get(ii);
-            if (null != AlarmData.getSampleTime()) {
-                String dateString = AlarmData.getSampleTime();
-                dateString = dateString.split(" ")[0];
-                Long time2 = 0L;
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    Date date = sdf.parse(dateString);
-                    time2 = date.getTime() + 86400000;
-                } catch (ParseException e) {
-                    System.out.println(e.getMessage());
-                }
-                if (time.compareTo(time2) > 0) {
-                    AlarmData.setType("超时");
-                } else {
-                    AlarmData.setType("正常");
-                }
-            } else {
-                AlarmData.setType("无实时数据");
-            }
-            dataList.add(AlarmData);
+    /**
+     * type = 4 铁芯泄露电流
+     *
+     * @param _off
+     * @param _time
+     * @return
+     */
+    @RequestMapping("/getScomDetailList")
+    @ResponseBody
+    public List getScomDetailList(boolean _off, String _time) {
+        List<ScomYxEntity> dataList;
+        if (_off == false) {
+            dataList = deviceHealthStateService.getScomDetail();
+        } else {
+            dataList = deviceHealthStateService.getScomDetailByDate(_time);
         }
-        jsonMap.put("dataList", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        getScomAlarmData(dataList);
+        return dataList;
     }
 
-    @RequestMapping("/getScomDetailListExportWord")
-    public void getScomDetailListExportWord(
-            HttpServletResponse response) throws Exception {
-        List<ScomYxEntity> data = deviceHealthStateService.getScomDetail();
-//		List<ScomAlarmEntity> Alarm = deviceHealthStateService.getScomAlarm();
-        List<ScomYxEntity> dataList = new ArrayList<ScomYxEntity>();
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        Date dt = new Date();
-        Long time = dt.getTime();
-        for (int ii = 0; ii < data.size(); ii++) {
-            ScomYxEntity AlarmData = data.get(ii);
-            if (null != AlarmData.getSampleTime()) {
-                String dateString = AlarmData.getSampleTime();
-                dateString = dateString.split(" ")[0];
-                Long time2 = 0L;
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    Date date = sdf.parse(dateString);
-                    time2 = date.getTime() + 86400000;
-                } catch (ParseException e) {
-                    System.out.println(e.getMessage());
-                }
-                if (time.compareTo(time2) > 0) {
-                    AlarmData.setType("超时");
-                } else {
-                    AlarmData.setType("正常");
-                }
-            } else {
-                AlarmData.setType("无实时数据");
-            }
-            dataList.add(AlarmData);
-        }
-        jsonMap.put("dataList", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
-    }
 
     @RequestMapping("/getSpdmDetailListExportWord")
-    public void getSpdmDetailListExportWord(HistoryPage page,
-                                            HttpServletResponse response, HttpServletRequest request) throws Exception {
-        List<SpdmYxEntity> data = deviceHealthStateService.getSpdmDetail();
-//		List<SpdmAlarmEntity> Alarm = deviceHealthStateService.getSpdmAlarm();
-        List<SpdmYxEntity> dataList = new ArrayList<SpdmYxEntity>();
+    @ResponseBody
+    public Map<String, Object> getSpdmDetailListExportWord() {
+        List<SpdmYxEntity> dataList = deviceHealthStateService.getSpdmDetail();
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        Date dt = new Date();
-        Long time = dt.getTime();
-        for (int ii = 0; ii < data.size(); ii++) {
-            SpdmYxEntity AlarmData = data.get(ii);
-            if (null != AlarmData.getSampleTime()) {
-                String dateString = AlarmData.getSampleTime();
-                dateString = dateString.split(" ")[0];
-                Long time2 = 0L;
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    Date date = sdf.parse(dateString);
-                    time2 = date.getTime() + 86400000;
-                } catch (ParseException e) {
-                    System.out.println(e.getMessage());
-                }
-                if (time.compareTo(time2) > 0) {
-                    AlarmData.setType("超时");
-                } else {
-                    AlarmData.setType("正常");
-                }
-            } else {
-                AlarmData.setType("无实时数据");
-            }
-            dataList.add(AlarmData);
-        }
+        getSpdmAlarmData(dataList);
         jsonMap.put("dataList", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        return jsonMap;
     }
 
-    @RequestMapping("/getSf6DetailList")
-    public void getSf6DetailList(boolean _off, String _time, HistoryPage page,
-                                 HttpServletResponse response, HttpServletRequest request) throws Exception {
-        List<Sf6YxEntity> dataList = new ArrayList<Sf6YxEntity>();
-        if (_off == false) {
-            List<Sf6YxEntity> date = deviceHealthStateService.getSf6DetailDate();
-            List<Sf6YxEntity> data = deviceHealthStateService.getSf6Detail();
-//			List<Sf6AlarmEntity> Alarm = deviceHealthStateService.getSf6Alarm();
-            for (int ii = 0; ii < data.size(); ii++) {
-                dataList.add(date.get(ii));
-                dataList.add(data.get(ii));
-            }
-        } else {
-            List<Sf6YxEntity> date = deviceHealthStateService.getSf6DetailDateByDate(_time);
-            List<Sf6YxEntity> data = deviceHealthStateService.getSf6DetailByDate(_time);
-//    		List<Sf6AlarmEntity> Alarm = deviceHealthStateService.getSf6Alarm();
-            for (int ii = 0; ii < data.size(); ii++) {
-                dataList.add(date.get(ii));
-                dataList.add(data.get(ii));
-            }
-        }
-        HtmlUtil.writerJson(response, dataList);
-    }
-
-    @RequestMapping("/getSmoamDetailList")
-    public void getSmoamDetailList(boolean _off, String _time, HistoryPage page,
-                                   HttpServletResponse response, HttpServletRequest request) throws Exception {
-        List<SmoamYxEntity> dataList = new ArrayList<SmoamYxEntity>();
-        if (_off == false) {
-            List<SmoamYxEntity> date = deviceHealthStateService.getSmoamDetailDate();
-            List<SmoamYxEntity> data = deviceHealthStateService.getSmoamDetail();
-//			List<SmoamAlarmEntity> Alarm = deviceHealthStateService.getSmoamAlarm();
-            for (int ii = 0; ii < data.size(); ii++) {
-                dataList.add(date.get(ii));
-                dataList.add(data.get(ii));
-            }
-        } else {
-            List<SmoamYxEntity> date = deviceHealthStateService.getSmoamDetailDateByDate(_time);
-            List<SmoamYxEntity> data = deviceHealthStateService.getSmoamDetailByDate(_time);
-//			List<SmoamAlarmEntity> Alarm = deviceHealthStateService.getSmoamAlarm();
-            for (int ii = 0; ii < data.size(); ii++) {
-                dataList.add(date.get(ii));
-                dataList.add(data.get(ii));
-            }
-        }
-        HtmlUtil.writerJson(response, dataList);
-    }
-
-    @RequestMapping("/getScomDetailList")
-    public void getScomDetailList(boolean _off, String _time, HistoryPage page,
-                                  HttpServletResponse response, HttpServletRequest request) throws Exception {
-        List<ScomYxEntity> dataList = new ArrayList<ScomYxEntity>();
-        if (_off == false) {
-            List<ScomYxEntity> date = deviceHealthStateService.getScomDetailDate();
-            List<ScomYxEntity> data = deviceHealthStateService.getScomDetail();
-//			List<ScomAlarmEntity> Alarm = deviceHealthStateService.getScomAlarm();
-
-            for (int ii = 0; ii < data.size(); ii++) {
-                dataList.add(date.get(ii));
-                dataList.add(data.get(ii));
-            }
-        } else {
-            List<ScomYxEntity> date = deviceHealthStateService.getScomDetailDateByDate(_time);
-            List<ScomYxEntity> data = deviceHealthStateService.getScomDetailByDate(_time);
-//    		List<ScomAlarmEntity> Alarm = deviceHealthStateService.getScomAlarm();
-            for (int ii = 0; ii < data.size(); ii++) {
-                dataList.add(date.get(ii));
-                dataList.add(data.get(ii));
-            }
-        }
-        HtmlUtil.writerJson(response, dataList);
-    }
-
+    /**
+     * type = 19 局方
+     *
+     * @param _off
+     * @param _time
+     */
     @RequestMapping("/getSpdmDetailList")
-    public void getSpdmDetailList(boolean _off, String _time,
-                                  HttpServletResponse response) throws Exception {
-        List<SpdmYxEntity> dataList = new ArrayList<SpdmYxEntity>();
+    @ResponseBody
+    public List getSpdmDetailList(boolean _off, String _time) {
+        List<SpdmYxEntity> dataList;
         if (_off == false) {
-            List<SpdmYxEntity> date = deviceHealthStateService.getSpdmDetailDate();
-            List<SpdmYxEntity> data = deviceHealthStateService.getSpdmDetail();
-//			List<SpdmAlarmEntity> Alarm = deviceHealthStateService.getSpdmAlarm();
-
-            for (int ii = 0; ii < data.size(); ii++) {
-                dataList.add(date.get(ii));
-                dataList.add(data.get(ii));
-            }
+            dataList = deviceHealthStateService.getSpdmDetail();
         } else {
-            List<SpdmYxEntity> date = deviceHealthStateService.getSpdmDetailDateByDate(_time);
-            List<SpdmYxEntity> data = deviceHealthStateService.getSpdmDetailByDate(_time);
-//			List<SpdmAlarmEntity> Alarm = deviceHealthStateService.getSpdmAlarm();
-
-            for (int ii = 0; ii < data.size(); ii++) {
-                dataList.add(date.get(ii));
-                dataList.add(data.get(ii));
-            }
+            dataList = deviceHealthStateService.getSpdmDetailByDate(_time);
         }
-        HtmlUtil.writerJson(response, dataList);
+        getSpdmAlarmData(dataList);
+        return dataList;
     }
 
-    //根据区域名称找到stom的数据列表
-    @RequestMapping("/getStomDetailListBySpace")
-    public void getStomDetailListBySpace(String space,
-                                         HttpServletResponse response) throws Exception {
-        space = new String(space.getBytes("iso8859-1"), "utf-8");
-        List<StomYxEntity> date = deviceHealthStateService.getStomDetailDateBySpace(space);
-        List<StomYxEntity> data = deviceHealthStateService.getStomDetailBySpace(space);
-//		List<StomAlarmEntity> Alarm = deviceHealthStateService.getStomAlarm();
-        List<StomYxEntity> dataList = new ArrayList<StomYxEntity>();
-        for (int ii = 0; ii < data.size(); ii++) {
-            dataList.add(date.get(ii));
-            dataList.add(data.get(ii));
-        }
-        HtmlUtil.writerJson(response, dataList);
-    }
+//    //根据区域名称找到stom的数据列表
+//    @RequestMapping("/getStomDetailListBySpace")
+//    public void getStomDetailListBySpace(String space,
+//                                         HttpServletResponse response) throws Exception {
+//        space = new String(space.getBytes("iso8859-1"), "utf-8");
+//        List<StomYxEntity> date = deviceHealthStateService.getStomDetailDateBySpace(space);
+//        List<StomYxEntity> data = deviceHealthStateService.getStomDetailBySpace(space);
+////		List<StomAlarmEntity> Alarm = deviceHealthStateService.getStomAlarm();
+//        List<StomYxEntity> dataList = new ArrayList<StomYxEntity>();
+//        for (int ii = 0; ii < data.size(); ii++) {
+//            dataList.add(date.get(ii));
+//            dataList.add(data.get(ii));
+//        }
+//        HtmlUtil.writerJson(response, dataList);
+//    }
 
 
-    //根据区域名称查找sf6的数据信息
-    @RequestMapping("/getSf6DetailListBySpace")
-    public void getSf6DetailListBySpace(String space,
-                                        HttpServletResponse response) throws Exception {
-        space = new String(space.getBytes("iso8859-1"), "utf-8");
-        List<Sf6YxEntity> date = deviceHealthStateService.getSf6DetailDateBySpace(space);
-        List<Sf6YxEntity> data = deviceHealthStateService.getSf6DetailBySpace(space);
-//		List<Sf6AlarmEntity> Alarm = deviceHealthStateService.getSf6Alarm();
-        List<Sf6YxEntity> dataList = new ArrayList<Sf6YxEntity>();
-        for (int ii = 0; ii < data.size(); ii++) {
-            dataList.add(date.get(ii));
-            dataList.add(data.get(ii));
-        }
-        HtmlUtil.writerJson(response, dataList);
-    }
-
-
-    @RequestMapping("/getSmoamDetailListBySpace")
-    public void getSmoamDetailListBySpace(String space,
-                                          HttpServletResponse response) throws Exception {
-        space = new String(space.getBytes("iso8859-1"), "utf-8");
-        List<SmoamYxEntity> date = deviceHealthStateService.getSmoamDetailDateBySpace(space);
-        List<SmoamYxEntity> data = deviceHealthStateService.getSmoamDetailBySpace(space);
-//		List<SmoamAlarmEntity> Alarm = deviceHealthStateService.getSmoamAlarm();
-        List<SmoamYxEntity> dataList = new ArrayList<SmoamYxEntity>();
-        for (int ii = 0; ii < data.size(); ii++) {
-            dataList.add(date.get(ii));
-            dataList.add(data.get(ii));
-        }
-        HtmlUtil.writerJson(response, dataList);
-    }
-
-    @RequestMapping("/getScomDetailListBySpace")
-    public void getScomDetailListBySpace(String space,
-                                         HttpServletResponse response) throws Exception {
-        space = new String(space.getBytes("iso8859-1"), "utf-8");
-        List<ScomYxEntity> date = deviceHealthStateService.getScomDetailDateBySpace(space);
-        List<ScomYxEntity> data = deviceHealthStateService.getScomDetailBySpace(space);
-//		List<ScomAlarmEntity> Alarm = deviceHealthStateService.getScomAlarm();
-        List<ScomYxEntity> dataList = new ArrayList<ScomYxEntity>();
-        for (int ii = 0; ii < data.size(); ii++) {
-            dataList.add(date.get(ii));
-            dataList.add(data.get(ii));
-        }
-        HtmlUtil.writerJson(response, dataList);
-    }
-
-    @RequestMapping("/getSpdmDetailListBySpace")
-    public void getSpdmDetailListBySpace(String space,
-                                         HttpServletResponse response) throws Exception {
-        space = new String(space.getBytes("iso8859-1"), "utf-8");
-        List<SpdmYxEntity> date = deviceHealthStateService.getSpdmDetailDateBySpace(space);
-        List<SpdmYxEntity> data = deviceHealthStateService.getSpdmDetailBySpace(space);
-//		List<SpdmAlarmEntity> Alarm = deviceHealthStateService.getSpdmAlarm();
-        List<SpdmYxEntity> dataList = new ArrayList<SpdmYxEntity>();
-        for (int ii = 0; ii < data.size(); ii++) {
-            dataList.add(date.get(ii));
-            dataList.add(data.get(ii));
-        }
-        HtmlUtil.writerJson(response, dataList);
-    }
+//    //根据区域名称查找sf6的数据信息
+//    @RequestMapping("/getSf6DetailListBySpace")
+//    public void getSf6DetailListBySpace(String space,
+//                                        HttpServletResponse response) throws Exception {
+//        space = new String(space.getBytes("iso8859-1"), "utf-8");
+//        List<Sf6YxEntity> date = deviceHealthStateService.getSf6DetailDateBySpace(space);
+//        List<Sf6YxEntity> data = deviceHealthStateService.getSf6DetailBySpace(space);
+////		List<Sf6AlarmEntity> Alarm = deviceHealthStateService.getSf6Alarm();
+//        List<Sf6YxEntity> dataList = new ArrayList<Sf6YxEntity>();
+//        for (int ii = 0; ii < data.size(); ii++) {
+//            dataList.add(date.get(ii));
+//            dataList.add(data.get(ii));
+//        }
+//        HtmlUtil.writerJson(response, dataList);
+//    }
+//
+//
+//    @RequestMapping("/getSmoamDetailListBySpace")
+//    public void getSmoamDetailListBySpace(String space,
+//                                          HttpServletResponse response) throws Exception {
+//        space = new String(space.getBytes("iso8859-1"), "utf-8");
+//        List<SmoamYxEntity> date = deviceHealthStateService.getSmoamDetailDateBySpace(space);
+//        List<SmoamYxEntity> data = deviceHealthStateService.getSmoamDetailBySpace(space);
+////		List<SmoamAlarmEntity> Alarm = deviceHealthStateService.getSmoamAlarm();
+//        List<SmoamYxEntity> dataList = new ArrayList<SmoamYxEntity>();
+//        for (int ii = 0; ii < data.size(); ii++) {
+//            dataList.add(date.get(ii));
+//            dataList.add(data.get(ii));
+//        }
+//        HtmlUtil.writerJson(response, dataList);
+//    }
+//
+//    @RequestMapping("/getScomDetailListBySpace")
+//    public void getScomDetailListBySpace(String space,
+//                                         HttpServletResponse response) throws Exception {
+//        space = new String(space.getBytes("iso8859-1"), "utf-8");
+//        List<ScomYxEntity> date = deviceHealthStateService.getScomDetailDateBySpace(space);
+//        List<ScomYxEntity> data = deviceHealthStateService.getScomDetailBySpace(space);
+////		List<ScomAlarmEntity> Alarm = deviceHealthStateService.getScomAlarm();
+//        List<ScomYxEntity> dataList = new ArrayList<ScomYxEntity>();
+//        for (int ii = 0; ii < data.size(); ii++) {
+//            dataList.add(date.get(ii));
+//            dataList.add(data.get(ii));
+//        }
+//        HtmlUtil.writerJson(response, dataList);
+//    }
+//
+//    @RequestMapping("/getSpdmDetailListBySpace")
+//    public void getSpdmDetailListBySpace(String space,
+//                                         HttpServletResponse response) throws Exception {
+//        space = new String(space.getBytes("iso8859-1"), "utf-8");
+//        List<SpdmYxEntity> date = deviceHealthStateService.getSpdmDetailDateBySpace(space);
+//        List<SpdmYxEntity> data = deviceHealthStateService.getSpdmDetailBySpace(space);
+////		List<SpdmAlarmEntity> Alarm = deviceHealthStateService.getSpdmAlarm();
+//        List<SpdmYxEntity> dataList = new ArrayList<SpdmYxEntity>();
+//        for (int ii = 0; ii < data.size(); ii++) {
+//            dataList.add(date.get(ii));
+//            dataList.add(data.get(ii));
+//        }
+//        HtmlUtil.writerJson(response, dataList);
+//    }
 
     /**
      * 获取油色谱历史数据
@@ -504,11 +288,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getstomHistoryData")
     public void getstomHistoryData(HistoryPage page,
-                                   HttpServletResponse response) throws Exception {
+                                   HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<stom_dataEntity> dataList = deviceHealthStateService.getYSPHistory(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -522,12 +306,12 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     //套管
     @RequestMapping("/getSbushHistoryData")
     public void getSbushHistoryData(HistoryPage page,
-                                    HttpServletResponse response) throws Exception {
+                                    HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<SbushDataEntity> dataList = deviceHealthStateService.getSbushHistoryData(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -552,11 +336,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/exportstomHistoryData")
     public void exportstomexportData(HistoryPage page,
-                                     HttpServletResponse response) throws Exception {
+                                     HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<stom_dataEntity> dataList = deviceHealthStateService.exportYSPHistory(page);
         String id = page.getId();
@@ -573,11 +357,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getInfraredHistoryData")
     public void getInfraredHistoryData(HistoryPage page,
-                                       HttpServletResponse response) throws Exception {
+                                       HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<Sf6_dataEntity> dataList = deviceHealthStateService.getInfraredHistory(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -591,11 +375,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getSf6HistoryData")
     public void getSf6HistoryData(HistoryPage page,
-                                  HttpServletResponse response) throws Exception {
+                                  HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<Sf6_dataEntity> dataList = deviceHealthStateService.getSF6History(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -609,11 +393,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/exportSf6HistoryData")
     public void exportSf6HistoryData(HistoryPage page,
-                                     HttpServletResponse response) throws Exception {
+                                     HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<Sf6_dataEntity> dataList = deviceHealthStateService.exportSF6History(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -627,11 +411,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getSMOAMHistoryData")
     public void getSMOAMHistoryData(HistoryPage page,
-                                    HttpServletResponse response) throws Exception {
+                                    HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<SMOAM_dataEntity> dataList = deviceHealthStateService.getSMOAMHistory(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -645,11 +429,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/exportSMOAMHistoryData")
     public void exportSMOAMHistoryData(HistoryPage page,
-                                       HttpServletResponse response) throws Exception {
+                                       HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<SMOAM_dataEntity> dataList = deviceHealthStateService.exportSMOAMHistory(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -663,11 +447,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getSCOMHistoryData")
     public void getSCOMHistoryData(HistoryPage page,
-                                   HttpServletResponse response) throws Exception {
+                                   HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<SCOM_dataEntity> dataList = deviceHealthStateService.getSCOMHistory(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -681,11 +465,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/exportSCOMHistoryData")
     public void exportSCOMHistoryData(HistoryPage page,
-                                      HttpServletResponse response) throws Exception {
+                                      HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<SCOM_dataEntity> dataList = deviceHealthStateService.exportSCOMHistory(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -699,11 +483,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getSPDMHistoryData")
     public void getSconditionHistoryData(HistoryPage page,
-                                         HttpServletResponse response) throws Exception {
+                                         HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<Spdm_dataEntity> dataList = deviceHealthStateService.getSpdmHistoryData(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -714,7 +498,7 @@ public class DeviceHealthStateController extends BaseAction {
 
     @RequestMapping("/exportSPDMHistoryData")
     public void exportSconditionHistoryData(HistoryPage page,
-                                            HttpServletResponse response) throws Exception {
+                                            HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<Spdm_dataEntity> dataList = deviceHealthStateService.exportSpdmHistoryData(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -728,11 +512,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param DeviceType
      * @param response
      * @param request
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getDeviceByType")
     public void getDeviceByType(String DeviceType,
-                                HttpServletResponse response) throws Exception {
+                                HttpServletResponse response) {
         List<DeviceEntity> dataList = new ArrayList<DeviceEntity>();
         if ("hwcw".equals(DeviceType)) {
             dataList = deviceHealthStateService.getInfraredByType();
@@ -749,11 +533,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getInfraredChart_Value")
     public void getInfraredChart_Value(
-            HttpServletResponse response, HttpServletRequest request) throws Exception {
+            HttpServletResponse response, HttpServletRequest request) {
         Map<String, Object> param = new HashMap<String, Object>();
         List<List<Sf6_dataEntity>> dataLists = new ArrayList<List<Sf6_dataEntity>>();
         Map<String, List<Sf6_dataEntity>> maps = new HashMap<String, List<Sf6_dataEntity>>();
@@ -783,11 +567,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getSF6ChartValue")
     public void getSF6ChartValue(
-            HttpServletResponse response, HttpServletRequest request) throws Exception {
+            HttpServletResponse response, HttpServletRequest request) {
         Map<String, Object> param = new HashMap<String, Object>();
         Map<String, List<Sf6_dataEntity>> maps = new HashMap<String, List<Sf6_dataEntity>>();
         String startTime = request.getParameter("_startTime");
@@ -818,11 +602,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getStomChartValue")
     public void getStomChartValue(
-            HttpServletResponse response, HttpServletRequest request) throws Exception {
+            HttpServletResponse response, HttpServletRequest request) {
         Map<String, Object> param = new HashMap<String, Object>();
         Map<String, List<stom_dataEntity>> maps = new HashMap<String, List<stom_dataEntity>>();
         String startTime = request.getParameter("_startTime");
@@ -853,11 +637,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getSmoamChartValue")
     public void getSmoamChartValue(
-            HttpServletResponse response, HttpServletRequest request) throws Exception {
+            HttpServletResponse response, HttpServletRequest request) {
         Map<String, Object> param = new HashMap<String, Object>();
         Map<String, List<SMOAM_dataEntity>> maps = new HashMap<String, List<SMOAM_dataEntity>>();
         String startTime = request.getParameter("_startTime");
@@ -887,11 +671,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getScomChartValue")
     public void getScomChartValue(
-            HttpServletResponse response, HttpServletRequest request) throws Exception {
+            HttpServletResponse response, HttpServletRequest request) {
         Map<String, Object> param = new HashMap<String, Object>();
         Map<String, List<SCOM_dataEntity>> maps = new HashMap<String, List<SCOM_dataEntity>>();
         String startTime = request.getParameter("_startTime");
@@ -921,11 +705,11 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getSpdmChart_Value")
     public void getSpdmChart_history(
-            HttpServletResponse response, HttpServletRequest request) throws Exception {
+            HttpServletResponse response, HttpServletRequest request) {
         Map<String, Object> param = new HashMap<String, Object>();
         Map<String, List<Spdm_dataEntity>> maps = new HashMap<String, List<Spdm_dataEntity>>();
         String startTime = request.getParameter("_startTime");
@@ -955,7 +739,7 @@ public class DeviceHealthStateController extends BaseAction {
      * @param url
      * @param classifyId
      * @return
-     * @throws Exception
+     * @
      */
     @RequestMapping("/getInfXml")
     public void getInfXml(
@@ -1078,13 +862,13 @@ public class DeviceHealthStateController extends BaseAction {
      * @param page
      * @param response
      * @param request
-     * @throws Exception
+     * @
      */
 
 
     @RequestMapping("/getstomYXHistoryData")
     public void getstomYXHistoryData(HistoryPage page,
-                                     HttpServletResponse response) throws Exception {
+                                     HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<YXhistroyData> dataList = deviceHealthStateService.getstomYXHistoryData(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -1094,7 +878,7 @@ public class DeviceHealthStateController extends BaseAction {
 
     @RequestMapping("/getSf6YXHistoryData")
     public void getSf6YXHistoryData(HistoryPage page,
-                                    HttpServletResponse response) throws Exception {
+                                    HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<YXhistroyData> dataList = deviceHealthStateService.getSf6YXHistoryData(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -1104,7 +888,7 @@ public class DeviceHealthStateController extends BaseAction {
 
     @RequestMapping("/getSmoamYXHistory")
     public void getSmoamYXHistory(HistoryPage page,
-                                  HttpServletResponse response) throws Exception {
+                                  HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<YXhistroyData> dataList = deviceHealthStateService.getSmoamYXHistoryData(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -1114,7 +898,7 @@ public class DeviceHealthStateController extends BaseAction {
 
     @RequestMapping("/getScomYXHistoryData")
     public void getScomYXHistoryData(HistoryPage page,
-                                     HttpServletResponse response) throws Exception {
+                                     HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<YXhistroyData> dataList = deviceHealthStateService.getScomYXHistoryData(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -1124,7 +908,7 @@ public class DeviceHealthStateController extends BaseAction {
 
     @RequestMapping("/getSpdmYXHistoryData")
     public void getSpdmYXHistoryData(HistoryPage page,
-                                     HttpServletResponse response) throws Exception {
+                                     HttpServletResponse response) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<YXhistroyData> dataList = deviceHealthStateService.getSpdmYXHistoryData(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -1184,6 +968,92 @@ public class DeviceHealthStateController extends BaseAction {
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+
+    private void setStomYxAlarmData(List<StomYxEntity> dataList) {
+        Long time = Calendar.getInstance().getTime().getTime();
+        for (int ii = 0; ii < dataList.size(); ii++) {
+            StomYxEntity alarmData = dataList.get(ii);
+            if (null != alarmData.getSampleTime()) {
+                Long time2 = DateUtil.computCuurentTimeDataPlus1(alarmData.getSampleTime());
+                if (time.compareTo(time2) > 0) {
+                    alarmData.setType("超时");
+                } else {
+                    alarmData.setType("正常");
+                }
+            } else {
+                alarmData.setType("无实时数据");
+            }
+        }
+    }
+
+    private void setSf6AlarmData(List<Sf6YxEntity> dataList) {
+        Long time = Calendar.getInstance().getTime().getTime();
+        for (int ii = 0; ii < dataList.size(); ii++) {
+            Sf6YxEntity alarmData = dataList.get(ii);
+            if (null != alarmData.getSampleTime()) {
+                Long time2 = DateUtil.computCuurentTimeDataPlus1(alarmData.getSampleTime());
+                if (time.compareTo(time2) > 0) {
+                    alarmData.setType("超时");
+                } else {
+                    alarmData.setType("正常");
+                }
+            } else {
+                alarmData.setType("无实时数据");
+            }
+        }
+    }
+
+    private void getSmoamAlarmData(List<SmoamYxEntity> dataList) {
+        Long time = Calendar.getInstance().getTime().getTime();
+        for (int ii = 0; ii < dataList.size(); ii++) {
+            SmoamYxEntity alarmData = dataList.get(ii);
+            if (null != alarmData.getSampleTime()) {
+                Long time2 = DateUtil.computCuurentTimeDataPlus1(alarmData.getSampleTime());
+                if (time.compareTo(time2) > 0) {
+                    alarmData.setType("超时");
+                } else {
+                    alarmData.setType("正常");
+                }
+            } else {
+                alarmData.setType("无实时数据");
+            }
+        }
+    }
+
+    private void getScomAlarmData(List<ScomYxEntity> dataList) {
+        Long time = Calendar.getInstance().getTime().getTime();
+        for (int ii = 0; ii < dataList.size(); ii++) {
+            ScomYxEntity alarmData = dataList.get(ii);
+            if (null != alarmData.getSampleTime()) {
+                Long time2 = DateUtil.computCuurentTimeDataPlus1(alarmData.getSampleTime());
+                if (time.compareTo(time2) > 0) {
+                    alarmData.setType("超时");
+                } else {
+                    alarmData.setType("正常");
+                }
+            } else {
+                alarmData.setType("无实时数据");
+            }
+        }
+    }
+
+    private void getSpdmAlarmData(List<SpdmYxEntity> dataList) {
+        Long time = Calendar.getInstance().getTime().getTime();
+        for (int ii = 0; ii < dataList.size(); ii++) {
+            SpdmYxEntity alarmData = dataList.get(ii);
+            if (null != alarmData.getSampleTime()) {
+                Long time2 = DateUtil.computCuurentTimeDataPlus1(alarmData.getSampleTime());
+                if (time.compareTo(time2) > 0) {
+                    alarmData.setType("超时");
+                } else {
+                    alarmData.setType("正常");
+                }
+            } else {
+                alarmData.setType("无实时数据");
+            }
         }
     }
 }

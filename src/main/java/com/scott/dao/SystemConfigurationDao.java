@@ -25,10 +25,10 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
     List<Station_InfoEntity> getStation();
 
     int updateStation(Station_InfoEntity entity);
+    int insertStation(Station_InfoEntity entity);
 
     int EquipmentListCount(BasePage page);
 
-    List<EquipmentEntity> getEquipmentList(BasePage page);
 
     List<Refname_descEntity> getrefname();
 
@@ -50,22 +50,68 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
 
     String DeviceMaxId();
 
+    /**
+     * 分页获取主设备列表
+     * @param page
+     * @return
+     */
+    List<EquipmentEntity> getEquipmentList(BasePage page);
+
+    /**
+     * 更新主设备
+     * @param entity
+     */
     void update_equipment(EquipmentEntity entity);
 
+    /**
+     * 添加主设备
+     * @param entity
+     */
     void add_equipment(EquipmentEntity entity);
 
+    /**
+     * 通过主设备编码iec61850LD查询主设备是否存在
+     * @param iec61850LD
+     */
+    EquipmentEntity findEquipmentByIEC61850LD(String iec61850LD);
+    /**
+     * 删除主设备
+     * @param entity
+     */
     void delete_equipment(EquipmentEntity entity);
 
-    List<EquipmentSpaceEntity> getEquipmentSapce();
+    /**
+     * 获取主设备所在space区域位置列表
+     * @return
+     */
+    List<EquipmentSpaceEntity> getEquipmentSpace();
 
     //	 String getMAXSapceID();
-    int getinsertFlag_space(EquipmentSpaceEntity space);
+    int getinsertFlag_space(String spaceId);
 
-    void updatespace(EquipmentSpaceEntity space);
+    /**
+     * 插入space数据  插入区域数据
+     * @param space
+     */
+    void updateSpace(EquipmentSpaceEntity space);
 
-    void insertspace(EquipmentSpaceEntity space);
+    /**
+     * 插入space数据  插入区域数据
+     * @param space
+     */
+    void insertSpace(EquipmentSpaceEntity space);
 
-    void delete_space(EquipmentSpaceEntity space);
+    /**
+     * 删除space数据
+     * @param spaceId
+     */
+    void deleteSpace(String spaceId);
+
+    /**
+     * 查询所有space
+     * @return
+     */
+    List<EquipmentSpaceEntity> findSpace();
 
     List<String> getNextEquipmentID();
 
@@ -109,12 +155,21 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
 
     int ZJ103Count(BasePage page);
 
-    int getZJ103CountByln(ZJ103Entity DeviceID);
+    /**
+     * pubdevice_zj103，根据IEC61850LD_LN查询是否存在
+     * @param IEC61850LD_LN
+     * @return
+     */
+    int getZJ103CountByln(String IEC61850LD_LN);
 
     void updateZJ103(ZJ103Entity DeviceID);
 
     void insertZJ103(ZJ103Entity DeviceID);
 
+    /**
+     * 查询pubdevice_zj103最大的deviceId
+     * @return
+     */
     String ZJ103DeviceIDMax();
 
     List<I2TableEntity> getI2Data(BasePage page);
@@ -166,6 +221,8 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
 
     int insertyc(Data_instEntity entity);
 
+    int updateyc(Data_instEntity entity);
+
     //	 void insertycList(List<Data_instEntity> ycInst);
     int getykCount(Data_instEntity entity);
 
@@ -175,7 +232,13 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
 
     int insertSGCByk(Data_instEntity entity);
 
-    int getLnCount(InstNodeEntity entity);
+    /**
+     * 对iec61850_ln_inst表进行操作,根据ld_inst_name，ln_inst_name查询设备名称是否存在
+     * @param ld_inst_name
+     * @param ln_inst_name
+     * @return
+     */
+    int getLnCount(String ld_inst_name, String ln_inst_name);
 
     int updateLn(InstNodeEntity entity);
 

@@ -50,11 +50,11 @@ var tableExport_test=function(data,head_data,type,name) {
 		a[i]=getBeginDateOfWeek(_yearcurr,_weekcurr,i);
 		}
         // Header
-        for(var i=0;i<data.dataList.length;i++){
+        for(var i=0;i<data.length;i++){
         	if(defaults.displayTableName)
     		excel +="<span>";
         	excel +="<table style='border-color:#CCCCCC;border-width:1px;border-style:solid;border-collapse:collapse;'>";
-    		excel +="<tr><th class='tdHeader' style='vertical-align: bottom;'>" + data.dataList[i].deviceName +  "</th></tr><tr><td><div>";
+    		excel +="<tr><th class='tdHeader' style='vertical-align: bottom;'>" + data[i].deviceName +  "</th></tr><tr><td><div>";
 
 	        excel +="<table cellspacing='0' cellpadding='3'  rules='all' style='border-color:#CCCCCC;border-width:1px;border-style:solid;border-collapse:collapse;'>";
 	        excel += "<tr style='font-weight:bold'>";
@@ -76,14 +76,14 @@ var tableExport_test=function(data,head_data,type,name) {
 	            if(head_data[m].title.indexOf("阈值状态")<=0){
 	            	excel += "<tr>";
 		            excel += "<td style='width:30%;border:1px solid #000'>"+head_data[m].title+"</td>";
-		            excel += "<td style='width:20%;border:1px solid #000'>"+(data.dataList[i][head_data[m].value]==null?"":data.dataList[i][head_data[m].value])+"</td>";
+		            excel += "<td style='width:20%;border:1px solid #000'>"+(data[i][head_data[m].value]==null?"":data[i][head_data[m].value])+"</td>";
 //		            if(head_data[m].value!=type){
 		            	if((m+1)<head_data.length && head_data[(m+1)].title.indexOf("阈值状态")>0){
-			            	excel += "<td style='width:20%;border:1px solid #000'>"+(data.dataList[i][head_data[(m+1)].value]==null?"阈值未设置":data.dataList[i][head_data[(m+1)].value])+"</td>";
+			            	excel += "<td style='width:20%;border:1px solid #000'>"+(data[i][head_data[(m+1)].value]==null?"阈值未设置":data[i][head_data[(m+1)].value])+"</td>";
 			            }else{
 			            	excel += "<td style='width:20%;border:1px solid #000'> -- </td>";
 			            }
-			            excel += "<td style='width:30%;border:1px solid #000'>"+(data.dataList[i].sampleTime==null?"":data.dataList[i].sampleTime)+"</td>";
+			            excel += "<td style='width:30%;border:1px solid #000'>"+(data[i].sampleTime==null?"":data[i].sampleTime)+"</td>";
 //		            }
 		            excel += '</tr>';
 	            }

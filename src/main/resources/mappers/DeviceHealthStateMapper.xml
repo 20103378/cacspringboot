@@ -742,7 +742,7 @@ where a.DeviceType='3' and b.SampleTime &lt; #{_time} order by SampleTime desc )
 </select>
     <select id="getScomDetailByDate" resultMap="YXResultMapScom" parameterType="Object">
 select * from (select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
-left join scom_data b
+inner join scom_data b
  on a.DeviceID=b.DeviceID
 where a.DeviceType='4' and b.SampleTime &lt; #{_time} order by SampleTime desc ) c  group by DeviceID
 </select>
@@ -775,13 +775,13 @@ where a.DeviceType='3'
 </select>
     <select id="getScomDetail" resultMap="YXResultMapScom" parameterType="Object">
 select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
-left join scom_data b
+inner join scom_data b
  on a.DeviceID=b.DeviceID
 where a.DeviceType='4'
 </select>
     <select id="getSpdmDetail" resultMap="YXResultMapSpdm" parameterType="Object">
 select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a
-left join spdm_data b
+inner join spdm_data b
  on a.DeviceID=b.DeviceID
 where a.DeviceType='19'
 </select>

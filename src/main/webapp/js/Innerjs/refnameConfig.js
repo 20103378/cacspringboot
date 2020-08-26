@@ -50,7 +50,7 @@ jeecg.refnameConfig = function(){
 		setSel:function(){
 			var _box = null;
 			var tablename="#refname_desc_tb";
-// _this.data_config.dataGrid.url="getrefname.do",
+// _this.data_config.dataGrid.url="getrefname",
 			_box = new YDataGrid(_this.data_config,tablename,true,false,true,false);
 // _box.grid.datagrid.defaults.onDblClickRow=_this.update;
 			_box.init();
@@ -66,7 +66,7 @@ jeecg.refnameConfig = function(){
 		dataGrid:{
 // pageSize:10,
 // title:'',
-   			url:"getrefname.do",
+   			url:"getrefname",
 			columns:  [[
 			{
                 field: 'refname',
@@ -150,7 +150,7 @@ jeecg.refnameConfig = function(){
 				 async:false,
 				 cache:false,
 				 type:'post',
-				 url:"add_refname.do",
+				 url:"add_refname",
 				 data:formdata,
 				 success:function(data){
 					 deviceWin.window('close');
@@ -187,7 +187,7 @@ jeecg.refnameConfig = function(){
 			                }
 			        	});
 			            // 提交 form
-			            $('#RefnameForm').attr("action", "getRefname_upload.do").submit();
+			            $('#RefnameForm').attr("action", "getRefname_upload").submit();
 			         }else if(!File_xls){
 			         	alert("请选择要上传的文件");
 			         }
@@ -220,7 +220,7 @@ jeecg.refnameConfig = function(){
 				var rows = $("#refname_desc_tb").datagrid('getRows');
 				var select_data = rows[index];
 				var formData = {};
-			    var url=ctxPath +"/systemConfiguration/delete_equipment.do",
+			    var url=ctxPath +"/systemConfiguration/delete_equipment",
 			    Refname_desc
 // ,SpaceId,DeviceType,DeviceName,Phase,ManufactoryName,Remark
 			    formData['Refname_desc'] = select_data.refname;
@@ -245,7 +245,7 @@ jeecg.refnameConfig = function(){
 					 async:false,
 					 cache:false,
 					 type:'post',
-					 url:"getRefnameZip.do",
+					 url:"getRefnameZip",
 					 success:function(data){
 			        	 $('#refname_desc_tb').datagrid('reload');
 			        	 return

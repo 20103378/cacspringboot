@@ -29,13 +29,5 @@ public class SmoamYxEntity extends BaseEntity {
 	private String Type;
 	private String Remark;
 
-    public SmoamYxEntity(int l) {
-        this.TotA="无数据";
-        this.RisA="无数据";
-        this.RisCaRte="无数据";
-        this.LastLigTm="无数据";
-        this.LigCnt="无数据";
-    }
-
 }
 

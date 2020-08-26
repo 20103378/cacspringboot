@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.base.entity.BaseEntity;
+import com.base.entity.PubDeviceTypeEnum;
 import com.base.page.BasePage;
 import com.base.util.HtmlUtil;
+import com.base.util.edit.ICDUtils;
 import com.base.util.UrlUtil;
 import com.base.web.BaseAction;
 import com.scott.entity.*;
@@ -15,11 +17,8 @@ import com.scott.service.SystemConfigurationService;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
-import jxl.format.Alignment;
-import jxl.format.VerticalAlignment;
 import jxl.write.*;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.jdom.Document;
@@ -31,16 +30,19 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.lang.Boolean;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.util.stream.Collectors;
 
 /**
  * <br>
@@ -61,7 +63,7 @@ public class SystemConfigurationController extends BaseAction {
     private LEDConfigurationService<TreeDeviceEntity> LEDService;
 
     @RequestMapping("/list")
-    public String list(){
+    public String list() {
         return "scott/demo/systemConfiguration";
     }
 
@@ -70,17 +72,200 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/getStation")
     @ResponseBody
-    public List getStation() {
+    public Station_InfoEntity getStation() {
         List<Station_InfoEntity> dataList = systemConfigurationService.getStation();
-        return  dataList;
+        if (CollectionUtils.isEmpty(dataList)) {
+            return null;
+        }
+        return dataList.get(0);
     }
 
     /**
      * 修改站点数据
      */
     @RequestMapping("/updateStation")
-    public boolean updateStation(Station_InfoEntity entity){
-        return systemConfigurationService.updateStation(entity)>0;
+    @ResponseBody
+    public boolean updateStation(Station_InfoEntity entity) {
+        if (entity.getId() != null) {
+            systemConfigurationService.updateStation(entity);
+        } else {
+            systemConfigurationService.insertStation(entity);
+        }
+        return true;
+    }
+
+    /**
+     * 插入space区域数据
+     */
+    @RequestMapping(value = "/insertSpace", produces = "application/json;charset=utf-8")
+    @ResponseBody
+    public void insertSpace(EquipmentSpaceEntity space) {
+        int insertFlag = systemConfigurationService.getinsertFlag_space(space.getSpaceId());
+        if (insertFlag > 0)
+            systemConfigurationService.updateSpace(space);
+        else
+            systemConfigurationService.insertSpace(space);
+    }
+
+    /**
+     * 删除space区域数据
+     */
+    @RequestMapping("/deleteSpace")
+    @ResponseBody
+    public void deleteSpace(String spaceId) {
+        systemConfigurationService.deleteSpace(spaceId);
+    }
+
+    /**
+     * 获取space区域
+     * @return
+     */
+    @RequestMapping("/getAllSpace")
+    @ResponseBody
+    public Map getAllSpace()  throws Exception{
+        Map<String,Object> map = new HashMap<>(4);
+        //区域位置
+        map.put("space",systemConfigurationService.findSpace());
+        //相位
+        List phase = new ArrayList();
+        phase.add("A");
+        phase.add("B");
+        phase.add("C");
+        map.put("phase",phase);
+        //主设备类型
+        List<Integer> values = new ArrayList<>();
+        values.add(1);values.add(2);values.add(3);
+        values.add(4);values.add(5);values.add(6);
+        values.add(7);
+        List<Map> deviceTypes = PubDeviceTypeEnum.getDeviceTypeEnumsByValues(values);
+        map.put("deviceTypes",deviceTypes);
+        //LDevice编码
+        Map<String,List> lDeviceMap = ICDUtils.getLdLnMap();
+        map.put("lDeviceMap",lDeviceMap);
+        map.put("LDDevices", lDeviceMap.keySet());
+        return map;
+    }
+
+    // 创建遥测量映射对象列表，从icd文件中获取台账ld_ln列表
+    @RequestMapping("/getLd_Ln")
+    @ResponseBody
+    public List getLd_Ln() throws Exception {
+        // 创建遥测量映射对象列表
+        List<String> entityList = new ArrayList<>();
+        SAXBuilder bulider = new SAXBuilder();
+        InputStream inSt = new FileInputStream(UrlUtil.getUrlUtil().getOsicfg() + "osicfg.xml");
+        Document document = bulider.build(inSt);
+        Element root = document.getRootElement(); // 获取根节点对象
+        List<Element> networklist = root.getChildren("NetworkAddressing");
+        for (Element el : networklist) {
+            List<Element> remoteAddressList = el.getChildren("RemoteAddressList");
+            for (Element el2 : remoteAddressList) {
+                List<Element> remoteAddress = el2.getChildren("RemoteAddress");
+                for (Element el3 : remoteAddress) {
+                    List<Element> AR_Name = el3.getChildren("AR_Name");
+                    // 文档加载开始
+                    String fileName0 = AR_Name.get(0).getText();
+                    String xmlName0 = getXmlName(UrlUtil.getUrlUtil().getOsicfg() + fileName0);
+                    SAXBuilder bulider0 = new SAXBuilder();
+                    InputStream inSt0 = new FileInputStream(UrlUtil.getUrlUtil().getOsicfg() + fileName0 + xmlName0);
+                    Document document0 = bulider0.build(inSt0);
+
+                    // 文档创建完成,开始解析文档到遥测量映射列表中
+                    Element root0 = document0.getRootElement(); // 获取根节点对象
+                    Namespace ns = root0.getNamespace();
+                    Element Communication = root0.getChild("Communication", ns);
+                    Element SubNetwork = Communication.getChild("SubNetwork", ns);
+                    Element ConnectedAP = SubNetwork.getChild("ConnectedAP", ns);
+                    String ied_name = "";
+                    String ied_desc = "";
+                    String ld_inst_name = "";
+                    String ld_inst_desc = "";
+                    String ln_inst_name = "";
+                    String ln_inst_desc = "";
+                    List<Element> IEDList = root0.getChildren("IED", ns);
+                    ied_name = IEDList.get(0).getAttributeValue("name");
+                    ied_desc = IEDList.get(0).getAttributeValue("desc");
+                    Element dataTypeTemplates = root.getChild("DataTypeTemplates", ns);
+                    for (Element el0 : IEDList) {
+                        Element AccessPoint = el0.getChild("AccessPoint", ns);
+                        Element Server = AccessPoint.getChild("Server", ns);
+                        List<Element> LDevice = Server.getChildren("LDevice", ns);
+                        for (Element el_ld : LDevice) {
+                            // 获取ldname和desc
+                            ld_inst_name = ied_name + el_ld.getAttributeValue("inst");
+                            List<Element> lnList = el_ld.getChildren("LN", ns);
+                            // 开始遍历每个LN
+                            for (Element el20 : lnList) {
+                                ln_inst_name = el20.getAttributeValue("lnClass") + el20.getAttributeValue("inst");
+                                entityList.add(ld_inst_name + ";" + ln_inst_name);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return entityList;
+    }
+
+    /**
+     * IED接入配置，测量量映射配置跳转点
+     *
+     * @param response
+     * @param request
+     */
+
+    @RequestMapping("/getIcdExistFlag")
+    @ResponseBody
+    public Boolean getIcdExistFlag(String dIRName) {
+        File file = new File(UrlUtil.getUrlUtil().getOsicfg() + dIRName + File.separator);
+        // 如果文件夹不存在则直接返回
+        if (!file.exists() && !file.isDirectory()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * 测量量映射配置
+     *
+     * @param fileName
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/getSelXml")
+    @ResponseBody
+    public Map getSelXml(String fileName) throws Exception {
+        // 创建遥测量映射对象列表
+        List<YclysEntity> entityList = ICDUtils.getSelXml(fileName);
+        List<YclysEntity> icdData = entityList.stream().filter(s->!s.getTypeName().equals("q")&&!s.getTypeName().equals("t")).collect(Collectors.toList());
+        Map map = new HashMap(16);
+        map.put("icd_data",icdData);
+        map.put("ap_name",icdData.get(0).getApName());
+
+        Set<String> lnData = new HashSet<>(16);
+        Map<String, List<YclysEntity>> ldInstMap = new HashMap<>();
+
+
+        for(YclysEntity icd:icdData){
+            List<YclysEntity> tmpList =  ldInstMap.get(icd.getLdinst());
+            if(tmpList == null){
+                tmpList = new ArrayList<>();
+            }
+            tmpList.add(icd);
+            ldInstMap.put(icd.getLdinst(),tmpList);
+            lnData.add(icd.getLnType()+"("+icd.getLnClass()+","+icd.getLninst()+")");
+        }
+
+        map.put("ld_data",ldInstMap.keySet());
+        map.put("ldInstMap",ldInstMap);
+        map.put("ln_data",lnData);
+
+        Set<String> fcData = new HashSet<>(16);
+        fcData.add("ST");fcData.add("MX");
+        fcData.add("SG");fcData.add("CO");
+        map.put("fc_data",fcData);
+        return map;
     }
 
 //    /**
@@ -102,31 +287,34 @@ public class SystemConfigurationController extends BaseAction {
      * 获取主设备数据
      */
     @RequestMapping("/getEquipmentList")
-    public void getEquipmentList(BasePage page, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    @ResponseBody
+    public Map getEquipmentList(BasePage page) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<EquipmentEntity> dataList = systemConfigurationService.getEquipmentList(page);
         jsonMap.put("total", page.getPager().getRowCount());
         jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        return  jsonMap;
     }
 
     /**
      * 获取设备数据
      */
     @RequestMapping("/getDeviceList")
-    public void getDeviceList(DevicePage page, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    @ResponseBody
+    public Map<String, Object> getDeviceList(DevicePage page){
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<DeviceEntity> dataList = systemConfigurationService.getDeviceList(page);
         jsonMap.put("total", page.getPager().getRowCount());
         jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        return jsonMap;
     }
 
     /**
      * 更新设备数据
      */
     @RequestMapping("/update_device")
-    public void update_device(DeviceEntity entity, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    @ResponseBody
+    public void update_device(DeviceEntity entity){
         systemConfigurationService.update_device(entity);
     }
 
@@ -134,7 +322,8 @@ public class SystemConfigurationController extends BaseAction {
      * 插入设备数据
      */
     @RequestMapping("/insert_device")
-    public void insert_device(DeviceEntity entity, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    @ResponseBody
+    public void insert_device(DeviceEntity entity){
         String a = systemConfigurationService.DeviceMaxId();
         String id = null;
         if (a != null && !("".equals(a))) {
@@ -197,7 +386,8 @@ public class SystemConfigurationController extends BaseAction {
      * 修改主设备信息
      */
     @RequestMapping("/update_equipment")
-    public void update_equipment(EquipmentEntity entity, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    @ResponseBody
+    public void update_equipment(EquipmentEntity entity){
         systemConfigurationService.update_equipment(entity);
     }
 
@@ -205,25 +395,33 @@ public class SystemConfigurationController extends BaseAction {
      * 添加主设备
      */
     @RequestMapping("/add_equipment")
-    public void add_equipment(EquipmentEntity entity, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        systemConfigurationService.add_equipment(entity);
+    @ResponseBody
+    public Boolean add_equipment(EquipmentEntity entity) {
+        EquipmentEntity equipmentEntity = systemConfigurationService.findEquipmentByIEC61850LD(entity.getIec61850LD());
+        if(equipmentEntity ==null){
+            systemConfigurationService.add_equipment(entity);
+            return true;
+        }
+        return false;
     }
 
     /**
      * 删除主设备信息
      */
     @RequestMapping("/delete_equipment")
-    public void delete_equipment(EquipmentEntity entity, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    @ResponseBody
+    public void delete_equipment(EquipmentEntity entity){
         systemConfigurationService.delete_equipment(entity);
     }
 
     /**
      * 获取主设备区域
      */
-    @RequestMapping("/getEquipmentSapce")
-    public void getEquipmentSapce(HttpServletResponse response, HttpServletRequest request) throws Exception {
-        List<EquipmentSpaceEntity> dataList = systemConfigurationService.getEquipmentSapce();
-        HtmlUtil.writerJson(response, dataList);
+    @RequestMapping("/getEquipmentSpace")
+    @ResponseBody
+    public List getEquipmentSpace() {
+        List<EquipmentSpaceEntity> dataList = systemConfigurationService.getEquipmentSpace();
+        return dataList;
     }
 
     /**
@@ -428,7 +626,7 @@ public class SystemConfigurationController extends BaseAction {
                 e.printStackTrace();
             }
         }
-        compressedFile(destFileName, srcFileName);
+        ICDUtils.compressedFile(destFileName, srcFileName);
         // List<EquipmentSpaceEntity>
         // dataList=systemConfigurationService.getEquipmentSapce();
         // HtmlUtil.writerJson(response, dataList);
@@ -549,7 +747,7 @@ public class SystemConfigurationController extends BaseAction {
             // 给 state 节点添加子节点并赋值；
             elements.addContent(new Element("devid").setText(DeviceList.get(i).getDeviceID()));
             elements.addContent(new Element("name").setText(DeviceList.get(i).getDeviceName() + "," + DeviceList.get(i).getStartOperateTime()));
-            elements.addContent(new Element("dtype").setText(DeviceList.get(i).getDeviceType()));
+            elements.addContent(new Element("dtype").setText(String.valueOf(DeviceList.get(i).getDeviceType())));
             elements.addContent(new Element("info").setText(DeviceList.get(i).getRemark()));
             elements.addContent(new Element("data").setText("0,0,0,0,0,0,0,0,0,0,0"));
             int X = i / 10 + 15;
@@ -598,7 +796,7 @@ public class SystemConfigurationController extends BaseAction {
                         System.out.println("开始将" + devname.getText() + "替换成" + DeviceList.get(i).getDeviceName());
                         devname.setText(DeviceList.get(i).getDeviceName());
                         System.out.println("开始将" + dtype.getText() + "替换成" + DeviceList.get(i).getDeviceType());
-                        dtype.setText(DeviceList.get(i).getDeviceType());
+                        dtype.setText(String.valueOf(DeviceList.get(i).getDeviceType()));
                         aa = true;
                         break;// 如果替换则跳出当前for循环寻找下一个
                     }
@@ -611,7 +809,7 @@ public class SystemConfigurationController extends BaseAction {
                 // 给 state 节点添加子节点并赋值；
                 elements.addContent(new Element("devid").setText(DeviceList.get(i).getDeviceID()));
                 elements.addContent(new Element("name").setText(DeviceList.get(i).getDeviceName()));
-                elements.addContent(new Element("dtype").setText(DeviceList.get(i).getDeviceType()));
+                elements.addContent(new Element("dtype").setText(String.valueOf(DeviceList.get(i).getDeviceType())));
                 elements.addContent(new Element("info").setText("0"));
                 elements.addContent(new Element("data").setText("0,0,0,0,0,0,0,0,0,0,0"));
                 int X = i / 10 + 15;
@@ -788,55 +986,14 @@ public class SystemConfigurationController extends BaseAction {
                 e.printStackTrace();
             }
         }
-        compressedFile(destFileName, srcFileName);
+        ICDUtils.compressedFile(destFileName, srcFileName);
         // List<EquipmentSpaceEntity>
         // dataList=systemConfigurationService.getEquipmentSapce();
         // HtmlUtil.writerJson(response, dataList);
     }
 
-    public void compressedFile(String resourcesPath, String targetPath)
-            throws Exception {
-        File resourcesFile = new File(resourcesPath); // 源文件
-        File targetFile = new File(targetPath); // 目的
-        // 如果目的路径不存在，则新建
-        if (!targetFile.exists()) {
-            targetFile.mkdirs();
-        }
 
-        String targetName = "Map" + resourcesFile.getName() + ".zip"; // 目的压缩文件名
-        FileOutputStream outputStream = new FileOutputStream(targetPath + "/" + targetName);
-        ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(outputStream));
-        createCompressedFile(out, resourcesFile, "");
-        out.close();
-    }
 
-    public void createCompressedFile(ZipOutputStream out, File file, String dir)
-            throws Exception {
-        // 如果当前的是文件夹，则进行进一步处理
-        if (file.isDirectory()) {
-            // 得到文件列表信息
-            File[] files = file.listFiles();
-            // 将文件夹添加到下一级打包目录
-            out.putNextEntry(new ZipEntry(dir + "/"));
-            dir = dir.length() == 0 ? "" : dir + "/";
-            // 循环将文件夹中的文件打包
-            for (int i = 0; i < files.length; i++) {
-                createCompressedFile(out, files[i], dir + files[i].getName()); // 递归处理
-            }
-        } else { // 当前的是文件，打包处理
-            // 文件输入流
-            FileInputStream fis = new FileInputStream(file);
-            out.putNextEntry(new ZipEntry(dir));
-            // 进行写操作
-            int j = 0;
-            byte[] buffer = new byte[1024];
-            while ((j = fis.read(buffer)) > 0) {
-                out.write(buffer, 0, j);
-            }
-            // 关闭输入流
-            fis.close();
-        }
-    }
 
     /**
      * 上传SpaceMap
@@ -914,76 +1071,35 @@ public class SystemConfigurationController extends BaseAction {
         HtmlUtil.writerJson(response, jsonMap);
     }
 
-    /**
-     * 重命名
-     *
-     * @param path
-     * @param oldname
-     * @param newname
-     */
-    public void renameFile(String path, String oldname, String newname) {
-        if (!oldname.equals(newname)) {// 新的文件名和以前文件名不同时,才有必要进行重命名
-            File oldfile = new File(path + "/" + oldname);
-            File newfile = new File(path + "/" + newname);
-            if (!oldfile.exists()) {
-                return;// 重命名文件不存在
-            }
-            if (newfile.exists())// 若在该目录下已经有一个文件和新文件名相同，则不允许重命名
-                System.out.println(newname + "已经存在！");
-            else {
-                oldfile.renameTo(newfile);
-            }
-        } else {
-            System.out.println("新文件名和旧文件名相同...");
-        }
-    }
 
-    /**
-     * 插入space数据  插入区域数据
-     */
-    @RequestMapping("/insertspace")
-    public void insertspace(EquipmentSpaceEntity space, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        int insertFlag = systemConfigurationService.getinsertFlag_space(space);
-        if (insertFlag > 0)
-            systemConfigurationService.updatespace(space);
-        else
-            systemConfigurationService.insertspace(space);
-    }
-
-    /**
-     * 删除space数据
-     */
-    @RequestMapping("/delete_space")
-    public void delete_space(EquipmentSpaceEntity space, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        systemConfigurationService.delete_space(space);
-    }
 
     /**
      * 获取下一个主设备ID
      */
     @RequestMapping("/getNextEquipmentID")
-    public void getNextEquipmentID(HttpServletResponse response,
-                                   HttpServletRequest request) throws Exception {
-        List<String> dataList = systemConfigurationService
-                .getNextEquipmentID();
-        HtmlUtil.writerJson(response, dataList);
+    @ResponseBody
+    public List<String> getNextEquipmentID(){
+        List<String> dataList = systemConfigurationService.getNextEquipmentID();
+        return dataList;
     }
 
+    /**
+     *
+     * @return
+     */
     @RequestMapping("/getNextDeviceID")
-    public void getNextDeviceID(HttpServletResponse response,
-                                HttpServletRequest request) throws Exception {
-        List<String> dataList = systemConfigurationService
-                .getNextDeviceID();
-        HtmlUtil.writerJson(response, dataList);
+    @ResponseBody
+    public List<String> getNextDeviceID(){
+        List<String> dataList = systemConfigurationService.getNextDeviceID();
+        return dataList;
     }
 
     /**
      * 删除设备
      */
     @RequestMapping("/delete_device")
-    public void delete_device(DeviceEntity entity,
-                              HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    @ResponseBody
+    public void delete_device(DeviceEntity entity) {
         systemConfigurationService.delete_device(entity);
     }
 
@@ -1244,10 +1360,7 @@ public class SystemConfigurationController extends BaseAction {
      * 修改SF6告警信息
      */
     @RequestMapping("/updateSf6Monitor")
-    public void updateSf6Monitor(Sf6AlarmEntity entity,
-                                 HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-
+    public void updateSf6Monitor(Sf6AlarmEntity entity){
         systemConfigurationService.updateSf6Monitor(entity);
     }
 
@@ -1255,21 +1368,15 @@ public class SystemConfigurationController extends BaseAction {
      * 插入SF6告警信息
      */
     @RequestMapping("/insertSf6Monitor")
-    public void insertSf6Monitor(Sf6AlarmEntity entity,
-                                 HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    public void insertSf6Monitor(Sf6AlarmEntity entity) {
         systemConfigurationService.insertSf6Monitor(entity);
-
     }
 
     /**
      * 修改Stom告警信息
      */
     @RequestMapping("/updateStomMonitor")
-    public void updateStomMonitor(StomAlarmEntity entity,
-                                  HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-
+    public void updateStomMonitor(StomAlarmEntity entity) {
         systemConfigurationService.updateStomMonitor(entity);
     }
 
@@ -1277,9 +1384,7 @@ public class SystemConfigurationController extends BaseAction {
      * 插入Stom告警信息
      */
     @RequestMapping("/insertStomMonitor")
-    public void insertStomMonitor(StomAlarmEntity entity,
-                                  HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    public void insertStomMonitor(StomAlarmEntity entity) {
         systemConfigurationService.insertStomMonitor(entity);
 
     }
@@ -1288,9 +1393,7 @@ public class SystemConfigurationController extends BaseAction {
      * 修改smoam告警信息
      */
     @RequestMapping("/updateSmoamMonitor")
-    public void updateSmoamMonitor(SmoamAlarmEntity entity,
-                                   HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    public void updateSmoamMonitor(SmoamAlarmEntity entity){
 
         systemConfigurationService.updateSmoamMonitor(entity);
     }
@@ -1299,9 +1402,7 @@ public class SystemConfigurationController extends BaseAction {
      * 插入smoam告警信息
      */
     @RequestMapping("/insertSmoamMonitor")
-    public void insertSmoamMonitor(SmoamAlarmEntity entity,
-                                   HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    public void insertSmoamMonitor(SmoamAlarmEntity entity){
         systemConfigurationService.insertSmoamMonitor(entity);
 
     }
@@ -1310,10 +1411,7 @@ public class SystemConfigurationController extends BaseAction {
      * 修改scom告警信息
      */
     @RequestMapping("/updateScomMonitor")
-    public void updateScomMonitor(ScomAlarmEntity entity,
-                                  HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-
+    public void updateScomMonitor(ScomAlarmEntity entity){
         systemConfigurationService.updateScomMonitor(entity);
     }
 
@@ -1321,9 +1419,7 @@ public class SystemConfigurationController extends BaseAction {
      * 插入Scom告警信息
      */
     @RequestMapping("/insertScomMonitor")
-    public void insertScomMonitor(ScomAlarmEntity entity,
-                                  HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    public void insertScomMonitor(ScomAlarmEntity entity){
         systemConfigurationService.insertScomMonitor(entity);
 
     }
@@ -1332,10 +1428,7 @@ public class SystemConfigurationController extends BaseAction {
      * 修改工况告警信息
      */
     @RequestMapping("/updateSconditionMonitor")
-    public void updateSconditionMonitor(SconditionAlarmEntity entity,
-                                        HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-
+    public void updateSconditionMonitor(SconditionAlarmEntity entity){
         systemConfigurationService.updateSconditionMonitor(entity);
     }
 
@@ -1343,9 +1436,7 @@ public class SystemConfigurationController extends BaseAction {
      * 插入工况告警信息
      */
     @RequestMapping("/insertSconditionMonitor")
-    public void insertSconditionMonitor(SconditionAlarmEntity entity,
-                                        HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    public void insertSconditionMonitor(SconditionAlarmEntity entity){
         systemConfigurationService.insertSconditionMonitor(entity);
 
     }
@@ -1354,8 +1445,7 @@ public class SystemConfigurationController extends BaseAction {
      * 获取设备数据
      */
     @RequestMapping("/getExportList")
-    public void getExportList(HttpServletResponse response,
-                              HttpServletRequest request) throws Exception {
+    public void getExportList(HttpServletResponse response){
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<DeviceEntity> dataList = systemConfigurationService
                 .getExportList();
@@ -1367,9 +1457,8 @@ public class SystemConfigurationController extends BaseAction {
      * I1TOI2获取所有设备 由于获取数据一样,直接调用getExportList方法
      */
     @RequestMapping("/getAllDevice")
-    public void getAllDevice(HttpServletResponse response,
-                             HttpServletRequest request) throws Exception {
-        getExportList(response, request);
+    public void getAllDevice(HttpServletResponse response){
+        getExportList(response);
     }
 
     /**
@@ -1516,9 +1605,7 @@ public class SystemConfigurationController extends BaseAction {
      * 插入I2数据
      */
     @RequestMapping("/i2TableCommmit")
-    public void insertI2Table(I2TableEntity entity,
-                              HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    public void insertI2Table(I2TableEntity entity){
         int insertFlag = systemConfigurationService.getinsertFlag(entity);
         if (insertFlag > 0)
             systemConfigurationService.updateI2Table(entity);
@@ -1530,8 +1617,7 @@ public class SystemConfigurationController extends BaseAction {
      * 删除I2数据
      */
     @RequestMapping("/delete_I2")
-    public void delete_I2(I2TableEntity entity, HttpServletResponse response,
-                          HttpServletRequest request) throws Exception {
+    public void delete_I2(I2TableEntity entity){
         systemConfigurationService.delete_I2(entity);
     }
 
@@ -1554,372 +1640,39 @@ public class SystemConfigurationController extends BaseAction {
         HtmlUtil.writerJson(response, jsonMap);
     }
 
-    @RequestMapping("/getSelXml")
-    public void getSelXml(HttpServletResponse response, HttpServletRequest request) throws Exception {
-        // 创建遥测量映射对象列表
-        List<YclysEntity> entityList = new ArrayList<YclysEntity>();
-        // 文档加载开始
-        Document document;
-        String file_path = "";
-        file_path = UrlUtil.getUrlUtil().getOsicfg();
-        String fileName = request.getParameter("xmlName");
-        String xmlName = getXmlName(file_path + fileName);
-        SAXBuilder bulider = new SAXBuilder();
-        InputStream inSt = new FileInputStream(file_path + fileName + xmlName);
-        document = bulider.build(inSt);
-        // 文档创建完成,开始解析文档到遥测量映射列表中
-        Element root = document.getRootElement(); // 获取根节点对象
-        Namespace ns = root.getNamespace();
-        Element Communication = root.getChild("Communication", ns);
-        Element SubNetwork = Communication.getChild("SubNetwork", ns);
-        Element ConnectedAP = SubNetwork.getChild("ConnectedAP", ns);
-        String apName = ConnectedAP.getAttributeValue("apName");
-        // Element address = ConnectedAP.getChild("Address",ns);
-        // List<Element> addressList=address.getChildren("P",ns);
-        // for(Element e1:addressList){
-        // String tpe = e1.getAttributeValue("type");
-        // if(e1.getAttributeValue("type").equals("IP")){
-        // System.out.println(e1.getText());
-        // }
-        // }
-        List<Element> IEDList = root.getChildren("IED", ns);
-        Element DataTypeTemplates = root.getChild("DataTypeTemplates", ns);
-        for (Element el : IEDList) {
-            // 开始循环, 创建一个YclysEntity对象
-
-            Element AccessPoint = el.getChild("AccessPoint", ns);
-            Element Server = AccessPoint.getChild("Server", ns);
-            List<Element> LDevice = Server.getChildren("LDevice", ns);
-            for (Element el_ld : LDevice) {
-                // 获取ldinst
-                String ld_inst = el_ld.getAttributeValue("inst");
-                /*
-                 * if(ld_inst.equals("MONT03")){ continue; }
-                 */
-                List<Element> lnList = el_ld.getChildren("LN", ns);
-                // 开始遍历每个LN
-                for (Element el2 : lnList) {
-                    String prefix = el2.getAttributeValue("prefix");// 1
-                    String lnType = el2.getAttributeValue("lnType");
-                    String lnClass = el2.getAttributeValue("lnClass");// 2
-                    String inst = el2.getAttributeValue("inst");// 3
-                    // 根据lnType再遍历LNodeType
-                    List<Element> LNodeTypeList = DataTypeTemplates.getChildren("LNodeType", ns);
-                    for (Element el3 : LNodeTypeList) {
-                        String nodeType = el3.getAttributeValue("id");
-                        if (!("LPHD".equals(nodeType)) && !("RDRE".equals(nodeType)) && (nodeType.equals(lnType))) {
-                            List<Element> DOList = el3.getChildren("DO", ns);
-                            for (Element el4 : DOList) {
-                                String DOType = el4.getAttributeValue("type");
-                                String DOName = el4.getAttributeValue("name");
-                                String DODesc = el4.getAttributeValue("desc");
-                                List<Element> DOTypeList = DataTypeTemplates.getChildren("DOType", ns);
-                                // 根据DoType值遍历DoType节点
-                                for (Element el5 : DOTypeList) {
-                                    if (el5.getAttributeValue("id").equals(DOType) && !("PhyHealth".equals(DOName)) && !("Health".equals(DOName)) && !("Mod".equals(DOName)) && !("Proxy".equals(DOName)) && !("Beh".equals(DOName))) {
-                                        String DOTypeDesc = el5.getAttributeValue("desc");
-                                        List<Element> DAList = el5.getChildren("DA", ns);
-                                        // 遍历DA节点 ,获得fc和name值
-                                        for (Element el6 : DAList) {
-                                            String fc = el6.getAttributeValue("fc");
-                                            String bType = el6.getAttributeValue("bType");
-                                            if (fc.equals("MX") || fc.equals("ST") || fc.equals("SG")) {
-                                                if (el6.getAttributeValue("type") != null && !"Enum".equals(bType)) {
-                                                    List<Element> DATypeList = DataTypeTemplates.getChildren("DAType", ns);
-                                                    for (Element el7 : DATypeList) {
-                                                        if (el7.getAttributeValue("id").equals(el6.getAttributeValue("type"))) {
-                                                            YclysEntity temp_yclysentity = new YclysEntity();
-                                                            temp_yclysentity.setIedName(fileName);
-                                                            temp_yclysentity.setApName(apName);
-                                                            temp_yclysentity.setLdinst(ld_inst);
-                                                            if (prefix != "" && prefix != null) {
-                                                                String lnClass2 = prefix + lnClass;
-                                                                temp_yclysentity.setLnClass(lnClass2);
-                                                            } else {
-                                                                temp_yclysentity.setLnClass(lnClass);
-                                                            }
-                                                            // temp_yclysentity.setLnClass(lnClass);//1
-                                                            temp_yclysentity.setLninst(inst);// 2
-                                                            List<Element> DOIList = el2.getChildren("DOI", ns);
-                                                            for (Element el8 : DOIList) {
-                                                                String DOIName = el8.getAttributeValue("name");
-                                                                String DOIDesc = el8.getAttributeValue("desc");
-                                                                if (DOName.equals(DOIName)) {
-                                                                    if (DOIDesc == null || DOIDesc == "") {
-                                                                        List<Element> DAIList = el8.getChildren("DAI", ns);
-                                                                        for (Element el9 : DAIList) {
-                                                                            String DAIName = el9.getAttributeValue("name");
-                                                                            List<Element> DAIVal = el9.getChildren("Val", ns);
-                                                                            // String asd=DAIVal.get(0).getText();
-                                                                            if (DAIVal.size() > 0) {
-                                                                                temp_yclysentity.setDesc(DAIVal.get(0).getText());
-                                                                            }
-                                                                        }
-                                                                    } else {
-                                                                        temp_yclysentity.setDesc(DOIDesc);
-                                                                    }
-                                                                }
-                                                            }
-                                                            temp_yclysentity.setLnType(lnType);
-                                                            temp_yclysentity.setFc(el6.getAttributeValue("fc"));
-                                                            temp_yclysentity.setDoName(DOName);
-                                                            List<Element> _temp = el7.getChildren("BDA", ns);
-                                                            temp_yclysentity.setTypeName(el6.getAttributeValue("name"));
-                                                            temp_yclysentity.setDatypeName(_temp.get(0).getAttributeValue("name"));
-                                                            entityList.add(temp_yclysentity);
-                                                        }
-                                                    }
-                                                } else {
-                                                    YclysEntity temp_yclysentity = new YclysEntity();
-                                                    temp_yclysentity.setIedName(fileName);
-                                                    temp_yclysentity.setApName(apName);
-                                                    temp_yclysentity.setLdinst(ld_inst);
-                                                    if (prefix != "" && prefix != null) {
-                                                        String lnClass2 = prefix + lnClass;
-                                                        temp_yclysentity.setLnClass(lnClass2);
-                                                    } else {
-                                                        temp_yclysentity.setLnClass(lnClass);
-                                                    }
-                                                    // temp_yclysentity.setLnClass(lnClass);
-                                                    temp_yclysentity.setLninst(inst);
-                                                    List<Element> DOIList = el2.getChildren("DOI", ns);
-                                                    for (Element el8 : DOIList) {
-                                                        String DOIName = el8.getAttributeValue("name");
-                                                        String DOIDesc = el8.getAttributeValue("desc");
-                                                        if (DOName.equals(DOIName)) {
-                                                            if (DOIDesc == null || DOIDesc == "") {
-                                                                List<Element> DAIList = el8.getChildren("DAI", ns);
-                                                                for (Element el9 : DAIList) {
-                                                                    String DAIName = el9.getAttributeValue("name");
-                                                                    List<Element> DAIVal = el9.getChildren("Val", ns);
-                                                                    // String asd=DAIVal.get(0).getText();
-                                                                    if (DAIVal.size() > 0) {
-                                                                        temp_yclysentity.setDesc(DAIVal.get(0).getText());
-                                                                    }
-                                                                }
-
-                                                            } else {
-                                                                temp_yclysentity.setDesc(DOIDesc);
-                                                            }
-
-                                                        }
-                                                    }
-                                                    temp_yclysentity.setLnType(lnType);
-                                                    temp_yclysentity.setFc(el6.getAttributeValue("fc"));
-                                                    temp_yclysentity.setDoName(DOName);
-                                                    temp_yclysentity.setTypeName(el6.getAttributeValue("name"));
-                                                    entityList.add(temp_yclysentity);
-
-                                                }
-                                            }
-                                            if (fc.equals("CO")) {// CO需要做特殊处理
-                                                if (el6.getAttributeValue("type") != null && !"Enum".equals(bType)) {
-                                                    List<Element> DATypeList = DataTypeTemplates.getChildren("DAType", ns);
-                                                    // 遍历DAtype节点
-                                                    for (Element el7 : DATypeList) {
-                                                        // 如果DAtype下仍有type节点则继续遍历
-                                                        if (el7.getAttributeValue("id").equals(el6.getAttributeValue("type"))) {
-                                                            List<Element> _temp = el7.getChildren("BDA", ns);
-                                                            for (Element bda : _temp) {
-                                                                // 如果BDA下仍然有type则继续遍历
-                                                                if (bda.getAttributeValue("type") != null) {
-                                                                    String bda_type = bda.getAttributeValue("type");
-                                                                    // 重新创建DAType列表
-                                                                    List<Element> DATypeList2 = DataTypeTemplates.getChildren("DAType", ns);
-                                                                    // 如果bdatype和Datype的id一致则取出bda节点的name属性
-                                                                    for (Element da2 : DATypeList2) {
-                                                                        if (da2.getAttributeValue("id").equals(bda_type)) {
-                                                                            // 找到这个da后继续遍历DBA,取出dba的name
-                                                                            List<Element> _temp2 = da2.getChildren("BDA", ns);
-                                                                            for (Element dba2 : _temp2) {
-                                                                                YclysEntity temp_yclysentity = new YclysEntity();// 创建一个遥测量映射的对象
-                                                                                temp_yclysentity.setIedName(fileName);
-                                                                                temp_yclysentity.setApName(apName);
-                                                                                temp_yclysentity.setLdinst(ld_inst);
-                                                                                if (prefix != "" && prefix != null) {
-                                                                                    String lnClass2 = prefix + lnClass;
-                                                                                    temp_yclysentity.setLnClass(lnClass2);
-                                                                                } else {
-                                                                                    temp_yclysentity.setLnClass(lnClass);
-                                                                                }
-                                                                                // temp_yclysentity.setLnClass(lnClass);
-                                                                                temp_yclysentity.setLninst(inst);
-                                                                                List<Element> DOIList = el2.getChildren("DOI", ns);
-                                                                                for (Element el8 : DOIList) {
-                                                                                    String DOIName = el8.getAttributeValue("name");
-                                                                                    String DOIDesc = el8.getAttributeValue("desc");
-                                                                                    if (DOName.equals(DOIName)) {
-                                                                                        if (DOIDesc == null || DOIDesc == "") {
-                                                                                            List<Element> DAIList = el8.getChildren("DAI", ns);
-                                                                                            for (Element el9 : DAIList) {
-                                                                                                String DAIName = el9.getAttributeValue("name");
-                                                                                                List<Element> DAIVal = el9.getChildren("Val", ns);
-                                                                                                // String asd=DAIVal.get(0).getText();
-                                                                                                if (DAIVal.size() > 0) {
-                                                                                                    temp_yclysentity.setDesc(DAIVal.get(0).getText());
-                                                                                                }
-                                                                                            }
-                                                                                        } else {
-                                                                                            temp_yclysentity.setDesc(DOIDesc);
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                                temp_yclysentity.setLnType(lnType);
-                                                                                temp_yclysentity.setFc(el6.getAttributeValue("fc"));
-                                                                                temp_yclysentity.setDoName(DOName);
-                                                                                temp_yclysentity.setTypeName(el6.getAttributeValue("name"));
-                                                                                temp_yclysentity.setDatypeName(bda.getAttributeValue("name"));
-                                                                                temp_yclysentity.setDbaType(dba2.getAttributeValue("name"));
-                                                                                entityList.add(temp_yclysentity);
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                } else {
-                                                                    YclysEntity temp_yclysentity = new YclysEntity();// 创建一个遥测量映射的对象
-                                                                    temp_yclysentity.setIedName(fileName);
-                                                                    temp_yclysentity.setApName(apName);
-                                                                    temp_yclysentity.setLdinst(ld_inst);
-                                                                    if (prefix != "" && prefix != null) {
-                                                                        String lnClass2 = prefix + lnClass;
-                                                                        temp_yclysentity.setLnClass(lnClass2);
-                                                                    } else {
-                                                                        temp_yclysentity.setLnClass(lnClass);
-                                                                    }
-                                                                    // temp_yclysentity.setLnClass(lnClass);
-                                                                    temp_yclysentity.setLninst(inst);
-                                                                    List<Element> DOIList = el2.getChildren("DOI", ns);
-                                                                    for (Element el8 : DOIList) {
-                                                                        String DOIName = el8.getAttributeValue("name");
-                                                                        String DOIDesc = el8.getAttributeValue("desc");
-                                                                        if (DOName.equals(DOIName)) {
-                                                                            if (DOIDesc == null || DOIDesc == "") {
-                                                                                List<Element> DAIList = el8.getChildren("DAI", ns);
-                                                                                for (Element el9 : DAIList) {
-                                                                                    String DAIName = el9.getAttributeValue("name");
-                                                                                    List<Element> DAIVal = el9.getChildren("Val", ns);
-                                                                                    // String asd=DAIVal.get(0).getText();
-                                                                                    if (DAIVal.size() > 0) {
-                                                                                        temp_yclysentity.setDesc(DAIVal.get(0).getText());
-                                                                                    }
-                                                                                }
-                                                                            } else {
-                                                                                temp_yclysentity.setDesc(DOIDesc);
-                                                                            }
-
-                                                                        }
-                                                                    }
-                                                                    temp_yclysentity.setLnType(lnType);
-                                                                    temp_yclysentity.setFc(el6.getAttributeValue("fc"));
-                                                                    temp_yclysentity.setDoName(DOName);
-                                                                    temp_yclysentity.setTypeName(el6.getAttributeValue("name"));
-                                                                    temp_yclysentity.setDatypeName(bda.getAttributeValue("name"));
-                                                                    entityList.add(temp_yclysentity);
-
-                                                                }
-                                                            }
-
-                                                        }
-                                                    }
-                                                } else {
-                                                    YclysEntity temp_yclysentity = new YclysEntity();
-                                                    temp_yclysentity.setIedName(fileName);
-                                                    temp_yclysentity.setApName(apName);
-                                                    temp_yclysentity.setLdinst(ld_inst);
-                                                    if (prefix != "" && prefix != null) {
-                                                        String lnClass2 = prefix + lnClass;
-                                                        temp_yclysentity.setLnClass(lnClass2);
-                                                    } else {
-                                                        temp_yclysentity.setLnClass(lnClass);
-                                                    }
-                                                    // temp_yclysentity.setLnClass(lnClass);
-                                                    temp_yclysentity.setLninst(inst);
-                                                    List<Element> DOIList = el2.getChildren("DOI", ns);
-                                                    for (Element el8 : DOIList) {
-                                                        String DOIName = el8.getAttributeValue("name");
-                                                        String DOIDesc = el8.getAttributeValue("desc");
-                                                        if (DOName.equals(DOIName)) {
-                                                            if (DOIDesc == null || DOIDesc == "") {
-                                                                List<Element> DAIList = el8.getChildren("DAI", ns);
-                                                                for (Element el9 : DAIList) {
-                                                                    String DAIName = el9.getAttributeValue("name");
-                                                                    List<Element> DAIVal = el9.getChildren("Val", ns);
-                                                                    // String asd =DAIVal.get(0).getText();
-                                                                    if (DAIVal.size() > 0) {
-                                                                        temp_yclysentity.setDesc(DAIVal.get(0).getText());
-                                                                    }
-                                                                }
-
-                                                            } else {
-                                                                temp_yclysentity.setDesc(DOIDesc);
-                                                            }
-                                                        }
-                                                    }
-                                                    temp_yclysentity.setLnType(lnType);
-                                                    temp_yclysentity.setFc(el6.getAttributeValue("fc"));
-                                                    temp_yclysentity.setDoName(DOName);
-                                                    temp_yclysentity.setTypeName(el6.getAttributeValue("name"));
-                                                    entityList.add(temp_yclysentity);
-
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        HtmlUtil.writerJson(response, entityList);
-    }
 
     @RequestMapping("/updataXml")//todo
-    public void updataXml(String iedName, HttpServletResponse response,
-                          HttpServletRequest request) throws Exception {
-        // request.getServletPath();
-        String jsonList = request.getParameter("list");
-        JSONArray jsonArray =JSON.parseArray(jsonList);
-        int iSize = jsonArray.size();
-        if (iSize == 0) {
-            return;
-        }
+    @ResponseBody
+    public List updataXml(String iedName,String  jsonList ){
+        JSONArray jsonArray = JSON.parseArray(jsonList);
+        if (jsonArray.size() == 0) { return null; }
         List<YclysEntity> list = new ArrayList<YclysEntity>();
-        for (int i = 0; i < iSize; i++) {
+        for (int i = 0; i < jsonArray.size(); i++) {
             for (int k = 0; k < 3; k++) {
                 JSONObject jsonObj = jsonArray.getJSONObject(i);
                 YclysEntity temp_entity = new YclysEntity();
                 temp_entity.setSel_dxh(jsonObj.get("dxh").toString());
                 temp_entity.setSel_zh(jsonObj.get("dh").toString());
-                String str = jsonObj.get("type").toString();
-                String str0 = jsonObj.get("type").toString().split("[$]")[1];
-                String str1 = jsonObj.get("type").toString()
-                        .replace("mag$f", "q");
                 if (k == 0) {
                     temp_entity.setLnType(jsonObj.get("type").toString());
                 }
                 if (k == 1) {
 
                     if ("MX".equals(jsonObj.get("type").toString().split("[$]")[1])) {
-                        temp_entity.setLnType(jsonObj.get("type").toString()
-                                .replace("mag$f", "q"));
+                        temp_entity.setLnType(jsonObj.get("type").toString().replace("mag$f", "q"));
                         // temp_entity.setLnType(str.substring(0,str.indexOf("[$]",2)+1)+"q");
                     } else {
-                        temp_entity.setLnType(jsonObj.get("type").toString()
-                                .replace("stVal", "q"));
+                        temp_entity.setLnType(jsonObj.get("type").toString().replace("stVal", "q"));
                     }
-                    System.out.println(jsonObj.get("type").toString()
-                            .split("\\$")[1]);
+                    System.out.println(jsonObj.get("type").toString().split("\\$")[1]);
 
                 }
                 if (k == 2) {
                     if ("MX".equals(jsonObj.get("type").toString().split("[$]")[1])) {
-                        temp_entity.setLnType(jsonObj.get("type").toString()
-                                .replace("mag$f", "t"));
+                        temp_entity.setLnType(jsonObj.get("type").toString().replace("mag$f", "t"));
                         // temp_entity.setLnType(str+str.substring(str.indexOf("[$]",2)+1)+"t");
                     } else {
-                        temp_entity.setLnType(jsonObj.get("type").toString()
-                                .replace("stVal", "t"));
+                        temp_entity.setLnType(jsonObj.get("type").toString().replace("stVal", "t"));
                     }
                 }
                 temp_entity.setIedName(jsonObj.get("iedName").toString());
@@ -1933,11 +1686,11 @@ public class SystemConfigurationController extends BaseAction {
         if (meas_flag > -1) {
             // 将list注入cfg文件 写入配置文件
             String path = UrlUtil.getUrlUtil().getOsicfg() + iedName;
-            readCfgFile(path, list);
+            ICDUtils.readCfgFile(path, list);
         } else {
             list.removeAll(list);
         }
-        HtmlUtil.writerJson(response, list);
+        return list;
     }
 
     // 根据startup.cfg获取文件名
@@ -1966,46 +1719,35 @@ public class SystemConfigurationController extends BaseAction {
         return fileName;
     }
 
+    /**
+     * 从ied文件获取节点信息列表
+     *
+     * @param fileName
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/getJdList")
-    public void getJdList(HttpServletResponse response,
-                          HttpServletRequest request) throws Exception {
+    @ResponseBody
+    public List getJdList(String fileName) throws Exception {
         // 创建遥测量映射对象列表
         List<InstNodeEntity> entityList = new ArrayList<InstNodeEntity>();
         // 文档加载开始
-        Document document;
-        String file_path = "";
-        file_path = UrlUtil.getUrlUtil().getOsicfg();
-        String fileName = request.getParameter("xmlName");
-        String xmlName = getXmlName(file_path + fileName);
+        String xmlName = getXmlName(UrlUtil.getUrlUtil().getOsicfg() + fileName);
         SAXBuilder bulider = new SAXBuilder();
-        InputStream inSt = new FileInputStream(file_path + fileName + xmlName);
-        document = bulider.build(inSt);
+        InputStream inSt = new FileInputStream(UrlUtil.getUrlUtil().getOsicfg() + fileName + xmlName);
+        Document document = bulider.build(inSt);
         // 文档创建完成,开始解析文档到遥测量映射列表中
         Element root = document.getRootElement(); // 获取根节点对象
         Namespace ns = root.getNamespace();
-        Element Communication = root.getChild("Communication", ns);
-        Element SubNetwork = Communication.getChild("SubNetwork", ns);
-        Element ConnectedAP = SubNetwork.getChild("ConnectedAP", ns);
         String ied_name = "";
         String ied_desc = "";
         String ld_inst_name = "";
         String ld_inst_desc = "";
         String ln_inst_name = "";
         String ln_inst_desc = "";
-        // ied_name = ConnectedAP.getAttributeValue("apName");
-        // //获取ip
-        // Element address = ConnectedAP.getChild("Address",ns);
-        // List<Element> addressList=address.getChildren("P",ns);
-        // for(Element e1:addressList){
-        // String tpe = e1.getAttributeValue("type");
-        // if(e1.getAttributeValue("type").equals("IP")){
-        // ied_desc=e1.getText();
-        // }
-        // }
         List<Element> IEDList = root.getChildren("IED", ns);
         ied_name = IEDList.get(0).getAttributeValue("name");
         ied_desc = IEDList.get(0).getAttributeValue("desc");
-        Element DataTypeTemplates = root.getChild("DataTypeTemplates", ns);
         for (Element el : IEDList) {
             Element AccessPoint = el.getChild("AccessPoint", ns);
             Element Server = AccessPoint.getChild("Server", ns);
@@ -2031,155 +1773,55 @@ public class SystemConfigurationController extends BaseAction {
                 }
             }
         }
-        HtmlUtil.writerJson(response, entityList);
+        return entityList;
     }
 
-    @RequestMapping("/getLd_Ln")
-    public void getLd_Ln(HttpServletResponse response,
-                         HttpServletRequest request) throws Exception {
 
-        Document document;
-        String file_path = "";
-        // 创建遥测量映射对象列表
-        List<InstNodeEntity> entityList = new ArrayList<InstNodeEntity>();
-        file_path = UrlUtil.getUrlUtil().getOsicfg();
-        String xmlName = "osicfg.xml";
-        SAXBuilder bulider = new SAXBuilder();
-        InputStream inSt = new FileInputStream(file_path + xmlName);
-        document = bulider.build(inSt);
-        Element root = document.getRootElement(); // 获取根节点对象
-        List<Element> Networklist = root.getChildren("NetworkAddressing");
-        for (Element el : Networklist) {
-            List<Element> RemoteAddressList = el.getChildren("RemoteAddressList");
-            for (Element el2 : RemoteAddressList) {
-                List<Element> RemoteAddress = el2.getChildren("RemoteAddress");
-                for (Element el3 : RemoteAddress) {
-                    List<Element> AR_Name = el3.getChildren("AR_Name");
-                    // 文档加载开始
 
-                    Document document0;
-                    String file_path0 = "";
-                    file_path0 = UrlUtil.getUrlUtil().getOsicfg();
-                    String fileName0 = AR_Name.get(0).getText();
-                    String xmlName0 = getXmlName(file_path0 + fileName0);
-                    SAXBuilder bulider0 = new SAXBuilder();
-                    InputStream inSt0 = new FileInputStream(file_path0
-                            + fileName0 + xmlName0);
-                    document0 = bulider0.build(inSt0);
-
-                    // Document document0;
-                    // String fileName=AR_Name.get(0).getText();
-                    // SAXBuilder bulider0 = new SAXBuilder();
-                    // InputStream inSt0 = new
-                    // FileInputStream(file_path+fileName+xmlName);
-                    // document0 = bulider0.build(inSt0);
-                    // 文档创建完成,开始解析文档到遥测量映射列表中
-                    Element root0 = document0.getRootElement(); // 获取根节点对象
-                    Namespace ns = root0.getNamespace();
-                    Element Communication = root0.getChild("Communication", ns);
-                    Element SubNetwork = Communication.getChild("SubNetwork",
-                            ns);
-                    Element ConnectedAP = SubNetwork
-                            .getChild("ConnectedAP", ns);
-                    String ied_name = "";
-                    String ied_desc = "";
-                    String ld_inst_name = "";
-                    String ld_inst_desc = "";
-                    String ln_inst_name = "";
-                    String ln_inst_desc = "";
-                    List<Element> IEDList = root0.getChildren("IED", ns);
-                    ied_name = IEDList.get(0).getAttributeValue("name");
-                    ied_desc = IEDList.get(0).getAttributeValue("desc");
-                    Element DataTypeTemplates = root.getChild(
-                            "DataTypeTemplates", ns);
-                    for (Element el0 : IEDList) {
-                        Element AccessPoint = el0.getChild("AccessPoint", ns);
-                        Element Server = AccessPoint.getChild("Server", ns);
-                        List<Element> LDevice = Server.getChildren("LDevice",
-                                ns);
-                        for (Element el_ld : LDevice) {
-                            // 获取ldname和desc
-                            ld_inst_name = ied_name
-                                    + el_ld.getAttributeValue("inst");
-                            List<Element> lnList = el_ld.getChildren("LN", ns);
-                            // 开始遍历每个LN
-                            for (Element el20 : lnList) {
-                                ln_inst_name = el20
-                                        .getAttributeValue("lnClass")
-                                        + el20.getAttributeValue("inst");
-                                InstNodeEntity ent = new InstNodeEntity();
-                                ent.setLd_inst_name(ld_inst_name + ";"
-                                        + ln_inst_name);
-                                entityList.add(ent);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        HtmlUtil.writerJson(response, entityList);
-    }
-
+    /**
+     * 同步节点信息到数据库
+     *
+     * @param response
+     * @param request
+     * @throws Exception
+     */
     @RequestMapping("/JdListTODB")
-    public void JdListTODB(HttpServletResponse response,
-                           HttpServletRequest request) throws Exception {
-        String jsonList = request.getParameter("list");
-        JSONArray jsonArray = JSON.parseArray(jsonList);
-        int iSize = jsonArray.size();
-        int jj = 0;
-        if (iSize == 0) {
-            return;
-        }
-        for (int i = 0; i < iSize; i++) {
+    @ResponseBody
+    public void JdListTODB(String list) {
+        JSONArray jsonArray = JSON.parseArray(list);
+        for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObj = jsonArray.getJSONObject(i);
             InstNodeEntity temp_entity = new InstNodeEntity();
-            ZJ103Entity ZJ103Entity = new ZJ103Entity();
-            ZJ103Entity Ln_inst = new ZJ103Entity();
             temp_entity.setIed_name(jsonObj.get("ied_name").toString());
-            temp_entity.setIed_desc(jsonObj.get("ied_desc").toString()
-                    .replace('△', 'D'));
+            temp_entity.setIed_desc(jsonObj.get("ied_desc").toString().replace('△', 'D'));
             temp_entity.setLd_inst_name(jsonObj.get("ld_inst_name").toString());
-            String ld_inst_desc = jsonObj.get("ld_inst_desc").toString();
-            if (ld_inst_desc == null || ld_inst_desc == "null")
-                ld_inst_desc = "";
-            temp_entity.setLd_inst_desc(ld_inst_desc);
+            temp_entity.setLd_inst_desc(jsonObj.get("ld_inst_desc").toString());
             temp_entity.setLn_inst_name(jsonObj.get("ln_inst_name").toString());
-            String ln_inst_desc = jsonObj.get("ln_inst_desc").toString();
-            if (ln_inst_desc == null || ln_inst_desc == "null")
-                ln_inst_desc = "";
-            temp_entity.setLn_inst_desc(ln_inst_desc);
-            Ln_inst.setIEC61850LD_LN(temp_entity.getLn_inst_name().substring(0,
-                    4));
+            temp_entity.setLn_inst_desc(jsonObj.get("ln_inst_desc").toString());
+
             int ii = 1;
             String i_Device = systemConfigurationService.ZJ103DeviceIDMax();
             if (i_Device != null) {
                 ii = Integer.parseInt(i_Device.substring(1, 5)) + 1;
             }
-            /*
-             * String Dt=systemConfigurationService.ZJ103_ln(Ln_inst);
-             * if(Dt!=null){ ZJ103Entity.setDeviceType(Integer.parseInt(Dt));
-             * }else{ ZJ103Entity.setDeviceType(0); }
-             */
-
-            ZJ103Entity.setIEC61850LD_LN(temp_entity.getLd_inst_name() + "/"
-                    + temp_entity.getLn_inst_name());
-            String DeviceID = null;
+            String deviceID = null;
             if (ii < 10) {
-                DeviceID = "D000" + ii;
+                deviceID = "D000" + ii;
             } else if (ii < 100) {
-                DeviceID = "D00" + ii;
+                deviceID = "D00" + ii;
             } else if (ii < 1000) {
-                DeviceID = "D0" + ii;
+                deviceID = "D0" + ii;
             } else if (ii < 10000) {
-                DeviceID = "D" + ii;
+                deviceID = "D" + ii;
             } else {
-                DeviceID = "D" + ii;
+                deviceID = "D" + ii;
             }
-            ZJ103Entity.setDeviceID(DeviceID);
+            ZJ103Entity ZJ103Entity = new ZJ103Entity();
+            ZJ103Entity.setIEC61850LD_LN(temp_entity.getLd_inst_name() + "/" + temp_entity.getLn_inst_name());
+            ZJ103Entity.setDeviceID(deviceID);
             // 更新至数据库
-            int count = systemConfigurationService.getLnCount(temp_entity);
-            int count_103 = systemConfigurationService
-                    .getZJ103CountByln(ZJ103Entity);
+            int count = systemConfigurationService.getLnCount(temp_entity.getLd_inst_name(), temp_entity.getLn_inst_name());
+            int count_103 = systemConfigurationService.getZJ103CountByln(ZJ103Entity.getIEC61850LD_LN());
             if (count > 0) {
                 // 已存在id则修改
                 systemConfigurationService.updateLn(temp_entity);
@@ -2195,346 +1837,44 @@ public class SystemConfigurationController extends BaseAction {
         }
     }
 
-    public static String readCfgFile(String path, List<YclysEntity> list) {
-        System.out.println(path);
-        String cfg = "/datamap.cfg";
-        path = path + cfg;
-        StringBuilder sb = new StringBuilder();
-        // 由于list在循环中不好删除,建立下标数组,用于记录是否存在
-        int len = list.size();
-        boolean[] addFlags = new boolean[len];
-        try {
-            File file = new File(path);
-            FileInputStream fs = new FileInputStream(file);
-            InputStreamReader read = new InputStreamReader(fs, "UTF-8");
-            BufferedReader reader = new BufferedReader(read);
-            System.out.println(path);
-            File outfile = new File(path);
-            String line;
-            String line2;
-            String line3;
-            String line4;
-            String line5;
-            List<String> osList = new ArrayList<String>();
-            int nn = 1;
-            while ((line = reader.readLine()) != null) {
-                // 遍历修改已经存在的修改完后从list中移除
-                for (int i = 0; i < list.size(); i++) {
-                    if (line.indexOf(list.get(i).getLnType()) > -1) {// 表示已经存在,则添加
-                        // 已经查到待操作行,正在进行操作
-                        if (list.get(i).getLnType().indexOf("ST") > -1) {
-                            String typeEnd = String
-                                    .valueOf(list
-                                            .get(i)
-                                            .getLnType()
-                                            .charAt(list.get(i).getLnType()
-                                                    .length() - 1));
-                            String ins = "";
-                            if (typeEnd.equals("q") || typeEnd.equals("t")) {
-                                if ("".equals(list.get(i).getSel_zh())
-                                        || "".equals(list.get(i).getSel_dxh())) {
-                                    ins = "\"FV$\"";
-                                } else {
-                                    ins = "\"DI$" + list.get(i).getSel_zh()
-                                            + "$" + list.get(i).getSel_dxh()
-                                            + "$" + typeEnd + "\"";
-                                }
-                            } else {
-                                if ("".equals(list.get(i).getSel_zh())
-                                        || "".equals(list.get(i).getSel_dxh())) {
-                                    ins = "\"FV$\"";
-                                } else {
-                                    ins = "\"DI$" + list.get(i).getSel_zh()
-                                            + "$" + list.get(i).getSel_dxh()
-                                            + "$v\"";
-                                }
-                            }
-                            line = line.substring(0, line.indexOf("\""))
-                                    + ins
-                                    + line.substring(line.lastIndexOf("\"") + 1);
-                        } else if (list.get(i).getLnType().indexOf("MX") > -1) {
-                            String typeEnd = String
-                                    .valueOf(list
-                                            .get(i)
-                                            .getLnType()
-                                            .charAt(list.get(i).getLnType()
-                                                    .length() - 1));
-                            String ins = "";
-                            if (typeEnd.equals("q") || typeEnd.equals("t")) {
-                                if ("".equals(list.get(i).getSel_zh())
-                                        || "".equals(list.get(i).getSel_dxh())) {
-                                    ins = "\"FV$\"";
-                                } else {
-                                    ins = "\"AI$" + list.get(i).getSel_zh()
-                                            + "$" + list.get(i).getSel_dxh()
-                                            + "$" + typeEnd + "\"";
-                                }
-                            } else {
-                                if ("".equals(list.get(i).getSel_zh())
-                                        || "".equals(list.get(i).getSel_dxh())) {
-                                    ins = "\"FV$\"";
-                                } else {
-                                    ins = "\"AI$" + list.get(i).getSel_zh()
-                                            + "$" + list.get(i).getSel_dxh()
-                                            + "$v\"";
-                                }
-                            }
-                            line = line.substring(0, line.indexOf("\""))
-                                    + ins
-                                    + line.substring(line.lastIndexOf("\"") + 1);
-                        } else if (list.get(i).getLnType().indexOf("CO") > -1) {
-                            String typeEnd = String
-                                    .valueOf(list
-                                            .get(i)
-                                            .getLnType()
-                                            .charAt(list.get(i).getLnType()
-                                                    .length() - 1));
-                            String ins = "";
-                            if (typeEnd.equals("q") || typeEnd.equals("t")) {
-                                if ("".equals(list.get(i).getSel_zh())
-                                        || "".equals(list.get(i).getSel_dxh())) {
-                                    ins = "\"FV$\"";
-                                } else {
-                                    ins = "\"FV$" + list.get(i).getSel_zh()
-                                            + "$" + list.get(i).getSel_dxh()
-                                            + "$" + typeEnd + "\"";
-                                }
-                            } else {
-                                if ("".equals(list.get(i).getSel_zh())
-                                        || "".equals(list.get(i).getSel_dxh())) {
-                                    ins = "\"FV$\"";
-                                } else {
-                                    ins = "\"FV$" + list.get(i).getSel_zh()
-                                            + "$" + list.get(i).getSel_dxh()
-                                            + "$v\"";
-                                }
-                            }
-                            line = line.substring(0, line.indexOf("\""))
-                                    + ins
-                                    + line.substring(line.lastIndexOf("\"") + 1);
-                        } else if (list.get(i).getLnType().indexOf("SGCB") > -1) {
-                            String ins = "";
-                            if ("".equals(list.get(i).getSel_zh())
-                                    || "".equals(list.get(i).getSel_dxh())) {
-                                ins = "\"FV$\"";
-                            } else {
-                                ins = "\"AI$" + list.get(i).getSel_zh() + "$"
-                                        + list.get(i).getSel_dxh() + "$v\"";
-                            }
-                            line = line.substring(0, line.indexOf("\""))
-                                    + ins
-                                    + line.substring(line.lastIndexOf("\"") + 1);
-                        } else if (list.get(i).getLnType().indexOf("SG") > -1) {
-                            String ins = "";
-                            if ("".equals(list.get(i).getSel_zh())
-                                    || "".equals(list.get(i).getSel_dxh())) {
-                                ins = "\"FV$\"";
-                            } else {
-                                ins = "\"AI$" + list.get(i).getSel_zh() + "$"
-                                        + list.get(i).getSel_dxh() + "$v\"";
-                            }
-                            line = line.substring(0, line.indexOf("\""))
-                                    + ins
-                                    + line.substring(line.lastIndexOf("\"") + 1);
-                            // String line2=line.replaceAll("SG", "SE");
-                            // line=line+"\r\n"+line2;
-                        }
-                        ;
-                        addFlags[i] = true;
-                    }
-                }
-                // if(list.get(0).getLnType().indexOf("SGCB")>-1){
-                // if(nn==1){
-                // String ins="AI$0$20"+nn+"$v";
-                // int abc=line.indexOf("\"");
-                // line2=line.substring(0,
-                // line.indexOf("\""))+"\tLLN0$SP$SGCB$NumOfSG\t\"";
-                // System.out.println(line2);
-                // line3=ins;
-                // System.out.println(line3);
-                // line4=line.substring(line.lastIndexOf("\"")+1);
-                // System.out.println(line4);
-                // }
-                // if(nn==2){
-                // String ins="AI$0$20"+nn+"$v";
-                // line2=line.substring(0,
-                // line.indexOf("\\"))+"\tLLN0$SP$SGCB$ActSG\t\"";
-                // System.out.println(line2);
-                // line3=ins;
-                // System.out.println(line3);
-                // line4=line.substring(line.lastIndexOf("\"")+1);
-                // System.out.println(line4);
-                // }
-                // if(nn==3){
-                // String ins="AI$0$20"+nn+"$v";
-                // line2=line.substring(0,
-                // line.indexOf("\\"))+"\tLLN0$SP$SGCB$EditSG\t\"";
-                // System.out.println(line2);
-                // line3=ins;
-                // System.out.println(line3);
-                // line4=line.substring(line.lastIndexOf("\"")+1);
-                // System.out.println(line4);
-                // }
-                // if(nn==4){
-                // String ins="AI$0$20"+nn+"$v";
-                // line2=line.substring(0,
-                // line.indexOf("\\"))+"\tLLN0$SP$SGCB$CnfEdit\t\"";
-                // System.out.println(line2);
-                // line3=ins;
-                // System.out.println(line3);
-                // line4=line.substring(line.lastIndexOf("\"")+1);
-                // System.out.println(line4);
-                // }
-                // if(nn==5){
-                // String ins="AI$0$20"+nn+"$v";
-                // line2=line.substring(0,
-                // line.indexOf("\\"))+"\tLLN0$SP$SGCB$LActTm\t\"";
-                // System.out.println(line2);
-                // line3=ins;
-                // System.out.println(line3);
-                // line4=line.substring(line.lastIndexOf("\"")+1);
-                // System.out.println(line4);
-                // }
-                //
-                // nn++;
-                // }
-                osList.add(line + "\n");
-            }
-            // 剩下的list中元素做添加操作
-            // 取出已经做过修改操作的
-            Map<String, String> map = UrlUtil.getMap();
-            for (int i = 0; i < list.size(); i++) {
-                if (addFlags[i] == true) {
-                    continue;
-                }
-                String _lntype = list.get(i).getLnType();
-                String _temp = list.get(i).getIedName() + "\t" + _lntype;
-                // 获取lntype 类型信息
-                String _type = _lntype.substring(_lntype.lastIndexOf("$") + 1);
-                String ins = "";
-                if (_type.equals("q") || _type.equals("t")) {
-                    if ("".equals(list.get(i).getSel_zh())
-                            || "".equals(list.get(i).getSel_dxh())) {
-                        ins = "\t\"FV$\"\ttype=" + map.get(_type);
-                    } else {
-                        ins = "\t\"DI$" + list.get(i).getSel_zh() + "$"
-                                + list.get(i).getSel_dxh() + "$" + _type
-                                + "\"\ttype=" + map.get(_type);
-                    }
-                } else {
-                    if ("".equals(list.get(i).getSel_zh())
-                            || "".equals(list.get(i).getSel_dxh())) {
-                        ins = "\t\"FV$\"\ttype=" + map.get(_type);
-                    } else {
-                        ins = "\t\"DI$" + list.get(i).getSel_zh() + "$"
-                                + list.get(i).getSel_dxh() + "$v\"\ttype="
-                                + map.get(_type);
-                    }
-                }
-                if (list.get(i).getLnType().indexOf("ST") > -1) {
-                    if (_type.equals("q") || _type.equals("t")) {
-                        if ("".equals(list.get(i).getSel_zh())
-                                || "".equals(list.get(i).getSel_dxh())) {
-                            ins = "\t\"FV$\"\ttype=" + map.get(_type);
-                        } else {
-                            ins = "\t\"DI$" + list.get(i).getSel_zh() + "$"
-                                    + list.get(i).getSel_dxh() + "$" + _type
-                                    + "\"\ttype=" + map.get(_type);
-                        }
-                    } else {
-                        if ("".equals(list.get(i).getSel_zh())
-                                || "".equals(list.get(i).getSel_dxh())) {
-                            ins = "\t\"FV$\"\ttype=" + map.get(_type);
-                        } else {
-                            ins = "\t\"DI$" + list.get(i).getSel_zh() + "$"
-                                    + list.get(i).getSel_dxh() + "$v\"\ttype="
-                                    + map.get(_type);
-                        }
-                    }
-                    // ins="\t\"DI$"+list.get(i).getSel_zh()+"$"+list.get(i).getSel_dxh()+"$v\"\ttype="+map.get(_type);
-                } else {
-                    if (_type.equals("q") || _type.equals("t")) {
-                        if ("".equals(list.get(i).getSel_zh())
-                                || "".equals(list.get(i).getSel_dxh())) {
-                            ins = "\t\"FV$\"\ttype=" + map.get(_type);
-                        } else {
-                            ins = "\t\"AI$" + list.get(i).getSel_zh() + "$"
-                                    + list.get(i).getSel_dxh() + "$" + _type
-                                    + "\"\ttype=" + map.get(_type);
-                        }
-                    } else {
-                        if ("".equals(list.get(i).getSel_zh())
-                                || "".equals(list.get(i).getSel_dxh())) {
-                            ins = "\t\"FV$\"\ttype=" + map.get(_type);
-                        } else {
-                            ins = "\t\"AI$" + list.get(i).getSel_zh() + "$"
-                                    + list.get(i).getSel_dxh() + "$v\"\ttype="
-                                    + map.get(_type);
-                        }
-                    }
-                    // ins="\t\"AI$"+list.get(i).getSel_zh()+"$"+list.get(i).getSel_dxh()+"$v\"\ttype="+map.get(_type);
-                }
-                osList.add(_temp + ins + "\n");
-                // if(_lntype.indexOf("SG")>-1){
-                // _temp=_temp.replaceAll("SG", "SE");
-                // osList.add(_temp+ins+"\r\n");
-                // }
-            }
-            reader.close();
-            read.close();
-            fs.close();
-            OutputStreamWriter os = new OutputStreamWriter(
-                    new FileOutputStream(outfile), "UTF-8");
-            PrintWriter pw = new PrintWriter(os);
-            for (int i = 0; i < osList.size(); i++) {
-                pw.write(osList.get(i).toString());
-            }
-            pw.close();
-            os.close();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return sb.toString();
-    }
-
+    /**
+     * 测量量映射配置同步到数据库
+     * @param response
+     * @param request
+     * @throws Exception
+     */
     @RequestMapping("/updataDB")
-    public void updataDB(HttpServletResponse response,
-                         HttpServletRequest request) throws Exception {
-        String jsonList = request.getParameter("list");
-        JSONArray jsonArray = JSON.parseArray(jsonList);
-        int iSize = jsonArray.size();
-        if (iSize == 0) {
-            return;
-        }
-        for (int i = 0; i < iSize; i++) {
+    @ResponseBody
+    public Boolean updataDB(String list){
+        JSONArray jsonArray = JSON.parseArray(list);
+        if (jsonArray.size()==0) { return true;}
+        for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObj = jsonArray.getJSONObject(i);
             Data_instEntity temp_entity = new Data_instEntity();
-            // 这里的dh其实是组号,dxh是点序号
-            int _zh = Integer.parseInt(jsonObj.get("dh").toString());
-            int _dxh = Integer.parseInt(jsonObj.get("dxh").toString());
-            // 过滤相同点序号
-            if (i == 0) {
-
-            } else if (jsonArray.getJSONObject(i).get("dxh")
-                    .equals(jsonArray.getJSONObject(i - 1).get("dxh"))) {
-                continue;
-            }
-            // yxid算法
-            temp_entity.setYx_id((_zh * 2048) + _dxh);
+//            // 这里的dh其实是组号,dxh是点序号
+//            int _zh = Integer.parseInt(jsonObj.get("dh").toString());
+//            int _dxh = Integer.parseInt(jsonObj.get("dxh").toString());
+//            // 过滤相同点序号
+//            if (i == 0) { } else if (jsonArray.getJSONObject(i).get("dxh")
+//                    .equals(jsonArray.getJSONObject(i - 1).get("dxh"))) {
+//                continue;
+//            }
+//            // yxid算法
+//            temp_entity.setYx_id((_zh * 2048) + _dxh);
             temp_entity.setLd_inst_name(jsonObj.get("iedName").toString());
             // 截取ln
             String type = jsonObj.get("type").toString();
-            String desc = jsonObj.get("desc").toString();
+            String desc = "";
+            if (jsonObj.get("desc") != null) {
+                desc = jsonObj.get("desc").toString();
+            }
             String[] arr_type = type.split("\\$");
             temp_entity.setLn_inst_name(arr_type[0]);
             temp_entity.setYx_refname(arr_type[2]);
             temp_entity.setDesc(desc);
+            temp_entity.setIed_type_id(type);
             // //是否已经存在id从而进行修改或者添加操作
-            if (arr_type[1].equals("ST")) {
+            if (("ST").equals(arr_type[1])) {
                 // st则对yx表进行操作
                 int count = systemConfigurationService.getyxCount(temp_entity);
                 if (count > 0) {
@@ -2544,53 +1884,24 @@ public class SystemConfigurationController extends BaseAction {
                     systemConfigurationService.insertyx(temp_entity);
                 }
             }
-            if (arr_type[1].equals("MX")) {
+
+            if (("MX").equals(arr_type[1])) {
                 // st则对yx表进行操作
                 int count = systemConfigurationService.getycCount(temp_entity);
                 if (count > 0) {
                     // 已存在id则修改
-                    // systemConfigurationService.updateyc(temp_entity);
-                    Map<String, Object> jsonMap = new HashMap<String, Object>();
-                    jsonMap.put("message", "false");
-                    HtmlUtil.writerJson(response, jsonMap);
+                    systemConfigurationService.updateyc(temp_entity);
                 } else {
                     systemConfigurationService.insertyc(temp_entity);
                 }
             }
-            if (arr_type[1].equals("SG")) {
-                temp_entity.setFc("SG");
-                int count = systemConfigurationService.getykCount(temp_entity);
-                if (count > 0) {
-                    // 已存在id则修改
-                    systemConfigurationService.updateyk(temp_entity);
-                } else {
-                    systemConfigurationService.insertyk(temp_entity);
+            if (("SG").equals(arr_type[1])||("SE").equals(arr_type[1])||("SP").equals(arr_type[1])||("CO").equals(arr_type[1])) {
+                temp_entity.setFc(arr_type[1]);
+                if(arr_type[1].equals("SP")){
+                    temp_entity.setYx_refname(arr_type[3]);
+                }else if(arr_type[1].equals("CO")){
+                    temp_entity.setYx_refname(type);
                 }
-            }
-            if (arr_type[1].equals("SE")) {
-                temp_entity.setFc("SE");
-                int count = systemConfigurationService.getykCount(temp_entity);
-                if (count > 0) {
-                    // 已存在id则修改
-                    systemConfigurationService.updateyk(temp_entity);
-                } else {
-                    systemConfigurationService.insertyk(temp_entity);
-                }
-            }
-            if (arr_type[1].equals("SP")) {
-                temp_entity.setYx_refname(arr_type[3]);
-                // st则对yx表进行操作
-                int count = systemConfigurationService.getykCount(temp_entity);
-                if (count > 0) {
-                    // 已存在id则修改
-                    systemConfigurationService.updateyk(temp_entity);
-                } else {
-                    systemConfigurationService.insertSGCByk(temp_entity);
-                }
-            }
-            if (arr_type[1].equals("CO")) {
-                temp_entity.setFc("CO");
-                temp_entity.setYx_refname(type);
                 // st则对yx表进行操作
                 int count = systemConfigurationService.getykCount(temp_entity);
                 if (count > 0) {
@@ -2599,9 +1910,10 @@ public class SystemConfigurationController extends BaseAction {
                 } else {
                     systemConfigurationService.insertyk(temp_entity);
                 }
-            }
 
+            }
         }
+        return true;
     }
 
     @RequestMapping("/exportCfg")
@@ -2637,22 +1949,6 @@ public class SystemConfigurationController extends BaseAction {
         pw.close();
     }
 
-    @RequestMapping("/getIcdExistFlag")
-    public void getIcdExistFlag(HttpServletResponse response, HttpServletRequest request) throws Exception {
-        String file_path = "";
-        file_path = UrlUtil.getUrlUtil().getOsicfg();
-        String fileName = request.getParameter("dIRName");
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        File file = new File(file_path + fileName + File.separator);
-        // 如果文件夹不存在则直接返回
-        if (!file.exists() && !file.isDirectory()) {
-            jsonMap.put("message", "false");
-            HtmlUtil.writerJson(response, jsonMap);
-        } else {
-            jsonMap.put("message", "true");
-            HtmlUtil.writerJson(response, jsonMap);
-        }
-    }
 
     /**
      * 导入Excel到数据库
@@ -2777,124 +2073,106 @@ public class SystemConfigurationController extends BaseAction {
         HtmlUtil.writerJson(response, jsonMap);
     }
 
+    /**
+     * IED接入配置，倒入icd文件
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/uploadIcd")
-    public void uploadIcd(HttpServletResponse response,
-                          HttpServletRequest request) throws Exception {
-        request.setCharacterEncoding("UTF-8");
-        // 根据icd文件创建解析出来的iedname和IP写入数据库和Osifg.xml
+    @ResponseBody
+    public String uploadIcd(HttpServletRequest request) throws Exception {
+        StandardMultipartHttpServletRequest req = (StandardMultipartHttpServletRequest) request;
+        Iterator<String> iterator = req.getFileNames();
+        InputStream is = null;
         String dir_iedName = "";
         String dir_ip = "";
-        // 获取文件夹名
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        factory.setSizeThreshold(124 * 1024 * 1024);//设置缓冲区大小
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        // 设置总文件大小
-        upload.setSizeMax(1024 * 1024 * 1024);
-        // 设置单个文件上传的最大值
-        upload.setFileSizeMax(1024 * 1024 * 1024);
-        //设置编码格式
-        upload.setHeaderEncoding("UTF-8");
-        try {
-            List<FileItem> fileList = upload.parseRequest(request);// 这里可以有多个文件，（解析请求正文内容）
-            InputStream is = null;
-            String fileName = null;
-            System.out.println(fileList.size());
-            if (fileList.size() <= 999999) {
-                for (FileItem item : fileList) {
-                    fileName = item.getName();// 上传文件的名字
-                    is = item.getInputStream();// 上传文件流
-                    System.out.println(fileName + ":fileName1");
-                    BufferedReader in2 = new BufferedReader(
-                            new InputStreamReader(is, "utf-8"));
-                    System.out.println("in2:" + in2);
-                    String y = "";
-                    List<String> str_output = new ArrayList<String>();
-                    while ((y = in2.readLine()) != null) {// 一行一行读
+        String fileName;
+        while (iterator.hasNext()) {
+            MultipartFile file = req.getFile(iterator.next());
+            is = file.getInputStream();// 上传文件流
+            fileName = file.getOriginalFilename();
+            BufferedReader in2 = new BufferedReader(new InputStreamReader(is, "utf-8"));
+            System.out.println("in2:" + in2);
+            String y = "";
+            List<String> str_output = new ArrayList<String>();
+            while ((y = in2.readLine()) != null) {// 一行一行读
 
-                        if (y.indexOf("iedName") > -1) {
-                            String a = y.substring(y.indexOf("iedName=\"") + 9, y.indexOf("\"", y.indexOf("iedName=\"") + 9));
-                            dir_iedName = a;
-                            System.out.println("dir_iedName:" + dir_iedName);
+                if (y.indexOf("iedName") > -1) {
+                    String a = y.substring(y.indexOf("iedName=\"") + 9, y.indexOf("\"", y.indexOf("iedName=\"") + 9));
+                    dir_iedName = a;
+                    System.out.println("dir_iedName:" + dir_iedName);
 
-                        } else {
-                            if (y.indexOf("<IED") > -1) {
-                                String a = y.substring(y.indexOf("name=\"") + 6, y.indexOf("\"", y.indexOf("name=\"") + 6));
-                                dir_iedName = a;
-                                System.out.println("dir_iedName:" + dir_iedName);
-                            }
-                        }
-
-                        if (y.indexOf("type=\"IP\"") > -1) {
-                            int start = y.indexOf(">", y.indexOf("<P") + 1) + 1;
-                            int end = y.indexOf("<", y.indexOf("<P") + 1);
-                            String a = y.substring(start, end);
-                            dir_ip = a;
-                            System.out.println("dir_ip:" + dir_ip);
-                        }
-                        str_output.add(y);
+                } else {
+                    if (y.indexOf("<IED") > -1) {
+                        String a = y.substring(y.indexOf("name=\"") + 6, y.indexOf("\"", y.indexOf("name=\"") + 6));
+                        dir_iedName = a;
+                        System.out.println("dir_iedName:" + dir_iedName);
                     }
-                    // 根据fileName创建文件目录,icd,datamap和startup
-                    createDir(dir_iedName, fileName);
-                    new LEDConfigurationController().commitled(dir_iedName,
-                            dir_ip, LEDService);
-                    File icdFile = new File(UrlUtil.getUrlUtil().getOsicfg()
-                            + dir_iedName + File.separator + fileName);
-                    OutputStreamWriter os = new OutputStreamWriter(
-                            new FileOutputStream(icdFile), "UTF-8");
-                    PrintWriter pw = new PrintWriter(os);
-                    in2.close();
-                    is.close();
-                    for (String s : str_output) {
-                        pw.println(s);
-                    }
-                    pw.close();
-                    os.close();
-                    HtmlUtil.writerJson(response, "创建成功!");
                 }
-            } else {
-//             System.out.println("数量太大");
-                throw new Exception("数量太大");
-            }
-            // 根据icd文件创建解析出来的iedname和IP写入数据库和Osifg.xml
 
-        } catch (FileUploadException e) {
-            e.printStackTrace();
+                if (y.indexOf("type=\"IP\"") > -1) {
+                    int start = y.indexOf(">", y.indexOf("<P") + 1) + 1;
+                    int end = y.indexOf("<", y.indexOf("<P") + 1);
+                    String a = y.substring(start, end);
+                    dir_ip = a;
+                    System.out.println("dir_ip:" + dir_ip);
+                }
+                str_output.add(y);
+            }
+
+            // 根据fileName创建文件目录,icd,datamap和startup
+            ICDUtils.createDir(dir_iedName, fileName);
+
+            // 更新iec61850_ied_inst数据库和osicfg.xml文件
+            OsicfgEntity entity = new OsicfgEntity();
+            entity.setArName(dir_iedName);
+            entity.setArNameOld(dir_iedName);
+            entity.setNetAddr(dir_ip);
+            ICDUtils.commitled(entity, LEDService);
+            //写入icd文件
+            File icdFile = new File(UrlUtil.getUrlUtil().getOsicfg() + dir_iedName + File.separator + fileName);
+            OutputStreamWriter os = new OutputStreamWriter(
+                    new FileOutputStream(icdFile), "UTF-8");
+            PrintWriter pw = new PrintWriter(os);
+            in2.close();
+            is.close();
+            for (String s : str_output) {
+                pw.println(s);
+            }
+            pw.close();
+            os.close();
         }
+        return "创建成功";
     }
 
     // 从数据库读取点序号
     @RequestMapping("/getDxhFromDB")
-    public void getDxhFromDB(YclysEntity entity, HttpServletResponse response)
-            throws Exception {
-        List<YclysEntity> lists = new ArrayList<YclysEntity>();
+    @ResponseBody
+    public List getDxhFromDB(YclysEntity entity) {
+        List<YclysEntity> list = new ArrayList<YclysEntity>();
         if (entity.getFc().equals("ST")) {
-            lists = systemConfigurationService.getyxByld(entity);
+            list = systemConfigurationService.getyxByld(entity);
         } else if (entity.getFc().equals("MX")) {
-            lists = systemConfigurationService.getycByld(entity);
+            list = systemConfigurationService.getycByld(entity);
         } else if (entity.getFc().equals("SG/SE")) {
-            lists = systemConfigurationService.getykByld(entity);
+            list = systemConfigurationService.getykByld(entity);
         } else if (entity.getFc().equals("CO")) {
             entity.setLdinst(entity.getLdinst().replace("MONT", ""));
-            lists = systemConfigurationService.getykByld(entity);
+            list = systemConfigurationService.getykByld(entity);
         }
-
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        // jsonMap.put("rows",lists);
-        HtmlUtil.writerJson(response, lists);
+        return list;
     }
 
     // 从数据库读取点序号
     @RequestMapping("/getDxhFromCFG")
-    public void getDxhFromCFG(YclysEntity entity, HttpServletResponse response)
-            throws Exception {
-        List<YcDataInstEntity> lists = new ArrayList<YcDataInstEntity>();
+    @ResponseBody
+    public List getDxhFromCFG(YclysEntity entity) {
+        List<YcDataInstEntity> list = new ArrayList<YcDataInstEntity>();
         String index = "";
         // 获取文件夹路径
         String cfg = "/datamap.cfg";
-        String file_path = UrlUtil.getUrlUtil().getOsicfg()
-                + entity.getLdinst().substring(0,
-                entity.getLdinst().indexOf("MONT"))
-                + cfg;
+        String file_path = UrlUtil.getUrlUtil().getOsicfg() + entity.getLdinst().substring(0, entity.getLdinst().indexOf("MONT")) + cfg;
         if (entity.getFc().equals("ST")) {
             index = "DI";
         } else if (entity.getFc().equals("MX")) {
@@ -2925,7 +2203,8 @@ public class SystemConfigurationController extends BaseAction {
                     int _zh = Integer.parseInt(arr_id[1]);
                     int _dh = Integer.parseInt(arr_id[2]);
                     temp.setYc_id("" + (_zh * 2048 + _dh));
-                    lists.add(temp);
+                    temp.setIed_type_id(arr[1]);
+                    list.add(temp);
                 }
             }
         } catch (UnsupportedEncodingException e) {
@@ -2935,9 +2214,7 @@ public class SystemConfigurationController extends BaseAction {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        // jsonMap.put("rows",lists);
-        HtmlUtil.writerJson(response, lists);
+         return list;
     }
 
     private void createExl(String dirName, String fileName) {
@@ -2956,81 +2233,6 @@ public class SystemConfigurationController extends BaseAction {
         }
     }
 
-    private void createDir(String dirName, String fileName) {
-        // 获取根目录
-        String path = UrlUtil.getUrlUtil().getOsicfg() + dirName
-                + File.separator;
-        File file = new File(path);
-        // 目录不存在则创建
-        if (!file.exists() && !file.isDirectory()) {
-            file.mkdirs();
-        }
-        // 如果不存在则创建 startup.cfg
-        File startupcfg = new File(path + "startup.cfg");
-        // 目录不存在则创建
-        if (!startupcfg.exists()) {
-            try {
-                startupcfg.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        // 向startup.cfg写入数据
-        PrintWriter pw = null;
-        OutputStreamWriter os;
-        try {
-            os = new OutputStreamWriter(new FileOutputStream(startupcfg),
-                    "UTF-8");
-            pw = new PrintWriter(os);
-
-            // 编辑内容
-            List<String> osList = new ArrayList<String>();
-            osList.add("SCLFileName\t" + fileName + "\n");
-            osList.add("IEDName\t" + dirName + "\n");
-            osList.add("AccessPointName\tS1\n");
-            osList.add("ReportScanRate\t2.0\n");
-            osList.add("#NOTE: BRCBBufferSize was not configurable before. Now it is.\n");
-            osList.add("BRCBBufferSize\t1000000\n");
-            osList.add("#NOTE: The old function \"scl2_ld_create_all\" ignores LogScanRateSeconds and LogMaxEntries.\n");
-            osList.add("#      You must use the new function \"scl2_ld_create_all_scd\" to use these.\n");
-            osList.add("LogScanRateSeconds\t2.0\n");
-            osList.add("LogMaxEntries\t1000\n");
-            for (int i = 0; i < osList.size(); i++) {
-                Object aa = osList.get(i).toString();
-                System.out.println(aa);
-                pw.write(osList.get(i).toString());
-            }
-            os.close();
-            pw.close();
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        // 如果datamap不存在则创建
-        File datamapcfg = new File(path + "datamap.cfg");
-        // 目录不存在则创建
-        if (!datamapcfg.exists()) {
-            try {
-                datamapcfg.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        // 创建icd文件
-        File icdFile = new File(path + fileName);
-        // 目录不存在则创建
-        if (!icdFile.exists()) {
-            try {
-                icdFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     /**
      * 导入Excel到数据库
@@ -3240,76 +2442,6 @@ public class SystemConfigurationController extends BaseAction {
             p = r.exec(cmd);
         } catch (Exception e) {
             System.out.println("error executing: " + cmd[0]);
-        }
-    }
-
-    private void writeExcel(String filePath) throws Exception {
-        OutputStream os = null;
-        try {
-            // 构建Workbook对象
-            os = new FileOutputStream(filePath);
-            WritableWorkbook wwb = Workbook.createWorkbook(os);
-            // 构建Excel sheet
-            WritableSheet sheet = wwb.createSheet("test write sheet", 0);
-            // 设置标题格式
-            WritableFont wfTitle = new WritableFont(
-                    WritableFont.ARIAL, 18, WritableFont.BOLD, true);
-            WritableCellFormat wcfTitle = new WritableCellFormat(wfTitle);
-            // 设置水平对齐方式
-            wcfTitle.setAlignment(Alignment.CENTRE);
-            // 设置垂直对齐方式
-            wcfTitle.setVerticalAlignment(VerticalAlignment.CENTRE);
-            // 设置是否自动换行
-            wcfTitle.setWrap(true);
-            // 合并A1->C2
-            // sheet.mergeCells(0, 0, 2, 1);
-            // Label titleCell = new Label(0, 0, "Title Cell ", wcfTitle);
-            // sheet.addCell(titleCell);
-            // WritableFont wf = new WritableFont(WritableFont.ARIAL, 10,
-            // WritableFont.NO_BOLD, false, UnderlineStyle.NO_UNDERLINE,
-            // Colour.BLUE);
-            // WritableCellFormat wcf = new WritableCellFormat(wf);
-
-            // A3
-            Label labelCell = new Label(0, 2, "Label Cell ");
-            sheet.addCell(labelCell);
-            // B3
-            // Label labelCellFmt = new Label(1, 2,
-            // "Label Cell with WritableCellFormat ", wcf);
-            // sheet.addCell(labelCellFmt);
-            // A4 添加jxl.write.Number对象
-            jxl.write.Number labelN = new jxl.write.Number(0, 3, 3.1415926);
-            sheet.addCell(labelN);
-            // B4 添加Number对象 jxl.write.NumberFormat
-            // NumberFormat nf = new NumberFormat("#.##");
-            // WritableCellFormat wcfN = new WritableCellFormat(nf);
-            // jxl.write.Number labelNF = new jxl.write.Number(1, 3, 3.1415926,
-            // wcfN);
-            // sheet.addCell(labelNF);
-            // A5 添加jxl.write.Boolean对象
-            // jxl.write.Boolean labelB = new jxl.write.Boolean(0, 4, true);
-            // sheet.addCell(labelB);
-            // A6 添加 jxl.write.DateTime对象
-            // jxl.write.DateTime labelDT = new jxl.write.DateTime(0, 5,
-            // new Date());
-            // sheet.addCell(labelDT);
-            // B6 添加DateTime对象 jxl.write.DateFormat
-            // jxl.write.DateFormat df = new jxl.write.DateFormat(
-            // "yyyy-MM-dd HH:mm:ss");
-            // WritableCellFormat wcfDF = new WritableCellFormat(df);
-            // jxl.write.DateTime labelDTF = new jxl.write.DateTime(1, 5,
-            // new Date(), wcfDF);
-            // sheet.addCell(labelDTF);
-            // 先调用write();再调用close();
-            wwb.write();
-            wwb.close();
-            os.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (null != os) {
-                os.close();
-            }
         }
     }
 

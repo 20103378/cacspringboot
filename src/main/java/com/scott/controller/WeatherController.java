@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +31,7 @@ public class WeatherController extends BaseAction {
     private com.scott.service.WeatherService<WeatherEntity> WeatherService;
 
     @RequestMapping("/getCurrentWeather")
+    @ResponseBody
     public WeatherEntity getOsicfgXml(){
         List<WeatherEntity> weather = WeatherService.getWeather();
         WeatherEntity data = new WeatherEntity();

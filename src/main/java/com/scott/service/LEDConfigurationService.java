@@ -29,34 +29,34 @@ public class LEDConfigurationService<T> extends BaseService<T>{
 		return dao;
 	}
 	
-	public void update_osicfg(OsicfgEntity entity){
-		getDao().update_osicfg(entity);
-	}
-	public List<OsicfgEntity> findOsicfg(){
-		return getDao().findOsicfg();
+	public void update_iec61850_ied_inst(OsicfgEntity entity){
+		getDao().update_iec61850_ied_inst(entity);
 	}
 
 	public String getId(){
 		return getDao().getId();
 	}
-	public int findIfUsed(String AR_Name_old){
-		return getDao().findIfUsed(AR_Name_old);
+	public int findIfUsed(String arNameOld){
+		return getDao().findIfUsed(arNameOld);
 	}
-	
-	public void add_osicfg(OsicfgEntity entity){
-		getDao().add_osicfg(entity);
+
+	public List<OsicfgEntity> find_iec61850_ied_inst(){
+		return getDao().find_iec61850_ied_inst();
 	}
-	public void del_osicfg(OsicfgEntity entity){
-		getDao().del_osicfg(entity);
+	public void add_iec61850_ied_inst(OsicfgEntity entity){
+		getDao().add_iec61850_ied_inst(entity);
 	}
-	public void del_yc_inst(OsicfgEntity entity){
-		getDao().del_yc_inst(entity);
+	public void del_iec61850_ied_inst(String arName){
+		getDao().del_iec61850_ied_inst(arName);
 	}
-	public void del_yx_inst(OsicfgEntity entity){
-		getDao().del_yx_inst(entity);
+	public void del_yc_inst(String arName){
+		getDao().del_yc_inst(arName);
 	}
-	public void del_yk_inst(OsicfgEntity entity){
-		getDao().del_yk_inst(entity);
+	public void del_yx_inst(String arName){
+		getDao().del_yx_inst(arName);
+	}
+	public void del_yk_inst(String arName){
+		getDao().del_yk_inst(arName);
 	}
 	
 	

@@ -2,6 +2,7 @@ package com.scott.entity;
 
 import com.base.entity.BaseEntity;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -11,6 +12,7 @@ import lombok.Data;
  * <b>日期：</b> 9, 7, 2015 <br>
  */
 @Data
+@NoArgsConstructor
 public class StomYxEntity extends BaseEntity {
 
 	//
@@ -40,19 +42,10 @@ public class StomYxEntity extends BaseEntity {
 	private String TotHydcAlm;
 	private String DeviceID;
 	private String SampleTime;
+	/**
+	 * 前端展示类型
+	 */
 	private String Type;
 	private String Remark;
-   public StomYxEntity(int l) {
-        this.H2ppm="无数据";
-        this.COppm="无数据";
-        this.CO2ppm="无数据";
-        this.CH4ppm="无数据";
-        this.C2H2ppm="无数据";
-        this.C2H4ppm="无数据";
-        this.C2H6ppm="无数据";
-        this.N2="无数据";
-        this.OilTmp="无数据";
-        this.TotHyd="无数据";
-    }
 }
 

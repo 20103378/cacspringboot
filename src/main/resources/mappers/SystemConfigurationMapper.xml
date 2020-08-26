@@ -5,6 +5,7 @@
 <mapper namespace="com.scott.dao.SystemConfigurationDao">
 	<!-- Result Map -->
 	<resultMap id="StationResultMap" type="com.scott.entity.Station_InfoEntity">
+		<result column="id" property="id" />
 		<result column="station" property="station" />
 		<result column="name" property="name" />
 		<result column="content" property="address" />
@@ -19,21 +20,21 @@
 		<result column="refdesc" property="refdesc" />
 	</resultMap>
 	<resultMap id="SpaceResultMap" type="com.scott.entity.EquipmentSpaceEntity">
-		<result column="SpaceId" property="SpaceId" />
-		<result column="SpaceName" property="SpaceName" />
-		<result column="ObjectVoltage" property="ObjectVoltage" />
-		<result column="SpaceTag" property="SpaceTag" />
+		<result column="SpaceId" property="spaceId" />
+		<result column="SpaceName" property="spaceName" />
+		<result column="ObjectVoltage" property="objectVoltage" />
+		<result column="SpaceTag" property="spaceTag" />
 	</resultMap>
 	<resultMap id="EquipmentResultMap" type="com.scott.entity.EquipmentEntity">
-		<result column="EquipmentID" property="EquipmentID" />
-		<result column="EquipmentName" property="EquipmentName" />
-		<result column="Phase" property="Phase" />
-		<result column="ObjectVoltage" property="ObjectVoltage" />
-		<result column="SpaceName" property="SpaceName" />
-		<result column="ManufactoryName" property="ManufactoryName" />
-		<result column="DeviceType" property="DeviceType" />
-		<result column="SpaceId" property="SpaceId" />
-		<result column="Remark" property="Remark" />
+		<result column="EquipmentID" property="equipmentID" />
+		<result column="EquipmentName" property="equipmentName" />
+		<result column="Phase" property="phase" />
+		<result column="ObjectVoltage" property="objectVoltage" />
+		<result column="ManufactoryName" property="manufactoryName" />
+		<result column="DeviceType" property="deviceType" />
+		<result column="SpaceId" property="spaceId" />
+		<result column="Remark" property="remark" />
+		<result column="IEC61850LD" property="iec61850LD" />
 	</resultMap>
 	<resultMap id="ZJ103Map" type="com.scott.entity.ZJ103Entity">
 		<result column="DeviceID" property="DeviceID" />
@@ -268,9 +269,12 @@
 	<!-- 修改站点信息 -->
 	<update id="updateStation" parameterType="Object">
 		UPDATE pubunitinfo set
-		station=#{station} ,address=#{address},name=#{name};
+		station=#{station} ,address=#{address},name=#{name} where id=#{id}  ;
 	</update>
-
+	<!-- 修改站点信息 -->
+	<update id="insertStation" parameterType="Object">
+		insert into pubunitinfo(station,address,name) values (#{station} ,#{address},#{name}) ;
+	</update>
 
 	<select id="EquipmentListCount" resultType="java.lang.Integer"
 		parameterType="Object">
@@ -370,28 +374,29 @@
 	<update id="update_equipment" parameterType="Object">
 		UPDATE pubequipment
 		set
-		EquipmentName='${EquipmentName}',Phase='${Phase}',DeviceType='${DeviceType}',ManufactoryName='${ManufactoryName}',Remark='${Remark}'
-		where EquipmentID='${EquipmentID}';
+		EquipmentName='${equipmentName}',Phase='${phase}',SpaceId='${spaceId}',DeviceType='${deviceType}',ManufactoryName='${manufactoryName}',Remark='${remark}'
+		where EquipmentID='${equipmentID}';
 	</update>
-
-
 
 	<!-- 删除主设备记录 -->
 	<delete id="delete_equipment" parameterType="Object">
 		delete from
-		pubequipment where EquipmentID = #{EquipmentID}
+		pubequipment where EquipmentID = #{equipmentID}
 	</delete>
 
 	<!-- 插入主设备记录 -->
 	<insert id="add_equipment" parameterType="Object">
 		insert into
-		pubequipment(EquipmentID,EquipmentName,Phase,ManufactoryName,DeviceType,Remark)
+		pubequipment(EquipmentID,EquipmentName,Phase,SpaceId,ManufactoryName,DeviceType,Remark,IEC61850LD)
 		<!-- values('#{EquipmentID}','#{EquipmentName,Phase}','#{ObjectVoltage}','#{paceName}','#{ManufactoryName}','#{DeviceType}','#{SpaceId}') -->
-		values(#{EquipmentID},#{EquipmentName},#{Phase},#{ManufactoryName},#{DeviceType},#{Remark})
+		values(#{equipmentID},#{equipmentName},#{phase},#{spaceId},#{manufactoryName},#{deviceType},#{remark},#{iec61850LD})
 	</insert>
-
+	<select id="findEquipmentByIEC61850LD" resultMap="EquipmentResultMap"
+			parameterType="java.lang.String">
+		select * from pubequipment where IEC61850LD = #{iec61850LD}
+	</select>
 	<!-- 查询区域 -->
-	<select id="getEquipmentSapce" resultMap="SpaceResultMap"
+	<select id="getEquipmentSpace" resultMap="SpaceResultMap"
 		parameterType="Object">
 		select * from pubspace
 	</select>
@@ -403,28 +408,30 @@
 	<!-- 查询区域Flag -->
 	<select id="getinsertFlag_space" resultType="java.lang.Integer"
 		parameterType="Object">
-		select count(1) from pubspace where SpaceId=#{SpaceId}
+		select count(1) from pubspace where SpaceId=#{spaceId}
 	</select>
 
 	<!-- 插入区域 -->
-	<insert id="insertspace" parameterType="Object">
+	<insert id="insertSpace" parameterType="Object">
 		insert into
 		pubspace(SpaceId,SpaceName,ObjectVoltage,SpaceTag)
-		values(#{SpaceId},#{SpaceName},#{ObjectVoltage},#{SpaceTag})
+		values(#{spaceId},#{spaceName},#{objectVoltage},#{spaceTag})
 	</insert>
 	<!-- 更新区域 -->
-	<update id="updatespace" parameterType="Object">
+	<update id="updateSpace" parameterType="Object">
 		UPDATE pubspace set
-		SpaceName='${SpaceName}',ObjectVoltage='${ObjectVoltage}',SpaceTag='${SpaceTag}'
-		where SpaceId='${SpaceId}';
+		SpaceName='${spaceName}',ObjectVoltage='${objectVoltage}',SpaceTag='${spaceTag}'
+		where SpaceId='${spaceId}';
 	</update>
 	<!-- 删除主设备记录 -->
-	<delete id="delete_space" parameterType="Object">
-		delete from pubspace
-		where SpaceId = #{SpaceId}
+	<delete id="deleteSpace" parameterType="Object">
+		delete from pubspace where SpaceId = #{spaceId}
 	</delete>
 
-
+	<!-- 查询导出数据 -->
+	<select id="findSpace" resultMap="SpaceResultMap">
+		select * from pubspace
+	</select>
 	<!-- 查询最大主设备ID信息 -->
 	<select id="getNextEquipmentID" resultType="java.lang.String"
 		parameterType="Object">
@@ -582,7 +589,7 @@
 		select count(1) from pubdevice_zj103
 	</select>
 	<select id="getZJ103CountByln" resultType="java.lang.Integer"
-		parameterType="Object">
+		parameterType="java.lang.String">
 		SELECT COUNT(*) FROM pubdevice_zj103 WHERE
 		IEC61850LD_LN=#{IEC61850LD_LN}
 	</select>
@@ -714,11 +721,11 @@
 	</update>
 	<insert id="insertyx" parameterType="Object">
 		INSERT INTO iec61850_yx_data_inst
-		(yx_id,ld_inst_name,ln_inst_name,yx_refname,yx_desc)
-		VALUES(#{yx_id},#{ld_inst_name},#{ln_inst_name},#{yx_refname},#{desc})
+		(ld_inst_name,ln_inst_name,yx_refname,yx_desc)
+		VALUES(#{ld_inst_name},#{ln_inst_name},#{yx_refname},#{desc})
 	</insert>
 	<select id="getycCount" resultType="Integer" parameterType="Object">
-		SELECT COUNT(*) FROM `iec61850_yc_data_inst` WHERE yc_id=#{yx_id} ;
+		SELECT COUNT(*) FROM `iec61850_yc_data_inst`WHERE ld_inst_name=#{ld_inst_name} and ln_inst_name=#{ln_inst_name} and yc_refname=#{yx_refname}
 	</select>
 	<!-- <select id="getycCount" resultType="Integer" parameterType="Object"> 
 		SELECT COUNT(*) FROM `iec61850_yc_data_inst` WHERE ld_inst_name=#{ld_inst_name} 
@@ -727,11 +734,18 @@
 		SET yc_id=#{yx_id} ,link_yc_refname=#{link_yc_refname} ,yc_desc = #{desc} 
 		WHERE ld_inst_name=#{ld_inst_name} and ln_inst_name=#{ln_inst_name} and yc_refname=#{yx_refname} 
 		</update> -->
-	<insert id="insertyc" parameterType="Object"> INSERT INTO
+	<insert id="insertyc" parameterType="Object">
+      INSERT INTO
 		iec61850_yc_data_inst
-		(yc_id,ld_inst_name,ln_inst_name,yc_refname,yc_desc) VALUES
-		(#{yx_id},#{ld_inst_name},#{ln_inst_name},#{yx_refname},#{desc})
+		(ld_inst_name,ln_inst_name,yc_refname,yc_desc) VALUES
+		(#{ld_inst_name},#{ln_inst_name},#{yx_refname},#{desc})
 	</insert>
+	<update id="updateyc" parameterType="Object">
+		UPDATE iec61850_yc_data_inst SET link_yc_refname=#{link_yc_refname} ,yc_desc = #{desc}
+        WHERE ld_inst_name=#{ld_inst_name} and ln_inst_name=#{ln_inst_name} and yc_refname=#{yx_refname}
+	</update>
+
+
 <!--	<insert id="insertycList" parameterType="Object">-->
 <!--		INSERT INTO iec61850_yc_data_inst-->
 <!--		(yc_id,ld_inst_name,ln_inst_name,yc_refname,yc_desc)-->
@@ -758,17 +772,15 @@
 	</select>
 	<update id="updateyk" parameterType="Object">
 		UPDATE iec61850_yk_data_inst
-		SET yk_id=#{yx_id}
-		,link_yk_refname=#{link_yc_refname},yk_desc=#{desc}
+		SET link_yk_refname=#{link_yc_refname},yk_desc=#{desc}
 		WHERE ld_inst_name=#{ld_inst_name} and ln_inst_name=#{ln_inst_name}
-		and
-		yk_refname=#{yx_refname} and yk_fc=#{fc}
+		and yk_refname=#{yx_refname} and yk_fc=#{fc}
 	</update>
 	<insert id="insertyk" parameterType="Object">
 		INSERT INTO
 		iec61850_yk_data_inst
-		(yk_id,ld_inst_name,ln_inst_name,yk_fc,yk_refname,yk_desc)
-		VALUES(#{yx_id},#{ld_inst_name},#{ln_inst_name},#{fc},#{yx_refname},#{desc});
+		(ld_inst_name,ln_inst_name,yk_fc,yk_refname,yk_desc)
+		VALUES(#{ld_inst_name},#{ln_inst_name},#{fc},#{yx_refname},#{desc});
 	</insert>
 	<insert id="insertSGCByk" parameterType="Object">
 		INSERT INTO
@@ -778,7 +790,7 @@
 	</insert>
 
 	<!-- 对iec61850_ln_inst表进行操作 -->
-	<select id="getLnCount" resultType="Integer" parameterType="Object">
+	<select id="getLnCount" resultType="Integer" parameterType="String">
 		SELECT COUNT(*) FROM `iec61850_ln_inst` WHERE
 		ld_inst_name=#{ld_inst_name} and ln_inst_name=#{ln_inst_name};
 	</select>

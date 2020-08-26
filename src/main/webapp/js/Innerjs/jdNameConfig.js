@@ -11,11 +11,11 @@ jeecg.jdNameConfig = function(){
 	var _this = {
 		setSel:function(){
 			 //初始化iedName下拉框
-			 var iedName = $("#tab_ldein").datagrid("getSelected").AR_Name;
+			 var iedName = $("#tab_ldein").datagrid("getSelected").arName;
 			 $("#sel_iedName").val(iedName);
 			 //通过ajax请求数据
 			 var formData = {};
-			 formData['xmlName'] = iedName;
+			 formData['fileName'] = iedName;
 			 $.ajax({
 					async:false,
 					cache:false,
@@ -100,6 +100,7 @@ jeecg.jdNameConfig = function(){
 	  	  				type:'post',
 	  	  				url:"JdListTODB",
 	  	  				data:{"list":JSON.stringify(_data)},
+                        dataType:json,
 	  	  				success:function(){
 	  	  					loadingDiv.closeMask("正在同步至数据库。。。");
 	  	  					alert("数据库同步成功!");

@@ -15,7 +15,7 @@ public class DeviceEntity extends BaseEntity {
 	
 	private  String DeviceID;//设备ID
 	private  String DeviceName;//设备名称
-	private  String DeviceType;//设备类型
+	private  Integer DeviceType;//设备类型
 	private  String ManufactoryName;//制造厂家
 	private  String DeviceProductID;//出厂ID
 	private  String DeviceLocation;//设备地址
@@ -30,7 +30,7 @@ public class DeviceEntity extends BaseEntity {
 	private  String Remark;//备注
 	private  String Space;//设备区域
 	private  String Phase;//设备相别
-	private  String Smperiod;//采样周期
+	private  Integer Smperiod;//采样周期
 	
 }
 
