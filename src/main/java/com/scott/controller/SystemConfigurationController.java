@@ -128,23 +128,31 @@ public class SystemConfigurationController extends BaseAction {
         map.put("space",systemConfigurationService.findSpace());
         //相位
         List phase = new ArrayList();
+        phase.add("全部");
         phase.add("A");
         phase.add("B");
         phase.add("C");
         map.put("phase",phase);
-        //主设备类型
-        List<Integer> values = new ArrayList<>();
-        values.add(1);values.add(2);values.add(3);
-        values.add(4);values.add(5);values.add(6);
-        values.add(7);
-        List<Map> deviceTypes = PubDeviceTypeEnum.getDeviceTypeEnumsByValues(values);
-        map.put("deviceTypes",deviceTypes);
+//        //主设备类型
+//        List<Integer> values = new ArrayList<>();
+//        values.add(1);values.add(2);values.add(3);
+//        values.add(4);values.add(5);values.add(6);
+//        values.add(7);
+//        List<Map> deviceTypes = PubDeviceTypeEnum.getDeviceTypeEnumsByValues(values);
+//        map.put("deviceTypes",deviceTypes);
         //LDevice编码
         Map<String,List> lDeviceMap = ICDUtils.getLdLnMap();
-        map.put("lDeviceMap",lDeviceMap);
+//        map.put("lDeviceMap",lDeviceMap);
         map.put("LDDevices", lDeviceMap.keySet());
+//        List list = systemConfigurationService.getEquipmentIED61850LDsList();
+//        Set set = lDeviceMap.keySet();
+//        set.removeAll(list);
+//        map.put("LDDevices", set);
         return map;
     }
+
+
+
 
     // 创建遥测量映射对象列表，从icd文件中获取台账ld_ln列表
     @RequestMapping("/getLd_Ln")
@@ -284,18 +292,32 @@ public class SystemConfigurationController extends BaseAction {
 //    }
 
     /**
+     * 获取主设备IED61850LDs数据
+     */
+    @RequestMapping("/getEquipmentIED61850LDsList")
+    @ResponseBody
+    public List getEquipmentIED61850LDsList(String[] LDDevices) {
+//        List ldDevices =  CollectionUtils.arrayToList(LDDevices);
+        List ldDevices = new ArrayList();
+        for(int i=0;i<LDDevices.length;i++){
+            ldDevices.add(LDDevices[i]);
+        }
+        List IED61850LDs = systemConfigurationService.getEquipmentIED61850LDsList();
+        ldDevices.removeAll(IED61850LDs);
+        return  ldDevices;
+    }
+    /**
      * 获取主设备数据
      */
     @RequestMapping("/getEquipmentList")
     @ResponseBody
-    public Map getEquipmentList(BasePage page) {
+    public  Map<String, Object> getEquipmentList(BasePage page) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<EquipmentEntity> dataList = systemConfigurationService.getEquipmentList(page);
         jsonMap.put("total", page.getPager().getRowCount());
         jsonMap.put("rows", dataList);
         return  jsonMap;
     }
-
     /**
      * 获取设备数据
      */
@@ -388,22 +410,27 @@ public class SystemConfigurationController extends BaseAction {
     @RequestMapping("/update_equipment")
     @ResponseBody
     public void update_equipment(EquipmentEntity entity){
-        systemConfigurationService.update_equipment(entity);
+        EquipmentEntity equipmentEntity = systemConfigurationService.findEquipmentByIEC61850LD(entity.getIec61850LD());
+        if(equipmentEntity == null){
+            systemConfigurationService.add_equipment(entity);
+        }else {
+            systemConfigurationService.update_equipment(entity);
+        }
     }
 
-    /**
-     * 添加主设备
-     */
-    @RequestMapping("/add_equipment")
-    @ResponseBody
-    public Boolean add_equipment(EquipmentEntity entity) {
-        EquipmentEntity equipmentEntity = systemConfigurationService.findEquipmentByIEC61850LD(entity.getIec61850LD());
-        if(equipmentEntity ==null){
-            systemConfigurationService.add_equipment(entity);
-            return true;
-        }
-        return false;
-    }
+//    /**
+//     * 添加主设备
+//     */
+//    @RequestMapping("/add_equipment")
+//    @ResponseBody
+//    public Boolean add_equipment(EquipmentEntity entity) {
+//        EquipmentEntity equipmentEntity = systemConfigurationService.findEquipmentByIEC61850LD(entity.getIec61850LD());
+//        if(equipmentEntity ==null){
+//            systemConfigurationService.add_equipment(entity);
+//            return true;
+//        }
+//        return false;
+//    }
 
     /**
      * 删除主设备信息

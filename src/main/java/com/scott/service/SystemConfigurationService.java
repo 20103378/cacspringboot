@@ -52,6 +52,9 @@ public class SystemConfigurationService<T> extends BaseService<T> {
         page.getPager().setRowCount(rowCount);
         return getDao().getEquipmentList(page);
     }
+    public List<String> getEquipmentIED61850LDsList() {
+        return getDao().getEquipmentIED61850LDsList();
+    }
 
     /**
      * 查询测量点名称

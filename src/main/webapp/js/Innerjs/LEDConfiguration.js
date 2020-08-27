@@ -116,7 +116,7 @@ jeecg.LEDConfiguration = function() {
 		Del : function() {
 			var select_data = $("#tab_ldein").datagrid("getSelected");
 			debugger
-			if (window.confirm('确定要删除测量量名称'+select_data.arName)) {
+			if (window.confirm("确定要删除关于"+select_data.arName+"的所有数据")) {
 				var formData = {};
 				var url = ctxPath + "/LEDConfiguration/del";
 				formData['arName'] = select_data.arName;
@@ -126,18 +126,23 @@ jeecg.LEDConfiguration = function() {
 					type : 'POST',
 					url : url,
 					data : formData,
+					dataType:json,
 					error : function() {// 请求失败处理函数
 						alert("false");
 					},
 					success : function(data) {
-						$('#tab_ldein').datagrid('reload');
+						if(data){
+							$('#tab_ldein').datagrid('reload');
+						}else {
+							alert(data)
+						}
 					}
 				});
 			}
 		},
 		DelSQl : function() {
 			var select_data = $("#tab_ldein").datagrid("getSelected");
-			if (window.confirm('确定要删除关于'+select_data.arName+"的所有数据")) {
+			if (window.confirm("确定要删除测量量名称")) {
 				var select_data = $("#tab_ldein").datagrid("getSelected");
 				var formData = {};
 				var url = ctxPath + "/LEDConfiguration/delsql";
@@ -148,11 +153,16 @@ jeecg.LEDConfiguration = function() {
 					type : 'POST',
 					url : url,
 					data : formData,
+					dataType:json,
 					error : function() {// 请求失败处理函数
 						alert("false");
 					},
 					success : function(data) {
-						$('#tab_ldein').datagrid('reload');
+						if(data){
+							$('#tab_ldein').datagrid('reload');
+						}else {
+							alert("false");
+						}
 					}
 				});
 			}
@@ -357,14 +367,16 @@ jeecg.LEDConfiguration = function() {
 					handler : function() {
 						_this.showJdNameWin();
 					}
-				}, "-", {
-					id : '',
-					text : '添加所有逻辑设备',
-					iconCls : '',
-					handler : function() {
-						_this.addAllDevice();
-					}
-				}, "-", {
+				},
+				// 	"-", {
+				// 	id : '',
+				// 	text : '添加所有逻辑设备',
+				// 	iconCls : '',
+				// 	handler : function() {
+				// 		_this.addAllDevice();
+				// 	}
+				// },
+					"-", {
 					id : '',
 					text : '删除测量量数据库',
 					iconCls : '',

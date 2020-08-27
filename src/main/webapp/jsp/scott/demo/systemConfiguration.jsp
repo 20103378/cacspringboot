@@ -174,10 +174,14 @@
 		               						</td>
 					    	 			</tr>
 					    	 			<tr>
-					    	 				<td><label>类型:</label>
-		               							<select id="deviceType" class="easyui-combobox" style="width:145px;" panelHeight="150">
-                    							</select>
-		               						</td>
+<%--					    	 				<td><label>类型:</label>--%>
+<%--		               							<select id="deviceType" class="easyui-combobox" style="width:145px;" panelHeight="150">--%>
+<%--                    							</select>--%>
+<%--		               						</td>--%>
+											<td><label>主设备编码:</label>
+												<select id="IEC61850LD" class="easyui-combobox" style="width:200px;" panelHeight="150">
+												</select>
+											</td>
 					    	 				<td><label>相别:</label>
 		               							<select id="phase" class="easyui-combobox" style="width:145px;" panelHeight="150">
                     							</select>
@@ -186,10 +190,7 @@
 												<select id="spaceId" class="easyui-combobox" style="width:145px;" panelHeight="150">
 												</select>
 											</td>
-											<td><label>主设备编码:</label>
-												<select id="IEC61850LD" class="easyui-combobox" style="width:145px;" panelHeight="150">
-												</select>
-											</td>
+
 					    	 			</tr>
 					    	 			<tr>
 					    	 				<td><label>备注:</label>

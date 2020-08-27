@@ -643,7 +643,7 @@ public class ICDUtils {
                         List<Element> LDevice = Server.getChildren("LDevice", ns);
                         for (Element el_ld : LDevice) {
                             // 获取ldname和desc
-                            ld_inst_name = ied_name + el_ld.getAttributeValue("inst");
+                            ld_inst_name = ied_name+ el_ld.getAttributeValue("inst");
                             List<Element> lnList = el_ld.getChildren("LN", ns);
                             // 开始遍历每个LN
                             List<String> entityList = new ArrayList<>();

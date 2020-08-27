@@ -284,7 +284,7 @@
 	<select id="getEquipmentList" resultMap="EquipmentResultMap"
 		parameterType="Object">
 		select
-		a.EquipmentID,a.EquipmentName,a.Phase,a.DeviceType,a.SpaceId,a.Remark,a.ManufactoryName
+		a.EquipmentID,a.EquipmentName,a.Phase,a.DeviceType,a.SpaceId,a.Remark,a.ManufactoryName,a.IEC61850LD
 		from pubequipment a
 		<if test="pager.orderCondition != null and pager.orderCondition != ''">
 			${pager.orderCondition}
@@ -295,7 +295,9 @@
 		</if>
 
 	</select>
-
+	<select id="getEquipmentIED61850LDsList" resultType="java.lang.String">
+		select IEC61850LD from pubequipment
+	</select>
 	<!-- 根据主设备ID查询设备信息 -->
 	<select id="DeviceListCount" resultType="java.lang.Integer"
 		parameterType="Object">
@@ -372,9 +374,8 @@
 
 	<!-- 更新主设备记录 -->
 	<update id="update_equipment" parameterType="Object">
-		UPDATE pubequipment
-		set
-		EquipmentName='${equipmentName}',Phase='${phase}',SpaceId='${spaceId}',DeviceType='${deviceType}',ManufactoryName='${manufactoryName}',Remark='${remark}'
+		UPDATE pubequipment set
+		EquipmentName='${equipmentName}',Phase='${phase}',SpaceId='${spaceId}',IEC61850LD='${iec61850LD}',ManufactoryName='${manufactoryName}',Remark='${remark}'
 		where EquipmentID='${equipmentID}';
 	</update>
 

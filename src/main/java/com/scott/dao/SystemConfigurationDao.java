@@ -58,6 +58,14 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
     List<EquipmentEntity> getEquipmentList(BasePage page);
 
     /**
+     *
+     * @return
+     */
+
+    List<String> getEquipmentIED61850LDsList();
+
+
+    /**
      * 更新主设备
      * @param entity
      */
