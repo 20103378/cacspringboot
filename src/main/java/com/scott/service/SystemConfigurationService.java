@@ -55,6 +55,9 @@ public class SystemConfigurationService<T> extends BaseService<T> {
     public List<String> getEquipmentIED61850LDsList() {
         return getDao().getEquipmentIED61850LDsList();
     }
+    public List<String> getDeviceIED61850LD_LNsList(String equipmentID) {
+        return getDao().getDeviceIED61850LD_LNsList(equipmentID);
+    }
 
     /**
      * 查询测量点名称

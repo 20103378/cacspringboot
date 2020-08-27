@@ -135,6 +135,7 @@ public class SystemConfigurationController extends BaseAction {
         map.put("phase",phase);
         //主设备类型
         List<Integer> values = new ArrayList<>();
+//        values.add(null);
         values.add(2);values.add(1);values.add(3);
         values.add(4);values.add(5);values.add(6);
         values.add(7);
@@ -228,6 +229,20 @@ public class SystemConfigurationController extends BaseAction {
 //        System.out.println("已停止I1DataMgr_stop.sh程序");
 //    }
 
+    /**
+     * 获取主设备IED61850LDs数据
+     */
+    @RequestMapping("/getDeviceIED61850LD_LNsList")
+    @ResponseBody
+    public List getDeviceIED61850LD_LNsList(String equipmentID,String[] iec61850LD_LNs) {
+        List ldlnDevices = new ArrayList();
+        for(int i=0;i<iec61850LD_LNs.length;i++){
+            ldlnDevices.add(iec61850LD_LNs[i]);
+        }
+        List IED61850LDLNs = systemConfigurationService.getDeviceIED61850LD_LNsList(equipmentID);
+        ldlnDevices.removeAll(IED61850LDLNs);
+        return  ldlnDevices;
+    }
     /**
      * 获取主设备IED61850LDs数据
      */

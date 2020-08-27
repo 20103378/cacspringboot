@@ -298,6 +298,11 @@
 	<select id="getEquipmentIED61850LDsList" resultType="java.lang.String">
 		select IEC61850LD from pubequipment
 	</select>
+	<select id="getDeviceIED61850LD_LNsList" resultType="java.lang.String">
+		select IEC61850LD_LN from pubdevice where EquipmentID=#{equipmentID}
+	</select>
+
+
 	<!-- 根据主设备ID查询设备信息 -->
 	<select id="DeviceListCount" resultType="java.lang.Integer"
 		parameterType="Object">

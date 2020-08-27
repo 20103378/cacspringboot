@@ -63,7 +63,12 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
      */
 
     List<String> getEquipmentIED61850LDsList();
+    /**
+     *
+     * @return
+     */
 
+    List<String> getDeviceIED61850LD_LNsList(String equipmentID);
 
     /**
      * 更新主设备

@@ -649,7 +649,7 @@ public class ICDUtils {
                             List<String> entityList = new ArrayList<>();
                             for (Element el20 : lnList) {
                                 ln_inst_name = el20.getAttributeValue("lnClass") + el20.getAttributeValue("inst");
-                                entityList.add(ld_inst_name + ";" + ln_inst_name);
+                                entityList.add(ld_inst_name + "/" + ln_inst_name);
                             }
                             map.put(ld_inst_name,entityList);
                         }
