@@ -133,86 +133,23 @@ public class SystemConfigurationController extends BaseAction {
         phase.add("B");
         phase.add("C");
         map.put("phase",phase);
-//        //主设备类型
-//        List<Integer> values = new ArrayList<>();
-//        values.add(1);values.add(2);values.add(3);
-//        values.add(4);values.add(5);values.add(6);
-//        values.add(7);
-//        List<Map> deviceTypes = PubDeviceTypeEnum.getDeviceTypeEnumsByValues(values);
-//        map.put("deviceTypes",deviceTypes);
+        //主设备类型
+        List<Integer> values = new ArrayList<>();
+        values.add(2);values.add(1);values.add(3);
+        values.add(4);values.add(5);values.add(6);
+        values.add(7);
+        List<Map> deviceTypes = PubDeviceTypeEnum.getDeviceTypeEnumsByValues(values);
+        map.put("deviceTypes",deviceTypes);
+//        map.put("PubDeviceTypeEnum",PubDeviceTypeEnum.values());
+
+
+
+
         //LDevice编码
         Map<String,List> lDeviceMap = ICDUtils.getLdLnMap();
-//        map.put("lDeviceMap",lDeviceMap);
+        map.put("lDeviceMap",lDeviceMap);
         map.put("LDDevices", lDeviceMap.keySet());
-//        List list = systemConfigurationService.getEquipmentIED61850LDsList();
-//        Set set = lDeviceMap.keySet();
-//        set.removeAll(list);
-//        map.put("LDDevices", set);
         return map;
-    }
-
-
-
-
-    // 创建遥测量映射对象列表，从icd文件中获取台账ld_ln列表
-    @RequestMapping("/getLd_Ln")
-    @ResponseBody
-    public List getLd_Ln() throws Exception {
-        // 创建遥测量映射对象列表
-        List<String> entityList = new ArrayList<>();
-        SAXBuilder bulider = new SAXBuilder();
-        InputStream inSt = new FileInputStream(UrlUtil.getUrlUtil().getOsicfg() + "osicfg.xml");
-        Document document = bulider.build(inSt);
-        Element root = document.getRootElement(); // 获取根节点对象
-        List<Element> networklist = root.getChildren("NetworkAddressing");
-        for (Element el : networklist) {
-            List<Element> remoteAddressList = el.getChildren("RemoteAddressList");
-            for (Element el2 : remoteAddressList) {
-                List<Element> remoteAddress = el2.getChildren("RemoteAddress");
-                for (Element el3 : remoteAddress) {
-                    List<Element> AR_Name = el3.getChildren("AR_Name");
-                    // 文档加载开始
-                    String fileName0 = AR_Name.get(0).getText();
-                    String xmlName0 = getXmlName(UrlUtil.getUrlUtil().getOsicfg() + fileName0);
-                    SAXBuilder bulider0 = new SAXBuilder();
-                    InputStream inSt0 = new FileInputStream(UrlUtil.getUrlUtil().getOsicfg() + fileName0 + xmlName0);
-                    Document document0 = bulider0.build(inSt0);
-
-                    // 文档创建完成,开始解析文档到遥测量映射列表中
-                    Element root0 = document0.getRootElement(); // 获取根节点对象
-                    Namespace ns = root0.getNamespace();
-                    Element Communication = root0.getChild("Communication", ns);
-                    Element SubNetwork = Communication.getChild("SubNetwork", ns);
-                    Element ConnectedAP = SubNetwork.getChild("ConnectedAP", ns);
-                    String ied_name = "";
-                    String ied_desc = "";
-                    String ld_inst_name = "";
-                    String ld_inst_desc = "";
-                    String ln_inst_name = "";
-                    String ln_inst_desc = "";
-                    List<Element> IEDList = root0.getChildren("IED", ns);
-                    ied_name = IEDList.get(0).getAttributeValue("name");
-                    ied_desc = IEDList.get(0).getAttributeValue("desc");
-                    Element dataTypeTemplates = root.getChild("DataTypeTemplates", ns);
-                    for (Element el0 : IEDList) {
-                        Element AccessPoint = el0.getChild("AccessPoint", ns);
-                        Element Server = AccessPoint.getChild("Server", ns);
-                        List<Element> LDevice = Server.getChildren("LDevice", ns);
-                        for (Element el_ld : LDevice) {
-                            // 获取ldname和desc
-                            ld_inst_name = ied_name + el_ld.getAttributeValue("inst");
-                            List<Element> lnList = el_ld.getChildren("LN", ns);
-                            // 开始遍历每个LN
-                            for (Element el20 : lnList) {
-                                ln_inst_name = el20.getAttributeValue("lnClass") + el20.getAttributeValue("inst");
-                                entityList.add(ld_inst_name + ";" + ln_inst_name);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return entityList;
     }
 
     /**
@@ -1126,8 +1063,8 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/delete_device")
     @ResponseBody
-    public void delete_device(DeviceEntity entity) {
-        systemConfigurationService.delete_device(entity);
+    public void delete_device(String deviceID) {
+        systemConfigurationService.delete_device(deviceID);
     }
 
     /**

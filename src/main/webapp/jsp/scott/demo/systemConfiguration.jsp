@@ -178,7 +178,7 @@
 <%--		               							<select id="deviceType" class="easyui-combobox" style="width:145px;" panelHeight="150">--%>
 <%--                    							</select>--%>
 <%--		               						</td>--%>
-											<td><label>主设备编码:</label>
+											<td><label>主设备IEC61850LD编码:</label>
 												<select id="IEC61850LD" class="easyui-combobox" style="width:200px;" panelHeight="150">
 												</select>
 											</td>
@@ -237,19 +237,25 @@
 		               						</td>
 					    	 			</tr>
 					    	 			<tr>
+											<td><label>IEC61850LD_LN:</label>
+												<!--<input id="IEC61850LD_LN" type="text"  data-options="required:true">
+                                                -->
+												<select id="IEC61850LD_LN" class="easyui-combobox" style="width:200px;" panelHeight="150">
+												</select>
+											</td>
 					    	 				<td><label>装置类型:</label>
-		               							<select id="ddlDeviceType" class="easyui-combobox" style="width:100px;" panelHeight="150">
-                    							</select>
+		               							<select id="ddlDeviceType" class="easyui-combobox" style="width:100px;" panelHeight="150" disabled="disabled"></select>
 		               						</td>
-					    	 				<td><label>投运日期:</label>
-		               							<input id="txtRunTime" type="text"  data-options="required:true">
-		               						</td>
+
 					    	 			</tr>
 					    	 			<tr>
-					    	 				<td><label>所属区域:</label>
-		               							<select id="tSpace" class="easyui-combobox" style="width:100px;" panelHeight="150">
-                    							</select>
-		               						</td>
+											<td><label>投运日期:</label>
+												<input id="txtRunTime" type="text"  data-options="required:true">
+											</td>
+<%--					    	 				<td><label>所属区域:</label>--%>
+<%--		               							<select id="tSpace" class="easyui-combobox" style="width:100px;" panelHeight="150">--%>
+<%--                    							</select>--%>
+<%--		               						</td>--%>
 					    	 				<td><label>相别:</label>
 					    	 					<input id="tPhase" type="text"  >
 		               						</td>
@@ -272,17 +278,10 @@
 		               						</td>
 					    	 				
 					    	 			</tr>
-					    	 			<tr>
-					    	 				<td><label>地图坐标:</label>
-		               							<input id="tPosition" type="text" >
-		               						</td>
-					    	 				<td><label>IEC61850LD_LN:</label>
-		               							<!--<input id="IEC61850LD_LN" type="text"  data-options="required:true">
-		               							-->
-		               							<select id="IEC61850LD_LN" class="easyui-combobox" style="width:200px;" panelHeight="150">
-                    							</select>
-		               						</td>
-					    	 			</tr>
+<%--					    	 			<tr>--%>
+<%--					    	 				--%>
+
+<%--					    	 			</tr>--%>
 					    	 			<tr>
 					    	 				<td><label>安装地址:</label>
 		               							<input id="txtInstallAddress" type="text"  data-options="required:true">
@@ -294,6 +293,9 @@
 					    	 				
 					    	 			</tr>
 					    	 			<tr>
+											<td><label>地图坐标:</label>
+												<input id="tPosition" type="text" >
+											</td>
 					    	 				<td colspan="1" ><label>备注:</label>
 		               							<textarea id="txtRemark" ></textarea>
 		               						</td>

@@ -446,7 +446,7 @@
 	<!-- 删除设备记录 -->
 	<delete id="delete_device" parameterType="Object">
 		delete from pubdevice
-		where DeviceID = #{DeviceID}
+		where DeviceID = #{deviceID}
 	</delete>
 
 	<!-- 查询SF6告警表 -->

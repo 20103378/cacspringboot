@@ -29,9 +29,11 @@ $(function () {
                         + '/systemConfiguration/exportCacParameterTable');
                 $("#download_form").submit();
             });
-    $("#ddlDeviceType").combobox({
+    $("#IEC61850LD_LN").combobox({
         onSelect: function () {
             jeecg.systemConfiguration.selectdevType();
+            // formData['IEC61850LD_LN']
+            // ddlDeviceType
         },
     });
     // 隐藏测量映射匹配值
@@ -97,21 +99,18 @@ $(function () {
     });
 });
 jeecg.systemConfiguration = function () {
-    var DevTypeDesc = ["油色谱及微水", "SF6气体压力", "避雷器及动作次数", "铁芯泄漏电流",
-        "换流变运行工况", "SF6气体泄漏", "套管", "断路器", "分压器", "套管局放", "GIS", "开关柜",
-        "CT", "环境", "CVT", "电抗器", "PT", "微水", "局放", "主变局放", "GIS局放",
-        "耦合电容器", "油温", "母线", "母线CVT", "绝缘子", "线路CVT/OY", "发电机", "线路", "刀闸",
-        "油位"];
+    var DevTypeDesc = ["主变", "油色谱及微水", "SF6气体压力", "避雷器及动作次数", "铁芯泄漏电流",
+        "换流变运行工况", "SF6气体泄漏", "套管", "微气象"];
     var equipment_select = "";
     var Ld_Ln = [];
 
     var spaceIds = [];//区域位置选择
     var phase_selects = [];//相位选择
     var ldDevice_selects = [];//主设备编码
-    // var deviceTypes = [];//主设备类型
-    var LDDevices=[];
-
-    var Ld_Ln_dev = [];
+    var deviceTypes = [];//主设备类型
+    var LDDevices = [];
+    var lDeviceMap = {};
+    var PubDeviceTypeEnum;
     var _this = {
         upload: function () {
             $("#LD_uploadFileBtn").click(
@@ -202,7 +201,10 @@ jeecg.systemConfiguration = function () {
                     var space = map.space;
                     var phase = map.phase;
                     LDDevices = map.LDDevices;
-                    // deviceTypes = map.deviceTypes;
+                    deviceTypes = map.deviceTypes;
+                    lDeviceMap = map.lDeviceMap
+                    // PubDeviceTypeEnum = map.PubDeviceTypeEnum;
+
                     debugger
                     for (var i = 0; i < space.length; i++) {
                         spaceIds.push({
@@ -216,18 +218,6 @@ jeecg.systemConfiguration = function () {
                             "value": phase[i]
                         });
                     }
-                    // for (var i = 0; i < LDDevices.length; i++) {
-                    //     ldDevice_selects.push({
-                    //         "text": LDDevices[i],
-                    //         "value": LDDevices[i]
-                    //     });
-                    // }
-
-
-                    console.log(spaceIds);
-                    console.log(phase_selects);
-                    // console.log(ldDevice_selects);
-                    // console.log(deviceTypes);
                 }
             });
 
@@ -256,24 +246,34 @@ jeecg.systemConfiguration = function () {
                 columns: [[ /*
 								 * { field : 'id', checkbox : true },
 								 */
-                    {
-                        field: 'equipmentID',
-                        title: '设备编码',
-                        align: 'center',
-                        sortable: true,
-                        width: 150,
-                        formatter: function (value, row, index) {
-                            return row.equipmentID;
-                        }
-                    },
+                    // {
+                    //     field: 'equipmentID',
+                    //     title: '设备编码',
+                    //     align: 'center',
+                    //     sortable: true,
+                    //     width: 150,
+                    //     formatter: function (value, row, index) {
+                    //         return row.equipmentID;
+                    //     }
+                    // },
                     {
                         field: 'equipmentName',
                         title: '设备名称',
                         align: 'center',
                         sortable: true,
-                        width: 240,
+                        width: 200,
                         formatter: function (value, row, index) {
                             return row.equipmentName;
+                        }
+                    },
+                    {
+                        field: 'IEC61850LD',
+                        title: '主设备编码',
+                        align: 'center',
+                        sortable: true,
+                        width: 240,
+                        formatter: function (value, row, index) {
+                            return row.iec61850LD;
                         }
                     },
                     {
@@ -287,21 +287,11 @@ jeecg.systemConfiguration = function () {
                         }
                     },
                     {
-                        field: 'IEC61850LD',
-                        title: '主设备编码',
-                        align: 'center',
-                        sortable: true,
-                        width: 180,
-                        formatter: function (value, row, index) {
-                            return row.iec61850LD;
-                        }
-                    },
-                    {
                         field: 'SpaceId',
                         title: '区域位置',
                         align: 'center',
                         sortable: true,
-                        width: 180,
+                        width: 200,
                         formatter: function (value, row, index) {
                             return row.spaceId;
                         }
@@ -311,7 +301,7 @@ jeecg.systemConfiguration = function () {
                         title: '制造厂家',
                         align: 'center',
                         sortable: true,
-                        width: 180,
+                        width: 140,
                         formatter: function (value, row, index) {
                             return row.manufactoryName;
                         }
@@ -322,7 +312,7 @@ jeecg.systemConfiguration = function () {
                         title: '修改',
                         align: 'center',
                         sortable: true,
-                        width: 180,
+                        width: 140,
                         formatter: function (value, row, index) {
                             return "<center><div class='dit' style='width: 12px; height: 12px;' ><a href='javascript:void(0);' onclick='jeecg.systemConfiguration.edit_equipment("
                                 + index + ")'>修改</a></div></center>";
@@ -361,48 +351,48 @@ jeecg.systemConfiguration = function () {
                             var _url = ctxPath
                                 + "/systemConfiguration/getExportList";
                             $.ajax({
-                                    async: false,
-                                    cache: false,
-                                    type: 'POST',
-                                    url: _url,
-                                    error: function () {// 请求失败处理函数
-                                        alert("连接数据库失败");
-                                    },
-                                    success: function (data) {
-                                        for (var i = 0; i < data.dataList.length; i++) {
-                                            data.dataList[i].deviceType = DevTypeDesc[data.dataList[i].deviceType];
-                                        }
-                                        var head_data, json;
-                                        head_data = [];
-                                        head_data.push({
-                                            "title": "设备ID",
-                                            "value": "deviceID"
-                                        }, {
-                                            "title": "设备名称",
-                                            "value": "deviceName"
-                                        }, {
-                                            "title": "设备类型",
-                                            "value": "deviceType"
-                                        }, {
-                                            "title": "IEC61850LD_LN",
-                                            "value": "IEC61850LD_LN"
-                                        }, {
-                                            "title": "设备区域",
-                                            "value": "space"
-                                        }, {
-                                            "title": "IP地址",
-                                            "value": "IED_IP"
-                                        }, {
-                                            "title": "生产厂家",
-                                            "value": "manufactoryName"
-                                        }, {
-                                            "title": "采样周期",
-                                            "value": "smperiod"
-                                        });
-                                        tableExport(data, head_data,
-                                            "excel", "台账表");
+                                async: false,
+                                cache: false,
+                                type: 'POST',
+                                url: _url,
+                                error: function () {// 请求失败处理函数
+                                    alert("连接数据库失败");
+                                },
+                                success: function (data) {
+                                    for (var i = 0; i < data.dataList.length; i++) {
+                                        data.dataList[i].deviceType = DevTypeDesc[data.dataList[i].deviceType];
                                     }
-                                });
+                                    var head_data, json;
+                                    head_data = [];
+                                    head_data.push({
+                                        "title": "设备ID",
+                                        "value": "deviceID"
+                                    }, {
+                                        "title": "设备名称",
+                                        "value": "deviceName"
+                                    }, {
+                                        "title": "设备类型",
+                                        "value": "deviceType"
+                                    }, {
+                                        "title": "IEC61850LD_LN",
+                                        "value": "IEC61850LD_LN"
+                                    }, {
+                                        "title": "设备区域",
+                                        "value": "space"
+                                    }, {
+                                        "title": "IP地址",
+                                        "value": "IED_IP"
+                                    }, {
+                                        "title": "生产厂家",
+                                        "value": "manufactoryName"
+                                    }, {
+                                        "title": "采样周期",
+                                        "value": "smperiod"
+                                    });
+                                    tableExport(data, head_data,
+                                        "excel", "台账表");
+                                }
+                            });
                         }
                     }, "-"/*
 								 * , { id: '', text: '重启', iconCls: '', handler:
@@ -420,30 +410,39 @@ jeecg.systemConfiguration = function () {
                     var tablename = "#device_data_list";
                     equipment_select = rowData.equipmentName;
                     equipment_manufactoryName = rowData.manufactoryName;
-                    _this.device_config.dataGrid.url = ctxPath
-                        + "/systemConfiguration/getDeviceList?EquipmentID="
-                        + rowData.equipmentID;
+                    _this.device_config.dataGrid.url = ctxPath + "/systemConfiguration/getDeviceList?EquipmentID=" + rowData.equipmentID;
                     _box2 = new YDataGrid(_this.device_config, tablename, true,
                         false, true, true);
                     _box2.grid.datagrid.defaults.onDblClickRow = _this.update2;
-                    $.ajax({
-                        async: false,
-                        cache: false,
-                        type: 'POST',
-                        url: ctxPath + "/systemConfiguration/getLd_Ln",
-                        error: function () {// 请求失败处理函数
-                            // alert("false");
-                        },
-                        success: function (data) {
-                            for (var i = 0; i < data.length; i++) {
-                                Ld_Ln.push({
-                                    "text": data[i].replace(';',
-                                        '/'),
-                                    "value": i
-                                });
-                            }
-                        }
-                    });
+                    debugger;
+                    console.log(lDeviceMap)
+                    console.log(rowData.iec61850LD)
+                    var lD_LN = lDeviceMap[rowData.iec61850LD];
+                    Ld_Ln = [];
+                    for (var i = 0; i < lD_LN.length; i++) {
+                        Ld_Ln.push({
+                            "text": lD_LN[i].replace(';', '/'),
+                            "value": lD_LN[i].replace(';', '/'),
+                        });
+                    }
+
+                    // $.ajax({
+                    //     async: false,
+                    //     cache: false,
+                    //     type: 'POST',
+                    //     url: ctxPath + "/systemConfiguration/getLd_Ln",
+                    //     error: function () {// 请求失败处理函数
+                    //         // alert("false");
+                    //     },
+                    //     success: function (data) {
+                    //         for (var i = 0; i < data.length; i++) {
+                    //             Ld_Ln.push({
+                    //                 "text": data[i].replace(';', '/'),
+                    //                 "value": i
+                    //             });
+                    //         }
+                    //     }
+                    // });
                     _box2.init();
                 }
             }
@@ -497,13 +496,11 @@ jeecg.systemConfiguration = function () {
             return str;
         },
         getIED61850LDs: function () {
-            // var formData = {};
-            // formData['LDDevices'] = LDDevices;
             $.ajax({
                 async: false,
                 cache: false,
                 type: 'POST',
-                url: ctxPath + "/systemConfiguration/getEquipmentIED61850LDsList?LDDevices="+LDDevices,
+                url: ctxPath + "/systemConfiguration/getEquipmentIED61850LDsList?LDDevices=" + LDDevices,
                 // data: formData,
                 dataType: json,
                 error: function () {
@@ -521,29 +518,25 @@ jeecg.systemConfiguration = function () {
 
             });
         },
-
-
-
-
         // 主设备修改按钮点击事件
         edit_equipment: function (index) {
-            var equipmentID,equipmentName,IEC61850LD,phase,spaceId,manufactoryName,Remark
-            if(index<0){
+            var equipmentID, equipmentName, IEC61850LD, phase, spaceId, manufactoryName, Remark
+            if (index < 0) {
                 var nextID = _this.getNextID();
                 $("#equipmentID").attr("disabled", true);
                 equipmentID = nextID;
                 equipmentName = "";
                 _this.getIED61850LDs();
-                if(ldDevice_selects!=null && ldDevice_selects.length>0){
+                if (ldDevice_selects != null && ldDevice_selects.length > 0) {
                     IEC61850LD = ldDevice_selects[0].value;
-                }else {
+                } else {
                     return;
                 }
                 phase = phase_selects[0].value;
                 spaceId = spaceIds[0].value;
-                manufactoryName="";
-                Remark="";
-            }else {
+                manufactoryName = "";
+                Remark = "";
+            } else {
                 var rows = $("#equipmentList").datagrid('getRows');
                 var select_data = rows[index];
                 equipmentID = select_data.equipmentID;
@@ -551,8 +544,8 @@ jeecg.systemConfiguration = function () {
                 IEC61850LD = select_data.iec61850LD;
                 phase = select_data.phase;
                 spaceId = select_data.spaceId;
-                manufactoryName=select_data.manufactoryName;
-                Remark=select_data.remark;
+                manufactoryName = select_data.manufactoryName;
+                Remark = select_data.remark;
             }
             $("#equipmentID").val(equipmentID);
             $("#equipmentName").val(equipmentName);
@@ -574,9 +567,7 @@ jeecg.systemConfiguration = function () {
                 addDataWin.window('close');
             });
             addDataWin.window('open');
-        }
-
-        ,
+        },
         // 修改界面提交事件
         equipment_submit: function () {
             var formData = {};
@@ -598,8 +589,7 @@ jeecg.systemConfiguration = function () {
                 error: function () {// 请求失败处理函数
                     alert("false");
                 },
-                success: function (data) {
-                    // delete ldDevice_selects[formData['iec61850LD']];
+                success: function () {
                     addDataWin.window('close');
                     $('#equipmentList').datagrid('reload');
                 }
@@ -614,33 +604,44 @@ jeecg.systemConfiguration = function () {
                 singleSelect: true,
                 columns: [[ /*
 								 * { field : 'id', checkbox : true },
-								 */
-                    {
-                        field: 'deviceID',
-                        title: '设备编码',
-                        align: 'center',
-                        sortable: true,
-                        width: 150,
-                        formatter: function (value, row, index) {
-                            return row.deviceID;
-                        }
-                    },
+					// 			 */
+                    // {
+                    //     field: 'deviceID',
+                    //     title: '设备编码',
+                    //     align: 'center',
+                    //     sortable: true,
+                    //     width: 150,
+                    //     formatter: function (value, row, index) {
+                    //         return row.deviceID;
+                    //     }
+                    // },
                     {
                         field: 'deviceName',
                         title: '设备名称',
                         align: 'center',
                         sortable: true,
-                        width: 240,
+                        width: 200,
                         formatter: function (value, row, index) {
                             return row.deviceName;
                         }
                     },
                     {
+                        field: 'IEC61850LD_LN',
+                        title: 'IEC61850LD_LN编码',
+                        align: 'center',
+                        sortable: true,
+                        width: 240,
+                        formatter: function (value, row, index) {
+                            return row.iec61850LD_LN;
+                        }
+                    },
+
+                    {
                         field: 'deviceType',
                         title: '设备类型',
                         align: 'center',
                         sortable: true,
-                        width: 220,
+                        width: 200,
                         formatter: function (value, row, index) {
                             return DevTypeDesc[row.deviceType];
                         }
@@ -650,7 +651,7 @@ jeecg.systemConfiguration = function () {
                         title: '监测主设备',
                         align: 'center',
                         sortable: true,
-                        width: 240,
+                        width: 140,
                         formatter: function () {
                             return equipment_select;
                         }
@@ -1057,7 +1058,7 @@ jeecg.systemConfiguration = function () {
                 var formData = {};
                 var url = ctxPath + "/systemConfiguration/delete_device";
                 // EquipmentID,SpaceId,DeviceType,DeviceName,Phase,ManufactoryName,Remark
-                formData['DeviceID'] = select_data.deviceID;
+                formData['deviceID'] = select_data.deviceID;
                 $.ajax({
                     async: false,
                     cache: false,
@@ -1081,22 +1082,16 @@ jeecg.systemConfiguration = function () {
             deviceWin.window('open');
             var equipment_data = $("#equipmentList").datagrid("getSelected");
             $("#textMDev").val(equipment_data.equipmentName);
-            var tSpace_data, json;
-            tSpace_data = [];
-            var deviceType_data, json;
-            deviceType_data = [];
             var rows = $("#device_data_list").datagrid('getRows');
             debugger
             var select_data = rows[index];
-            $("#IEC61850LD_LN").combobox("loadData", Ld_Ln_dev);
-            $("#IEC61850LD_LN").combobox('select', select_data.iEC61850LD_LN);
+            $("#IEC61850LD_LN").combobox("loadData", Ld_Ln);
+            $("#IEC61850LD_LN").combobox('select', select_data.iec61850LD_LN);
             $("#txtDeviceID").val(select_data.deviceID);
             $('#txtDeviceID').attr("disabled", true);
             $("#txtDeviceName").val(select_data.deviceName);
-            $("#tPhase").val(select_data.phase);
-            $("#ddlDeviceType").combobox("loadData", deviceType_data);
+            $("#ddlDeviceType").combobox("loadData", deviceTypes);
             $("#ddlDeviceType").combobox('select', select_data.deviceType);
-            $("#tSpace").combobox('select', select_data.space);
             $("#tPhase").val(equipment_data.phase);
             $("#txtcode").val(select_data.deviceProductID);
             $("#txtRunTime").val(select_data.startOperateTime);
@@ -1121,36 +1116,7 @@ jeecg.systemConfiguration = function () {
             });
             $('#device_submit').unbind("click");
             $('#device_submit').bind('click', _this.device_update);
-            tSpace_data.push({
-                "text": "低端换流变",
-                "value": "低端换流变"
-            }, {
-                "text": "高端换流变",
-                "value": "高端换流变"
-            }, {
-                "text": "站用变",
-                "value": "站用变"
-            }, {
-                "text": "直流场",
-                "value": "直流场"
-            }, {
-                "text": "微气象",
-                "value": "微气象"
-            }, {
-                "text": "GIS区域",
-                "value": "GIS区域"
-            }, {
-                "text": "交流滤波场",
-                "value": "交流滤波场"
-            });
-            $("#tSpace").combobox("loadData", tSpace_data);
 
-            for (var i = 0; i < DevTypeDesc.length; i++) {
-                deviceType_data.push({
-                    "text": DevTypeDesc[i],
-                    "value": i
-                });
-            }
             // deviceType_data.push({ "text":
             // DevTypeDesc[select_data.deviceType], "value":
             // select_data.deviceType});
@@ -1175,8 +1141,7 @@ jeecg.systemConfiguration = function () {
             var a = $('#tPosition').val().split(",");
             formData['PosX'] = a[0];
             formData['PosY'] = a[1];
-            formData['IEC61850LD_LN'] = $("#IEC61850LD_LN").combobox('getText');
-            formData['Space'] = $("#tSpace").combobox('getValue');
+            formData['IEC61850LD_LN'] = $("#IEC61850LD_LN").combobox('getValue');
             if ($("#cbStopSoundAlarm").attr("checked")) {
                 formData['StopSoundAlarm'] = "1";
             } else {
@@ -1241,49 +1206,16 @@ jeecg.systemConfiguration = function () {
         device_add: function () {
             debugger
             var equipment_data = $("#equipmentList").datagrid("getSelected");
-            var deviceType_data, json;
-            deviceType_data = [];
-            var tSpace_data, json;
-            tSpace_data = [];
 
             deviceWin.window('open');
             $("#textMDev").val(equipment_data.equipmentName);
             $("#tPhase").val(equipment_data.phase);
-            tSpace_data.push({
-                "text": "低端换流变",
-                "value": "低端换流变"
-            }, {
-                "text": "高端换流变",
-                "value": "高端换流变"
-            }, {
-                "text": "站用变",
-                "value": "站用变"
-            }, {
-                "text": "直流场",
-                "value": "直流场"
-            }, {
-                "text": "微气象",
-                "value": "微气象"
-            }, {
-                "text": "GIS区域",
-                "value": "GIS区域"
-            }, {
-                "text": "交流滤波场",
-                "value": "交流滤波场"
-            });
-            $("#tSpace").combobox("loadData", tSpace_data);
-            $("#tSpace").combobox('select', tSpace_data[0].value);
             var nextDeviceID = _this.getNextDeviceID();
             $("#txtDeviceID").val(nextDeviceID);
             $('#txtDeviceID').attr("disabled", true);
-            for (var i = 0; i < DevTypeDesc.length; i++) {
-                deviceType_data.push({
-                    "text": DevTypeDesc[i],
-                    "value": i
-                });
-            }
-            $("#ddlDeviceType").combobox("loadData", deviceType_data);
-            $("#ddlDeviceType").combobox('select', deviceType_data[0].value);
+
+            $("#ddlDeviceType").combobox("loadData", deviceTypes);
+            $("#ddlDeviceType").combobox('select', deviceTypes[0].value);
             $("#txtcode").val("");
             $("#txtRunTime").val("");
             $("#txtFactory").val("");
@@ -1291,10 +1223,12 @@ jeecg.systemConfiguration = function () {
             $("#txtInstallAddress").val("");
             $("#tPosition").val("");
             $("#txtDeviceName").val("");
-            // $("#IEC61850LD_LN").val("");
+            $("#IEC61850LD_LN").val("");
+            if (Ld_Ln != null || Ld_Ln.length > 0) {
+                $("#IEC61850LD_LN").combobox("loadData", Ld_Ln);
+                $("#IEC61850LD_LN").combobox('select', Ld_Ln[0].value);
+            }
 
-            $("#IEC61850LD_LN").combobox("loadData", Ld_Ln_dev);
-            $("#IEC61850LD_LN").combobox('select', Ld_Ln_dev[0].value);
             $("#txtRemark").val("");
             $('#cbStopSoundAlarm').attr("checked", false);
             $('#cbStopUse').attr("checked", false);
@@ -1308,7 +1242,7 @@ jeecg.systemConfiguration = function () {
         // 设备添加提交事件
         device_insert: function () {
             var formData = {};
-            var select_data = $("#device_data_list").datagrid("getSelected");
+            // var select_data = $("#device_data_list").datagrid("getSelected");
             var equipment_data = $("#equipmentList").datagrid("getSelected");
             var url = ctxPath + "/systemConfiguration/insert_device";
             // formData['DeviceID'] = $("#txtID").val();
@@ -1324,8 +1258,15 @@ jeecg.systemConfiguration = function () {
             var a = $('#tPosition').val().split(",");
             formData['PosX'] = a[0];
             formData['PosY'] = a[1];
-            formData['IEC61850LD_LN'] = $("#IEC61850LD_LN").combobox('getText');
-            formData['Space'] = $('#tSpace').combobox('getValue');
+            formData['IEC61850LD_LN'] = $("#IEC61850LD_LN").combobox('getValue');
+
+            // formData['IEC61850LD_LN'] = $("#IEC61850LD_LN").combobox('getValue');
+            // debugger
+            // if(formData['IEC61850LD_LN']==""||formData['IEC61850LD_LN']==null||formData['IEC61850LD_LN'].length<3){
+            //     alert("IEC61850LD_LN不能为空！");
+            //     return;
+            // }
+            // formData['Space'] = $('#tSpace').combobox('getValue');
             if ($("#cbStopSoundAlarm").attr("checked")) {
                 formData['StopSoundAlarm'] = "1";
             } else {
@@ -1355,88 +1296,104 @@ jeecg.systemConfiguration = function () {
         },
         selectdevType: function () {
             debugger
-            Ld_Ln_dev = [];
-            var ddlDeviceType = $("#ddlDeviceType").combobox("getValue");
-            // $("#IEC61850LD_LN").combobox("loadData", []);
-            switch (ddlDeviceType) {
-                case '1':
-                    for (var i = 0; i < Ld_Ln.length; i++) {
-                        var dev = Ld_Ln[i];
-                        if (dev.text.indexOf("SIML") != -1) {
-                            Ld_Ln_dev.push({
-                                "text": dev.text,
-                                "value": dev.value
-                            });
-                        }
-                    }
-                    break;
-                case '2':
-                    for (var i = 0; i < Ld_Ln.length; i++) {
-                        var dev = Ld_Ln[i];
-                        if (dev.text.indexOf("SIMG") != -1) {
-                            Ld_Ln_dev.push({
-                                "text": dev.text,
-                                "value": dev.value
-                            });
-                        }
-                    }
-                    break;
-                case '3':
-                    for (var i = 0; i < Ld_Ln.length; i++) {
-                        var dev = Ld_Ln[i];
-                        if (dev.text.indexOf("SSAR") != -1
-                            || dev.text.indexOf("ZSAR") != -1 ||
-                            dev.text.indexOf("SLAR") != -1) {
-                            Ld_Ln_dev.push({
-                                "text": dev.text,
-                                "value": dev.value
-                            });
-                        }
-                    }
-                    break;
-                case '4':
-                    for (var i = 0; i < Ld_Ln.length; i++) {
-                        var dev = Ld_Ln[i];
-                        if (dev.text.indexOf("SPTR") != -1) {
-                            Ld_Ln_dev.push({
-                                "text": dev.text,
-                                "value": dev.value
-                            });
-                        }
-                    }
-                    break;
-                case '7':
-                    for (var i = 0; i < Ld_Ln.length; i++) {
-                        var dev = Ld_Ln[i];
-                        if (dev.text.indexOf("SINS") != -1) {
-                            Ld_Ln_dev.push({
-                                "text": dev.text,
-                                "value": dev.value
-                            });
-                        }
-                    }
-                    break;
-                case '8':
-                    for (var i = 0; i < Ld_Ln.length; i++) {
-                        var dev = Ld_Ln[i];
-                        if (dev.text.indexOf("MMET") != -1) {
-                            Ld_Ln_dev.push({
-                                "text": dev.text,
-                                "value": dev.value
-                            });
-                        }
-                    }
-                    break;
-                default: {
-                    Ld_Ln_dev = Ld_Ln;
-                }
-            }
-            $("#IEC61850LD_LN").combobox("loadData", Ld_Ln_dev);
-            if (Ld_Ln_dev == null || Ld_Ln_dev.length == 0) {
-
+            var IEC61850LD_LN = $("#IEC61850LD_LN").combobox("getValue");
+            if (IEC61850LD_LN.indexOf("SIML") != -1) {
+                $("#ddlDeviceType").combobox('select', 1);
+            } else if (IEC61850LD_LN.indexOf("SIMG") != -1) {
+                $("#ddlDeviceType").combobox('select', 2);
+            } else if (IEC61850LD_LN.indexOf("SSAR") != -1
+                || IEC61850LD_LN.indexOf("ZSAR") != -1 ||
+                IEC61850LD_LN.indexOf("SLAR") != -1) {
+                $("#ddlDeviceType").combobox('select', 3);
+            } else if (IEC61850LD_LN.indexOf("SPTR") != -1) {
+                $("#ddlDeviceType").combobox('select', 4);
+            } else if (IEC61850LD_LN.indexOf("SINS") != -1) {
+                $("#ddlDeviceType").combobox('select', 7);
+            } else if (IEC61850LD_LN.indexOf("MMET") != -1) {
+                $("#ddlDeviceType").combobox('select', 8);
             } else {
-                $("#IEC61850LD_LN").combobox('select', Ld_Ln_dev[0].value);
+                $("#ddlDeviceType").combobox('select', 0);
             }
+            // // $("#IEC61850LD_LN").combobox("loadData", []);
+            // switch (ddlDeviceType) {
+            //     case '1':
+            //         for (var i = 0; i < Ld_Ln.length; i++) {
+            //             var dev = Ld_Ln[i];
+            //             if (dev.text.indexOf("SIML") != -1) {
+            //                 Ld_Ln_dev.push({
+            //                     "text": dev.text,
+            //                     "value": dev.value
+            //                 });
+            //             }
+            //         }
+            //         break;
+            //     case '2':
+            //         for (var i = 0; i < Ld_Ln.length; i++) {
+            //             var dev = Ld_Ln[i];
+            //             if (dev.text.indexOf("SIMG") != -1) {
+            //                 Ld_Ln_dev.push({
+            //                     "text": dev.text,
+            //                     "value": dev.value
+            //                 });
+            //             }
+            //         }
+            //         break;
+            //     case '3':
+            //         for (var i = 0; i < Ld_Ln.length; i++) {
+            //             var dev = Ld_Ln[i];
+            //             if (dev.text.indexOf("SSAR") != -1
+            //                 || dev.text.indexOf("ZSAR") != -1 ||
+            //                 dev.text.indexOf("SLAR") != -1) {
+            //                 Ld_Ln_dev.push({
+            //                     "text": dev.text,
+            //                     "value": dev.value
+            //                 });
+            //             }
+            //         }
+            //         break;
+            //     case '4':
+            //         for (var i = 0; i < Ld_Ln.length; i++) {
+            //             var dev = Ld_Ln[i];
+            //             if (dev.text.indexOf("SPTR") != -1) {
+            //                 Ld_Ln_dev.push({
+            //                     "text": dev.text,
+            //                     "value": dev.value
+            //                 });
+            //             }
+            //         }
+            //         break;
+            //     case '7':
+            //         for (var i = 0; i < Ld_Ln.length; i++) {
+            //             var dev = Ld_Ln[i];
+            //             if (dev.text.indexOf("SINS") != -1) {
+            //                 Ld_Ln_dev.push({
+            //                     "text": dev.text,
+            //                     "value": dev.value
+            //                 });
+            //             }
+            //         }
+            //         break;
+            //     case '8':
+            //         for (var i = 0; i < Ld_Ln.length; i++) {
+            //             var dev = Ld_Ln[i];
+            //             if (dev.text.indexOf("MMET") != -1) {
+            //                 Ld_Ln_dev.push({
+            //                     "text": dev.text,
+            //                     "value": dev.value
+            //                 });
+            //             }
+            //         }
+            //         break;
+            //     default: {
+            //         Ld_Ln_dev = Ld_Ln;
+            //     }
+            // }
+            // $("#IEC61850LD_LN").combobox("loadData", Ld_Ln_dev);
+            // if (Ld_Ln_dev == null || Ld_Ln_dev.length == 0) {
+            //
+            // } else {
+            //     $("#IEC61850LD_LN").combobox('select', Ld_Ln_dev[0].value);
+            // }
         }
     };
     return _this;

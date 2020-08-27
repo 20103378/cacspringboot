@@ -123,7 +123,11 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
 
     List<String> getNextEquipmentID();
 
-    void delete_device(DeviceEntity entity);
+    /**
+     * 删除设备
+     * @param deviceID
+     */
+    void delete_device(String deviceID);
 
     List<Sf6AlarmEntity> getSf6Monitor(Sf6AlarmEntity entity);
 

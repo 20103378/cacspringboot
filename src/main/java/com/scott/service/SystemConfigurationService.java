@@ -156,8 +156,8 @@ public class SystemConfigurationService<T> extends BaseService<T> {
         return getDao().getNextEquipmentID();
     }
 
-    public void delete_device(DeviceEntity entity) {
-        getDao().delete_device(entity);
+    public void delete_device(String deviceID) {
+        getDao().delete_device(deviceID);
     }
 
     public List<Sf6AlarmEntity> getSf6Monitor(Sf6AlarmEntity entity) {
