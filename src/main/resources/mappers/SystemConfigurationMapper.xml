@@ -62,39 +62,62 @@
 		<result column="Remark" property="Remark" />
 		<result column="Space" property="Space" />
 		<result column="Phase" property="Phase" />
-		<result column="Smperiod" property="Smperiod" />
+		<result column="SmpPeriod" property="SmpPeriod" />
 	</resultMap>
 	<!-- SF6告警 -->
 	<resultMap id="Sf6AlarmMap" type="com.scott.entity.Sf6AlarmEntity">
-		<result column="DeviceID" property="DeviceID" />
-		<result column="PressureThreshold" property="PressureThreshold" />
+		<result column="DeviceID" property="deviceID" />
+		<result column="PressureThreshold" property="pressureThreshold" />
+		<result column="PressChgRateThreshold" property="pressChgRateThreshold" />
+		<result column="WeekChgRateThreshold" property="weekChgRateThreshold" />
+
 	</resultMap>
 	<!-- 油色谱告警 -->
 	<resultMap id="StomAlarmMap" type="com.scott.entity.StomAlarmEntity">
-		<result column="DeviceID" property="DeviceID" />
-		<result column="H2ThresHold" property="H2ThresHold" />
-		<result column="C2H2ThresHold" property="C2H2ThresHold" />
-		<result column="THThresHold" property="THThresHold" />
-		<result column="H2Change" property="H2Change" />
-		<result column="C2H2Change" property="C2H2Change" />
-		<result column="THChange" property="THChange" />
-		<result column="MstThresHold" property="MstThresHold" />
+		<result column="DeviceID" property="deviceID" />
+		<result column="H2ThresHold" property="h2ThresHold" />
+		<result column="C2H2ThresHold" property="c2h2ThresHold" />
+		<result column="THThresHold" property="thThresHold" />
+		<result column="MstThresHold" property="mstThresHold" />
+
+		<result column="CH4ThresHold" property="ch4ThresHold" />
+		<result column="COThresHold" property="coThresHold" />
+		<result column="CO2ThresHold" property="co2ThresHold" />
+		<result column="O2ThresHold" property="o2ThresHold" />
+		<result column="C2H4ThresHold" property="c2h4ThresHold" />
+		<result column="C2H6ThresHold" property="c2h6ThresHold" />
+
+		<!--		<result column="H2Change" property="H2Change" />-->
+		<!--		<result column="C2H2Change" property="C2H2Change" />-->
+		<!--		<result column="THChange" property="THChange" />-->
+
+
 	</resultMap>
 	<!-- 避雷器告警 -->
 	<resultMap id="SmoamAlarmMap" type="com.scott.entity.SmoamAlarmEntity">
-		<result column="DeviceID" property="DeviceID" />
-		<result column="TotalCurrentThresHold" property="TotalCurrentThresHold" />
+		<result column="DeviceID" property="deviceID" />
+		<result column="TotAThresHold" property="totAThresHold" />
 	</resultMap>
 	<!-- 铁芯告警 -->
 	<resultMap id="ScomAlarmMap" type="com.scott.entity.ScomAlarmEntity">
-		<result column="DeviceID" property="DeviceID" />
-		<result column="TotalCurrentThresHold" property="TotalCurrentThresHold" />
+		<result column="DeviceID" property="deviceID" />
+		<result column="PreOilUpThresHold" property="preOilUpThresHold" />
+		<result column="PreOilDownThresHold" property="preOilDownThresHold" />
+		<result column="Tmp1ThresHold" property="tmp1ThresHold" />
+		<result column="Tmp4ThresHold" property="tmp4ThresHold" />
+		<result column="Pre1ThresHold" property="pre1ThresHold" />
+		<result column="Pre2ThresHold" property="pre2ThresHold" />
+		<result column="Tmp3ThresHold" property="tmp3ThresHold" />
+		<result column="MainOilUpThresHold" property="mainOilUpThresHold" />
+		<result column="MainOilDownThresHold" property="mainOilDownThresHold" />
+		<result column="SltcOilUpThresHold" property="sltcOilUpThresHold" />
+		<result column="SltcOilDownThresHold" property="sltcOilDownThresHold" />
 	</resultMap>
-	<!-- 工况告警 -->
-	<resultMap id="SconditionAlarmMap" type="com.scott.entity.SconditionAlarmEntity">
-		<result column="DeviceID" property="DeviceID" />
-		<result column="OilTempThresHold" property="OilTempThresHold" />
-	</resultMap>
+<!--	&lt;!&ndash; 工况告警 &ndash;&gt;-->
+<!--	<resultMap id="SconditionAlarmMap" type="com.scott.entity.SconditionAlarmEntity">-->
+<!--		<result column="DeviceID" property="DeviceID" />-->
+<!--		<result column="OilTempThresHold" property="OilTempThresHold" />-->
+<!--	</resultMap>-->
 	<!-- i2数据 -->
 	<resultMap id="I2ResultMap" type="com.scott.entity.I2TableEntity">
 		<result column="i2id" property="i2id" />
@@ -132,8 +155,8 @@
 	<sql id="Example_state">
 		where 1=1
 		<trim suffixOverrides=",">
-			<if test="DeviceID !=null and DeviceID != ''">
-				and DeviceID=#{DeviceID}
+			<if test="deviceID !=null and deviceID != ''">
+				and DeviceID=#{deviceID}
 			</if>
 		</trim>
 	</sql>
@@ -276,7 +299,7 @@
 		insert into pubunitinfo(station,address,name) values (#{station} ,#{address},#{name}) ;
 	</update>
 
-	<select id="EquipmentListCount" resultType="java.lang.Integer"
+	<select id="equipmentListCount" resultType="java.lang.Integer"
 		parameterType="Object">
 		select count(1) from pubequipment
 	</select>
@@ -305,9 +328,9 @@
 
 	<!-- 根据主设备ID查询设备信息 -->
 	<select id="DeviceListCount" resultType="java.lang.Integer"
-		parameterType="Object">
+		parameterType="java.lang.String">
 		select count(1) from pubdevice where
-		EquipmentID=#{EquipmentID}
+		EquipmentID=#{equipmentID}
 	</select>
 	<select id="getDeviceList" resultMap="DeviceResultMap"
 		parameterType="Object">
@@ -456,111 +479,160 @@
 
 	<!-- 查询SF6告警表 -->
 	<select id="getSf6Monitor" resultMap="Sf6AlarmMap"
-		parameterType="Object">
+		parameterType="java.lang.String">
 		select * from sf6_alarm_param
 		<include refid="Example_state" />
 	</select>
 
 	<!-- 查询油色谱告警表 -->
 	<select id="getStomMonitor" resultMap="StomAlarmMap"
-		parameterType="Object">
+		parameterType="java.lang.String">
 		select * from stom_alarm_param
 		<include refid="Example_state" />
 	</select>
 	<!-- 查询避雷器告警表 -->
 	<select id="getSmoamMonitor" resultMap="SmoamAlarmMap"
-		parameterType="Object">
+		parameterType="java.lang.String">
 		select * from smoam_alarm_param
 		<include refid="Example_state" />
 	</select>
 	<!-- 查询铁芯告警表 -->
 	<select id="getScomMonitor" resultMap="ScomAlarmMap"
-		parameterType="Object">
+		parameterType="java.lang.String">
 		select * from scom_alarm_param
 		<include refid="Example_state" />
 	</select>
-	<!-- 查询工况告警表 -->
-	<select id="getSconditionMonitor" resultMap="SconditionAlarmMap"
-		parameterType="Object">
-		select * from scondition_alarm_param
-		<include refid="Example_state" />
-	</select>
+<!--	&lt;!&ndash; 查询工况告警表 &ndash;&gt;-->
+<!--	<select id="getSconditionMonitor" resultMap="SconditionAlarmMap"-->
+<!--		parameterType="Object">-->
+<!--		select * from scondition_alarm_param-->
+<!--		<include refid="Example_state" />-->
+<!--	</select>-->
 
 	<!-- 查询复选框表 -->
 	<select id="getCheckBox" resultMap="DeviceResultMap"
 		parameterType="Object">
-		select * from pubdevice where deviceType=#{DeviceType}
+		select * from pubdevice where deviceType=#{deviceType}
 		and
-		EquipmentID=#{EquipmentID} and DeviceID!=#{DeviceID}
+		EquipmentID=#{equipmentID} and DeviceID!=#{deviceID}
 	</select>
 
 	<!-- 插入sf6告警配置 -->
 	<insert id="insertSf6Monitor" parameterType="Object">
 		INSERT INTO
-		sf6_alarm_param VALUES(#{DeviceID},#{PressureThreshold})
+		sf6_alarm_param(DeviceID,PressureThreshold,PressChgRateThreshold,WeekChgRateThreshold) VALUES(#{deviceID},#{pressureThreshold},#{pressChgRateThreshold},#{weekChgRateThreshold})
 	</insert>
 	<!-- 修改sf6告警配置 -->
 	<update id="updateSf6Monitor" parameterType="Object">
 		UPDATE
-		sf6_alarm_param SET PressureThreshold=#{PressureThreshold} WHERE
-		DeviceID=#{DeviceID}
+		sf6_alarm_param SET
+		PressureThreshold=#{pressureThreshold},PressChgRateThreshold=#{pressChgRateThreshold},WeekChgRateThreshold=#{weekChgRateThreshold}
+		WHERE DeviceID=#{deviceID}
 	</update>
 
 	<!-- 插入stom告警配置 -->
 	<insert id="insertStomMonitor" parameterType="Object">
 		INSERT INTO
-		stom_alarm_param
-		VALUES(#{DeviceID},#{H2ThresHold},#{C2H2ThresHold},#{THThresHold},#{H2Change},#{C2H2Change},#{THChange},#{MstThresHold})
+		stom_alarm_param(DeviceID,H2ThresHold,C2H2ThresHold,THThresHold,CH4ThresHold,COThresHold,CO2ThresHold,O2ThresHold,C2H4ThresHold,C2H6ThresHold,MstThresHold)
+		VALUES(#{deviceID},#{h2ThresHold},#{c2h2ThresHold},
+		#{thThresHold},#{ch4ThresHold},#{coThresHold},
+		#{co2ThresHold},#{o2ThresHold},#{c2h4ThresHold},#{c2h6ThresHold},#{mstThresHold})
 	</insert>
 	<!-- 修改stom告警配置 -->
 	<update id="updateStomMonitor" parameterType="Object">
 		UPDATE
 		stom_alarm_param SET
-		H2ThresHold=#{H2ThresHold},C2H2ThresHold=#{C2H2ThresHold},THThresHold=#{THThresHold},H2Change=#{H2Change},C2H2Change=#{C2H2Change},THChange=#{THChange},MstThresHold=#{MstThresHold}
-		WHERE DeviceID=#{DeviceID}
+		<trim suffixOverrides=",">
+<!--			<if test="h2ThresHold !=null and h2ThresHold != ''">-->
+				H2ThresHold=#{h2ThresHold},
+<!--			</if>-->
+<!--			<if test="c2h2ThresHold !=null and c2h2ThresHold != ''">-->
+				C2H2ThresHold=#{c2h2ThresHold},
+<!--			</if>-->
+<!--			<if test="thThresHold !=null and thThresHold != ''">-->
+				THThresHold=#{thThresHold},
+<!--			</if>-->
+<!--			<if test="ch4ThresHold !=null and ch4ThresHold != ''">-->
+				CH4ThresHold=#{ch4ThresHold},
+<!--			</if>-->
+<!--			<if test="coThresHold !=null and coThresHold != ''">-->
+				COThresHold=#{coThresHold},
+<!--			</if>-->
+<!--			<if test="co2ThresHold !=null and co2ThresHold != ''">-->
+				CO2ThresHold=#{co2ThresHold},
+<!--			</if>-->
+<!--			<if test="o2ThresHold !=null and o2ThresHold != ''">-->
+				O2ThresHold=#{o2ThresHold},
+<!--			</if>-->
+<!--			<if test="c2h4ThresHold !=null and c2h4ThresHold != ''">-->
+				C2H4ThresHold=#{c2h4ThresHold},
+<!--			</if>-->
+				C2H6ThresHold=#{c2h6ThresHold},
+<!--			<if test="mstThresHold !=null and mstThresHold != ''">-->
+				MstThresHold=#{mstThresHold},
+<!--			</if>-->
+		</trim>
+		WHERE DeviceID=#{deviceID}
 	</update>
 	<!-- 插入smoam告警配置 -->
 	<insert id="insertSmoamMonitor" parameterType="Object">
 		INSERT INTO
-		smoam_alarm_param VALUES(#{DeviceID},#{TotalCurrentThresHold})
+		smoam_alarm_param(DeviceID,TotAThresHold) VALUES(#{deviceID},#{totAThresHold})
 	</insert>
 	<!-- 修改smoam告警配置 -->
 	<update id="updateSmoamMonitor" parameterType="Object">
 		UPDATE
-		smoam_alarm_param SET TotalCurrentThresHold=#{TotalCurrentThresHold}
-		WHERE DeviceID=#{DeviceID}
+		smoam_alarm_param SET TotAThresHold=#{totAThresHold}
+		WHERE DeviceID=#{deviceID}
 	</update>
 
 	<!-- 插入scom告警配置 -->
 	<insert id="insertScomMonitor" parameterType="Object">
 		INSERT INTO
-		scom_alarm_param VALUES(#{DeviceID},#{TotalCurrentThresHold})
+		scom_alarm_param(DeviceID,PreOilUpThresHold,PreOilDownThresHold,Tmp1ThresHold,Tmp3ThresHold,Tmp4ThresHold,
+		Pre1ThresHold,Pre2ThresHold,MainOilUpThresHold,MainOilDownThresHold,SltcOilUpThresHold,SltcOilDownThresHold)
+		VALUES(#{deviceID},#{preOilUpThresHold},#{preOilDownThresHold},#{tmp1ThresHold},#{tmp3ThresHold}
+		,#{tmp4ThresHold},#{pre1ThresHold},#{pre2ThresHold},#{mainOilUpThresHold},#{mainOilDownThresHold},
+		#{sltcOilUpThresHold},#{sltcOilDownThresHold})
 	</insert>
 	<!-- 修改scom告警配置 -->
 	<update id="updateScomMonitor" parameterType="Object">
 		UPDATE
-		scom_alarm_param SET TotalCurrentThresHold=#{TotalCurrentThresHold}
-		WHERE DeviceID=#{DeviceID}
+		scom_alarm_param SET
+		<trim suffixOverrides=",">
+			PreOilUpThresHold=#{preOilUpThresHold},
+			PreOilDownThresHold=#{preOilDownThresHold},
+			Tmp1ThresHold=#{tmp1ThresHold},
+			Tmp3ThresHold=#{tmp3ThresHold},
+			Tmp4ThresHold=#{tmp4ThresHold},
+			Pre1ThresHold=#{pre1ThresHold},
+			Pre2ThresHold=#{pre2ThresHold},
+			MainOilUpThresHold=#{mainOilUpThresHold},
+			MainOilDownThresHold=#{mainOilDownThresHold},
+			SltcOilUpThresHold=#{sltcOilUpThresHold},
+			SltcOilDownThresHold=#{sltcOilDownThresHold},
+		</trim>
+		WHERE DeviceID=#{deviceID}
 	</update>
 
-	<!-- 插入工况告警配置 -->
-	<insert id="insertSconditionMonitor" parameterType="Object">
-		INSERT INTO
-		scondition_alarm_param
-		VALUES(#{DeviceID},#{OilTempThresHold})
-	</insert>
-	<!-- 修改工况告警配置 -->
-	<update id="updateSconditionMonitor" parameterType="Object">
-		UPDATE
-		scondition_alarm_param SET OilTempThresHold=#{OilTempThresHold}
-		WHERE
-		DeviceID=#{DeviceID}
-	</update>
+<!--	&lt;!&ndash; 插入工况告警配置 &ndash;&gt;-->
+<!--	<insert id="insertSconditionMonitor" parameterType="Object">-->
+<!--		INSERT INTO-->
+<!--		scondition_alarm_param-->
+<!--		VALUES(#{DeviceID},#{OilTempThresHold})-->
+<!--	</insert>-->
+<!--	&lt;!&ndash; 修改工况告警配置 &ndash;&gt;-->
+<!--	<update id="updateSconditionMonitor" parameterType="Object">-->
+<!--		UPDATE-->
+<!--		scondition_alarm_param SET OilTempThresHold=#{OilTempThresHold}-->
+<!--		WHERE-->
+<!--		DeviceID=#{DeviceID}-->
+<!--	</update>-->
 
 	<!-- 查询导出数据 -->
 	<select id="getExportList" resultMap="DeviceResultMap"
 		parameterType="Object">
-		select * from pubdevice
+		select d.DeviceID,d.DeviceName,d.DeviceType,e.SpaceId as Space,d.IEC61850LD_LN,d.IED_IP,d.ManufactoryName,d.SmpPeriod from pubdevice d left join pubequipment e on d.EquipmentID  = e.EquipmentID;
 	</select>
 
 	<!-- 查询I2列表数据 -->

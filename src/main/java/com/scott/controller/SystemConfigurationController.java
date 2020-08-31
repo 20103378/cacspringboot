@@ -5,8 +5,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.base.entity.BaseEntity;
 import com.base.entity.PubDeviceTypeEnum;
+import com.base.entity.dto.*;
 import com.base.page.BasePage;
 import com.base.util.HtmlUtil;
+import com.base.util.edit.BeanUtil;
 import com.base.util.edit.ICDUtils;
 import com.base.util.UrlUtil;
 import com.base.web.BaseAction;
@@ -18,6 +20,7 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.write.*;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -128,20 +131,18 @@ public class SystemConfigurationController extends BaseAction {
         map.put("space",systemConfigurationService.findSpace());
         //相位
         List phase = new ArrayList();
-        phase.add("全部");
-        phase.add("A");
-        phase.add("B");
-        phase.add("C");
+        phase.add("无相别");
+        phase.add("A相别");
+        phase.add("B相别");
+        phase.add("C相别");
         map.put("phase",phase);
         //主设备类型
         List<Integer> values = new ArrayList<>();
-//        values.add(null);
         values.add(2);values.add(1);values.add(3);
         values.add(4);values.add(5);values.add(6);
         values.add(7);
         List<Map> deviceTypes = PubDeviceTypeEnum.getDeviceTypeEnumsByValues(values);
         map.put("deviceTypes",deviceTypes);
-//        map.put("PubDeviceTypeEnum",PubDeviceTypeEnum.values());
 
 
 
@@ -277,7 +278,7 @@ public class SystemConfigurationController extends BaseAction {
     @ResponseBody
     public Map<String, Object> getDeviceList(DevicePage page){
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        List<DeviceEntity> dataList = systemConfigurationService.getDeviceList(page);
+        List<DeviceEntity> dataList = systemConfigurationService.getDeviceList(page,page.getEquipmentID());
         jsonMap.put("total", page.getPager().getRowCount());
         jsonMap.put("rows", dataList);
         return jsonMap;
@@ -403,213 +404,213 @@ public class SystemConfigurationController extends BaseAction {
         return dataList;
     }
 
-    /**
-     * 导入红外测温设备
-     */
-    @RequestMapping("/upload_Infrared_Excel")
-    public void upload_Infrared_Excel(HttpServletResponse response, HttpServletRequest request) throws Exception {
-        // Map<String, Object> jsonMap = new HashMap<String, Object>();
-        // List<DeviceEntity> dataList
-        // =systemConfigurationService.getDeviceList(page);
-        // jsonMap.put("total", page.getPager().getRowCount());
-        // jsonMap.put("rows", dataList);
-        // HtmlUtil.writerJson(response, jsonMap);
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        request.setCharacterEncoding("utf-8");
-        Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");// 可以方便地修改日期格式
-        String DayTime = dateFormat.format(now);
-        String fileName = "";
-        String Uploader = "";
-        // 获取文件夹名
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        factory.setSizeThreshold(2 * 1024 * 1024);
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        upload.setHeaderEncoding("utf-8");
+//    /**
+//     * 导入红外测温设备
+//     */
+//    @RequestMapping("/upload_Infrared_Excel")
+//    public void upload_Infrared_Excel(HttpServletResponse response, HttpServletRequest request) throws Exception {
+//        // Map<String, Object> jsonMap = new HashMap<String, Object>();
+//        // List<DeviceEntity> dataList
+//        // =systemConfigurationService.getDeviceList(page);
+//        // jsonMap.put("total", page.getPager().getRowCount());
+//        // jsonMap.put("rows", dataList);
+//        // HtmlUtil.writerJson(response, jsonMap);
+//        Map<String, Object> jsonMap = new HashMap<String, Object>();
+//        request.setCharacterEncoding("utf-8");
+//        Date now = new Date();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");// 可以方便地修改日期格式
+//        String DayTime = dateFormat.format(now);
+//        String fileName = "";
+//        String Uploader = "";
+//        // 获取文件夹名
+//        DiskFileItemFactory factory = new DiskFileItemFactory();
+//        factory.setSizeThreshold(2 * 1024 * 1024);
+//        ServletFileUpload upload = new ServletFileUpload(factory);
+//        upload.setHeaderEncoding("utf-8");
+//
+//        List<FileItem> fileList = upload.parseRequest(request);// 获取request的文件
+//        // Iterator iter = fileItems.iterator()取其迭代器
+//        // iter.hasNext()检查序列中是否还有元素
+//        for (Iterator iter = fileList.iterator(); iter.hasNext(); ) {
+//            // 获得序列中的下一个元素
+//            FileItem item = (FileItem) iter.next();
+//            String s = item.getString("utf-8");
+//            // 上传文件的名称和完整路径
+//            fileName = item.getName();
+//            if (fileName == null) {
+//                Uploader = s;
+//            } else {
+//                long size = item.getSize();
+//                // 判断是否选择了文件
+//                if ((fileName == null || fileName.equals("")) && size == 0) {
+//                    continue;
+//                }
+//                // 截取文件名字符串
+//                fileName = fileName.substring(fileName.lastIndexOf("\\") + 1, fileName.length());
+//                fileName = DayTime + "-" + fileName;
+//                String path = UrlUtil.getUrlUtil().getOsicfg() + File.separator;
+//                File file = new File(path);
+//                // 如果不存在则创建 startup.cfg
+//                File i1toi2_Import = new File(path + "pubdevice_Infrared");
+//                // 目录不存在则创建
+//                if (!i1toi2_Import.exists() && !i1toi2_Import.isDirectory()) {
+//                    i1toi2_Import.mkdirs();
+//                }
+//                // 保存文件在服务器的物理磁盘中：第一个参数是：完整路径（不包括文件名）第二个参数是：文件名称
+//                // item.write(file);
+//                // 修改文件名和物料名一致，且强行修改了文件扩展名为gif
+//                // item.write(new File(uploadPath, itemNo + ".gif"));
+//                // 将文件保存到目录下，不修改文件名
+//                // createExl(dir_iedName, fileName);
+//                File Exl_InFile = new File(UrlUtil.getUrlUtil().getOsicfg() + File.separator + "pubdevice_Infrared");
+//                item.write(new File(Exl_InFile, fileName));
+//                jsonMap.put("File", 1);
+//            }
+//        }
+//
+//        // 根据创建出来的Exl文件入数据库
+//        String DeviceID = null;
+//        String DeviceName = null;
+//        Workbook readwb = null;
+//        // 读取数据流
+//
+//        File Exl_OutFile = new File(UrlUtil.getUrlUtil().getOsicfg() + File.separator + "pubdevice_Infrared" + File.separator + fileName);
+//        InputStream instream = new FileInputStream(Exl_OutFile);
+//        if (instream != null) {
+//            jsonMap.put("Excel", 2);
+//        }
+//        // JXL的读取
+//        readwb = Workbook.getWorkbook(instream);
+//        // 获取第X个Sheet表0代表Sheet1
+//        Sheet readsheet = readwb.getSheet(0);
+//        // 获取Sheet表中所包含的总列数
+//        int rsColumns = readsheet.getColumns();
+//        // 获取Sheet表中所包含的总行数
+//        int rsRows = readsheet.getRows();
+//        // 获取指定单元格的对象引用
+//        for (int i = 1; i < rsRows; i++) {
+//            for (int j = 0; j < rsColumns; j++) {
+//                Cell cell = readsheet.getCell(j, i);
+//                if (j == 0) {
+//                    DeviceID = cell.getContents();
+//                    if (DeviceID.indexOf("A") != 0) {
+//                        int ii = Integer.parseInt(DeviceID);
+//                        if (ii < 10) {
+//                            DeviceID = "A000" + DeviceID;
+//                        } else if (ii < 100) {
+//                            DeviceID = "A00" + DeviceID;
+//                        } else if (ii < 1000) {
+//                            DeviceID = "A0" + DeviceID;
+//                        } else {
+//                            DeviceID = "A" + DeviceID;
+//                        }
+//                    }
+//                }
+//                if (j == 1) {
+//                    DeviceName = cell.getContents();
+//                }
+//                System.out.print(cell.getContents() + " ");
+//            }
+//            // 将逐条读取到的EXCEL逐条插入到数据库中
+//            InfraredTableEntity entity = new InfraredTableEntity(DeviceID, DeviceName);
+//            int insertFlag = systemConfigurationService.getInfraredFlag(entity);
+//            if (insertFlag > 0)
+//                systemConfigurationService.updateInfraredTable(entity);
+//            else
+//                systemConfigurationService.insertInfraredTable(entity);
+//
+//        }
+//        // 删除Excel文件
+//        File file = new File(UrlUtil.getUrlUtil().getOsicfg() + File.separator
+//                + "pubdevice_Infrared" + File.separator + fileName);
+//        if (file.isFile() && file.exists()) {
+//            file.delete();
+//        }
+//        HtmlUtil.writerJson(response, jsonMap);
+//    }
 
-        List<FileItem> fileList = upload.parseRequest(request);// 获取request的文件
-        // Iterator iter = fileItems.iterator()取其迭代器
-        // iter.hasNext()检查序列中是否还有元素
-        for (Iterator iter = fileList.iterator(); iter.hasNext(); ) {
-            // 获得序列中的下一个元素
-            FileItem item = (FileItem) iter.next();
-            String s = item.getString("utf-8");
-            // 上传文件的名称和完整路径
-            fileName = item.getName();
-            if (fileName == null) {
-                Uploader = s;
-            } else {
-                long size = item.getSize();
-                // 判断是否选择了文件
-                if ((fileName == null || fileName.equals("")) && size == 0) {
-                    continue;
-                }
-                // 截取文件名字符串
-                fileName = fileName.substring(fileName.lastIndexOf("\\") + 1, fileName.length());
-                fileName = DayTime + "-" + fileName;
-                String path = UrlUtil.getUrlUtil().getOsicfg() + File.separator;
-                File file = new File(path);
-                // 如果不存在则创建 startup.cfg
-                File i1toi2_Import = new File(path + "pubdevice_Infrared");
-                // 目录不存在则创建
-                if (!i1toi2_Import.exists() && !i1toi2_Import.isDirectory()) {
-                    i1toi2_Import.mkdirs();
-                }
-                // 保存文件在服务器的物理磁盘中：第一个参数是：完整路径（不包括文件名）第二个参数是：文件名称
-                // item.write(file);
-                // 修改文件名和物料名一致，且强行修改了文件扩展名为gif
-                // item.write(new File(uploadPath, itemNo + ".gif"));
-                // 将文件保存到目录下，不修改文件名
-                // createExl(dir_iedName, fileName);
-                File Exl_InFile = new File(UrlUtil.getUrlUtil().getOsicfg() + File.separator + "pubdevice_Infrared");
-                item.write(new File(Exl_InFile, fileName));
-                jsonMap.put("File", 1);
-            }
-        }
-
-        // 根据创建出来的Exl文件入数据库
-        String DeviceID = null;
-        String DeviceName = null;
-        Workbook readwb = null;
-        // 读取数据流
-
-        File Exl_OutFile = new File(UrlUtil.getUrlUtil().getOsicfg() + File.separator + "pubdevice_Infrared" + File.separator + fileName);
-        InputStream instream = new FileInputStream(Exl_OutFile);
-        if (instream != null) {
-            jsonMap.put("Excel", 2);
-        }
-        // JXL的读取
-        readwb = Workbook.getWorkbook(instream);
-        // 获取第X个Sheet表0代表Sheet1
-        Sheet readsheet = readwb.getSheet(0);
-        // 获取Sheet表中所包含的总列数
-        int rsColumns = readsheet.getColumns();
-        // 获取Sheet表中所包含的总行数
-        int rsRows = readsheet.getRows();
-        // 获取指定单元格的对象引用
-        for (int i = 1; i < rsRows; i++) {
-            for (int j = 0; j < rsColumns; j++) {
-                Cell cell = readsheet.getCell(j, i);
-                if (j == 0) {
-                    DeviceID = cell.getContents();
-                    if (DeviceID.indexOf("A") != 0) {
-                        int ii = Integer.parseInt(DeviceID);
-                        if (ii < 10) {
-                            DeviceID = "A000" + DeviceID;
-                        } else if (ii < 100) {
-                            DeviceID = "A00" + DeviceID;
-                        } else if (ii < 1000) {
-                            DeviceID = "A0" + DeviceID;
-                        } else {
-                            DeviceID = "A" + DeviceID;
-                        }
-                    }
-                }
-                if (j == 1) {
-                    DeviceName = cell.getContents();
-                }
-                System.out.print(cell.getContents() + " ");
-            }
-            // 将逐条读取到的EXCEL逐条插入到数据库中
-            InfraredTableEntity entity = new InfraredTableEntity(DeviceID, DeviceName);
-            int insertFlag = systemConfigurationService.getInfraredFlag(entity);
-            if (insertFlag > 0)
-                systemConfigurationService.updateInfraredTable(entity);
-            else
-                systemConfigurationService.insertInfraredTable(entity);
-
-        }
-        // 删除Excel文件
-        File file = new File(UrlUtil.getUrlUtil().getOsicfg() + File.separator
-                + "pubdevice_Infrared" + File.separator + fileName);
-        if (file.isFile() && file.exists()) {
-            file.delete();
-        }
-        HtmlUtil.writerJson(response, jsonMap);
-    }
-
-    @RequestMapping("/getInfrared_Excel")
-    public void getInfrared_Excel(HttpServletResponse response,
-                                  HttpServletRequest request) throws Exception {
-        String fileName_xml = "";
-        // 根据index选择不同xml文件
-        String srcFileName = request.getSession().getServletContext().getRealPath("");
-        new UrlUtil();
-        srcFileName = srcFileName + UrlUtil.getUrlUtil().getMapPath();
-        String destFileName = srcFileName + "ZIP";
-        System.out.println(destFileName);
-        // 复制文件
-        // if("GIS".equals(select_name)){
-        // fileName_xml = "data_gis.xml";
-        // fileName_swf = "DevMap_gis.swf";
-        // }else if("JLC".equals(select_name)){
-        // fileName_xml = "data_jlc.xml";
-        // fileName_swf = "DevMap_jlc.swf";
-        // }else if("FT".equals(select_name)){
-        // fileName_xml = "data_ft.xml";
-        // fileName_swf = "DevMap_ft.swf";
-        // }else if("ZLC".equals(select_name)){
-        // fileName_xml = "data_zlc.xml";
-        // fileName_swf = "DevMap_zlc.swf";
-        // }
-        File srcFile_xml = new File(UrlUtil.getUrlUtil().getOsicfg() + File.separator + "pubdevice_Infrared" + File.separator + "data.xls");
-        // File srcFile_swf = new File(srcFileName+"/"+fileName_swf);
-        // File destFile_xml = new File(destFileName+"/"+fileName_xml);
-        // File destFile_swf = new File(destFileName+"/"+fileName_swf);
-        File destFile = new File(destFileName);
-        File ZipFile = new File(srcFileName + "MapZip.zip");
-        System.out.println(ZipFile);
-        if (destFile.isDirectory() || destFile.exists()) {
-            File[] files = destFile.listFiles();// 声明目录下所有的文件 files[];
-            for (int i = 0; i < files.length; i++) {// 遍历目录下所有的文件
-                files[i].delete();// 把每个文件用这个方法进行迭代
-            }
-        }
-        if (!destFile.exists()) {
-            destFile.mkdirs();
-        }
-        if (ZipFile.exists()) {
-            ZipFile.delete();
-        }
-
-        int byteread = 0; // 读取的字节数
-        InputStream in_xml = null;
-        InputStream in_swf = null;
-        OutputStream out_xml = null;
-        OutputStream out_swf = null;
-        try {
-            in_xml = new FileInputStream(srcFile_xml);
-            // in_swf = new FileInputStream(srcFile_swf);
-            // out_xml = new FileOutputStream(destFile_xml);
-            // out_swf = new FileOutputStream(destFile_swf);
-            byte[] buffer = new byte[1024];
-            while ((byteread = in_xml.read(buffer)) != -1) {
-                out_xml.write(buffer, 0, byteread);
-            }
-            while ((byteread = in_swf.read(buffer)) != -1) {
-                out_swf.write(buffer, 0, byteread);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (out_xml != null)
-                    out_xml.close();
-                if (out_swf != null)
-                    out_swf.close();
-                if (in_xml != null)
-                    in_xml.close();
-                if (in_swf != null)
-                    in_swf.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        ICDUtils.compressedFile(destFileName, srcFileName);
-        // List<EquipmentSpaceEntity>
-        // dataList=systemConfigurationService.getEquipmentSapce();
-        // HtmlUtil.writerJson(response, dataList);
-    }
+//    @RequestMapping("/getInfrared_Excel")
+//    public void getInfrared_Excel(HttpServletResponse response,
+//                                  HttpServletRequest request) throws Exception {
+//        String fileName_xml = "";
+//        // 根据index选择不同xml文件
+//        String srcFileName = request.getSession().getServletContext().getRealPath("");
+//        new UrlUtil();
+//        srcFileName = srcFileName + UrlUtil.getUrlUtil().getMapPath();
+//        String destFileName = srcFileName + "ZIP";
+//        System.out.println(destFileName);
+//        // 复制文件
+//        // if("GIS".equals(select_name)){
+//        // fileName_xml = "data_gis.xml";
+//        // fileName_swf = "DevMap_gis.swf";
+//        // }else if("JLC".equals(select_name)){
+//        // fileName_xml = "data_jlc.xml";
+//        // fileName_swf = "DevMap_jlc.swf";
+//        // }else if("FT".equals(select_name)){
+//        // fileName_xml = "data_ft.xml";
+//        // fileName_swf = "DevMap_ft.swf";
+//        // }else if("ZLC".equals(select_name)){
+//        // fileName_xml = "data_zlc.xml";
+//        // fileName_swf = "DevMap_zlc.swf";
+//        // }
+//        File srcFile_xml = new File(UrlUtil.getUrlUtil().getOsicfg() + File.separator + "pubdevice_Infrared" + File.separator + "data.xls");
+//        // File srcFile_swf = new File(srcFileName+"/"+fileName_swf);
+//        // File destFile_xml = new File(destFileName+"/"+fileName_xml);
+//        // File destFile_swf = new File(destFileName+"/"+fileName_swf);
+//        File destFile = new File(destFileName);
+//        File ZipFile = new File(srcFileName + "MapZip.zip");
+//        System.out.println(ZipFile);
+//        if (destFile.isDirectory() || destFile.exists()) {
+//            File[] files = destFile.listFiles();// 声明目录下所有的文件 files[];
+//            for (int i = 0; i < files.length; i++) {// 遍历目录下所有的文件
+//                files[i].delete();// 把每个文件用这个方法进行迭代
+//            }
+//        }
+//        if (!destFile.exists()) {
+//            destFile.mkdirs();
+//        }
+//        if (ZipFile.exists()) {
+//            ZipFile.delete();
+//        }
+//
+//        int byteread = 0; // 读取的字节数
+//        InputStream in_xml = null;
+//        InputStream in_swf = null;
+//        OutputStream out_xml = null;
+//        OutputStream out_swf = null;
+//        try {
+//            in_xml = new FileInputStream(srcFile_xml);
+//            // in_swf = new FileInputStream(srcFile_swf);
+//            // out_xml = new FileOutputStream(destFile_xml);
+//            // out_swf = new FileOutputStream(destFile_swf);
+//            byte[] buffer = new byte[1024];
+//            while ((byteread = in_xml.read(buffer)) != -1) {
+//                out_xml.write(buffer, 0, byteread);
+//            }
+//            while ((byteread = in_swf.read(buffer)) != -1) {
+//                out_swf.write(buffer, 0, byteread);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                if (out_xml != null)
+//                    out_xml.close();
+//                if (out_swf != null)
+//                    out_swf.close();
+//                if (in_xml != null)
+//                    in_xml.close();
+//                if (in_swf != null)
+//                    in_swf.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        ICDUtils.compressedFile(destFileName, srcFileName);
+//        // List<EquipmentSpaceEntity>
+//        // dataList=systemConfigurationService.getEquipmentSapce();
+//        // HtmlUtil.writerJson(response, dataList);
+//    }
 
     /**
      * 生成XML文件
@@ -1082,57 +1083,32 @@ public class SystemConfigurationController extends BaseAction {
         systemConfigurationService.delete_device(deviceID);
     }
 
-    /**
-     * 获取SF6压力告警信息
-     */
-    @RequestMapping("/getSf6Monitor")
-    public void getSf6Monitor(Sf6AlarmEntity entity,
-                              HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-        List<Sf6AlarmEntity> list = systemConfigurationService
-                .getSf6Monitor(entity);
-        List<BaseMonitorEntity> list2 = new ArrayList<BaseMonitorEntity>();
-        String[] arrName = {"sf6气体压力阈值(MPa)"};
-        if (list.size() != 0) {
-            String[] arrValue = {"" + list.get(0).getPressureThreshold()};
-            for (int i = 0; i < arrName.length; i++) {
-                BaseMonitorEntity e = new BaseMonitorEntity();
-                e.setStrName(arrName[i]);
-                e.setStrValue(arrValue[i]);
-                list2.add(e);
-            }
-        } else {
-            for (int i = 0; i < arrName.length; i++) {
-                BaseMonitorEntity e = new BaseMonitorEntity();
-                e.setStrName(arrName[i]);
-                e.setStrValue("");
-                list2.add(e);
-            }
-        }
-        HtmlUtil.writerJson(response, list2);
-    }
 
     /**
-     * 获取油色谱压力告警信息
+     * 获取油色谱压力告警信息1
      */
     @RequestMapping("/getStomMonitor")
-    public void getStomMonitor(StomAlarmEntity entity,
-                               HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-        List<StomAlarmEntity> list = systemConfigurationService
-                .getStomMonitor(entity);
+    @ResponseBody
+    public List getStomMonitor(String deviceID){
+        List<StomAlarmEntity> list = systemConfigurationService.getStomMonitor(deviceID);
         List<BaseMonitorEntity> list2 = new ArrayList<BaseMonitorEntity>();
         String[] arrName = {"氢气上限值(ppm)", "乙炔上限值(ppm)", "总烃上限值(ppm)",
-                "氢气变化率(ppm/day)", "乙炔变化率(ppm/5day)", "总烃变化率(ppm/day)",
+                "甲烷上限值(ppm)", "一氧化碳上限值(ppm)", "二氧化碳上限值(ppm)",
+                "氧气上限值(ppm)", "乙烯上限值(ppm)", "乙烷上限值(ppm)",
+//                "氢气变化率(ppm/day)", "乙炔变化率(ppm/5day)", "总烃变化率(ppm/day)",
                 "微水上限值(mg/m3)"};
         if (list.size() != 0) {
-            String[] arrValue = {"" + list.get(0).getH2ThresHold(),
-                    "" + list.get(0).getC2H2ThresHold(),
-                    "" + list.get(0).getTHThresHold(),
-                    "" + list.get(0).getH2Change(),
-                    "" + list.get(0).getC2H2Change(),
-                    "" + list.get(0).getTHChange(),
-                    "" + list.get(0).getMstThresHold()
+            Double[] arrValue = {
+                    list.get(0).getH2ThresHold(),
+                    list.get(0).getC2h2ThresHold(),
+                    list.get(0).getThThresHold(),
+                    list.get(0).getCh4ThresHold(),
+                    list.get(0).getCoThresHold(),
+                    list.get(0).getCo2ThresHold(),
+                    list.get(0).getO2ThresHold(),
+                    list.get(0).getC2h4ThresHold(),
+                    list.get(0).getC2h6ThresHold(),
+                    list.get(0).getMstThresHold()
             };
             for (int i = 0; i < arrValue.length; i++) {
                 BaseMonitorEntity e = new BaseMonitorEntity();
@@ -1144,27 +1120,56 @@ public class SystemConfigurationController extends BaseAction {
             for (int i = 0; i < arrName.length; i++) {
                 BaseMonitorEntity e = new BaseMonitorEntity();
                 e.setStrName(arrName[i]);
-                e.setStrValue("");
+                e.setStrValue(null);
                 list2.add(e);
             }
         }
-
-        HtmlUtil.writerJson(response, list2);
+       return list2;
     }
-
     /**
-     * 获取避雷器告警信息
+     * 获取SF6压力告警信息2
+     */
+    @RequestMapping("/getSf6Monitor")
+    @ResponseBody
+    public List getSf6Monitor(Sf6AlarmEntity entity){
+        List<Sf6AlarmEntity> list = systemConfigurationService
+                .getSf6Monitor(entity.getDeviceID());
+        List<BaseMonitorEntity> list2 = new ArrayList<BaseMonitorEntity>();
+        String[] arrName = {"sf6气体压力阈值(MPa)","sf6气体压力变化率阈值(MPa/day)","sf6气体压力变化率阈值(MPa/week)"};
+        if (list.size() != 0) {
+            Double[] arrValue = {
+                    list.get(0).getPressureThreshold(),
+                    list.get(0).getPressChgRateThreshold(),
+                    list.get(0).getWeekChgRateThreshold()
+            };
+
+            for (int i = 0; i < arrName.length; i++) {
+                BaseMonitorEntity e = new BaseMonitorEntity();
+                e.setStrName(arrName[i]);
+                e.setStrValue(arrValue[i]);
+                list2.add(e);
+            }
+        } else {
+            for (int i = 0; i < arrName.length; i++) {
+                BaseMonitorEntity e = new BaseMonitorEntity();
+                e.setStrName(arrName[i]);
+                e.setStrValue(null);
+                list2.add(e);
+            }
+        }
+        return list2;
+    }
+    /**
+     * 获取避雷器告警信息 3
      */
     @RequestMapping("/getSmoamMonitor")
-    public void getSmoamMonitor(SmoamAlarmEntity entity,
-                                HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    public List getSmoamMonitor(SmoamAlarmEntity entity){
         List<SmoamAlarmEntity> list = systemConfigurationService
-                .getSmoamMonitor(entity);
+                .getSmoamMonitor(entity.getDeviceID());
         List<BaseMonitorEntity> list2 = new ArrayList<BaseMonitorEntity>();
         String[] arrName = {"泄漏电流上限(mA)"};
         if (list.size() != 0) {
-            String[] arrValue = {"" + list.get(0).getTotalCurrentThresHold()};
+            Double[] arrValue = { list.get(0).getTotAThresHold()};
             for (int i = 0; i < arrName.length; i++) {
                 BaseMonitorEntity e = new BaseMonitorEntity();
                 e.setStrName(arrName[i]);
@@ -1175,26 +1180,38 @@ public class SystemConfigurationController extends BaseAction {
             for (int i = 0; i < arrName.length; i++) {
                 BaseMonitorEntity e = new BaseMonitorEntity();
                 e.setStrName(arrName[i]);
-                e.setStrValue("");
+                e.setStrValue(null);
                 list2.add(e);
             }
         }
-        HtmlUtil.writerJson(response, list2);
+        return list2;
     }
 
     /**
-     * 获取铁芯告警信息
+     * 获取铁芯告警信息 4
      */
     @RequestMapping("/getScomMonitor")
-    public void getScomMonitor(ScomAlarmEntity entity,
-                               HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    public List getScomMonitor(ScomAlarmEntity entity){
         List<ScomAlarmEntity> list = systemConfigurationService
-                .getScomMonitor(entity);
+                .getScomMonitor(entity.getDeviceID());
         List<BaseMonitorEntity> list2 = new ArrayList<BaseMonitorEntity>();
-        String[] arrName = {"泄漏电流上限(mA)"};
+        String[] arrName = {"本体主油箱压力式油位上限(mA)","本体主油箱压力式油位下限(mA)","阀侧首端套管SF6压力下限(mA)"
+                ,"阀侧末端套管SF6压力下限(mA)","网侧绕组温度上限(mA)","顶层油温2上限(mA)","顶层油温1上限(mA)"
+                ,"本体主油箱磁力式油位上限(mA)","本体主油箱磁力式油位下限(mA)","有载开关油位上限(mA)","有载开关油位下限(mA)"};
         if (list.size() != 0) {
-            String[] arrValue = {"" + list.get(0).getCGAmpThresHold()};
+            Double[] arrValue = {list.get(0).getPreOilUpThresHold(),
+                    list.get(0).getPreOilDownThresHold(),
+                    list.get(0).getPre1ThresHold(),
+                    list.get(0).getPre2ThresHold(),
+                    list.get(0).getTmp1ThresHold(),
+                    list.get(0).getTmp3ThresHold(),
+                    list.get(0).getTmp4ThresHold(),
+                    list.get(0).getMainOilUpThresHold(),
+                    list.get(0).getMainOilDownThresHold(),
+                    list.get(0).getSltcOilUpThresHold(),
+                    list.get(0).getSltcOilDownThresHold()
+            };
+
             for (int i = 0; i < arrName.length; i++) {
                 BaseMonitorEntity e = new BaseMonitorEntity();
                 e.setStrName(arrName[i]);
@@ -1205,241 +1222,208 @@ public class SystemConfigurationController extends BaseAction {
             for (int i = 0; i < arrName.length; i++) {
                 BaseMonitorEntity e = new BaseMonitorEntity();
                 e.setStrName(arrName[i]);
-                e.setStrValue("");
+                e.setStrValue(null);
                 list2.add(e);
             }
         }
-        HtmlUtil.writerJson(response, list2);
+        return list2;
     }
 
-    /**
-     * 获取工况压力告警信息
-     */
-    @RequestMapping("/getSconditionMonitor")
-    public void getSconditionMonitor(SconditionAlarmEntity entity,
-                                     HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-        List<SconditionAlarmEntity> list = systemConfigurationService
-                .getSconditionMonitor(entity);
-        List<BaseMonitorEntity> list2 = new ArrayList<BaseMonitorEntity>();
-        String[] arrName = {"顶层油温上限(℃)"};
-        if (list.size() != 0) {
-            String[] arrValue = {"" + list.get(0).getOilTempThresHold()};
-            for (int i = 0; i < arrName.length; i++) {
-                BaseMonitorEntity e = new BaseMonitorEntity();
-                e.setStrName(arrName[i]);
-                e.setStrValue(arrValue[i]);
-                list2.add(e);
-            }
-        } else {
-            for (int i = 0; i < arrName.length; i++) {
-                BaseMonitorEntity e = new BaseMonitorEntity();
-                e.setStrName(arrName[i]);
-                e.setStrValue("");
-                list2.add(e);
-            }
-        }
-        HtmlUtil.writerJson(response, list2);
-    }
+//    /**
+//     * 获取工况压力告警信息 5
+//     */
+//    @RequestMapping("/getSconditionMonitor")
+//    public List getSconditionMonitor(SconditionAlarmEntity entity){
+//        List<SconditionAlarmEntity> list = systemConfigurationService
+//                .getSconditionMonitor(entity);
+//        List<BaseMonitorEntity> list2 = new ArrayList<BaseMonitorEntity>();
+//        String[] arrName = {"顶层油温上限(℃)"};
+//        if (list.size() != 0) {
+//            String[] arrValue = { list.get(0).getOilTempThresHold()};
+//            for (int i = 0; i < arrName.length; i++) {
+//                BaseMonitorEntity e = new BaseMonitorEntity();
+//                e.setStrName(arrName[i]);
+//                e.setStrValue(arrValue[i]);
+//                list2.add(e);
+//            }
+//        } else {
+//            for (int i = 0; i < arrName.length; i++) {
+//                BaseMonitorEntity e = new BaseMonitorEntity();
+//                e.setStrName(arrName[i]);
+//                e.setStrValue("");
+//                list2.add(e);
+//            }
+//        }
+//        return list2;
+//    }
 
     /**
-     * 获取SF6泄漏告警信息
-     */
-    @RequestMapping("/getSF6concentrationMonitor")
-    public void getSF6concentrationMonitor(SconditionAlarmEntity entity,
-                                           HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-        List<BaseMonitorEntity> list = new ArrayList<BaseMonitorEntity>();
-        HtmlUtil.writerJson(response, list);
-
-    }
-
-    /**
-     * 获取复选框信息
+     * 获取复选框信息，将告警设置应用到同类装置，
      */
     @RequestMapping("/getCheckBox")
-    public void getCheckBox(DeviceEntity entity, HttpServletResponse response,
-                            HttpServletRequest request) throws Exception {
-        List<DeviceEntity> dataList = systemConfigurationService
-                .getCheckBox(entity);
-        HtmlUtil.writerJson(response, dataList);
+    @ResponseBody
+    public List getCheckBox(DeviceRequestDTO deviceRequestDTO){
+        List<DeviceEntity> dataList = systemConfigurationService.getCheckBox(deviceRequestDTO);
+        return dataList;
     }
 
-    /**
-     * 获取SF6压力告警ID列表
-     */
-    @RequestMapping("/getSf6MonitorID")
-    public void getSf6MonitorID(Sf6AlarmEntity entity,
-                                HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-        List<Sf6AlarmEntity> list = systemConfigurationService
-                .getSf6Monitor(entity);
-        HtmlUtil.writerJson(response, list);
-    }
 
     /**
-     * 获取油色谱压力告警ID列表
+     * 获取油色谱压力告警ID列表--type-1
      */
     @RequestMapping("/getStomMonitorID")
-    public void getStomMonitorID(StomAlarmEntity entity,
-                                 HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    @ResponseBody
+    public List getStomMonitorID(String deviceID){
         List<StomAlarmEntity> list = systemConfigurationService
-                .getStomMonitor(entity);
-        HtmlUtil.writerJson(response, list);
+                .getStomMonitor(deviceID);
+        return list;
     }
-
     /**
-     * 获取铁芯告警ID列表
+     * 获取SF6压力告警ID列表 type-2
      */
-    @RequestMapping("/getScomMonitorID")
-    public void getScomMonitorID(ScomAlarmEntity entity,
-                                 HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-        List<ScomAlarmEntity> list = systemConfigurationService
-                .getScomMonitor(entity);
-        HtmlUtil.writerJson(response, list);
+    @RequestMapping("/getSf6MonitorID")
+    @ResponseBody
+    public List getSf6MonitorID(String deviceID){
+        List<Sf6AlarmEntity> list = systemConfigurationService
+                .getSf6Monitor(deviceID);
+        return list;
     }
 
     /**
-     * 获取避雷器告警ID列表
+     * 获取避雷器告警ID列表 type-3
      */
     @RequestMapping("/getSmoamMonitorID")
-    public void getSmoamMonitorID(SmoamAlarmEntity entity,
-                                  HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    @ResponseBody
+    public List getSmoamMonitorID(String deviceID){
         List<SmoamAlarmEntity> list = systemConfigurationService
-                .getSmoamMonitor(entity);
-        HtmlUtil.writerJson(response, list);
+                .getSmoamMonitor(deviceID);
+        return list;
     }
-
     /**
-     * 获取工况告警ID列表
+     * 获取铁芯告警ID列表 type-4
      */
-    @RequestMapping("/getSconditionMonitorID")
-    public void getSconditionMonitorID(SconditionAlarmEntity entity,
-                                       HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-        List<SconditionAlarmEntity> list = systemConfigurationService
-                .getSconditionMonitor(entity);
-        HtmlUtil.writerJson(response, list);
+    @RequestMapping("/getScomMonitorID")
+    @ResponseBody
+    public List getScomMonitorID(String deviceID){
+        List<ScomAlarmEntity> list = systemConfigurationService
+                .getScomMonitor(deviceID);
+        return list;
     }
+//    /**
+//     * 获取工况告警ID列表 type-5
+//     */
+//    @RequestMapping("/getSconditionMonitorID")
+//    @ResponseBody
+//    public List getSconditionMonitorID(SconditionAlarmEntity entity){
+//        List<SconditionAlarmEntity> list = systemConfigurationService
+//                .getSconditionMonitor(entity);
+//        return list;
+//    }
+
 
     /**
-     * 获取sf6泄漏告警ID列表
+     * 修改Stom告警信息1
      */
-    @RequestMapping("/getSF6concentrationMonitorID")
-    public void getSF6concentrationMonitorID(SconditionAlarmEntity entity,
-                                             HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-
+    @RequestMapping("/updateStomMonitor")
+    @ResponseBody
+    public Boolean updateStomMonitor(StomAlarmRequestDTO stomAlarmRequestDTO) {
+        StomAlarmEntity entity =  BeanUtil.stomAlarmRequestDTOToStomAlarmEntity(stomAlarmRequestDTO);
+        return systemConfigurationService.updateStomMonitor(entity)>0;
     }
 
     /**
-     * 修改SF6告警信息
+     * 插入Stom告警信息1
+     */
+    @RequestMapping("/insertStomMonitor")
+    @ResponseBody
+    public Boolean insertStomMonitor(StomAlarmRequestDTO stomAlarmRequestDTO) {
+        StomAlarmEntity entity =  BeanUtil.stomAlarmRequestDTOToStomAlarmEntity(stomAlarmRequestDTO);
+        return systemConfigurationService.insertStomMonitor(entity)>0;
+
+    }
+    /**
+     * 修改SF6告警信息2
      */
     @RequestMapping("/updateSf6Monitor")
-    public void updateSf6Monitor(Sf6AlarmEntity entity){
+    public void updateSf6Monitor(Sf6AlarmRequestDTO sf6AlarmRequestDTO){
+        Sf6AlarmEntity entity = BeanUtil.sf6AlarmRequestDTOToStomAlarmEntity(sf6AlarmRequestDTO);
         systemConfigurationService.updateSf6Monitor(entity);
     }
 
     /**
-     * 插入SF6告警信息
+     * 插入SF6告警信息2
      */
     @RequestMapping("/insertSf6Monitor")
-    public void insertSf6Monitor(Sf6AlarmEntity entity) {
+    public void insertSf6Monitor(Sf6AlarmRequestDTO sf6AlarmRequestDTO) {
+        Sf6AlarmEntity entity = BeanUtil.sf6AlarmRequestDTOToStomAlarmEntity(sf6AlarmRequestDTO);
         systemConfigurationService.insertSf6Monitor(entity);
     }
-
     /**
-     * 修改Stom告警信息
-     */
-    @RequestMapping("/updateStomMonitor")
-    public void updateStomMonitor(StomAlarmEntity entity) {
-        systemConfigurationService.updateStomMonitor(entity);
-    }
-
-    /**
-     * 插入Stom告警信息
-     */
-    @RequestMapping("/insertStomMonitor")
-    public void insertStomMonitor(StomAlarmEntity entity) {
-        systemConfigurationService.insertStomMonitor(entity);
-
-    }
-
-    /**
-     * 修改smoam告警信息
+     * 修改smoam告警信息 3
      */
     @RequestMapping("/updateSmoamMonitor")
-    public void updateSmoamMonitor(SmoamAlarmEntity entity){
-
+    public void updateSmoamMonitor(SmoamAlarmRequestDTO stomAlarmRequestDTO){
+        SmoamAlarmEntity entity =  BeanUtil.smoamAlarmRequestDTOToSmoamAlarmEntity(stomAlarmRequestDTO);
         systemConfigurationService.updateSmoamMonitor(entity);
     }
 
     /**
-     * 插入smoam告警信息
+     * 插入smoam告警信息3
      */
     @RequestMapping("/insertSmoamMonitor")
-    public void insertSmoamMonitor(SmoamAlarmEntity entity){
+    public void insertSmoamMonitor(SmoamAlarmRequestDTO stomAlarmRequestDTO){
+        SmoamAlarmEntity entity =  BeanUtil.smoamAlarmRequestDTOToSmoamAlarmEntity(stomAlarmRequestDTO);
         systemConfigurationService.insertSmoamMonitor(entity);
 
     }
 
     /**
-     * 修改scom告警信息
+     * 修改scom告警信息4
      */
     @RequestMapping("/updateScomMonitor")
-    public void updateScomMonitor(ScomAlarmEntity entity){
+    public void updateScomMonitor(ScomAlarmRequestDTO scomAlarmRequestDTO){
+        ScomAlarmEntity entity =  BeanUtil.scomAlarmRequestDTOToScomAlarmEntity(scomAlarmRequestDTO);
         systemConfigurationService.updateScomMonitor(entity);
     }
 
     /**
-     * 插入Scom告警信息
+     * 插入Scom告警信息4
      */
     @RequestMapping("/insertScomMonitor")
-    public void insertScomMonitor(ScomAlarmEntity entity){
+    public void insertScomMonitor(ScomAlarmRequestDTO scomAlarmRequestDTO){
+        ScomAlarmEntity entity =  BeanUtil.scomAlarmRequestDTOToScomAlarmEntity(scomAlarmRequestDTO);
         systemConfigurationService.insertScomMonitor(entity);
-
     }
 
-    /**
-     * 修改工况告警信息
-     */
-    @RequestMapping("/updateSconditionMonitor")
-    public void updateSconditionMonitor(SconditionAlarmEntity entity){
-        systemConfigurationService.updateSconditionMonitor(entity);
-    }
+//    /**
+//     * 修改工况告警信息
+//     */
+//    @RequestMapping("/updateSconditionMonitor")
+//    public void updateSconditionMonitor(SconditionAlarmEntity entity){
+//        systemConfigurationService.updateSconditionMonitor(entity);
+//    }
 
-    /**
-     * 插入工况告警信息
-     */
-    @RequestMapping("/insertSconditionMonitor")
-    public void insertSconditionMonitor(SconditionAlarmEntity entity){
-        systemConfigurationService.insertSconditionMonitor(entity);
-
-    }
+//    /**
+//     * 插入工况告警信息
+//     */
+//    @RequestMapping("/insertSconditionMonitor")
+//    public void insertSconditionMonitor(SconditionAlarmEntity entity){
+//        systemConfigurationService.insertSconditionMonitor(entity);
+//
+//    }
 
     /**
      * 获取设备数据
      */
     @RequestMapping("/getExportList")
-    public void getExportList(HttpServletResponse response){
+    @ResponseBody
+    public Map getExportList(){
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<DeviceEntity> dataList = systemConfigurationService
                 .getExportList();
         jsonMap.put("dataList", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        return jsonMap;
     }
-
-    /**
-     * I1TOI2获取所有设备 由于获取数据一样,直接调用getExportList方法
-     */
-    @RequestMapping("/getAllDevice")
-    public void getAllDevice(HttpServletResponse response){
-        getExportList(response);
-    }
-
     /**
      * 获取i1toi2_data_inst表数据
      */

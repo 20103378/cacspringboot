@@ -1,5 +1,6 @@
 package com.scott.service;
 
+import com.base.entity.dto.DeviceRequestDTO;
 import com.base.page.BasePage;
 import com.base.service.BaseService;
 import com.scott.dao.SystemConfigurationDao;
@@ -43,12 +44,12 @@ public class SystemConfigurationService<T> extends BaseService<T> {
      *
      * @return
      */
-    public int EquipmentListCount(BasePage page) {
-        return getDao().EquipmentListCount(page);
+    public int EquipmentListCount() {
+        return getDao().equipmentListCount();
     }
 
     public List<EquipmentEntity> getEquipmentList(BasePage page) {
-        Integer rowCount = EquipmentListCount(page);
+        Integer rowCount = EquipmentListCount();
         page.getPager().setRowCount(rowCount);
         return getDao().getEquipmentList(page);
     }
@@ -93,12 +94,12 @@ public class SystemConfigurationService<T> extends BaseService<T> {
      *
      * @return
      */
-    public int DeviceListCount(BasePage page) {
-        return getDao().DeviceListCount(page);
+    public int DeviceListCount(String equipmentID) {
+        return getDao().DeviceListCount(equipmentID);
     }
 
-    public List<DeviceEntity> getDeviceList(BasePage page) {
-        Integer rowCount = DeviceListCount(page);
+    public List<DeviceEntity> getDeviceList(BasePage page,String equipmentID) {
+        Integer rowCount = DeviceListCount(equipmentID);
         page.getPager().setRowCount(rowCount);
         return getDao().getDeviceList(page);
     }
@@ -163,28 +164,28 @@ public class SystemConfigurationService<T> extends BaseService<T> {
         getDao().delete_device(deviceID);
     }
 
-    public List<Sf6AlarmEntity> getSf6Monitor(Sf6AlarmEntity entity) {
-        return getDao().getSf6Monitor(entity);
+    public List<Sf6AlarmEntity> getSf6Monitor(String deviceID) {
+        return getDao().getSf6Monitor(deviceID);
     }
 
-    public List<StomAlarmEntity> getStomMonitor(StomAlarmEntity entity) {
-        return getDao().getStomMonitor(entity);
+    public List<StomAlarmEntity> getStomMonitor(String deviceID) {
+        return getDao().getStomMonitor(deviceID);
     }
 
-    public List<SmoamAlarmEntity> getSmoamMonitor(SmoamAlarmEntity entity) {
-        return getDao().getSmoamMonitor(entity);
+    public List<SmoamAlarmEntity> getSmoamMonitor(String deviceID) {
+        return getDao().getSmoamMonitor(deviceID);
     }
 
-    public List<ScomAlarmEntity> getScomMonitor(ScomAlarmEntity entity) {
-        return getDao().getScomMonitor(entity);
+    public List<ScomAlarmEntity> getScomMonitor(String deviceID) {
+        return getDao().getScomMonitor(deviceID);
     }
 
-    public List<SconditionAlarmEntity> getSconditionMonitor(SconditionAlarmEntity entity) {
-        return getDao().getSconditionMonitor(entity);
-    }
+//    public List<SconditionAlarmEntity> getSconditionMonitor(SconditionAlarmEntity entity) {
+//        return getDao().getSconditionMonitor(entity);
+//    }
 
-    public List<DeviceEntity> getCheckBox(DeviceEntity entity) {
-        return getDao().getCheckBox(entity);
+    public List<DeviceEntity> getCheckBox(DeviceRequestDTO deviceRequestDTO) {
+        return getDao().getCheckBox(deviceRequestDTO);
     }
 
     //修改和插入sf6告警值
@@ -197,12 +198,12 @@ public class SystemConfigurationService<T> extends BaseService<T> {
     }
 
     //修改和插入stom告警值
-    public void updateStomMonitor(StomAlarmEntity entity) {
-        getDao().updateStomMonitor(entity);
+    public int updateStomMonitor(StomAlarmEntity entity) {
+       return getDao().updateStomMonitor(entity);
     }
 
-    public void insertStomMonitor(StomAlarmEntity entity) {
-        getDao().insertStomMonitor(entity);
+    public int insertStomMonitor(StomAlarmEntity entity) {
+        return getDao().insertStomMonitor(entity);
     }
 
     //修改和插入smoam告警值
@@ -223,14 +224,14 @@ public class SystemConfigurationService<T> extends BaseService<T> {
         getDao().insertScomMonitor(entity);
     }
 
-    //修改和插入工况告警值
-    public void updateSconditionMonitor(SconditionAlarmEntity entity) {
-        getDao().updateSconditionMonitor(entity);
-    }
-
-    public void insertSconditionMonitor(SconditionAlarmEntity entity) {
-        getDao().insertSconditionMonitor(entity);
-    }
+//    //修改和插入工况告警值
+//    public void updateSconditionMonitor(SconditionAlarmEntity entity) {
+//        getDao().updateSconditionMonitor(entity);
+//    }
+//
+//    public void insertSconditionMonitor(SconditionAlarmEntity entity) {
+//        getDao().insertSconditionMonitor(entity);
+//    }
 
     public List<DeviceEntity> getExportList() {
         return getDao().getExportList();

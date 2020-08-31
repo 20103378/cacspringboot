@@ -214,22 +214,22 @@
                     </form>
                 </div>
             </div>
-            <!-- Excel上传 -->
-            <div id="logicalDevice-window" title="Excel上传" style="width:400px;height:150px;font-size: 16">
-                <div data-options="region:'north',split:true" style="padding:10px">
-                    导入设备类型:<select id="pubdevice_type" class="easyui-combobox"
-                                   style="width: 200px;" panelHeight="100">
-                    <!-- option value="0" >普通设备</option -->
-                    <option value="1">红外测温</option>
-                </select>
-                    <input id='DownLoadXls' type='button' value='下载模板'/>
-                    <form id="LD_ExcelForm" action="" enctype="multipart/form-data" method="post">
-                        <p>请选择需要导入的Excel文件</p>
-                        <input id="LD_fileUrl" accept=".xls" type="file" style="width: 160px;" name="uploadFile"/>
-                        <input id="LD_uploadFileBtn" type="button" value="上传" class="btn" style="margin-top: 0px;"/>
-                    </form>
-                </div>
-            </div>
+<%--            <!-- Excel上传 -->--%>
+<%--            <div id="logicalDevice-window" title="Excel上传" style="width:400px;height:150px;font-size: 16">--%>
+<%--                <div data-options="region:'north',split:true" style="padding:10px">--%>
+<%--                    导入设备类型:<select id="pubdevice_type" class="easyui-combobox"--%>
+<%--                                   style="width: 200px;" panelHeight="100">--%>
+<%--                    <!-- option value="0" >普通设备</option -->--%>
+<%--                    <option value="1">红外测温</option>--%>
+<%--                </select>--%>
+<%--                    <input id='DownLoadXls' type='button' value='下载模板'/>--%>
+<%--                    <form id="LD_ExcelForm" action="" enctype="multipart/form-data" method="post">--%>
+<%--                        <p>请选择需要导入的Excel文件</p>--%>
+<%--                        <input id="LD_fileUrl" accept=".xls" type="file" style="width: 160px;" name="uploadFile"/>--%>
+<%--                        <input id="LD_uploadFileBtn" type="button" value="上传" class="btn" style="margin-top: 0px;"/>--%>
+<%--                    </form>--%>
+<%--                </div>--%>
+<%--            </div>--%>
             <!-- 设备弹出窗口：添加数据 -->
             <div id="device-window" title="添加设备或修改" style="width:600px;height:400px;font-size: 16">
                 <div data-options="region:'north',split:true" style="height:185px;padding:10px">

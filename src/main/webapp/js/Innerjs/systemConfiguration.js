@@ -3,7 +3,7 @@ var addDataWin = null;
 $(function () {
     // 初始化站点信息
     jeecg.systemConfiguration.initStation();
-    jeecg.systemConfiguration.upload();
+    // jeecg.systemConfiguration.upload();
     // $("#serverRestart").unbind('click').click(function() {
     // 	if (window.confirm('确定重启服务器？')) {
     // 		jeecg.systemConfiguration.restart();
@@ -80,20 +80,20 @@ $(function () {
             collapsible: false,
             shadow: false
         });
-        // 设备提交
-        uploadWin = $('#logicalDevice-window').window({
-            href: '',
-            title: '设备Excel文件上传',
-            left: '200px',
-            top: '150px',
-            closed: true,
-            modal: false,
-            cache: false,
-            minimizable: false,
-            maximizable: false,
-            collapsible: false,
-            shadow: false
-        });
+        // // 设备提交
+        // uploadWin = $('#logicalDevice-window').window({
+        //     href: '',
+        //     title: '设备Excel文件上传',
+        //     left: '200px',
+        //     top: '150px',
+        //     closed: true,
+        //     modal: false,
+        //     cache: false,
+        //     minimizable: false,
+        //     maximizable: false,
+        //     collapsible: false,
+        //     shadow: false
+        // });
         // 加载主设备列表
         jeecg.systemConfiguration.initEquipmentList();
     });
@@ -111,55 +111,55 @@ jeecg.systemConfiguration = function () {
     var lDeviceMap = {};
     var Ld_Ln=[];
     var _this = {
-        upload: function () {
-            $("#LD_uploadFileBtn").click(
-                function () {
-                    var fileUrl = $("#LD_fileUrl").val();
-                    if (fileUrl) {
-                        if (fileUrl.indexOf("/") == -1
-                            || fileUrl.indexOf("\\") == -1) {
-                            fileUrl = fileUrl.substring(fileUrl
-                                .lastIndexOf("\\") + 1);
-                        }
-                        jeecg.progress('正在导入', '请稍后...');
-                        $('#LD_ExcelForm').form({
-                            async: false,
-                            cache: false,
-                            onSubmit: function () {
-                            },
-                            success: function (data) {
-                                jeecg.closeProgress();
-                                if (data.indexOf(1) < 0) {
-                                    alert("导入文件失败！");
-                                } else if (data.indexOf(2) < 0) {
-                                    alert("导入文件成功，导入数据库失败");
-                                } else {
-                                    alert("导入成功!");
-                                }
-                                ;
-                                uploadWin.window("close");
-                                $('#device_data_list').datagrid('reload');
-                            }
-                        });
-                        var pubdevice_type = $("#pubdevice_type").combobox(
-                            'getValue');
-                        if (pubdevice_type == 0) {
-                            // $('#LD_ExcelForm').attr("action",
-                            // "upload_LD_Excel").submit();
-                            alert("普通设备暂时无法导入");
-                        } else if (pubdevice_type == 1) {
-                            $('#LD_ExcelForm').attr("action",
-                                "upload_Infrared_Excel").submit();
-                        } else {
-                            alert("导入失败");
-                        }
-                        // 提交 form
-
-                    } else {
-                        alert("上传的文件不可为空");
-                    }
-                });
-        },
+        // upload: function () {
+        //     $("#LD_uploadFileBtn").click(
+        //         function () {
+        //             var fileUrl = $("#LD_fileUrl").val();
+        //             if (fileUrl) {
+        //                 if (fileUrl.indexOf("/") == -1
+        //                     || fileUrl.indexOf("\\") == -1) {
+        //                     fileUrl = fileUrl.substring(fileUrl
+        //                         .lastIndexOf("\\") + 1);
+        //                 }
+        //                 jeecg.progress('正在导入', '请稍后...');
+        //                 $('#LD_ExcelForm').form({
+        //                     async: false,
+        //                     cache: false,
+        //                     onSubmit: function () {
+        //                     },
+        //                     success: function (data) {
+        //                         jeecg.closeProgress();
+        //                         if (data.indexOf(1) < 0) {
+        //                             alert("导入文件失败！");
+        //                         } else if (data.indexOf(2) < 0) {
+        //                             alert("导入文件成功，导入数据库失败");
+        //                         } else {
+        //                             alert("导入成功!");
+        //                         }
+        //                         ;
+        //                         uploadWin.window("close");
+        //                         $('#device_data_list').datagrid('reload');
+        //                     }
+        //                 });
+        //                 var pubdevice_type = $("#pubdevice_type").combobox(
+        //                     'getValue');
+        //                 if (pubdevice_type == 0) {
+        //                     // $('#LD_ExcelForm').attr("action",
+        //                     // "upload_LD_Excel").submit();
+        //                     alert("普通设备暂时无法导入");
+        //                 } else if (pubdevice_type == 1) {
+        //                     $('#LD_ExcelForm').attr("action",
+        //                         "upload_Infrared_Excel").submit();
+        //                 } else {
+        //                     alert("导入失败");
+        //                 }
+        //                 // 提交 form
+        //
+        //             } else {
+        //                 alert("上传的文件不可为空");
+        //             }
+        //         });
+        // },
         initStation: function () {
             $.ajax({
                 async: false,
@@ -358,6 +358,7 @@ jeecg.systemConfiguration = function () {
                                     alert("连接数据库失败");
                                 },
                                 success: function (data) {
+                                    debugger
                                     for (var i = 0; i < data.dataList.length; i++) {
                                         data.dataList[i].deviceType = DevTypeDesc[data.dataList[i].deviceType];
                                     }
@@ -374,19 +375,19 @@ jeecg.systemConfiguration = function () {
                                         "value": "deviceType"
                                     }, {
                                         "title": "IEC61850LD_LN",
-                                        "value": "IEC61850LD_LN"
+                                        "value": "iec61850LD_LN"
                                     }, {
                                         "title": "设备区域",
                                         "value": "space"
                                     }, {
                                         "title": "IP地址",
-                                        "value": "IED_IP"
+                                        "value": "ied_IP"
                                     }, {
                                         "title": "生产厂家",
                                         "value": "manufactoryName"
                                     }, {
                                         "title": "采样周期",
-                                        "value": "smperiod"
+                                        "value": "smpPeriod"
                                     });
                                     tableExport(data, head_data,
                                         "excel", "台账表");
@@ -721,19 +722,29 @@ jeecg.systemConfiguration = function () {
                     handler: function () {
                         _this.device_add();
                     }
-                }, "-", {
-                    id: '',
-                    text: '导入台账',
-                    iconCls: '',
-                    handler: function () {
-                        uploadWin.window('open');
-                    }
-                }, "-", {
+                },
+                //     "-", {
+                //     id: '',
+                //     text: '导入台账',
+                //     iconCls: '',
+                //     handler: function () {
+                //         uploadWin.window('open');
+                //     }
+                // },
+                    "-", {
                     id: '',
                     text: '告警管理',
                     iconCls: '',
                     handler: function () {
-                        _this.DeviceMonitorPara();
+                        var select_data = $("#device_data_list").datagrid("getSelected");
+                        if (select_data != null) {
+                            var deviceType = select_data.deviceType;
+                            if(deviceType>5||deviceType<1){
+                                alert("不用设置告警信息")
+                            }else {
+                                _this.DeviceMonitorPara();
+                            }
+                        }
                     }
                 }, "-"],
 
@@ -765,11 +776,12 @@ jeecg.systemConfiguration = function () {
                         sortable: true,
                         width: 100,
                         formatter: function (value, row, index) {
-                            return "<div class='dit' style='width: 12px; height: 12px;' ><input disabled id='gj_txt"
-                                + index
-                                + "' value='"
-                                + row.strValue
-                                + "'  /></div>";
+                            debugger
+                            var strValue = row.strValue;
+                            if(strValue==null){
+                                strValue='';
+                            }
+                            return "<div class='dit' style='width: 12px; height: 12px;' ><input disabled id='gj_txt" + index + "' value='" + strValue + "' /></div>";
                         }
                     },
                     {
@@ -820,11 +832,13 @@ jeecg.systemConfiguration = function () {
         },
         // 应用至同类设备按钮和更新按钮的点击事件
         apply: function () {
+            debugger
             var arr = [];
             var deviceType = $("#device_data_list").datagrid("getSelected").deviceType;
             var url_arr = new Array("", "getStomMonitorID", "getSf6MonitorID",
                 "getSmoamMonitorID", "getScomMonitorID",
-                "getSconditionMonitorID", "getSF6concentrationMonitorID");
+                "getSconditionMonitorID");
+
             url = ctxPath + "/systemConfiguration/" + url_arr[deviceType]
                 + "";
             // 将告警表中的设备ID存储到数组中
@@ -842,19 +856,16 @@ jeecg.systemConfiguration = function () {
                     }
                 }
             });
-            var updateData = []; // 需要修改的告警数组
-            var insertData = []; // 需要插入的告警数组
             // 修改和插入url的配置
             var url_insert = new Array("", "insertStomMonitor",
                 "insertSf6Monitor", "insertSmoamMonitor",
-                "insertScomMonitor", "insertSconditionMonitor",
-                "insertSF6concentrationMonitor");
+                "insertScomMonitor");
             var url_update = new Array("", "updateStomMonitor",
                 "updateSf6Monitor", "updateSmoamMonitor",
-                "updateScomMonitor", "updateSconditionMonitor",
-                "updateSF6concentrationMonitor");
+                "updateScomMonitor");
             // 遍历选中复选框,将值根据是否在告警表中,加入插入或修改数组
             var successFlag = true;// 判断是否应用成功
+            debugger
             $("input[id='checkbox']")
                 .each(
                     function () {
@@ -865,43 +876,55 @@ jeecg.systemConfiguration = function () {
                             var flag = arr.indexOf(id) > -1;
                             var _url = "";
                             switch (deviceType) {
-                                case ("1"):
-                                    FormData["DeviceID"] = id;
-                                    FormData["H2ThresHold"] = $("#gj_txt0")
-                                        .val();
-                                    FormData["C2H2ThresHold"] = $(
-                                        "#gj_txt1").val();
-                                    FormData["THThresHold"] = $("#gj_txt2")
-                                        .val();
-                                    FormData["H2Change"] = $("#gj_txt3")
-                                        .val();
-                                    FormData["C2H2Change"] = $("#gj_txt4")
-                                        .val();
-                                    FormData["THChange"] = $("#gj_txt5")
-                                        .val();
-                                    FormData["MstThresHold"] = $("#gj_txt6")
-                                        .val();
+                                case (1):
+                                    FormData["deviceID"] = id;
+
+                                    FormData["h2ThresHold"] = $("#gj_txt0").val();
+                                    FormData["c2h2ThresHold"] = $("#gj_txt1").val();
+                                    FormData["thThresHold"] = $("#gj_txt2").val();
+
+                                    FormData["ch4ThresHold"] = $("#gj_txt3").val();
+                                    FormData["coThresHold"] = $("#gj_txt4").val();
+                                    FormData["co2ThresHold"] = $("#gj_txt5").val();
+                                    FormData["o2ThresHold"] = $("#gj_txt7").val();
+                                    FormData["c2h4ThresHold"] = $("#gj_txt8").val();
+                                    FormData["c2h6ThresHold"] = $("#gj_txt9").val();
+                                    FormData["mstThresHold"] = $("#gj_txt6").val();
+
+                                    // FormData["H2Change"] = $("#gj_txt3").val();
+                                    // FormData["C2H2Change"] = $("#gj_txt4").val();
+                                    // FormData["THChange"] = $("#gj_txt5").val();
+
                                     break;
-                                case ("2"):
-                                    FormData["DeviceID"] = id;
-                                    FormData["PressureThreshold"] = $(
-                                        "#gj_txt0").val();
+                                case (2):
+                                    FormData["deviceID"] = id;
+                                    FormData["pressureThreshold"] = $("#gj_txt0").val();
+                                    FormData["pressChgRateThreshold"] = $("#gj_txt1").val();
+                                    FormData["weekChgRateThreshold"] = $("#gj_txt2").val();
+
                                     break;
-                                case ("3"):
-                                    FormData["DeviceID"] = id;
-                                    FormData["TotalCurrentThresHold"] = $(
-                                        "#gj_txt0").val();
+                                case (3):
+                                    FormData["deviceID"] = id;
+                                    FormData["totAThresHold"] = $("#gj_txt0").val();
                                     break;
-                                case ("4"):
-                                    FormData["DeviceID"] = id;
-                                    FormData["TotalCurrentThresHold"] = $(
-                                        "#gj_txt0").val();
+                                case (4):
+                                    FormData["deviceID"] = id;
+                                    FormData["preOilUpThresHold"] = $("#gj_txt0").val();
+                                    FormData["preOilDownThresHold"] = $("#gj_txt1").val();
+                                    FormData["pre1ThresHold"] = $("#gj_txt2").val();
+                                    FormData["pre2ThresHold"] = $("#gj_txt3").val();
+                                    FormData["tmp1ThresHold"] = $("#gj_txt4").val();
+                                    FormData["tmp3ThresHold"] = $("#gj_txt5").val();
+                                    FormData["tmp4ThresHold"] = $("#gj_txt6").val();
+                                    FormData["mainOilUpThresHold"] = $("#gj_txt7").val();
+                                    FormData["mainOilDownThresHold"] = $("#gj_txt8").val();
+                                    FormData["sltcOilUpThresHold"] = $("#gj_txt9").val();
+                                    FormData["sltcOilDownThresHold"] = $("#gj_txt10").val();
                                     break;
-                                case ("5"):
-                                    FormData["DeviceID"] = id;
-                                    FormData["OilTempThresHold"] = $(
-                                        "#gj_txt0").val();
-                                    break;
+                                // case (5):
+                                //     FormData["deviceID"] = id;
+                                //     FormData["OilTempThresHold"] = $("#gj_txt0").val();
+                                //     break;
                             }
                             if (flag) {
                                 _url = ctxPath
@@ -920,10 +943,16 @@ jeecg.systemConfiguration = function () {
                                 type: 'POST',
                                 data: FormData,
                                 url: _url,
+                                dataType:json,
                                 error: function () {// 请求失败处理函数
                                     successFlag = false;
                                 },
                                 success: function (data) {
+                                    if(data){
+                                        successFlag = true;
+                                    }else{
+                                        successFlag = false;
+                                    }
                                 }
                             });
                         }
@@ -953,13 +982,14 @@ jeecg.systemConfiguration = function () {
             var tablename = "#monitor_data_list";
             var select_data = $("#device_data_list").datagrid("getSelected");
             var url_arr = new Array("", "getStomMonitor", "getSf6Monitor",
-                "getSmoamMonitor", "getScomMonitor",
-                "getSconditionMonitor", "getSF6concentrationMonitor");
+                "getSmoamMonitor", "getScomMonitor");
+            debugger
+
             if (select_data != null) {
                 var deviceType = select_data.deviceType;
                 _this.monitor_config.dataGrid.url = ctxPath
                     + "/systemConfiguration/" + url_arr[deviceType]
-                    + "?DeviceID=" + select_data.deviceID;
+                    + "?deviceID=" + select_data.deviceID;
                 _box3 = new YDataGrid(_this.monitor_config, tablename, true,
                     false, true, false);
                 _box3.init();
@@ -969,14 +999,15 @@ jeecg.systemConfiguration = function () {
             } else {
                 window.alert("请选择设备");
             }
+            debugger
             // 加载复选框
             var formData = {};
             var url = ctxPath + "/systemConfiguration/getCheckBox";
-            formData['DeviceID'] = $("#device_data_list").datagrid(
+            formData['deviceID'] = $("#device_data_list").datagrid(
                 "getSelected").deviceID;
-            formData['DeviceType'] = $("#device_data_list").datagrid(
+            formData['deviceType'] = $("#device_data_list").datagrid(
                 "getSelected").deviceType;
-            formData['EquipmentID'] = $("#device_data_list").datagrid(
+            formData['equipmentID'] = $("#device_data_list").datagrid(
                 "getSelected").equipmentID;
             $
                 .ajax({

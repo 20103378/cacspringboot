@@ -2,8 +2,10 @@ package com.scott.dao;
 
 
 import com.base.dao.BaseDao;
+import com.base.entity.dto.DeviceRequestDTO;
 import com.base.page.BasePage;
 import com.scott.entity.*;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,12 +24,32 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
 
     List<DeviceEntity> getDeviceBySpace_ft(String Space);
 
+    /**
+     * 获取站点数据
+     * @return
+     */
     List<Station_InfoEntity> getStation();
 
+    /**
+     * 更新站点数据
+     * @param entity
+     * @return
+     */
     int updateStation(Station_InfoEntity entity);
+
+    /**
+     * 插入站点数据
+     * @param entity
+     * @return
+     */
     int insertStation(Station_InfoEntity entity);
 
-    int EquipmentListCount(BasePage page);
+    /**
+     * 查找主设备数量
+     * @param page
+     * @return
+     */
+    int equipmentListCount();
 
 
     List<Refname_descEntity> getrefname();
@@ -40,14 +62,36 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
 
     void delete_refname(Refname_descEntity entity);
 
-    int DeviceListCount(BasePage page);
+    /**
+     * 根据主设备ID查询设备数量
+     * @param EquipmentID
+     * @return
+     */
+    int DeviceListCount(String equipmentID);
 
+    /**
+     * 分页查找主设备列表
+     * @param page
+     * @return
+     */
     List<DeviceEntity> getDeviceList(BasePage page);
 
+    /**
+     * 更新设备数据
+     * @param entity
+     */
     void update_device(DeviceEntity entity);
 
+    /**
+     * 插入设备数据
+     * @param entity
+     */
     void insert_device(DeviceEntity entity);
 
+    /**
+     * 查找最大的设备ID
+     * @return
+     */
     String DeviceMaxId();
 
     /**
@@ -126,6 +170,10 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
      */
     List<EquipmentSpaceEntity> findSpace();
 
+    /**
+     * 查询最大的主设备id
+     * @return
+     */
     List<String> getNextEquipmentID();
 
     /**
@@ -134,39 +182,117 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
      */
     void delete_device(String deviceID);
 
-    List<Sf6AlarmEntity> getSf6Monitor(Sf6AlarmEntity entity);
+    /**
+     * 查询SF6告警表
+     * @param entity
+     * @return
+     */
+    List<Sf6AlarmEntity> getSf6Monitor(String deviceID);
 
-    List<StomAlarmEntity> getStomMonitor(StomAlarmEntity entity);
+    /**
+     * 查询油色谱告警表
+     * @param entity
+     * @return
+     */
+    List<StomAlarmEntity> getStomMonitor(@Param("deviceID") String deviceID);
 
-    List<SmoamAlarmEntity> getSmoamMonitor(SmoamAlarmEntity entity);
+    /**
+     * 	查询避雷器告警表
+     * @param entity
+     * @return
+     */
+    List<SmoamAlarmEntity> getSmoamMonitor(String deviceID);
 
-    List<ScomAlarmEntity> getScomMonitor(ScomAlarmEntity entity);
+    /**
+     * 查询铁芯告警表
+     * @param entity
+     * @return
+     */
+    List<ScomAlarmEntity> getScomMonitor(String deviceID);
 
-    List<SconditionAlarmEntity> getSconditionMonitor(SconditionAlarmEntity entity);
+    /**
+     * 查找与DeviceID同类型、同主设备的装置列表
+     * @param entity
+     * @return
+     */
+    List<DeviceEntity> getCheckBox(DeviceRequestDTO deviceRequestDTO);
 
-    List<DeviceEntity> getCheckBox(DeviceEntity entity);
-
+    /**
+     * 插入sf6告警配置
+     * @param entity
+     */
     void insertSf6Monitor(Sf6AlarmEntity entity);
 
+    /**
+     * 修改sf6告警配置
+     * @param entity
+     */
     void updateSf6Monitor(Sf6AlarmEntity entity);
 
-    void insertStomMonitor(StomAlarmEntity entity);
+    /**
+     * 插入stom告警配置
+     * @param entity
+     */
+    int insertStomMonitor(StomAlarmEntity entity);
 
-    void updateStomMonitor(StomAlarmEntity entity);
+    /**
+     * 修改stom告警配置
+     * @param entity
+     */
+    int updateStomMonitor(StomAlarmEntity entity);
 
+    /**
+     * 插入smoam告警配置
+     * @param entity
+     */
     void insertSmoamMonitor(SmoamAlarmEntity entity);
 
+    /**
+     * 修改smoam告警配置
+     * @param entity
+     */
     void updateSmoamMonitor(SmoamAlarmEntity entity);
 
+    /**
+     * 插入scom告警配置
+     * @param entity
+     */
     void insertScomMonitor(ScomAlarmEntity entity);
 
+    /**
+     * 修改scom告警配置
+     * @param entity
+     */
     void updateScomMonitor(ScomAlarmEntity entity);
 
-    void insertSconditionMonitor(SconditionAlarmEntity entity);
+//    /**
+//     * 查询工况告警表
+//     * @param entity
+//     * @return
+//     */
+//    List<SconditionAlarmEntity> getSconditionMonitor(SconditionAlarmEntity entity);
 
-    void updateSconditionMonitor(SconditionAlarmEntity entity);
 
+//    /**
+//     * 插入工况告警配置
+//     * @param entity
+//     */
+//    void insertSconditionMonitor(SconditionAlarmEntity entity);
+//
+//    /**
+//     * 修改工况告警配置
+//     * @param entity
+//     */
+//    void updateSconditionMonitor(SconditionAlarmEntity entity);
+
+    /**
+     * 到处设备列表
+     * @return
+     */
     List<DeviceEntity> getExportList();
+
+
+
 
     int I2ListCount(BasePage page);
 
@@ -272,6 +398,4 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
     List<DataEntity> getYXDataRefname();
 
     List<String> getNextDeviceID();
-
-
 }

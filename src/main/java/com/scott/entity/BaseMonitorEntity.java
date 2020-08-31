@@ -16,7 +16,7 @@ public class BaseMonitorEntity extends BaseEntity {
 	
 	private String DeviceID;//设备ID
 	private String StrName;//告警名称
-	private String StrValue;//告警值
+	private Double StrValue;//告警值
 	
 }
 

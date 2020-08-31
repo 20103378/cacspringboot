@@ -30,7 +30,7 @@ public class DeviceEntity extends BaseEntity {
 	private  String Remark;//备注
 	private  String Space;//设备区域
 	private  String Phase;//设备相别
-	private  Integer Smperiod;//采样周期
+	private  Integer SmpPeriod;//采样周期
 	
 }
 
