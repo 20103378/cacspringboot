@@ -33,3 +33,11 @@
 2020-09-01 13:53:31 ERROR cac http-nio-8081-exec-2 com.jeecg.controller.MainAction 记录了error错误日志
 2020-09-01 13:53:57 ERROR cac http-nio-8081-exec-2 com.jeecg.controller.MainAction 记录了error错误日志
 2020-09-01 13:53:57 ERROR cac http-nio-8081-exec-10 com.jeecg.controller.MainAction 记录了error错误日志
+2020-09-01 14:35:32 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-09-01 14:36:53 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-09-01 14:37:21 ERROR cac http-nio-8081-exec-9 com.jeecg.controller.MainAction 记录了error错误日志
+2020-09-01 14:37:24 ERROR cac http-nio-8081-exec-10 com.jeecg.controller.MainAction 记录了error错误日志
+2020-09-01 14:37:29 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-09-01 14:40:30 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-09-01 14:40:37 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-09-01 14:41:14 ERROR cac http-nio-8081-exec-10 com.jeecg.controller.MainAction 记录了error错误日志
