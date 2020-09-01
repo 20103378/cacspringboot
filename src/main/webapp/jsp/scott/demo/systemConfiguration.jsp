@@ -328,10 +328,7 @@
                     <div id="select_div">
                         应用设备选择:<br/>
                         <input id="select_all" type='checkbox'>全选
-                        <div id="select">
-
-                        </div>
-
+                        <div id="select"></div>
                     </div>
                 </div>
             </div>

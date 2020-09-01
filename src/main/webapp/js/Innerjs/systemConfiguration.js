@@ -109,7 +109,7 @@ jeecg.systemConfiguration = function () {
     var deviceTypes = [];//主设备类型
     var LDDevices = [];
     var lDeviceMap = {};
-    var Ld_Ln=[];
+    var Ld_Ln = [];
     var _this = {
         // upload: function () {
         //     $("#LD_uploadFileBtn").click(
@@ -172,7 +172,7 @@ jeecg.systemConfiguration = function () {
                     if (data == null) {
                         alert("请输入站点")
                     } else {
-                        debugger
+
                         $("#txtStationId").val(data.id);
                         $("#txtStation").val(data.station);
                         $("#txtUnitName").val(data.name);
@@ -204,7 +204,7 @@ jeecg.systemConfiguration = function () {
                     lDeviceMap = map.lDeviceMap
                     // PubDeviceTypeEnum = map.PubDeviceTypeEnum;
 
-                    debugger
+
                     for (var i = 0; i < space.length; i++) {
                         spaceIds.push({
                             "text": space[i].spaceName,
@@ -358,7 +358,7 @@ jeecg.systemConfiguration = function () {
                                     alert("连接数据库失败");
                                 },
                                 success: function (data) {
-                                    debugger
+
                                     for (var i = 0; i < data.dataList.length; i++) {
                                         data.dataList[i].deviceType = DevTypeDesc[data.dataList[i].deviceType];
                                     }
@@ -414,7 +414,7 @@ jeecg.systemConfiguration = function () {
                     _box2 = new YDataGrid(_this.device_config, tablename, true,
                         false, true, true);
                     _box2.grid.datagrid.defaults.onDblClickRow = _this.update2;
-                    debugger;
+                    ;
                     console.log(lDeviceMap)
                     console.log(rowData.iec61850LD)
                     iec61850LD_LNs = lDeviceMap[rowData.iec61850LD];
@@ -469,7 +469,7 @@ jeecg.systemConfiguration = function () {
                     alert("数据库连接异常");
                 },
                 success: function (data) {
-                    debugger
+
                     if (data == "" || data == null) {
                         str = "M000";
                     } else {
@@ -723,30 +723,30 @@ jeecg.systemConfiguration = function () {
                         _this.device_add();
                     }
                 },
-                //     "-", {
-                //     id: '',
-                //     text: '导入台账',
-                //     iconCls: '',
-                //     handler: function () {
-                //         uploadWin.window('open');
-                //     }
-                // },
+                    //     "-", {
+                    //     id: '',
+                    //     text: '导入台账',
+                    //     iconCls: '',
+                    //     handler: function () {
+                    //         uploadWin.window('open');
+                    //     }
+                    // },
                     "-", {
-                    id: '',
-                    text: '告警管理',
-                    iconCls: '',
-                    handler: function () {
-                        var select_data = $("#device_data_list").datagrid("getSelected");
-                        if (select_data != null) {
-                            var deviceType = select_data.deviceType;
-                            if(deviceType>5||deviceType<1){
-                                alert("不用设置告警信息")
-                            }else {
-                                _this.DeviceMonitorPara();
+                        id: '',
+                        text: '告警管理',
+                        iconCls: '',
+                        handler: function () {
+                            var select_data = $("#device_data_list").datagrid("getSelected");
+                            if (select_data != null) {
+                                var deviceType = select_data.deviceType;
+                                if (deviceType > 4 || deviceType < 1) {
+                                    alert("不用设置告警信息")
+                                } else {
+                                    _this.DeviceMonitorPara();
+                                }
                             }
                         }
-                    }
-                }, "-"],
+                    }, "-"],
 
                 onSelect: function (rowIndex, rowData) {
 
@@ -776,10 +776,10 @@ jeecg.systemConfiguration = function () {
                         sortable: true,
                         width: 100,
                         formatter: function (value, row, index) {
-                            debugger
+
                             var strValue = row.strValue;
-                            if(strValue==null){
-                                strValue='';
+                            if (strValue == null) {
+                                strValue = '';
                             }
                             return "<div class='dit' style='width: 12px; height: 12px;' ><input disabled id='gj_txt" + index + "' value='" + strValue + "' /></div>";
                         }
@@ -832,7 +832,7 @@ jeecg.systemConfiguration = function () {
         },
         // 应用至同类设备按钮和更新按钮的点击事件
         apply: function () {
-            debugger
+
             var arr = [];
             var deviceType = $("#device_data_list").datagrid("getSelected").deviceType;
             var url_arr = new Array("", "getStomMonitorID", "getSf6MonitorID",
@@ -865,7 +865,7 @@ jeecg.systemConfiguration = function () {
                 "updateScomMonitor");
             // 遍历选中复选框,将值根据是否在告警表中,加入插入或修改数组
             var successFlag = true;// 判断是否应用成功
-            debugger
+
             $("input[id='checkbox']")
                 .each(
                     function () {
@@ -943,14 +943,14 @@ jeecg.systemConfiguration = function () {
                                 type: 'POST',
                                 data: FormData,
                                 url: _url,
-                                dataType:json,
+                                dataType: json,
                                 error: function () {// 请求失败处理函数
                                     successFlag = false;
                                 },
                                 success: function (data) {
-                                    if(data){
+                                    if (data) {
                                         successFlag = true;
-                                    }else{
+                                    } else {
                                         successFlag = false;
                                     }
                                 }
@@ -983,7 +983,7 @@ jeecg.systemConfiguration = function () {
             var select_data = $("#device_data_list").datagrid("getSelected");
             var url_arr = new Array("", "getStomMonitor", "getSf6Monitor",
                 "getSmoamMonitor", "getScomMonitor");
-            debugger
+
 
             if (select_data != null) {
                 var deviceType = select_data.deviceType;
@@ -999,7 +999,7 @@ jeecg.systemConfiguration = function () {
             } else {
                 window.alert("请选择设备");
             }
-            debugger
+
             // 加载复选框
             var formData = {};
             var url = ctxPath + "/systemConfiguration/getCheckBox";
@@ -1020,33 +1020,44 @@ jeecg.systemConfiguration = function () {
                         alert("数据获取失败");
                     },
                     success: function (data) {
+
                         var DeviceID = $("#device_data_list").datagrid(
                             "getSelected").deviceID;
                         var DeviceName = $("#device_data_list").datagrid(
                             "getSelected").deviceName;
                         var html = "";
                         $("#select").empty();
-                        $("#select")
-                            .append(
-                                "<input id='checkbox' name='checkbox_' checked disabled type='checkbox' value='"
-                                + DeviceID
-                                + "'>"
-                                + DeviceName + "<br/>");
+                        $("#select").append("<input id='checkbox' name='checkbox_' checked disabled type='checkbox' value='" + DeviceID + "'>" + DeviceName + "<br/>");
                         for (var i = 0; i < data.length; i++) {
-                            html = "<input id='checkbox' name='checkbox' type='checkbox'  value='"
-                                + data[i].deviceID
-                                + "' />"
-                                + data[i].deviceName + "</br>";
+                            html = "<input id='checkbox' name='checkbox' type='checkbox'  value='" + data[i].deviceID + "' />" + data[i].deviceName + "</br>";
                             $("#select").append(html);
                         }
                     }
                 });
-            // 全选框点击事件
-            $('#select_all').unbind('click').click(function () {
-                $("input [name='checkbox']").each(function () {
-                    $(this).attr("checked", !this.checked);
+
+
+
+               $("#select_all").unbind('click').click(function() {
+                    $('input[name="checkbox"]').attr("checked",this.checked);
                 });
-            });
+                var $subBox = $("input[name='checkbox']");
+                $subBox.unbind('click').click(function(){
+                    $("#select_all").attr("checked",$subBox.length == $("input[name='checkbox']:checked").length ? true : false);
+                });
+                $("#select_all").attr("checked",$subBox.length == $("input[name='checkbox']:checked").length ? true : false);
+
+            // // 全选框点击事件
+            // $('#select_all').unbind('click').click(function () {
+            //     debugger
+            //     var loves = document.getElementsByName("checkbox");
+            //     for (var i = 0; i <  loves.length; i++) {
+            //         loves[i].checked = !this.checked;
+            //     }
+            //     // $("input [name='checkbox']").each(function () {
+            //     //     debugger
+            //     //     $(this).attr("checked", !this.checked);
+            //     // });
+            // });
 
         },
         // 删除主设备
@@ -1103,12 +1114,12 @@ jeecg.systemConfiguration = function () {
         },
         // 设备修改点击事件
         edit_device: function (index) {
-            debugger
+
             deviceWin.window('open');
             var equipment_data = $("#equipmentList").datagrid("getSelected");
             $("#textMDev").val(equipment_data.equipmentName);
             var rows = $("#device_data_list").datagrid('getRows');
-            debugger
+
             var select_data = rows[index];
             // $("#IEC61850LD_LN").combobox("loadData", Ld_Ln);
             $("#IEC61850LD_LN").combobox('select', select_data.iec61850LD_LN);
@@ -1200,7 +1211,7 @@ jeecg.systemConfiguration = function () {
                 async: false,
                 cache: false,
                 type: 'POST',
-                url: ctxPath + "/systemConfiguration/getDeviceIED61850LD_LNsList?equipmentID=" + equipmentID+"&iec61850LD_LNs="+iec61850LD_LNs,
+                url: ctxPath + "/systemConfiguration/getDeviceIED61850LD_LNsList?equipmentID=" + equipmentID + "&iec61850LD_LNs=" + iec61850LD_LNs,
                 // data: formData,
                 dataType: json,
                 error: function () {
@@ -1252,7 +1263,7 @@ jeecg.systemConfiguration = function () {
         },
         // 设备添加点击事件
         device_add: function () {
-            debugger
+
             var equipment_data = $("#equipmentList").datagrid("getSelected");
 
             $("#textMDev").val(equipment_data.equipmentName);
@@ -1269,7 +1280,7 @@ jeecg.systemConfiguration = function () {
             if (Ld_Ln != null && Ld_Ln.length > 0) {
                 $("#IEC61850LD_LN").combobox("loadData", Ld_Ln);
                 $("#IEC61850LD_LN").combobox('select', Ld_Ln[0].value);
-            }else{
+            } else {
                 alert("添加完成")
                 return;
             }
@@ -1317,7 +1328,7 @@ jeecg.systemConfiguration = function () {
             formData['IEC61850LD_LN'] = $("#IEC61850LD_LN").combobox('getValue');
 
             // formData['IEC61850LD_LN'] = $("#IEC61850LD_LN").combobox('getValue');
-            // debugger
+            //
             // if(formData['IEC61850LD_LN']==""||formData['IEC61850LD_LN']==null||formData['IEC61850LD_LN'].length<3){
             //     alert("IEC61850LD_LN不能为空！");
             //     return;
@@ -1351,7 +1362,7 @@ jeecg.systemConfiguration = function () {
             });
         },
         selectdevType: function () {
-            debugger
+
             var IEC61850LD_LN = $("#IEC61850LD_LN").combobox("getValue");
             if (IEC61850LD_LN.indexOf("SIML") != -1) {
                 $("#ddlDeviceType").combobox('select', 1);
@@ -1458,7 +1469,7 @@ jeecg.systemConfiguration = function () {
 // 更新站点信息
 function updateStation() {
     var formData = {};
-    debugger
+
     formData['station'] = $("#txtStation").val();
     formData['name'] = $("#txtUnitName").val();
     formData['address'] = $("#txtUnitAddress").val();
