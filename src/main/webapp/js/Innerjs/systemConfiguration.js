@@ -1080,6 +1080,7 @@ jeecg.systemConfiguration = function () {
                         alert("false");
                     },
                     success: function (data) {
+                        alert(data)
                         addDataWin.window('close');
                         $('#equipmentList').datagrid('reload');
                     }

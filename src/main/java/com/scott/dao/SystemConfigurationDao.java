@@ -398,4 +398,11 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
     List<DataEntity> getYXDataRefname();
 
     List<String> getNextDeviceID();
+
+    /**
+     * 通过主设备id查询主设备下拥有的设备数量
+     * @param equipmentID
+     * @return
+     */
+    Integer getDeviceCountByEquipmentID(String equipmentID);
 }

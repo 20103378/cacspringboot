@@ -44,7 +44,7 @@ jeecg.i1toI2 = function(){
 				                }
 				        	});
 				            // 提交 form
-				            $('#ExcelpdfForm').attr("action", "uploadExcel.do").submit();;
+				            $('#ExcelpdfForm').attr("action", "uploadExcel").submit();;
 				         }else{
 				         	alert("上传的文件不可为空");
 				         }
@@ -59,7 +59,7 @@ jeecg.i1toI2 = function(){
 		         async: false,
 		         cache: false,
 		         type: 'POST',
-		         url: "getAllDevice.do",
+		         url: "getAllDevice",
 		         success:function(data){
 		        	 var device_data,json;
 		        	 device_data=[];
@@ -106,11 +106,11 @@ jeecg.i1toI2 = function(){
 			 formData['ln_inst_name'] = ln_name;
 			 var _url="";
 			 if(type=="1")
-			 _url="getycNameList.do";
+			 _url="getycNameList";
 			 if(type=="2")
-			 _url="getyxNameList.do";
+			 _url="getyxNameList";
 			 if(type=="3")
-			 _url="getykNameList.do";
+			 _url="getykNameList";
 			 $.ajax({
 				async:false,
 				cache:false,
@@ -188,7 +188,7 @@ jeecg.i1toI2 = function(){
 					cache:false,
 					type:'post',
 					data:formData,
-					url:"getIEC61850LD_LN.do",
+					url:"getIEC61850LD_LN",
 					success:function(data){
 						$("#sel_dname").combobox('select',data.rows[0].ld_inst_name+"/"+data.rows[0].ln_inst_name);
 					},
@@ -229,7 +229,7 @@ jeecg.i1toI2 = function(){
 				 async:false,
 				 cache:false,
 				 type:'post',
-				 url:"i2TableCommmit.do",
+				 url:"i2TableCommmit",
 				 data:formdata,
 				 success:function(data){
 					 deviceWin.window('close');
@@ -252,7 +252,7 @@ jeecg.i1toI2 = function(){
 			        async: false,
 			        cache: false,
 			        type: 'POST',
-			        url: "getI2Data_export.do",
+			        url: "getI2Data_export",
 			        error: function(){// 请求失败处理函数
 			        	alert("连接数据库失败");
 			        },
@@ -275,7 +275,7 @@ jeecg.i1toI2 = function(){
 			    	return;
 			    }
 				var formData = {};
-			    var url="delete_I2.do";
+			    var url="delete_I2";
 			    formData['i2id'] = select_data.i2id;
 				$.ajax({
 			         async: false,
@@ -294,7 +294,7 @@ jeecg.i1toI2 = function(){
 		 showI2Data:{
 				dataGrid:{
 					 //title: $("#txtName").val(),
-					 url:'getI2Data.do',
+					 url:'getI2Data',
 					 columns: [[{
 			                field: 'i2id',
 			                title: '远传点号',

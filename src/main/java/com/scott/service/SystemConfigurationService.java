@@ -103,6 +103,9 @@ public class SystemConfigurationService<T> extends BaseService<T> {
         page.getPager().setRowCount(rowCount);
         return getDao().getDeviceList(page);
     }
+    public  Integer getDeviceCountByEquipmentID(String equipmentID){
+        return getDao().getDeviceCountByEquipmentID(equipmentID);
+    }
 
     public void update_device(DeviceEntity entity) {
         getDao().update_device(entity);

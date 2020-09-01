@@ -903,6 +903,9 @@
 		like '%${ldinst}%';
 	</select>
 
-
+	<select id="getDeviceCountByEquipmentID" resultType="java.lang.Integer"
+			parameterType="java.lang.String">
+		select count(*) from pubdevice where EquipmentID = #{equipmentID}
+	</select>
 </mapper>
 

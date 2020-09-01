@@ -235,6 +235,7 @@ jeecg.refnameConfig = function(){
 			         },
 			         success: function(data){
 // deviceWin.window('close');
+						 alert(data)
 			        	 $('#refname_desc_tb').datagrid('reload');
 			         }
 			     });

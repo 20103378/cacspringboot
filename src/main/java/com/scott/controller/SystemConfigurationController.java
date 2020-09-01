@@ -390,8 +390,14 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/delete_equipment")
     @ResponseBody
-    public void delete_equipment(EquipmentEntity entity){
-        systemConfigurationService.delete_equipment(entity);
+    public String delete_equipment(EquipmentEntity entity){
+        Integer count = systemConfigurationService.getDeviceCountByEquipmentID(entity.getEquipmentID());
+        if(count!=null && count>0){
+            return "请先删除逻辑主设备下的装置";
+        }else {
+            systemConfigurationService.delete_equipment(entity);
+            return "逻辑主设备删除完成";
+        }
     }
 
     /**
@@ -1438,73 +1444,73 @@ public class SystemConfigurationController extends BaseAction {
         HtmlUtil.writerJson(response, jsonMap);
     }
 
-    @RequestMapping("/getI2Data_103")
-    public void getI2Data_103(BasePage page, HttpServletResponse response,
-                              HttpServletRequest request) throws Exception {
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        List<ZJ103Entity> dataList = systemConfigurationService
-                .getI2Data_103(page);
-        jsonMap.put("total", page.getPager().getRowCount());
-        jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
-    }
+//    @RequestMapping("/getI2Data_103")
+//    public void getI2Data_103(BasePage page, HttpServletResponse response,
+//                              HttpServletRequest request) throws Exception {
+//        Map<String, Object> jsonMap = new HashMap<String, Object>();
+//        List<ZJ103Entity> dataList = systemConfigurationService
+//                .getI2Data_103(page);
+//        jsonMap.put("total", page.getPager().getRowCount());
+//        jsonMap.put("rows", dataList);
+//        HtmlUtil.writerJson(response, jsonMap);
+//    }
 
-    @RequestMapping("/delete_103")
-    public void delete_103(BasePage page, String[] DeviceIDs,
-                           HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        int aa = 0;
-        for (int i = 0; i < DeviceIDs.length; i++) {
-            ZJ103Entity DeviceID = new ZJ103Entity();
-            DeviceID.setDeviceID(DeviceIDs[i]);
-            aa++;
-            systemConfigurationService.delete_103(DeviceID);
-        }
-        List<ZJ103Entity> dataList = systemConfigurationService
-                .getI2Data_103(page);
-        jsonMap.put("aa", aa);
-        jsonMap.put("total", page.getPager().getRowCount());
-        jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
-    }
+//    @RequestMapping("/delete_103")
+//    public void delete_103(BasePage page, String[] DeviceIDs,
+//                           HttpServletResponse response, HttpServletRequest request)
+//            throws Exception {
+//        Map<String, Object> jsonMap = new HashMap<String, Object>();
+//        int aa = 0;
+//        for (int i = 0; i < DeviceIDs.length; i++) {
+//            ZJ103Entity DeviceID = new ZJ103Entity();
+//            DeviceID.setDeviceID(DeviceIDs[i]);
+//            aa++;
+//            systemConfigurationService.delete_103(DeviceID);
+//        }
+//        List<ZJ103Entity> dataList = systemConfigurationService
+//                .getI2Data_103(page);
+//        jsonMap.put("aa", aa);
+//        jsonMap.put("total", page.getPager().getRowCount());
+//        jsonMap.put("rows", dataList);
+//        HtmlUtil.writerJson(response, jsonMap);
+//    }
+//
+//    @RequestMapping("/updata_103")
+//    public void updata_103(BasePage page, String[] DeviceIDs, String[] CommAds,
+//                           HttpServletResponse response, HttpServletRequest request)
+//            throws Exception {
+//        Map<String, Object> jsonMap = new HashMap<String, Object>();
+//        for (int i = 0; i < DeviceIDs.length; i++) {
+//            ZJ103Entity DeviceID = new ZJ103Entity();
+//            DeviceID.setDeviceID(DeviceIDs[i]);
+//            DeviceID.setCommAddress(Integer.parseInt(CommAds[i]));
+//            systemConfigurationService.Updata_103(DeviceID);
+//        }
+//        List<ZJ103Entity> dataList = systemConfigurationService
+//                .getI2Data_103(page);
+//        jsonMap.put("total", page.getPager().getRowCount());
+//        jsonMap.put("rows", dataList);
+//        HtmlUtil.writerJson(response, jsonMap);
+//    }
 
-    @RequestMapping("/updata_103")
-    public void updata_103(BasePage page, String[] DeviceIDs, String[] CommAds,
-                           HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        for (int i = 0; i < DeviceIDs.length; i++) {
-            ZJ103Entity DeviceID = new ZJ103Entity();
-            DeviceID.setDeviceID(DeviceIDs[i]);
-            DeviceID.setCommAddress(Integer.parseInt(CommAds[i]));
-            systemConfigurationService.Updata_103(DeviceID);
-        }
-        List<ZJ103Entity> dataList = systemConfigurationService
-                .getI2Data_103(page);
-        jsonMap.put("total", page.getPager().getRowCount());
-        jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
-    }
-
-    @RequestMapping("/submit_103_devPhase")
-    public void submit_103_devPhase(BasePage page, String[] DeviceIDs,
-                                    String[] devPhases, String[] CommAds, HttpServletResponse response,
-                                    HttpServletRequest request) throws Exception {
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        for (int i = 0; i < DeviceIDs.length; i++) {
-            ZJ103Entity DeviceID = new ZJ103Entity();
-            DeviceID.setDeviceID(DeviceIDs[i]);
-            DeviceID.setDevPhase(Integer.parseInt(devPhases[i]));
-            DeviceID.setCommAddress(Integer.parseInt(CommAds[i]));
-            systemConfigurationService.submit_103_devPhase(DeviceID);
-        }
-        List<ZJ103Entity> dataList = systemConfigurationService
-                .getI2Data_103(page);
-        jsonMap.put("total", page.getPager().getRowCount());
-        jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
-    }
+//    @RequestMapping("/submit_103_devPhase")
+//    public void submit_103_devPhase(BasePage page, String[] DeviceIDs,
+//                                    String[] devPhases, String[] CommAds, HttpServletResponse response,
+//                                    HttpServletRequest request) throws Exception {
+//        Map<String, Object> jsonMap = new HashMap<String, Object>();
+//        for (int i = 0; i < DeviceIDs.length; i++) {
+//            ZJ103Entity DeviceID = new ZJ103Entity();
+//            DeviceID.setDeviceID(DeviceIDs[i]);
+//            DeviceID.setDevPhase(Integer.parseInt(devPhases[i]));
+//            DeviceID.setCommAddress(Integer.parseInt(CommAds[i]));
+//            systemConfigurationService.submit_103_devPhase(DeviceID);
+//        }
+//        List<ZJ103Entity> dataList = systemConfigurationService
+//                .getI2Data_103(page);
+//        jsonMap.put("total", page.getPager().getRowCount());
+//        jsonMap.put("rows", dataList);
+//        HtmlUtil.writerJson(response, jsonMap);
+//    }
 
     /**
      * 获取i1toi2_data_inst表数据 用来导出Exl
