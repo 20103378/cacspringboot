@@ -1,0 +1,1784 @@
+2020-08-13 14:24:29 INFO  cac main com.CacApplication Starting CacApplication on nanadeMacBook-Pro.local with PID 18216 (/Users/nana/IdeaProjects/cac/target/classes started by nana in /Users/nana/IdeaProjects/cac)
+2020-08-13 14:24:29 INFO  cac main com.CacApplication No active profile set, falling back to default profiles: default
+2020-08-13 14:24:30 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-08-13 14:24:30 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-08-13 14:24:31 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Finished Spring Data repository scanning in 612ms. Found 0 Redis repository interfaces.
+2020-08-13 14:24:31 INFO  cac main org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker Bean 'redisConfig' of type [com.base.configure.RedisConfig$$EnhancerBySpringCGLIB$$1553d0ca] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-08-13 14:24:32 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat initialized with port(s): 8081 (http)
+2020-08-13 14:24:32 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Initializing ProtocolHandler ["http-nio-8081"]
+2020-08-13 14:24:32 INFO  cac main org.apache.catalina.core.StandardService Starting service [Tomcat]
+2020-08-13 14:24:32 INFO  cac main org.apache.catalina.core.StandardEngine Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-13 14:24:32 INFO  cac main org.apache.jasper.servlet.TldScanner At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2020-08-13 14:24:32 INFO  cac main org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring embedded WebApplicationContext
+2020-08-13 14:24:32 INFO  cac main org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Root WebApplicationContext: initialization completed in 3167 ms
+2020-08-13 14:24:32 INFO  cac main com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure Init DruidDataSource
+2020-08-13 14:24:32 INFO  cac main com.alibaba.druid.pool.DruidDataSource {dataSource-1} inited
+2020-08-13 14:24:33 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService
+2020-08-13 14:24:33 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'febsAsyncThreadPool'
+2020-08-13 14:24:33 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'taskExecutor'
+2020-08-13 14:24:33 INFO  cac main com.base.configure.RedisConfig 初始化 -> [Redis CacheErrorHandler]
+2020-08-13 14:24:34 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Starting ProtocolHandler ["http-nio-8081"]
+2020-08-13 14:24:34 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat started on port(s): 8081 (http) with context path ''
+2020-08-13 14:24:34 INFO  cac main com.CacApplication Started CacApplication in 25.797 seconds (JVM running for 31.544)
+2020-08-13 14:25:00 INFO  cac http-nio-8081-exec-1 org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-13 14:25:00 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Initializing Servlet 'dispatcherServlet'
+2020-08-13 14:25:00 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Completed initialization in 16 ms
+2020-08-13 14:25:00 INFO  cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 访问了index方法
+2020-08-13 14:25:06 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:25:06 | 耗时 19 ms | SQL 语句：
+select id,email,pwd,nickName,state,loginCount,loginTime,deleted,createTime,updateTime,createBy,updateBy,superAdmin from sys_user where email='admin' and pwd='202CB962AC59075B964B07152D234B70';
+2020-08-13 14:25:06 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:25:06 | 耗时 111 ms | SQL 语句：
+update sys_user set email='admin',pwd='202CB962AC59075B964B07152D234B70',nickName='杭州申昊',state=0,loginCount=788,loginTime='2020-08-13T14:25:06.512+0800',deleted=0,updateTime=now(),createBy=NULL,updateBy=NULL where id=1;
+2020-08-13 14:25:06 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:25:06 | 耗时 5 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-13 14:25:06 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:25:06 | 耗时 1 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-13 14:25:07 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:25:07 | 耗时 4 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-13 14:25:07 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:07 | 耗时 10 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-13 14:25:07 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:07 | 耗时 1 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-13 14:25:07 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:07 | 耗时 3 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-13 14:25:07 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:07 | 耗时 12 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-13 14:25:07 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:25:07 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 14:25:10 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:25:10 | 耗时 2274 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:25:10 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:25:10 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:25:10 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:25:10 | 耗时 0 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 14:25:12 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:25:12 | 耗时 2570 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:25:12 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:25:12 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:25:40 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:25:40 | 耗时 15 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1796';;
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1796';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1796';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 3 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'NR1HZBMONT/SIML1$%';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'NR1HZBMONT/SIML1$%';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 4 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H4ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H4ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H6ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H6ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CH4ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CmbuGas';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CO2ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='COppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 7 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CH4ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CmbuGas';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Mst';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CO2ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='N2ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='COppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='O2ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Mst';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='N2ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotHyd';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='O2ppm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2Alm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2Wrn';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2Alm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2Wrn';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotHyd';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2Alm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2Wrn';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MstAlm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2Alm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MstWrn';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2Wrn';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MstAlm';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MstWrn';
+2020-08-13 14:25:42 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:25:42 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 14:28:48 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:28:48 | 耗时 2321 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:28:48 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:28:48 | 耗时 8 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:28:57 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:28:57 | 耗时 7 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-13 14:28:57 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:28:57 | 耗时 1 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-13 14:28:58 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:28:58 | 耗时 6 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-13 14:28:58 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:28:58 | 耗时 2 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-13 14:28:58 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:28:58 | 耗时 3 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-13 14:28:58 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:28:58 | 耗时 1 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-13 14:28:58 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:28:58 | 耗时 11 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-13 14:28:58 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:28:58 | 耗时 0 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 14:29:01 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:29:01 | 耗时 2250 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:29:01 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:29:01 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:29:01 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:29:01 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 14:29:03 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:29:03 | 耗时 2391 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:29:03 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:29:03 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:29:14 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:29:14 | 耗时 3067 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:29:14 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:29:14 | 耗时 6 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:29:47 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:29:47 | 耗时 6 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-13 14:29:47 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:29:47 | 耗时 2 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-13 14:29:47 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:29:47 | 耗时 2 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-13 14:29:47 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:29:47 | 耗时 4 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-13 14:29:47 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:29:47 | 耗时 2 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-13 14:29:47 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:29:47 | 耗时 0 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-13 14:29:47 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:29:47 | 耗时 9 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-13 14:29:48 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:29:48 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 14:29:50 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:29:50 | 耗时 2263 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:29:50 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:29:50 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:29:50 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:29:50 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 14:29:52 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:29:52 | 耗时 2246 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:29:52 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:29:52 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:31:34 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:31:34 | 耗时 5 ms | SQL 语句：
+select * from pubdevice where DeviceID='D2041';;
+2020-08-13 14:31:34 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:31:34 | 耗时 14 ms | SQL 语句：
+select * from pubdevice where DeviceID='D0002';;
+2020-08-13 14:32:29 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:32:29 | 耗时 2 ms | SQL 语句：
+select * from pubdevice where DeviceID='D4023';;
+2020-08-13 14:32:29 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:32:29 | 耗时 2 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1685';;
+2020-08-13 14:32:29 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:32:29 | 耗时 2 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1796';;
+2020-08-13 14:32:29 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:32:29 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1902';;
+2020-08-13 14:34:32 INFO  cac main com.CacApplication Starting CacApplication on nanadeMacBook-Pro.local with PID 18452 (/Users/nana/IdeaProjects/cac/target/classes started by nana in /Users/nana/IdeaProjects/cac)
+2020-08-13 14:34:32 INFO  cac main com.CacApplication No active profile set, falling back to default profiles: default
+2020-08-13 14:34:34 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-08-13 14:34:34 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-08-13 14:34:34 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Finished Spring Data repository scanning in 563ms. Found 0 Redis repository interfaces.
+2020-08-13 14:34:35 INFO  cac main org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker Bean 'redisConfig' of type [com.base.configure.RedisConfig$$EnhancerBySpringCGLIB$$ba1f0dd8] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-08-13 14:34:35 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat initialized with port(s): 8081 (http)
+2020-08-13 14:34:35 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Initializing ProtocolHandler ["http-nio-8081"]
+2020-08-13 14:34:35 INFO  cac main org.apache.catalina.core.StandardService Starting service [Tomcat]
+2020-08-13 14:34:35 INFO  cac main org.apache.catalina.core.StandardEngine Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-13 14:34:35 INFO  cac main org.apache.jasper.servlet.TldScanner At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2020-08-13 14:34:35 INFO  cac main org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring embedded WebApplicationContext
+2020-08-13 14:34:35 INFO  cac main org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Root WebApplicationContext: initialization completed in 2818 ms
+2020-08-13 14:34:36 INFO  cac main com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure Init DruidDataSource
+2020-08-13 14:34:36 INFO  cac main com.alibaba.druid.pool.DruidDataSource {dataSource-1} inited
+2020-08-13 14:34:37 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService
+2020-08-13 14:34:37 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'febsAsyncThreadPool'
+2020-08-13 14:34:37 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'taskExecutor'
+2020-08-13 14:34:37 INFO  cac main com.base.configure.RedisConfig 初始化 -> [Redis CacheErrorHandler]
+2020-08-13 14:34:37 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Starting ProtocolHandler ["http-nio-8081"]
+2020-08-13 14:34:37 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat started on port(s): 8081 (http) with context path ''
+2020-08-13 14:34:37 INFO  cac main com.CacApplication Started CacApplication in 25.243 seconds (JVM running for 30.92)
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-1 org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Initializing Servlet 'dispatcherServlet'
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Completed initialization in 6 ms
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:34:53 | 耗时 12 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D2041';
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:34:53 | 耗时 3 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'TEMPLATEG2MONT/SIMG11$%';
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:34:53 | 耗时 4 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Hum';
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:34:53 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:34:53 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:34:53 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:34:53 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D2041';
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:34:53 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'TEMPLATEG2MONT/SIMG11$%';
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:34:53 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Hum';
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:34:53 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:34:53 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:34:53 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:34:53 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D0002';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'TemBH5001MONT/SIMG01$%';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D0002';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Den';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'TemBH5001MONT/SIMG01$%';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Dew';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Den';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Dew';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 3 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Hmd';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Hmd';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ComAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ComAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='DenAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='DenAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='DewAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='DewAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='HmdAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='HmdAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsBlk';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 2 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsTr';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsBlk';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='PresAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsTr';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TmpAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='PresAlm';
+2020-08-13 14:34:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:54 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TmpAlm';
+2020-08-13 14:34:55 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:34:55 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D4023';
+2020-08-13 14:34:55 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:34:55 | 耗时 0 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'EMTSHMG2ERTU/ZSAR7$%';
+2020-08-13 14:34:55 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:34:55 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LigCnt';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D4023';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:34:57 | 耗时 3 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'EMTSHMG2ERTU/ZSAR7$%';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LigCnt';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1685';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:34:57 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MOA20200MONT/ZSAR1$%';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:34:57 | 耗时 2 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LeakCur';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='OpCnt';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ReCur';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='RisCarte';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotCur';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1685';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MOA20200MONT/ZSAR1$%';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LeakCur';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='OpCnt';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ReCur';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='RisCarte';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotCur';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 14:34:57 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:34:57 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 14:34:58 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:34:58 | 耗时 2293 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:34:58 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:34:58 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:34:58 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:58 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1902';
+2020-08-13 14:34:58 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:58 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MDD3000T_800_1MONT02/SLTC1$%';
+2020-08-13 14:34:58 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:34:58 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TapPos';
+2020-08-13 14:34:58 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:58 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1902';
+2020-08-13 14:34:58 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:58 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MDD3000T_800_1MONT02/SLTC1$%';
+2020-08-13 14:34:58 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:34:58 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1902';
+2020-08-13 14:34:58 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:34:58 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TapPos';
+2020-08-13 14:34:58 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:34:58 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MDD3000T_800_1MONT02/SLTC1$%';
+2020-08-13 14:34:58 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:34:58 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TapPos';
+2020-08-13 14:34:59 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:34:59 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1902';
+2020-08-13 14:34:59 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:34:59 | 耗时 0 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MDD3000T_800_1MONT02/SLTC1$%';
+2020-08-13 14:34:59 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:34:59 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TapPos';
+2020-08-13 14:35:00 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:35:00 | 耗时 2236 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:35:00 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:35:00 | 耗时 2 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:35:02 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:35:02 | 耗时 2257 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:35:02 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:35:02 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:35:13 INFO  cac http-nio-8081-exec-4 com.jeecg.controller.MainAction 访问了index方法
+2020-08-13 14:35:19 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:35:19 | 耗时 10 ms | SQL 语句：
+select id,email,pwd,nickName,state,loginCount,loginTime,deleted,createTime,updateTime,createBy,updateBy,superAdmin from sys_user where email='admin' and pwd='202CB962AC59075B964B07152D234B70';
+2020-08-13 14:35:19 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:35:19 | 耗时 83 ms | SQL 语句：
+update sys_user set email='admin',pwd='202CB962AC59075B964B07152D234B70',nickName='杭州申昊',state=0,loginCount=789,loginTime='2020-08-13T14:35:19.419+0800',deleted=0,updateTime=now(),createBy=NULL,updateBy=NULL where id=1;
+2020-08-13 14:35:19 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:35:19 | 耗时 3 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-13 14:35:19 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:35:19 | 耗时 0 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-13 14:35:20 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:35:20 | 耗时 2 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-13 14:35:20 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:35:20 | 耗时 2 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-13 14:35:20 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:35:20 | 耗时 1 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-13 14:35:20 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:35:20 | 耗时 2 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-13 14:35:20 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:35:20 | 耗时 7 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-13 14:35:20 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:35:20 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 14:35:22 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:35:22 | 耗时 2284 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:35:22 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:35:22 | 耗时 2 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:35:23 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:35:23 | 耗时 0 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 14:35:25 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:35:25 | 耗时 2244 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:35:25 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:35:25 | 耗时 2 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:36:06 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:36:06 | 耗时 17 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 14:36:14 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:36:14 | 耗时 17 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 14:39:05 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:39:05 | 耗时 2256 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:39:05 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:39:05 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:40:28 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:40:28 | 耗时 2274 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:40:28 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:40:28 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:41:34 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:41:34 | 耗时 2347 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:41:34 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:41:34 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:41:35 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:41:35 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D2041';;
+2020-08-13 14:41:35 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:41:35 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D0002';;
+2020-08-13 14:42:29 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:42:29 | 耗时 3 ms | SQL 语句：
+select * from pubdevice where DeviceID='D4023';;
+2020-08-13 14:42:30 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:42:30 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1685';;
+2020-08-13 14:42:30 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:42:30 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1796';;
+2020-08-13 14:42:30 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:42:30 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1902';;
+2020-08-13 14:42:46 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:42:46 | 耗时 2509 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:42:46 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:42:46 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D2041';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D2041';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'TEMPLATEG2MONT/SIMG11$%';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'TEMPLATEG2MONT/SIMG11$%';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Hum';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Hum';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D2041';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'TEMPLATEG2MONT/SIMG11$%';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Hum';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D2041';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'TEMPLATEG2MONT/SIMG11$%';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D4023';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Hum';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'EMTSHMG2ERTU/ZSAR7$%';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LigCnt';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D4023';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'EMTSHMG2ERTU/ZSAR7$%';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1685';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LigCnt';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MOA20200MONT/ZSAR1$%';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LeakCur';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='OpCnt';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ReCur';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='RisCarte';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotCur';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1685';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:42:47 | 耗时 2 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MOA20200MONT/ZSAR1$%';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1902';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LeakCur';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='OpCnt';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MDD3000T_800_1MONT02/SLTC1$%';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ReCur';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1902';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TapPos';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='RisCarte';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MDD3000T_800_1MONT02/SLTC1$%';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotCur';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1902';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TapPos';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:42:47 | 耗时 2 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:42:47 | 耗时 4 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MDD3000T_800_1MONT02/SLTC1$%';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:42:47 | 耗时 2 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TapPos';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1902';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:42:47 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MDD3000T_800_1MONT02/SLTC1$%';
+2020-08-13 14:42:47 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:42:47 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TapPos';
+2020-08-13 14:45:30 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:45:30 | 耗时 2210 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:45:30 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:45:30 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:57:43 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:57:43 | 耗时 2802 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:57:43 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:57:43 | 耗时 2804 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:57:44 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:57:44 | 耗时 11 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:57:44 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:44 | 耗时 6 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:57:47 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:47 | 耗时 2624 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:57:47 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:47 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:57:47 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:57:47 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D0002';;
+2020-08-13 14:57:47 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:57:47 | 耗时 2 ms | SQL 语句：
+select * from pubdevice where DeviceID='D2041';;
+2020-08-13 14:57:47 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 14:57:47 | 耗时 3 ms | SQL 语句：
+select * from pubdevice where DeviceID='D4023';;
+2020-08-13 14:57:47 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:57:47 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1685';;
+2020-08-13 14:57:47 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:57:47 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1796';;
+2020-08-13 14:57:47 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:57:47 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1902';;
+2020-08-13 14:57:50 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:50 | 耗时 2563 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:57:50 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:50 | 耗时 5 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D0002';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D0002';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'TemBH5001MONT/SIMG01$%';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'TemBH5001MONT/SIMG01$%';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Den';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Dew';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Hmd';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 6 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Den';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Dew';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ComAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='DenAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Hmd';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='DewAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='HmdAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ComAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsBlk';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='DenAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsTr';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='DewAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='PresAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='HmdAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TmpAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsBlk';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsTr';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='PresAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TmpAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D4023';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'EMTSHMG2ERTU/ZSAR7$%';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LigCnt';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D4023';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:57:51 | 耗时 2 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'EMTSHMG2ERTU/ZSAR7$%';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1685';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LigCnt';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1685';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:57:51 | 耗时 4 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MOA20200MONT/ZSAR1$%';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1685';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:57:51 | 耗时 3 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MOA20200MONT/ZSAR1$%';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:57:51 | 耗时 2 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LeakCur';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LeakCur';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1685';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='OpCnt';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:57:51 | 耗时 2 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MOA20200MONT/ZSAR1$%';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='OpCnt';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ReCur';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MOA20200MONT/ZSAR1$%';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LeakCur';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='RisCarte';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ReCur';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='OpCnt';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LeakCur';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='RisCarte';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1796';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotCur';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='OpCnt';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotCur';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1796';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ReCur';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ReCur';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 3 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'NR1HZBMONT/SIML1$%';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='RisCarte';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 4 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'NR1HZBMONT/SIML1$%';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 2 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='RisCarte';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotCur';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H4ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotCur';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H6ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1902';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1902';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H4ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CH4ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MDD3000T_800_1MONT02/SLTC1$%';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MDD3000T_800_1MONT02/SLTC1$%';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CmbuGas';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TapPos';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TapPos';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CO2ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='COppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H6ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CH4ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Mst';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CmbuGas';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CO2ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='N2ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='O2ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='COppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Mst';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotHyd';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='N2ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2Alm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='O2ppm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2Wrn';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2Alm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2Wrn';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotHyd';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2Alm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MstAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2Wrn';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MstWrn';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2Alm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2Wrn';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MstAlm';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MstWrn';
+2020-08-13 14:57:51 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:51 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 14:57:54 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 14:57:54 | 耗时 2284 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:57:54 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 14:57:54 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:57:54 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:57:54 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1939';
+2020-08-13 14:57:54 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 14:57:54 | 耗时 0 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MDD3000T_800_6MONT03/SIML1$%';
+2020-08-13 14:57:54 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:54 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1939';
+2020-08-13 14:57:54 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:57:54 | 耗时 1 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MDD3000T_800_6MONT03/SIML1$%';
+2020-08-13 14:57:57 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:57:57 | 耗时 2245 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 14:57:57 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 14:57:57 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 14:58:12 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 14:58:12 | 耗时 13 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 14:58:12 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 14:58:12 | 耗时 12 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 15:00:54 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 15:00:54 | 耗时 2487 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 15:00:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 15:00:54 | 耗时 5 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 15:00:56 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 15:00:56 | 耗时 2252 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 15:00:56 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 15:00:56 | 耗时 2 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 15:01:37 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 15:01:37 | 耗时 1 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 15:01:46 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 15:01:46 | 耗时 92 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 15:02:49 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 15:02:49 | 耗时 4 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 15:02:51 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 15:02:51 | 耗时 2 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 15:06:24 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 15:06:24 | 耗时 2204 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 15:06:24 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 15:06:24 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 15:07:53 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 15:07:53 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D0002';;
+2020-08-13 15:07:53 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 15:07:53 | 耗时 5 ms | SQL 语句：
+select * from pubdevice where DeviceID='D2041';;
+2020-08-13 15:07:53 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 15:07:53 | 耗时 11 ms | SQL 语句：
+select * from pubdevice where DeviceID='D4023';;
+2020-08-13 15:07:53 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 15:07:53 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1902';;
+2020-08-13 15:07:53 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 15:07:53 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1796';;
+2020-08-13 15:07:53 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 15:07:53 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1685';;
+2020-08-13 15:10:25 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 15:10:25 | 耗时 2308 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 15:10:25 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 15:10:25 | 耗时 6 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 15:17:53 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 15:17:53 | 耗时 6 ms | SQL 语句：
+select * from pubdevice where DeviceID='D0002';;
+2020-08-13 15:17:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 15:17:54 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D2041';;
+2020-08-13 15:17:54 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 15:17:54 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D4023';;
+2020-08-13 15:17:54 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 15:17:54 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1902';;
+2020-08-13 15:17:54 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 15:17:54 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1685';;
+2020-08-13 15:17:54 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 15:17:54 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1796';;
+2020-08-13 15:27:54 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 15:27:54 | 耗时 8 ms | SQL 语句：
+select * from pubdevice where DeviceID='D0002';;
+2020-08-13 15:27:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 15:27:54 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D2041';;
+2020-08-13 15:27:55 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 15:27:55 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D4023';;
+2020-08-13 15:27:55 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 15:27:55 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1902';;
+2020-08-13 15:27:55 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 15:27:55 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1796';;
+2020-08-13 15:27:55 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 15:27:55 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1685';;
+2020-08-13 15:37:54 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 15:37:54 | 耗时 5 ms | SQL 语句：
+select * from pubdevice where DeviceID='D0002';;
+2020-08-13 15:37:55 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 15:37:55 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D2041';;
+2020-08-13 15:37:55 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 15:37:55 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D4023';;
+2020-08-13 15:37:55 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 15:37:55 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1902';;
+2020-08-13 15:37:56 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 15:37:56 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1796';;
+2020-08-13 15:37:56 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 15:37:56 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1685';;
+2020-08-13 15:48:22 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 15:48:22 | 耗时 7 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1902';;
+2020-08-13 15:48:22 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 15:48:22 | 耗时 7 ms | SQL 语句：
+select * from pubdevice where DeviceID='D2041';;
+2020-08-13 15:48:22 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 15:48:22 | 耗时 7 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1796';;
+2020-08-13 15:48:22 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 15:48:22 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D4023';;
+2020-08-13 15:48:22 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 15:48:22 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1685';;
+2020-08-13 15:48:22 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 15:48:22 | 耗时 4 ms | SQL 语句：
+select * from pubdevice where DeviceID='D0002';;
+2020-08-13 15:51:43 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 15:51:43 | 耗时 17 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 15:51:45 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 15:51:45 | 耗时 33 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 15:51:48 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 15:51:48 | 耗时 2502 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 15:51:48 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 15:51:48 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 15:51:51 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 15:51:51 | 耗时 2579 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 15:51:51 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 15:51:51 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 15:58:23 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 15:58:23 | 耗时 7 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1796';;
+2020-08-13 15:58:23 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 15:58:23 | 耗时 7 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1902';;
+2020-08-13 15:58:23 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 15:58:23 | 耗时 7 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1685';;
+2020-08-13 15:58:24 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 15:58:24 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D4023';;
+2020-08-13 15:58:24 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 15:58:24 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D2041';;
+2020-08-13 15:58:24 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 15:58:24 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D0002';;
+2020-08-13 15:58:33 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 15:58:33 | 耗时 2590 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 15:58:33 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 15:58:33 | 耗时 7 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 15:58:36 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 15:58:36 | 耗时 2440 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 15:58:36 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 15:58:36 | 耗时 16 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:01:17 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 16:01:17 | 耗时 2491 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:01:17 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 16:01:17 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:01:20 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 16:01:20 | 耗时 2502 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:01:20 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:01:20 | 耗时 8 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:01:56 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:01:56 | 耗时 18 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 16:01:58 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 16:01:58 | 耗时 73 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 16:07:18 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:07:18 | 耗时 2702 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:07:18 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 16:07:18 | 耗时 28 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:07:21 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 16:07:21 | 耗时 2419 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:07:21 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 16:07:21 | 耗时 5 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:08:24 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:08:24 | 耗时 3 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1902';;
+2020-08-13 16:08:24 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:08:24 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1685';;
+2020-08-13 16:08:24 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 16:08:24 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1796';;
+2020-08-13 16:08:24 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:08:24 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D4023';;
+2020-08-13 16:08:24 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 16:08:24 | 耗时 0 ms | SQL 语句：
+select * from pubdevice where DeviceID='D2041';;
+2020-08-13 16:08:24 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:08:24 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D0002';;
+2020-08-13 16:23:53 INFO  cac main com.CacApplication Starting CacApplication on nanadeMacBook-Pro.local with PID 19115 (/Users/nana/IdeaProjects/cac/target/classes started by nana in /Users/nana/IdeaProjects/cac)
+2020-08-13 16:23:53 INFO  cac main com.CacApplication No active profile set, falling back to default profiles: default
+2020-08-13 16:23:54 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-08-13 16:23:54 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-08-13 16:23:55 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Finished Spring Data repository scanning in 571ms. Found 0 Redis repository interfaces.
+2020-08-13 16:23:55 INFO  cac main org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker Bean 'redisConfig' of type [com.base.configure.RedisConfig$$EnhancerBySpringCGLIB$$abb23fa3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-08-13 16:23:55 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat initialized with port(s): 8081 (http)
+2020-08-13 16:23:55 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Initializing ProtocolHandler ["http-nio-8081"]
+2020-08-13 16:23:55 INFO  cac main org.apache.catalina.core.StandardService Starting service [Tomcat]
+2020-08-13 16:23:55 INFO  cac main org.apache.catalina.core.StandardEngine Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-13 16:23:56 INFO  cac main org.apache.jasper.servlet.TldScanner At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2020-08-13 16:23:56 INFO  cac main org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring embedded WebApplicationContext
+2020-08-13 16:23:56 INFO  cac main org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Root WebApplicationContext: initialization completed in 2940 ms
+2020-08-13 16:23:56 INFO  cac main com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure Init DruidDataSource
+2020-08-13 16:23:56 INFO  cac main com.alibaba.druid.pool.DruidDataSource {dataSource-1} inited
+2020-08-13 16:23:57 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService
+2020-08-13 16:23:57 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'febsAsyncThreadPool'
+2020-08-13 16:23:57 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'taskExecutor'
+2020-08-13 16:23:57 INFO  cac main com.base.configure.RedisConfig 初始化 -> [Redis CacheErrorHandler]
+2020-08-13 16:23:58 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Starting ProtocolHandler ["http-nio-8081"]
+2020-08-13 16:23:58 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat started on port(s): 8081 (http) with context path ''
+2020-08-13 16:23:58 INFO  cac main com.CacApplication Started CacApplication in 25.431 seconds (JVM running for 31.291)
+2020-08-13 16:24:04 INFO  cac http-nio-8081-exec-1 org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-13 16:24:04 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Initializing Servlet 'dispatcherServlet'
+2020-08-13 16:24:04 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Completed initialization in 16 ms
+2020-08-13 16:24:12 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 16:24:12 | 耗时 8012 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:24:12 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:24:12 | 耗时 9 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:24:14 INFO  cac http-nio-8081-exec-5 com.jeecg.controller.MainAction 访问了index方法
+2020-08-13 16:24:16 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:24:16 | 耗时 2821 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:24:16 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 16:24:16 | 耗时 5 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:24:23 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 16:24:23 | 耗时 36 ms | SQL 语句：
+select id,email,pwd,nickName,state,loginCount,loginTime,deleted,createTime,updateTime,createBy,updateBy,superAdmin from sys_user where email='admin' and pwd='202CB962AC59075B964B07152D234B70';
+2020-08-13 16:24:23 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 16:24:23 | 耗时 87 ms | SQL 语句：
+update sys_user set email='admin',pwd='202CB962AC59075B964B07152D234B70',nickName='杭州申昊',state=0,loginCount=790,loginTime='2020-08-13T16:24:23.361+0800',deleted=0,updateTime=now(),createBy=NULL,updateBy=NULL where id=1;
+2020-08-13 16:24:23 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 16:24:23 | 耗时 6 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-13 16:24:23 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 16:24:23 | 耗时 0 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-13 16:24:23 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:24:23 | 耗时 5 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-13 16:24:24 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:24:24 | 耗时 9 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-13 16:24:24 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:24:24 | 耗时 0 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-13 16:24:24 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:24:24 | 耗时 2 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-13 16:24:24 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:24:24 | 耗时 7 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-13 16:24:24 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 16:24:24 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 16:24:27 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 16:24:27 | 耗时 2501 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:24:27 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:24:27 | 耗时 5 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:24:27 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 16:24:27 | 耗时 0 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 16:24:29 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:24:29 | 耗时 2349 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:24:29 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:24:29 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:24:38 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 16:24:38 | 耗时 2 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 16:24:42 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:24:42 | 耗时 14 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 16:24:46 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:24:46 | 耗时 10 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 16:26:04 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:26:04 | 耗时 4 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1797';;
+2020-08-13 16:26:04 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:04 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1797';
+2020-08-13 16:26:04 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:04 | 耗时 2 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1797';
+2020-08-13 16:26:04 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:04 | 耗时 6 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'NR1HZBMONT/SIML2$%';
+2020-08-13 16:26:04 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:04 | 耗时 2 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'NR1HZBMONT/SIML2$%';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 4 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H4ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H6ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 4 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H4ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CH4ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H6ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CmbuGas';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CH4ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CO2ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='COppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CmbuGas';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='CO2ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Mst';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='COppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='N2ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Mst';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='O2ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='N2ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='O2ppm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotHyd';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Pres';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2Alm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='Tmp';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotHyd';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2Wrn';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2Alm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2Alm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2Wrn';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='C2H2Wrn';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2Alm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='H2Wrn';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='InsAlm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MstAlm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MstWrn';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MstAlm';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MstWrn';
+2020-08-13 16:26:05 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:26:05 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 16:26:11 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 16:26:11 | 耗时 2 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '2' Group by Space;;
+2020-08-13 16:26:12 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 16:26:12 | 耗时 95 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Pres,b.Hum,b.Tmp , b. Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID where a.DeviceType='2';
+2020-08-13 16:26:12 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 16:26:12 | 耗时 82 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID as ID, b.* from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID where a.DeviceType='2';
+2020-08-13 16:26:22 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 16:26:22 | 耗时 1 ms | SQL 语句：
+select * from pubdevice where DeviceID='D1785';;
+2020-08-13 16:26:22 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:26:22 | 耗时 1 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1785';
+2020-08-13 16:26:22 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:26:22 | 耗时 2 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MOA20206MONT/ZSAR2$%';
+2020-08-13 16:26:22 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:26:22 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LeakCur';
+2020-08-13 16:26:22 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:26:22 | 耗时 2 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='OpCnt';
+2020-08-13 16:26:22 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:26:22 | 耗时 0 ms | SQL 语句：
+SELECT IEC61850LD_LN FROM pubdevice WHERE DeviceID='D1785';
+2020-08-13 16:26:22 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:26:22 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ReCur';
+2020-08-13 16:26:22 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:26:22 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='RisCarte';
+2020-08-13 16:26:22 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:26:22 | 耗时 3 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotCur';
+2020-08-13 16:26:22 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:26:22 | 耗时 7 ms | SQL 语句：
+SELECT dopath as yc_refname,time as yc_time, val as yc_value ,quality, val_type as ied_type_id FROM iec61850c_realdata WHERE dopath like 'MOA20206MONT/ZSAR2$%';
+2020-08-13 16:26:22 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:26:22 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 16:26:22 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:26:22 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='LeakCur';
+2020-08-13 16:26:22 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:26:22 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 16:26:23 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:26:22 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='OpCnt';
+2020-08-13 16:26:23 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:26:23 | 耗时 1 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='ReCur';
+2020-08-13 16:26:23 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:26:23 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='RisCarte';
+2020-08-13 16:26:23 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:26:23 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='TotCur';
+2020-08-13 16:26:23 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:26:23 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='MoDevConf';
+2020-08-13 16:26:23 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:26:23 | 耗时 0 ms | SQL 语句：
+SELECT refdesc FROM refname_desc WHERE refname='SupDevRun';
+2020-08-13 16:26:29 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:26:29 | 耗时 5 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '3' Group by Space;;
+2020-08-13 16:26:29 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:26:29 | 耗时 34 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID,b.SampleTime, b.TotA, b.RisA, b.RisCaRte , b.LastLigTm,b.LigCnt,b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID where a.DeviceType='3';
+2020-08-13 16:28:32 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:28:32 | 耗时 3 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '2' Group by Space;;
+2020-08-13 16:28:33 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:28:33 | 耗时 77 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Pres,b.Hum,b.Tmp , b. Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID where a.DeviceType='2';
+2020-08-13 16:28:33 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:28:33 | 耗时 89 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID as ID, b.* from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID where a.DeviceType='2';
+2020-08-13 16:29:31 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:29:31 | 耗时 2778 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:29:31 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 16:29:31 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:29:34 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:29:34 | 耗时 2427 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:29:34 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:29:34 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:34:30 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 16:34:30 | 耗时 2487 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:34:30 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 16:34:30 | 耗时 5 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:34:32 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:34:32 | 耗时 2423 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:34:33 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 16:34:33 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:36:37 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 16:36:37 | 耗时 7 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 16:36:38 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:36:38 | 耗时 8 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 16:36:39 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:36:39 | 耗时 3 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 16:36:48 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:36:48 | 耗时 5 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 16:36:49 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 16:36:49 | 耗时 6 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 16:36:50 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 16:36:50 | 耗时 8 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 16:37:04 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 16:37:04 | 耗时 1 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '2' Group by Space;;
+2020-08-13 16:37:04 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 16:37:04 | 耗时 83 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Pres,b.Hum,b.Tmp , b. Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID where a.DeviceType='2';
+2020-08-13 16:37:04 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 16:37:04 | 耗时 93 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID as ID, b.* from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID where a.DeviceType='2';
+2020-08-13 16:39:13 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 16:39:13 | 耗时 1 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '2' Group by Space;;
+2020-08-13 16:39:16 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:39:16 | 耗时 381 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Pres,b.Hum,b.Tmp , b. Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID where a.DeviceType='2';
+2020-08-13 16:39:19 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:39:19 | 耗时 703 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID as ID, b.* from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID where a.DeviceType='2';
+2020-08-13 16:43:42 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:43:42 | 耗时 2488 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:43:42 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:43:42 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:43:45 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 16:43:45 | 耗时 2585 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:43:45 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:43:45 | 耗时 7 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:43:51 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 16:43:51 | 耗时 4 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 16:43:53 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:43:53 | 耗时 4 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 16:43:54 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:43:54 | 耗时 5 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 16:44:05 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 16:44:05 | 耗时 6 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '2' Group by Space;;
+2020-08-13 16:44:11 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:44:11 | 耗时 381 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Pres,b.Hum,b.Tmp , b. Remark from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID where a.DeviceType='2';
+2020-08-13 16:44:14 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:44:14 | 耗时 695 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID as ID, b.* from pubdevice a left join sf6_data b on a.DeviceID=b.DeviceID where a.DeviceType='2';
+2020-08-13 16:52:23 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:52:23 | 耗时 2887 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:52:23 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:52:23 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:52:27 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 16:52:27 | 耗时 3143 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:52:27 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:52:27 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:52:33 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:52:33 | 耗时 1 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '3' Group by Space;;
+2020-08-13 16:52:33 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 16:52:33 | 耗时 15 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID,b.SampleTime, b.TotA, b.RisA, b.RisCaRte , b.LastLigTm,b.LigCnt,b.Remark from pubdevice a left join smoam_data b on a.DeviceID=b.DeviceID where a.DeviceType='3';
+2020-08-13 16:53:05 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:53:05 | 耗时 1 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '8' Group by Space;;
+2020-08-13 16:53:18 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 16:53:18 | 耗时 1 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '4' Group by Space;;
+2020-08-13 16:53:18 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 16:53:18 | 耗时 12 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID where a.DeviceType='4';
+2020-08-13 16:54:05 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:54:05 | 耗时 8 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '6' Group by Space;;
+2020-08-13 16:54:21 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 16:54:21 | 耗时 1 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 16:54:29 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 16:54:29 | 耗时 12 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 16:54:29 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 16:54:29 | 耗时 4 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 16:54:33 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 16:54:33 | 耗时 2502 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:54:33 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 16:54:33 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:54:35 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 16:54:35 | 耗时 2510 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 16:54:35 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 16:54:35 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 16:55:07 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 16:55:07 | 耗时 0 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '4' Group by Space;;
+2020-08-13 16:55:07 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 16:55:07 | 耗时 2 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID as ID ,b.* from pubdevice a left join scom_data b on a.DeviceID=b.DeviceID where a.DeviceType='4';
+2020-08-13 17:12:46 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 17:12:46 | 耗时 7 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '6' Group by Space;;
+2020-08-13 17:12:48 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:12:48 | 耗时 2433 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:12:48 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 17:12:48 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:12:51 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:12:51 | 耗时 2378 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:12:51 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 17:12:51 | 耗时 2 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:12:54 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 17:12:54 | 耗时 4 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:12:56 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 17:12:56 | 耗时 4 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:12:57 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 17:12:57 | 耗时 4 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:13:01 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:13:01 | 耗时 2 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:13:02 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:13:02 | 耗时 2 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:13:02 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:13:02 | 耗时 3 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:14:27 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:14:27 | 耗时 8 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:14:30 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:14:30 | 耗时 11 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:14:31 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:14:31 | 耗时 8 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:14:35 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:14:35 | 耗时 2529 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:14:35 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 17:14:35 | 耗时 5 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:14:38 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 17:14:38 | 耗时 2472 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:14:38 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:14:38 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:14:50 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:14:50 | 耗时 2 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:14:54 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:14:54 | 耗时 68 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:14:54 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:14:54 | 耗时 71 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:20:56 INFO  cac main com.CacApplication Starting CacApplication on nanadeMacBook-Pro.local with PID 19503 (/Users/nana/IdeaProjects/cac/target/classes started by nana in /Users/nana/IdeaProjects/cac)
+2020-08-13 17:20:56 INFO  cac main com.CacApplication No active profile set, falling back to default profiles: default
+2020-08-13 17:20:58 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-08-13 17:20:58 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-08-13 17:20:59 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Finished Spring Data repository scanning in 814ms. Found 0 Redis repository interfaces.
+2020-08-13 17:20:59 INFO  cac main org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker Bean 'redisConfig' of type [com.base.configure.RedisConfig$$EnhancerBySpringCGLIB$$60206e3] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-08-13 17:20:59 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat initialized with port(s): 8081 (http)
+2020-08-13 17:20:59 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Initializing ProtocolHandler ["http-nio-8081"]
+2020-08-13 17:20:59 INFO  cac main org.apache.catalina.core.StandardService Starting service [Tomcat]
+2020-08-13 17:20:59 INFO  cac main org.apache.catalina.core.StandardEngine Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-13 17:21:00 INFO  cac main org.apache.jasper.servlet.TldScanner At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2020-08-13 17:21:00 INFO  cac main org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring embedded WebApplicationContext
+2020-08-13 17:21:00 INFO  cac main org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Root WebApplicationContext: initialization completed in 3187 ms
+2020-08-13 17:21:00 INFO  cac main com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure Init DruidDataSource
+2020-08-13 17:21:00 INFO  cac main com.alibaba.druid.pool.DruidDataSource {dataSource-1} inited
+2020-08-13 17:21:01 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService
+2020-08-13 17:21:01 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'febsAsyncThreadPool'
+2020-08-13 17:21:01 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'taskExecutor'
+2020-08-13 17:21:01 INFO  cac main com.base.configure.RedisConfig 初始化 -> [Redis CacheErrorHandler]
+2020-08-13 17:21:01 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Starting ProtocolHandler ["http-nio-8081"]
+2020-08-13 17:21:02 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat started on port(s): 8081 (http) with context path ''
+2020-08-13 17:21:02 INFO  cac main com.CacApplication Started CacApplication in 25.614 seconds (JVM running for 31.26)
+2020-08-13 17:21:08 INFO  cac http-nio-8081-exec-1 org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-13 17:21:08 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Initializing Servlet 'dispatcherServlet'
+2020-08-13 17:21:08 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Completed initialization in 13 ms
+2020-08-13 17:21:08 INFO  cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 访问了index方法
+2020-08-13 17:21:15 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:21:15 | 耗时 18 ms | SQL 语句：
+select id,email,pwd,nickName,state,loginCount,loginTime,deleted,createTime,updateTime,createBy,updateBy,superAdmin from sys_user where email='admin' and pwd='202CB962AC59075B964B07152D234B70';
+2020-08-13 17:21:15 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:21:15 | 耗时 22 ms | SQL 语句：
+update sys_user set email='admin',pwd='202CB962AC59075B964B07152D234B70',nickName='杭州申昊',state=0,loginCount=791,loginTime='2020-08-13T17:21:15.600+0800',deleted=0,updateTime=now(),createBy=NULL,updateBy=NULL where id=1;
+2020-08-13 17:21:15 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:21:15 | 耗时 5 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-13 17:21:15 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:21:15 | 耗时 0 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-13 17:21:16 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 17:21:16 | 耗时 4 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-13 17:21:16 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:21:16 | 耗时 3 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-13 17:21:16 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:21:16 | 耗时 1 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-13 17:21:16 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:21:16 | 耗时 3 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-13 17:21:16 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:21:16 | 耗时 18 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-13 17:21:16 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 17:21:16 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 17:21:19 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:21:19 | 耗时 2362 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:21:19 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:21:19 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:21:19 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:21:19 | 耗时 0 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 17:21:21 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 17:21:21 | 耗时 2557 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:21:21 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 17:21:21 | 耗时 2 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:21:25 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 17:21:25 | 耗时 2 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:21:28 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 17:21:28 | 耗时 11 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:21:28 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 17:21:28 | 耗时 2 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:24:20 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:24:20 | 耗时 4 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:24:22 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 17:24:22 | 耗时 66 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:24:23 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 17:24:23 | 耗时 66 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:26:35 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:26:35 | 耗时 3434 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:26:35 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:26:35 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:26:38 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:26:38 | 耗时 2788 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:26:38 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 17:26:38 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:34:56 INFO  cac SpringContextShutdownHook org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Shutting down ExecutorService 'taskExecutor'
+2020-08-13 17:34:56 INFO  cac SpringContextShutdownHook org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Shutting down ExecutorService 'febsAsyncThreadPool'
+2020-08-13 17:34:56 INFO  cac SpringContextShutdownHook com.alibaba.druid.pool.DruidDataSource {dataSource-1} closed
+2020-08-13 17:36:30 INFO  cac main com.CacApplication Starting CacApplication on nanadeMacBook-Pro.local with PID 19702 (/Users/nana/IdeaProjects/cac/target/classes started by nana in /Users/nana/IdeaProjects/cac)
+2020-08-13 17:36:30 INFO  cac main com.CacApplication No active profile set, falling back to default profiles: default
+2020-08-13 17:36:31 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-08-13 17:36:31 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-08-13 17:36:32 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Finished Spring Data repository scanning in 555ms. Found 0 Redis repository interfaces.
+2020-08-13 17:36:32 INFO  cac main org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker Bean 'redisConfig' of type [com.base.configure.RedisConfig$$EnhancerBySpringCGLIB$$ff2aa74b] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-08-13 17:36:33 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat initialized with port(s): 8081 (http)
+2020-08-13 17:36:33 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Initializing ProtocolHandler ["http-nio-8081"]
+2020-08-13 17:36:33 INFO  cac main org.apache.catalina.core.StandardService Starting service [Tomcat]
+2020-08-13 17:36:33 INFO  cac main org.apache.catalina.core.StandardEngine Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-13 17:36:33 INFO  cac main org.apache.jasper.servlet.TldScanner At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2020-08-13 17:36:33 INFO  cac main org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring embedded WebApplicationContext
+2020-08-13 17:36:33 INFO  cac main org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Root WebApplicationContext: initialization completed in 2775 ms
+2020-08-13 17:36:33 INFO  cac main com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure Init DruidDataSource
+2020-08-13 17:36:33 INFO  cac main com.alibaba.druid.pool.DruidDataSource {dataSource-1} inited
+2020-08-13 17:36:34 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService
+2020-08-13 17:36:34 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'febsAsyncThreadPool'
+2020-08-13 17:36:34 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'taskExecutor'
+2020-08-13 17:36:34 INFO  cac main com.base.configure.RedisConfig 初始化 -> [Redis CacheErrorHandler]
+2020-08-13 17:36:35 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Starting ProtocolHandler ["http-nio-8081"]
+2020-08-13 17:36:35 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat started on port(s): 8081 (http) with context path ''
+2020-08-13 17:36:35 INFO  cac main com.CacApplication Started CacApplication in 25.162 seconds (JVM running for 30.832)
+2020-08-13 17:36:46 INFO  cac http-nio-8081-exec-1 org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-13 17:36:46 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Initializing Servlet 'dispatcherServlet'
+2020-08-13 17:36:46 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Completed initialization in 11 ms
+2020-08-13 17:36:48 INFO  cac http-nio-8081-exec-2 com.jeecg.controller.MainAction 访问了index方法
+2020-08-13 17:36:49 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 17:36:49 | 耗时 2642 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:36:49 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 17:36:49 | 耗时 6 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:36:52 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:36:52 | 耗时 2458 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:36:52 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:36:52 | 耗时 5 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:36:56 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:36:56 | 耗时 10 ms | SQL 语句：
+select id,email,pwd,nickName,state,loginCount,loginTime,deleted,createTime,updateTime,createBy,updateBy,superAdmin from sys_user where email='admin' and pwd='202CB962AC59075B964B07152D234B70';
+2020-08-13 17:36:56 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:36:56 | 耗时 69 ms | SQL 语句：
+update sys_user set email='admin',pwd='202CB962AC59075B964B07152D234B70',nickName='杭州申昊',state=0,loginCount=792,loginTime='2020-08-13T17:36:56.526+0800',deleted=0,updateTime=now(),createBy=NULL,updateBy=NULL where id=1;
+2020-08-13 17:36:56 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:36:56 | 耗时 4 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-13 17:36:56 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:36:56 | 耗时 0 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-13 17:36:56 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 17:36:56 | 耗时 3 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-13 17:36:57 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 17:36:57 | 耗时 3 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-13 17:36:57 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 17:36:57 | 耗时 2 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-13 17:36:57 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 17:36:57 | 耗时 1 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-13 17:36:57 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 17:36:57 | 耗时 5 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-13 17:36:57 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 17:36:57 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 17:36:59 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 17:36:59 | 耗时 2243 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:36:59 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:36:59 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:36:59 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:36:59 | 耗时 0 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 17:37:02 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:37:02 | 耗时 2215 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:37:02 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:37:02 | 耗时 2 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:37:07 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:37:07 | 耗时 12 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:37:09 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 17:37:09 | 耗时 9 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:37:10 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 17:37:10 | 耗时 5 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:38:27 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:38:27 | 耗时 6 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:38:30 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:38:30 | 耗时 66 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:38:31 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:38:31 | 耗时 59 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:40:27 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 17:40:27 | 耗时 19 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-13 17:40:27 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 17:40:27 | 耗时 1 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-13 17:40:27 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 17:40:27 | 耗时 3 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-13 17:40:27 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:40:27 | 耗时 1 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-13 17:40:27 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:40:27 | 耗时 2 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-13 17:40:27 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:40:27 | 耗时 1 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-13 17:40:27 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:40:27 | 耗时 7 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-13 17:40:28 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 17:40:28 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 17:40:30 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:40:30 | 耗时 2519 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:40:30 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:40:30 | 耗时 2 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:40:30 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:40:30 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 17:40:33 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:40:33 | 耗时 2512 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:40:33 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 17:40:33 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:40:38 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 17:40:38 | 耗时 1 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:40:40 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 17:40:40 | 耗时 23 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:40:41 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 17:40:41 | 耗时 2 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:41:14 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:41:14 | 耗时 1 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:41:18 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:41:18 | 耗时 2 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:41:21 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:41:21 | 耗时 63 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:43:18 INFO  cac main com.CacApplication Starting CacApplication on nanadeMacBook-Pro.local with PID 19902 (/Users/nana/IdeaProjects/cac/target/classes started by nana in /Users/nana/IdeaProjects/cac)
+2020-08-13 17:43:18 INFO  cac main com.CacApplication No active profile set, falling back to default profiles: default
+2020-08-13 17:43:20 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-08-13 17:43:20 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-08-13 17:43:20 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Finished Spring Data repository scanning in 554ms. Found 0 Redis repository interfaces.
+2020-08-13 17:43:20 INFO  cac main org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker Bean 'redisConfig' of type [com.base.configure.RedisConfig$$EnhancerBySpringCGLIB$$f2b63636] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-08-13 17:43:21 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat initialized with port(s): 8081 (http)
+2020-08-13 17:43:21 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Initializing ProtocolHandler ["http-nio-8081"]
+2020-08-13 17:43:21 INFO  cac main org.apache.catalina.core.StandardService Starting service [Tomcat]
+2020-08-13 17:43:21 INFO  cac main org.apache.catalina.core.StandardEngine Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-13 17:43:21 INFO  cac main org.apache.jasper.servlet.TldScanner At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2020-08-13 17:43:21 INFO  cac main org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring embedded WebApplicationContext
+2020-08-13 17:43:21 INFO  cac main org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Root WebApplicationContext: initialization completed in 2804 ms
+2020-08-13 17:43:21 INFO  cac main com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure Init DruidDataSource
+2020-08-13 17:43:21 INFO  cac main com.alibaba.druid.pool.DruidDataSource {dataSource-1} inited
+2020-08-13 17:43:22 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService
+2020-08-13 17:43:22 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'febsAsyncThreadPool'
+2020-08-13 17:43:22 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'taskExecutor'
+2020-08-13 17:43:22 INFO  cac main com.base.configure.RedisConfig 初始化 -> [Redis CacheErrorHandler]
+2020-08-13 17:43:23 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Starting ProtocolHandler ["http-nio-8081"]
+2020-08-13 17:43:23 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat started on port(s): 8081 (http) with context path ''
+2020-08-13 17:43:23 INFO  cac main com.CacApplication Started CacApplication in 25.088 seconds (JVM running for 30.81)
+2020-08-13 17:43:27 INFO  cac http-nio-8081-exec-1 org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-13 17:43:27 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Initializing Servlet 'dispatcherServlet'
+2020-08-13 17:43:27 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Completed initialization in 12 ms
+2020-08-13 17:43:27 INFO  cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 访问了index方法
+2020-08-13 17:43:33 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 17:43:33 | 耗时 19 ms | SQL 语句：
+select id,email,pwd,nickName,state,loginCount,loginTime,deleted,createTime,updateTime,createBy,updateBy,superAdmin from sys_user where email='admin' and pwd='202CB962AC59075B964B07152D234B70';
+2020-08-13 17:43:33 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 17:43:33 | 耗时 59 ms | SQL 语句：
+update sys_user set email='admin',pwd='202CB962AC59075B964B07152D234B70',nickName='杭州申昊',state=0,loginCount=793,loginTime='2020-08-13T17:43:33.449+0800',deleted=0,updateTime=now(),createBy=NULL,updateBy=NULL where id=1;
+2020-08-13 17:43:33 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 17:43:33 | 耗时 6 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-13 17:43:33 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 17:43:33 | 耗时 1 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-13 17:43:33 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:43:33 | 耗时 5 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-13 17:43:33 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:43:33 | 耗时 9 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-13 17:43:33 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:43:33 | 耗时 1 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-13 17:43:33 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:43:33 | 耗时 1 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-13 17:43:33 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:43:33 | 耗时 16 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-13 17:43:34 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 17:43:34 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 17:43:36 INFO  cac http-nio-8081-exec-9 p6spy 2020-08-13 17:43:36 | 耗时 2328 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:43:36 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:43:36 | 耗时 2 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:43:37 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 17:43:37 | 耗时 0 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 17:43:39 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 17:43:39 | 耗时 2253 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:43:39 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 17:43:39 | 耗时 2 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:43:42 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:43:42 | 耗时 3 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:43:44 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:43:44 | 耗时 13 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:43:45 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:43:45 | 耗时 3 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:44:08 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:44:08 | 耗时 2 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:44:10 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:44:10 | 耗时 4 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:44:11 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:44:11 | 耗时 2 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:47:00 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 17:47:00 | 耗时 31 ms | SQL 语句：
+select id ,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is null;
+2020-08-13 17:47:00 INFO  cac http-nio-8081-exec-2 p6spy 2020-08-13 17:47:00 | 耗时 1 ms | SQL 语句：
+select id,name,url,parentId,actions from sys_menu where deleted= 0 and parentId is not null;
+2020-08-13 17:47:01 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:47:01 | 耗时 7 ms | SQL 语句：
+SELECT Temperature ,Humidity ,WindDirection ,WindSpeed FROM weather_data WHERE date(SampleTime) = curdate() Order by SampleTime DESC;;
+2020-08-13 17:47:01 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:47:01 | 耗时 3 ms | SQL 语句：
+SELECT id as id , Station as text , '0' as parentid , '0' as nodetype, '0' as ld_inst_name , '0' as ln_inst_name FROM pubunitinfo;
+2020-08-13 17:47:01 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:47:01 | 耗时 4 ms | SQL 语句：
+SELECT SpaceId as id ,SpaceName as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name , '0' as ln_inst_name FROM pubspace;
+2020-08-13 17:47:01 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:47:01 | 耗时 3 ms | SQL 语句：
+select equipmentID as id, EquipmentName as text, SpaceId as parentid, '0' as nodetype , '0' as ld_inst_name , '0' as ln_inst_name from pubequipment;
+2020-08-13 17:47:01 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:47:01 | 耗时 8 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, EquipmentID as parentid, DeviceType as nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name from pubdevice;
+2020-08-13 17:47:02 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:47:02 | 耗时 2 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 17:47:04 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:47:04 | 耗时 2365 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:47:04 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:47:04 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:47:04 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:47:04 | 耗时 1 ms | SQL 语句：
+select distinct DeviceType from pubdevice where DeviceType != '5';
+2020-08-13 17:47:07 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 17:47:07 | 耗时 2338 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:47:07 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:47:07 | 耗时 3 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:47:13 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:47:13 | 耗时 1 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:47:15 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:47:15 | 耗时 26 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:47:15 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:47:15 | 耗时 3 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:49:12 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:49:12 | 耗时 8 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:49:14 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:49:14 | 耗时 5 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:49:15 INFO  cac http-nio-8081-exec-10 p6spy 2020-08-13 17:49:15 | 耗时 2 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:52:08 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 17:52:08 | 耗时 2466 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:52:08 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 17:52:08 | 耗时 6 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:52:10 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:52:10 | 耗时 2394 ms | SQL 语句：
+SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value FROM pubdevice b left JOIN iec61850c_realdata a ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%') GROUP BY b.DeviceID order by DeviceType;
+2020-08-13 17:52:10 INFO  cac http-nio-8081-exec-8 p6spy 2020-08-13 17:52:10 | 耗时 4 ms | SQL 语句：
+select DeviceID as id, DeviceName as text, DeviceType as nodetype, '0' as ln_inst_name from pubdevice where DeviceType != '5' order by DeviceType;
+2020-08-13 17:52:14 INFO  cac http-nio-8081-exec-7 p6spy 2020-08-13 17:52:14 | 耗时 1 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:52:15 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:52:15 | 耗时 5 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:52:16 INFO  cac http-nio-8081-exec-4 p6spy 2020-08-13 17:52:16 | 耗时 3 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:53:27 INFO  cac http-nio-8081-exec-1 p6spy 2020-08-13 17:53:27 | 耗时 6 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 17:53:30 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:53:30 | 耗时 64 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres, b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:53:31 INFO  cac http-nio-8081-exec-5 p6spy 2020-08-13 17:53:31 | 耗时 60 ms | SQL 语句：
+select a.DeviceName ,a.DeviceID, b.SampleTime, b.Mst, b.H2ppm, b.COppm , b.CO2ppm,b.CH4ppm,b.C2H2ppm,b.C2H4ppm, b.C2H6ppm,b.TotHyd,b.N2,b.OilTmp,b.GasPres,b.Remark,b.Tmp,b.WtrAct,b.CmbuGas from pubdevice a left join stom_data b on a.DeviceID=b.DeviceID where a.DeviceType='1';
+2020-08-13 17:56:35 INFO  cac main com.CacApplication Starting CacApplication on nanadeMacBook-Pro.local with PID 19978 (/Users/nana/IdeaProjects/cac/target/classes started by nana in /Users/nana/IdeaProjects/cac)
+2020-08-13 17:56:35 INFO  cac main com.CacApplication No active profile set, falling back to default profiles: default
+2020-08-13 17:56:36 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Multiple Spring Data modules found, entering strict repository configuration mode!
+2020-08-13 17:56:36 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2020-08-13 17:56:37 INFO  cac main org.springframework.data.repository.config.RepositoryConfigurationDelegate Finished Spring Data repository scanning in 557ms. Found 0 Redis repository interfaces.
+2020-08-13 17:56:37 INFO  cac main org.springframework.context.support.PostProcessorRegistrationDelegate$BeanPostProcessorChecker Bean 'redisConfig' of type [com.base.configure.RedisConfig$$EnhancerBySpringCGLIB$$7ab975da] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-08-13 17:56:37 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat initialized with port(s): 8081 (http)
+2020-08-13 17:56:37 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Initializing ProtocolHandler ["http-nio-8081"]
+2020-08-13 17:56:37 INFO  cac main org.apache.catalina.core.StandardService Starting service [Tomcat]
+2020-08-13 17:56:37 INFO  cac main org.apache.catalina.core.StandardEngine Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-08-13 17:56:38 INFO  cac main org.apache.jasper.servlet.TldScanner At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2020-08-13 17:56:38 INFO  cac main org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring embedded WebApplicationContext
+2020-08-13 17:56:38 INFO  cac main org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext Root WebApplicationContext: initialization completed in 2907 ms
+2020-08-13 17:56:38 INFO  cac main com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure Init DruidDataSource
+2020-08-13 17:56:38 INFO  cac main com.alibaba.druid.pool.DruidDataSource {dataSource-1} inited
+2020-08-13 17:56:39 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService
+2020-08-13 17:56:39 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'febsAsyncThreadPool'
+2020-08-13 17:56:39 INFO  cac main org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Initializing ExecutorService 'taskExecutor'
+2020-08-13 17:56:39 INFO  cac main com.base.configure.RedisConfig 初始化 -> [Redis CacheErrorHandler]
+2020-08-13 17:56:39 INFO  cac main org.apache.coyote.http11.Http11NioProtocol Starting ProtocolHandler ["http-nio-8081"]
+2020-08-13 17:56:39 INFO  cac main org.springframework.boot.web.embedded.tomcat.TomcatWebServer Tomcat started on port(s): 8081 (http) with context path ''
+2020-08-13 17:56:39 INFO  cac main com.CacApplication Started CacApplication in 25.323 seconds (JVM running for 31.038)
+2020-08-13 18:04:15 INFO  cac http-nio-8081-exec-1 org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-08-13 18:04:15 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Initializing Servlet 'dispatcherServlet'
+2020-08-13 18:04:15 INFO  cac http-nio-8081-exec-1 org.springframework.web.servlet.DispatcherServlet Completed initialization in 11 ms
+2020-08-13 22:13:49 INFO  cac http-nio-8081-exec-3 p6spy 2020-08-13 22:13:49 | 耗时 93 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;
+2020-08-13 22:13:49 INFO  cac http-nio-8081-exec-6 p6spy 2020-08-13 22:13:49 | 耗时 93 ms | SQL 语句：
+SELECT Space as text FROM pubdevice where DeviceType = '1' Group by Space;;

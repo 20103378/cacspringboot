@@ -1,0 +1,111 @@
+2020-08-25 09:13:19 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 09:14:39 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 13:52:38 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 13:52:47 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 13:55:55 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 14:45:49 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 14:46:59 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 15:12:20 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 15:12:28 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 15:14:59 ERROR cac http-nio-8081-exec-9 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 15:17:53 ERROR cac http-nio-8081-exec-9 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 15:53:02 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 15:53:18 ERROR cac http-nio-8081-exec-3 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 15:58:46 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 15:58:54 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 16:03:17 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 16:03:48 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 16:10:20 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 16:10:34 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 16:14:19 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 16:18:16 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 16:18:25 ERROR cac http-nio-8081-exec-3 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 16:32:37 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 16:32:46 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 16:55:05 ERROR cac http-nio-8081-exec-5 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 16:56:08 ERROR cac http-nio-8081-exec-10 org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.IllegalStateException: Duplicate key YclysEntity(iedName=YNDKY02, apName=S1, sel_zh=null, sel_dxh=null, ldinst=SHENHAO_LD0, lnClass=GGIO, lninst=1, lnType=YNDW_CMA_GGIO, doName=Alm1, fc=ST, typeName=stVal, DatypeName=null, DbaType=null, Desc=500kV|电科院站|综合处理单元|500kV|永甘乙线5841线路间隔|||永甘乙线高抗A相油色谱通讯中断)] with root cause
+java.lang.IllegalStateException: Duplicate key YclysEntity(iedName=YNDKY02, apName=S1, sel_zh=null, sel_dxh=null, ldinst=SHENHAO_LD0, lnClass=GGIO, lninst=1, lnType=YNDW_CMA_GGIO, doName=Alm1, fc=ST, typeName=stVal, DatypeName=null, DbaType=null, Desc=500kV|电科院站|综合处理单元|500kV|永甘乙线5841线路间隔|||永甘乙线高抗A相油色谱通讯中断)
+	at java.util.stream.Collectors.lambda$throwingMerger$0(Collectors.java:133)
+	at java.util.HashMap.merge(HashMap.java:1254)
+	at java.util.stream.Collectors.lambda$toMap$58(Collectors.java:1320)
+	at java.util.stream.ReduceOps$3ReducingSink.accept(ReduceOps.java:169)
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1382)
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:482)
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:472)
+	at java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:708)
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.util.stream.ReferencePipeline.collect(ReferencePipeline.java:499)
+	at com.scott.controller.SystemConfigurationController.getSelXml(SystemConfigurationController.java:259)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:105)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:878)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:792)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:665)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:750)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:123)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:373)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1589)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+2020-08-25 17:04:26 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 17:04:41 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 17:07:29 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 17:07:33 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 18:05:11 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 18:05:33 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 18:10:02 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 18:12:04 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 18:16:37 ERROR cac http-nio-8081-exec-3 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 18:43:33 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 18:44:25 ERROR cac http-nio-8081-exec-5 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 18:55:15 ERROR cac http-nio-8081-exec-3 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 19:07:59 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 19:16:04 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 19:45:40 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 19:46:00 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 19:48:25 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 19:48:32 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
+2020-08-25 19:54:49 ERROR cac main com.alibaba.druid.pool.DruidDataSource testWhileIdle is true, validationQuery not set
+2020-08-25 19:54:54 ERROR cac http-nio-8081-exec-1 com.jeecg.controller.MainAction 记录了error错误日志
