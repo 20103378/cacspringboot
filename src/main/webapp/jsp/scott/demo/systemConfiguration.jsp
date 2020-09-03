@@ -519,8 +519,8 @@
             <div id="UploadRefname_window" title="测量量名称上传" style="width:400px;height:150px;font-size: 16">
                 <div data-options="region:'north',split:true" style="padding:10px">
                     <form id="RefnameForm" action="" enctype="multipart/form-data" method="post">
-                        <p>请选择需要上传的.xml文件</p>
-                        <input id="File_xls" accept=".xls" type="file" style="width: 160px;" name="uploadFile"/>
+                        <p>请选择需要上传的.xlsx文件</p>
+                        <input id="File_xls" accept=".xlsx" type="file" style="width: 160px;" name="uploadFile"/>
                         <input id="bt_refname_desc_updt" type="button" value="上传" class="btn" style="margin-top: 0px;"/>
                     </form>
                 </div>

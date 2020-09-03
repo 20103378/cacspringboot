@@ -2233,8 +2233,7 @@ public class SystemConfigurationController extends BaseAction {
             refnameCell.setRefDesc("");
             resultList.add(refnameCell);
         }
-        String sheet1Name = "测量点名称配置";
-        String excelName = "测量点名称配置";
+        String sheet1Name = "测量点名称配置";String excelName = "测量点名称配置";
         ExcelUtils.writeExcel(response,excelName,sheet1Name,resultList, RefNameCell.class);
     }
 

@@ -123,8 +123,7 @@ jeecg.refnameConfig = function(){
   	            text: '测量量点名导出',
   	            iconCls: '',
   	            handler: function () {
-  	            	// _this.DownlodeRefName();
-				// window.location.href = "/systemConfiguration/getRefnameZip";
+  	            	// window.location.href = "/systemConfiguration/getRefnameZip";
 					window.location.href = "getRefnameZip";
 
 				}
@@ -186,6 +185,7 @@ jeecg.refnameConfig = function(){
 			                		alert("上传成功!");
 			                	};
 			                	uploadWin.window("close");
+								$('#refname_desc_tb').datagrid('reload');
 // $('#i2List').datagrid('reload');
 			                }
 			        	});
@@ -235,28 +235,10 @@ jeecg.refnameConfig = function(){
 			        	 alert("false");
 			         },
 			         success: function(data){
-// deviceWin.window('close');
-// 						 alert(data)
 			        	 $('#refname_desc_tb').datagrid('reload');
 			         }
 			     });
              }
-		},
-		DownlodeRefName:function(){
-				 $.ajax({
-					 async:false,
-					 cache:false,
-					 type:'post',
-					 url:"getRefnameZip",
-					 success:function(data){
-					 	debugger
-			        	 // $('#refname_desc_tb').datagrid('reload');
-			        	 // return
-					 },
-					 error:function(){
-						 alert("插入失败!");
-					 }
-				 });
 		},
 		UpdateRefName:function(){
 			uploadWin.window('open');
