@@ -339,7 +339,7 @@
             </div>
             <div id="editI2-window" title="I2添加修改" style="width:800px;height:500px;font-size: 16">
                 <div data-options="region:'north',split:true" style="height:185px;padding:10px">
-                    <form id="editForm3" class="ui-form" method="post">
+                    <form id="editForm4" class="ui-form" method="post">
                         <table id="tab_I1ToI2">
                             <tr>
                                 <td>远传点号</td>
@@ -397,16 +397,17 @@
                 </div>
             </div>
         </div>
-        <div title="浙江103远传映射配置" data-options="closable:false" style="padding:10px;">
-            <div>
-                <span>CommAddress起始序号:</span><input id="sel_zh_103" value="0"/>
-                <input id="bt_dxh_103" type="button" value="一键生成"/>
-                </td>
-            </div>
-            <div id="list_103">
-                <table id="i2List_103"></table>
-            </div>
-        </div>
+        <div data-options="closable:false"></div>
+<%--        <div title="浙江103远传映射配置" data-options="closable:false" style="padding:10px;">--%>
+<%--            <div>--%>
+<%--                <span>CommAddress起始序号:</span><input id="sel_zh_103" value="0"/>--%>
+<%--                <input id="bt_dxh_103" type="button" value="一键生成"/>--%>
+<%--                </td>--%>
+<%--            </div>--%>
+<%--            <div id="list_103">--%>
+<%--                <table id="i2List_103"></table>--%>
+<%--            </div>--%>
+<%--        </div>--%>
         <div title="测量量映射配置" data-options="closable:false" style="padding:10px;">
             <table>
                 <tr>
@@ -530,7 +531,7 @@
 <script type="text/javascript" src="<%=basePath%>/js/commons/tableExport.js"></script>
 <script type="text/javascript" src="<%=basePath%>/js/Innerjs/systemConfiguration.js"></script>
 <script type="text/javascript" src="<%=basePath%>/js/Innerjs/i1toI2.js"></script>
-<script type="text/javascript" src="<%=basePath%>/js/Innerjs/i1toI2_103.js"></script>
+<%--<script type="text/javascript" src="<%=basePath%>/js/Innerjs/i1toI2_103.js"></script>--%>
 <script type="text/javascript" src="<%=basePath%>/js/Innerjs/LEDConfiguration.js"></script>
 <script type="text/javascript" src="<%=basePath%>/js/Innerjs/SpaceConfiguration.js"></script>
 <script type="text/javascript" src="<%=basePath%>/js/Innerjs/cllysConfig.js"></script>

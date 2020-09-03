@@ -61,6 +61,7 @@ jeecg.i1toI2 = function(){
 		         type: 'POST',
 		         url: "getAllDevice",
 		         success:function(data){
+		         	debugger
 		        	 var device_data,json;
 		        	 device_data=[];
 		        	 for(var i=0;i<data.dataList.length;i++){

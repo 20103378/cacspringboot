@@ -123,8 +123,11 @@ jeecg.refnameConfig = function(){
   	            text: '测量量点名导出',
   	            iconCls: '',
   	            handler: function () {
-  	            	_this.DownlodeRefName();
-  	            }
+  	            	// _this.DownlodeRefName();
+				// window.location.href = "/systemConfiguration/getRefnameZip";
+					window.location.href = "getRefnameZip";
+
+				}
   	        },"-",{
   	            id: '',
   	            text: '测量量点名导入',
@@ -215,15 +218,13 @@ jeecg.refnameConfig = function(){
 			deviceWin.window('open');
 		},
 		// 删除主设备
-		delete_equipment:function(equipmentID){
+		delete_equipment:function(index){
 			if(window.confirm('确定要删除？')){
 				var rows = $("#refname_desc_tb").datagrid('getRows');
 				var select_data = rows[index];
 				var formData = {};
-			    var url=ctxPath +"/systemConfiguration/delete_equipment",
-			    Refname_desc
-// ,SpaceId,DeviceType,DeviceName,Phase,ManufactoryName,Remark
-			    formData['Refname_desc'] = select_data.refname;
+			    var url=ctxPath +"/systemConfiguration/delete_refname";
+			    formData['refname'] = select_data.refname;
 				$.ajax({
 			         async: false,
 			         cache: false,
@@ -235,7 +236,7 @@ jeecg.refnameConfig = function(){
 			         },
 			         success: function(data){
 // deviceWin.window('close');
-						 alert(data)
+// 						 alert(data)
 			        	 $('#refname_desc_tb').datagrid('reload');
 			         }
 			     });
@@ -248,17 +249,14 @@ jeecg.refnameConfig = function(){
 					 type:'post',
 					 url:"getRefnameZip",
 					 success:function(data){
-			        	 $('#refname_desc_tb').datagrid('reload');
-			        	 return
+					 	debugger
+			        	 // $('#refname_desc_tb').datagrid('reload');
+			        	 // return
 					 },
 					 error:function(){
 						 alert("插入失败!");
 					 }
 				 });
-// var MapUrl= ctxPath+"/jsp/com.scott/Graphs/data_gis.xml";用不上
-// alert("下载");
-				var MapUrl="..\\view\\com.scott\\out.xls";
-				window.open(MapUrl);
 		},
 		UpdateRefName:function(){
 			uploadWin.window('open');

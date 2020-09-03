@@ -51,16 +51,36 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
      */
     int equipmentListCount();
 
-
+    /**
+     * 	获取测量点
+     * @return
+     */
     List<Refname_descEntity> getrefname();
 
-    int getrefnameFlag(Refname_descEntity entity);
+    /**
+     * 查询是否存在refname映射
+     * @param refname
+     * @return
+     */
+    int getrefnameFlag(String refname);
 
-    void update_refname(Refname_descEntity entity);
+    /**
+     * 更新refname描述映射
+     * @param entity
+     */
+    void update_refname(String refName,String refDesc);
 
-    void add_refname(Refname_descEntity entity);
+    /**
+     * 添加refname描述映射
+     * @param entity
+     */
+    void add_refname(String refName,String refDesc);
 
-    void delete_refname(Refname_descEntity entity);
+    /**
+     * 删除refname描述映射
+     * @param refname
+     */
+    void delete_refname(String refname);
 
     /**
      * 根据主设备ID查询设备数量
@@ -394,8 +414,11 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
 
     List<YclysEntity> getykByld(YclysEntity entity);
 
-
-    List<DataEntity> getYXDataRefname();
+    /**
+     *
+     * @return
+     */
+    List<String> getYXDataRefname();
 
     List<String> getNextDeviceID();
 

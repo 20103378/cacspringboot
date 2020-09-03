@@ -176,7 +176,7 @@ jeecg.SpaceConfiguration = function(){
 		ModXml:function(){//修改。选择设备，通过区域名查询PUBDEVICE表的SPACE获取设备返回ID、deviceName、DeviceType
 			if($("#tab_space").datagrid("getSelected")){
 				var select_name = encodeURIComponent($("#tab_space").datagrid("getSelected").spaceName);
-				var path=ctxPath+"/jsp/com.scott/Graphs/";
+				var path=ctxPath+"/jsp/scott/Graphs/";
 				 $.ajax({
 					 async:false,
 					 cache:false,

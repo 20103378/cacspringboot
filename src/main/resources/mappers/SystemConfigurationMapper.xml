@@ -160,8 +160,7 @@
 			</if>
 		</trim>
 	</sql>
-	<select id="getYXDataRefname" resultMap="ycDataResult"
-		parameterType="Object">
+	<select id="getYXDataRefname" resultType="java.lang.String">
 		SELECT dopath as yc_refname FROM iec61850c_realdata
 	</select>
 	<!-- 生成XML -->
@@ -382,9 +381,9 @@
 		refname=#{refname}
 	</select>
 	<!-- 修改站点信息 -->
-	<update id="update_refname" parameterType="Object">
+	<update id="update_refname" parameterType="java.lang.String">
 		UPDATE refname_desc
-		set refdesc=#{refdesc} where refname=#{refname};
+		set refdesc=#{refDesc} where refname=#{refName};
 	</update>
 	<!-- 删除主设备记录 -->
 	<delete id="delete_refname" parameterType="Object">
@@ -395,7 +394,7 @@
 	<insert id="add_refname" parameterType="Object">
 		insert into
 		refname_desc(refname,refdesc)
-		values(#{refname},#{refdesc})
+		values(#{refName},#{refDesc})
 	</insert>
 
 

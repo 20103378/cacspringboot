@@ -71,22 +71,22 @@ public class SystemConfigurationService<T> extends BaseService<T> {
 
     ;
 
-    public int getrefnameFlag(Refname_descEntity entity) {
-        return getDao().getrefnameFlag(entity);
+    public int getrefnameFlag(String refname) {
+        return getDao().getrefnameFlag(refname);
     }
 
     ;
 
-    public void update_refname(Refname_descEntity entity) {
-        getDao().update_refname(entity);
+    public void update_refname(String refName,String refDesc) {
+        getDao().update_refname(refName,refDesc);
     }
 
-    public void add_refname(Refname_descEntity entity) {
-        getDao().add_refname(entity);
+    public void add_refname(String refName,String refDesc) {
+        getDao().add_refname(refName,refDesc);
     }
 
-    public void delete_refname(Refname_descEntity entity) {
-        getDao().delete_refname(entity);
+    public void delete_refname(String refname) {
+        getDao().delete_refname(refname);
     }
 
     /**
@@ -436,7 +436,7 @@ public class SystemConfigurationService<T> extends BaseService<T> {
         return getDao().getykByld(entity);
     }
 
-    public List<DataEntity> getYXDataRefname() {
+    public List<String> getYXDataRefname() {
         return getDao().getYXDataRefname();
     }
 

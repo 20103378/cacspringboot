@@ -11,6 +11,8 @@ import com.base.util.HtmlUtil;
 import com.base.util.edit.BeanUtil;
 import com.base.util.edit.ICDUtils;
 import com.base.util.UrlUtil;
+import com.base.util.excel.RefNameCell;
+import com.base.util.excel.ExcelUtils;
 import com.base.web.BaseAction;
 import com.scott.entity.*;
 import com.scott.page.DevicePage;
@@ -19,8 +21,6 @@ import com.scott.service.SystemConfigurationService;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
-import jxl.write.*;
-import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -35,6 +35,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
@@ -121,35 +123,38 @@ public class SystemConfigurationController extends BaseAction {
 
     /**
      * 获取space区域
+     *
      * @return
      */
     @RequestMapping("/getAllSpace")
     @ResponseBody
-    public Map getAllSpace()  throws Exception{
-        Map<String,Object> map = new HashMap<>(4);
+    public Map getAllSpace() throws Exception {
+        Map<String, Object> map = new HashMap<>(4);
         //区域位置
-        map.put("space",systemConfigurationService.findSpace());
+        map.put("space", systemConfigurationService.findSpace());
         //相位
         List phase = new ArrayList();
         phase.add("无相别");
         phase.add("A相别");
         phase.add("B相别");
         phase.add("C相别");
-        map.put("phase",phase);
+        map.put("phase", phase);
         //主设备类型
         List<Integer> values = new ArrayList<>();
-        values.add(2);values.add(1);values.add(3);
-        values.add(4);values.add(5);values.add(6);
+        values.add(2);
+        values.add(1);
+        values.add(3);
+        values.add(4);
+        values.add(5);
+        values.add(6);
         values.add(7);
         List<Map> deviceTypes = PubDeviceTypeEnum.getDeviceTypeEnumsByValues(values);
-        map.put("deviceTypes",deviceTypes);
-
-
+        map.put("deviceTypes", deviceTypes);
 
 
         //LDevice编码
-        Map<String,List> lDeviceMap = ICDUtils.getLdLnMap();
-        map.put("lDeviceMap",lDeviceMap);
+        Map<String, List> lDeviceMap = ICDUtils.getLdLnMap();
+        map.put("lDeviceMap", lDeviceMap);
         map.put("LDDevices", lDeviceMap.keySet());
         return map;
     }
@@ -185,33 +190,35 @@ public class SystemConfigurationController extends BaseAction {
     public Map getSelXml(String fileName) throws Exception {
         // 创建遥测量映射对象列表
         List<YclysEntity> entityList = ICDUtils.getSelXml(fileName);
-        List<YclysEntity> icdData = entityList.stream().filter(s->!s.getTypeName().equals("q")&&!s.getTypeName().equals("t")).collect(Collectors.toList());
+        List<YclysEntity> icdData = entityList.stream().filter(s -> !s.getTypeName().equals("q") && !s.getTypeName().equals("t")).collect(Collectors.toList());
         Map map = new HashMap(16);
-        map.put("icd_data",icdData);
-        map.put("ap_name",icdData.get(0).getApName());
+        map.put("icd_data", icdData);
+        map.put("ap_name", icdData.get(0).getApName());
 
         Set<String> lnData = new HashSet<>(16);
         Map<String, List<YclysEntity>> ldInstMap = new HashMap<>();
 
 
-        for(YclysEntity icd:icdData){
-            List<YclysEntity> tmpList =  ldInstMap.get(icd.getLdinst());
-            if(tmpList == null){
+        for (YclysEntity icd : icdData) {
+            List<YclysEntity> tmpList = ldInstMap.get(icd.getLdinst());
+            if (tmpList == null) {
                 tmpList = new ArrayList<>();
             }
             tmpList.add(icd);
-            ldInstMap.put(icd.getLdinst(),tmpList);
-            lnData.add(icd.getLnType()+"("+icd.getLnClass()+","+icd.getLninst()+")");
+            ldInstMap.put(icd.getLdinst(), tmpList);
+            lnData.add(icd.getLnType() + "(" + icd.getLnClass() + "," + icd.getLninst() + ")");
         }
 
-        map.put("ld_data",ldInstMap.keySet());
-        map.put("ldInstMap",ldInstMap);
-        map.put("ln_data",lnData);
+        map.put("ld_data", ldInstMap.keySet());
+        map.put("ldInstMap", ldInstMap);
+        map.put("ln_data", lnData);
 
         Set<String> fcData = new HashSet<>(16);
-        fcData.add("ST");fcData.add("MX");
-        fcData.add("SG");fcData.add("CO");
-        map.put("fc_data",fcData);
+        fcData.add("ST");
+        fcData.add("MX");
+        fcData.add("SG");
+        fcData.add("CO");
+        map.put("fc_data", fcData);
         return map;
     }
 
@@ -235,15 +242,16 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/getDeviceIED61850LD_LNsList")
     @ResponseBody
-    public List getDeviceIED61850LD_LNsList(String equipmentID,String[] iec61850LD_LNs) {
+    public List getDeviceIED61850LD_LNsList(String equipmentID, String[] iec61850LD_LNs) {
         List ldlnDevices = new ArrayList();
-        for(int i=0;i<iec61850LD_LNs.length;i++){
+        for (int i = 0; i < iec61850LD_LNs.length; i++) {
             ldlnDevices.add(iec61850LD_LNs[i]);
         }
         List IED61850LDLNs = systemConfigurationService.getDeviceIED61850LD_LNsList(equipmentID);
         ldlnDevices.removeAll(IED61850LDLNs);
-        return  ldlnDevices;
+        return ldlnDevices;
     }
+
     /**
      * 获取主设备IED61850LDs数据
      */
@@ -252,33 +260,35 @@ public class SystemConfigurationController extends BaseAction {
     public List getEquipmentIED61850LDsList(String[] LDDevices) {
 //        List ldDevices =  CollectionUtils.arrayToList(LDDevices);
         List ldDevices = new ArrayList();
-        for(int i=0;i<LDDevices.length;i++){
+        for (int i = 0; i < LDDevices.length; i++) {
             ldDevices.add(LDDevices[i]);
         }
         List IED61850LDs = systemConfigurationService.getEquipmentIED61850LDsList();
         ldDevices.removeAll(IED61850LDs);
-        return  ldDevices;
+        return ldDevices;
     }
+
     /**
      * 获取主设备数据
      */
     @RequestMapping("/getEquipmentList")
     @ResponseBody
-    public  Map<String, Object> getEquipmentList(BasePage page) {
+    public Map<String, Object> getEquipmentList(BasePage page) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<EquipmentEntity> dataList = systemConfigurationService.getEquipmentList(page);
         jsonMap.put("total", page.getPager().getRowCount());
         jsonMap.put("rows", dataList);
-        return  jsonMap;
+        return jsonMap;
     }
+
     /**
      * 获取设备数据
      */
     @RequestMapping("/getDeviceList")
     @ResponseBody
-    public Map<String, Object> getDeviceList(DevicePage page){
+    public Map<String, Object> getDeviceList(DevicePage page) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        List<DeviceEntity> dataList = systemConfigurationService.getDeviceList(page,page.getEquipmentID());
+        List<DeviceEntity> dataList = systemConfigurationService.getDeviceList(page, page.getEquipmentID());
         jsonMap.put("total", page.getPager().getRowCount());
         jsonMap.put("rows", dataList);
         return jsonMap;
@@ -289,7 +299,7 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/update_device")
     @ResponseBody
-    public void update_device(DeviceEntity entity){
+    public void update_device(DeviceEntity entity) {
         systemConfigurationService.update_device(entity);
     }
 
@@ -298,7 +308,7 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/insert_device")
     @ResponseBody
-    public void insert_device(DeviceEntity entity){
+    public void insert_device(DeviceEntity entity) {
         String a = systemConfigurationService.DeviceMaxId();
         String id = null;
         if (a != null && !("".equals(a))) {
@@ -323,38 +333,35 @@ public class SystemConfigurationController extends BaseAction {
      * 获取测量点
      */
     @RequestMapping("/getrefname")
-    public void getrefname(HttpServletResponse response, HttpServletRequest request) throws Exception {
+    @ResponseBody
+    public List getrefname() {
         List<Refname_descEntity> dataList = systemConfigurationService.getrefname();
-        HtmlUtil.writerJson(response, dataList);
-    }
-
-    /**
-     * 修改测量点信息
-     */
-    @RequestMapping("/update_refname")
-    public void update_refname(Refname_descEntity entity, HttpServletResponse response, HttpServletRequest request) throws Exception {
-
+        return dataList;
     }
 
     /**
      * 添加/修改 测量点
      */
     @RequestMapping("/add_refname")
-    public void add_refname(Refname_descEntity entity, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        int F = systemConfigurationService.getrefnameFlag(entity);
+    @ResponseBody
+    public Boolean add_refname(Refname_descEntity entity) {
+        int F = systemConfigurationService.getrefnameFlag(entity.getRefname());
         if (F > 0) {
-            systemConfigurationService.update_refname(entity);
+            systemConfigurationService.update_refname(entity.getRefname(),entity.getRefdesc());
         } else {
-            systemConfigurationService.add_refname(entity);
+            systemConfigurationService.add_refname(entity.getRefname(),entity.getRefdesc());
         }
+        return true;
     }
 
     /**
      * 删除测量点
      */
     @RequestMapping("/delete_refname")
-    public void delete_refname(Refname_descEntity entity, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        systemConfigurationService.delete_refname(entity);
+    @ResponseBody
+    public Boolean delete_refname(String refname) {
+        systemConfigurationService.delete_refname(refname);
+        return true;
     }
 
     /**
@@ -362,11 +369,11 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/update_equipment")
     @ResponseBody
-    public void update_equipment(EquipmentEntity entity){
+    public void update_equipment(EquipmentEntity entity) {
         EquipmentEntity equipmentEntity = systemConfigurationService.findEquipmentByIEC61850LD(entity.getIec61850LD());
-        if(equipmentEntity == null){
+        if (equipmentEntity == null) {
             systemConfigurationService.add_equipment(entity);
-        }else {
+        } else {
             systemConfigurationService.update_equipment(entity);
         }
     }
@@ -390,11 +397,11 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/delete_equipment")
     @ResponseBody
-    public String delete_equipment(EquipmentEntity entity){
+    public String delete_equipment(EquipmentEntity entity) {
         Integer count = systemConfigurationService.getDeviceCountByEquipmentID(entity.getEquipmentID());
-        if(count!=null && count>0){
+        if (count != null && count > 0) {
             return "请先删除逻辑主设备下的装置";
-        }else {
+        } else {
             systemConfigurationService.delete_equipment(entity);
             return "逻辑主设备删除完成";
         }
@@ -979,8 +986,6 @@ public class SystemConfigurationController extends BaseAction {
     }
 
 
-
-
     /**
      * 上传SpaceMap
      */
@@ -1058,24 +1063,22 @@ public class SystemConfigurationController extends BaseAction {
     }
 
 
-
     /**
      * 获取下一个主设备ID
      */
     @RequestMapping("/getNextEquipmentID")
     @ResponseBody
-    public List<String> getNextEquipmentID(){
+    public List<String> getNextEquipmentID() {
         List<String> dataList = systemConfigurationService.getNextEquipmentID();
         return dataList;
     }
 
     /**
-     *
      * @return
      */
     @RequestMapping("/getNextDeviceID")
     @ResponseBody
-    public List<String> getNextDeviceID(){
+    public List<String> getNextDeviceID() {
         List<String> dataList = systemConfigurationService.getNextDeviceID();
         return dataList;
     }
@@ -1095,7 +1098,7 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/getStomMonitor")
     @ResponseBody
-    public List getStomMonitor(String deviceID){
+    public List getStomMonitor(String deviceID) {
         List<StomAlarmEntity> list = systemConfigurationService.getStomMonitor(deviceID);
         List<BaseMonitorEntity> list2 = new ArrayList<BaseMonitorEntity>();
         String[] arrName = {"氢气上限值(ppm)", "乙炔上限值(ppm)", "总烃上限值(ppm)",
@@ -1130,18 +1133,19 @@ public class SystemConfigurationController extends BaseAction {
                 list2.add(e);
             }
         }
-       return list2;
+        return list2;
     }
+
     /**
      * 获取SF6压力告警信息2
      */
     @RequestMapping("/getSf6Monitor")
     @ResponseBody
-    public List getSf6Monitor(Sf6AlarmEntity entity){
+    public List getSf6Monitor(Sf6AlarmEntity entity) {
         List<Sf6AlarmEntity> list = systemConfigurationService
                 .getSf6Monitor(entity.getDeviceID());
         List<BaseMonitorEntity> list2 = new ArrayList<BaseMonitorEntity>();
-        String[] arrName = {"sf6气体压力阈值(MPa)","sf6气体压力变化率阈值(MPa/day)","sf6气体压力变化率阈值(MPa/week)"};
+        String[] arrName = {"sf6气体压力阈值(MPa)", "sf6气体压力变化率阈值(MPa/day)", "sf6气体压力变化率阈值(MPa/week)"};
         if (list.size() != 0) {
             Double[] arrValue = {
                     list.get(0).getPressureThreshold(),
@@ -1165,17 +1169,18 @@ public class SystemConfigurationController extends BaseAction {
         }
         return list2;
     }
+
     /**
      * 获取避雷器告警信息 3
      */
     @RequestMapping("/getSmoamMonitor")
-    public List getSmoamMonitor(SmoamAlarmEntity entity){
+    public List getSmoamMonitor(SmoamAlarmEntity entity) {
         List<SmoamAlarmEntity> list = systemConfigurationService
                 .getSmoamMonitor(entity.getDeviceID());
         List<BaseMonitorEntity> list2 = new ArrayList<BaseMonitorEntity>();
         String[] arrName = {"泄漏电流上限(mA)"};
         if (list.size() != 0) {
-            Double[] arrValue = { list.get(0).getTotAThresHold()};
+            Double[] arrValue = {list.get(0).getTotAThresHold()};
             for (int i = 0; i < arrName.length; i++) {
                 BaseMonitorEntity e = new BaseMonitorEntity();
                 e.setStrName(arrName[i]);
@@ -1197,13 +1202,13 @@ public class SystemConfigurationController extends BaseAction {
      * 获取铁芯告警信息 4
      */
     @RequestMapping("/getScomMonitor")
-    public List getScomMonitor(ScomAlarmEntity entity){
+    public List getScomMonitor(ScomAlarmEntity entity) {
         List<ScomAlarmEntity> list = systemConfigurationService
                 .getScomMonitor(entity.getDeviceID());
         List<BaseMonitorEntity> list2 = new ArrayList<BaseMonitorEntity>();
-        String[] arrName = {"本体主油箱压力式油位上限(mA)","本体主油箱压力式油位下限(mA)","阀侧首端套管SF6压力下限(mA)"
-                ,"阀侧末端套管SF6压力下限(mA)","网侧绕组温度上限(mA)","顶层油温2上限(mA)","顶层油温1上限(mA)"
-                ,"本体主油箱磁力式油位上限(mA)","本体主油箱磁力式油位下限(mA)","有载开关油位上限(mA)","有载开关油位下限(mA)"};
+        String[] arrName = {"本体主油箱压力式油位上限(mA)", "本体主油箱压力式油位下限(mA)", "阀侧首端套管SF6压力下限(mA)"
+                , "阀侧末端套管SF6压力下限(mA)", "网侧绕组温度上限(mA)", "顶层油温2上限(mA)", "顶层油温1上限(mA)"
+                , "本体主油箱磁力式油位上限(mA)", "本体主油箱磁力式油位下限(mA)", "有载开关油位上限(mA)", "有载开关油位下限(mA)"};
         if (list.size() != 0) {
             Double[] arrValue = {list.get(0).getPreOilUpThresHold(),
                     list.get(0).getPreOilDownThresHold(),
@@ -1268,7 +1273,7 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/getCheckBox")
     @ResponseBody
-    public List getCheckBox(DeviceRequestDTO deviceRequestDTO){
+    public List getCheckBox(DeviceRequestDTO deviceRequestDTO) {
         List<DeviceEntity> dataList = systemConfigurationService.getCheckBox(deviceRequestDTO);
         return dataList;
     }
@@ -1279,17 +1284,18 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/getStomMonitorID")
     @ResponseBody
-    public List getStomMonitorID(String deviceID){
+    public List getStomMonitorID(String deviceID) {
         List<StomAlarmEntity> list = systemConfigurationService
                 .getStomMonitor(deviceID);
         return list;
     }
+
     /**
      * 获取SF6压力告警ID列表 type-2
      */
     @RequestMapping("/getSf6MonitorID")
     @ResponseBody
-    public List getSf6MonitorID(String deviceID){
+    public List getSf6MonitorID(String deviceID) {
         List<Sf6AlarmEntity> list = systemConfigurationService
                 .getSf6Monitor(deviceID);
         return list;
@@ -1300,17 +1306,18 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/getSmoamMonitorID")
     @ResponseBody
-    public List getSmoamMonitorID(String deviceID){
+    public List getSmoamMonitorID(String deviceID) {
         List<SmoamAlarmEntity> list = systemConfigurationService
                 .getSmoamMonitor(deviceID);
         return list;
     }
+
     /**
      * 获取铁芯告警ID列表 type-4
      */
     @RequestMapping("/getScomMonitorID")
     @ResponseBody
-    public List getScomMonitorID(String deviceID){
+    public List getScomMonitorID(String deviceID) {
         List<ScomAlarmEntity> list = systemConfigurationService
                 .getScomMonitor(deviceID);
         return list;
@@ -1333,8 +1340,8 @@ public class SystemConfigurationController extends BaseAction {
     @RequestMapping("/updateStomMonitor")
     @ResponseBody
     public Boolean updateStomMonitor(StomAlarmRequestDTO stomAlarmRequestDTO) {
-        StomAlarmEntity entity =  BeanUtil.stomAlarmRequestDTOToStomAlarmEntity(stomAlarmRequestDTO);
-        return systemConfigurationService.updateStomMonitor(entity)>0;
+        StomAlarmEntity entity = BeanUtil.stomAlarmRequestDTOToStomAlarmEntity(stomAlarmRequestDTO);
+        return systemConfigurationService.updateStomMonitor(entity) > 0;
     }
 
     /**
@@ -1343,15 +1350,16 @@ public class SystemConfigurationController extends BaseAction {
     @RequestMapping("/insertStomMonitor")
     @ResponseBody
     public Boolean insertStomMonitor(StomAlarmRequestDTO stomAlarmRequestDTO) {
-        StomAlarmEntity entity =  BeanUtil.stomAlarmRequestDTOToStomAlarmEntity(stomAlarmRequestDTO);
-        return systemConfigurationService.insertStomMonitor(entity)>0;
+        StomAlarmEntity entity = BeanUtil.stomAlarmRequestDTOToStomAlarmEntity(stomAlarmRequestDTO);
+        return systemConfigurationService.insertStomMonitor(entity) > 0;
 
     }
+
     /**
      * 修改SF6告警信息2
      */
     @RequestMapping("/updateSf6Monitor")
-    public void updateSf6Monitor(Sf6AlarmRequestDTO sf6AlarmRequestDTO){
+    public void updateSf6Monitor(Sf6AlarmRequestDTO sf6AlarmRequestDTO) {
         Sf6AlarmEntity entity = BeanUtil.sf6AlarmRequestDTOToStomAlarmEntity(sf6AlarmRequestDTO);
         systemConfigurationService.updateSf6Monitor(entity);
     }
@@ -1364,12 +1372,13 @@ public class SystemConfigurationController extends BaseAction {
         Sf6AlarmEntity entity = BeanUtil.sf6AlarmRequestDTOToStomAlarmEntity(sf6AlarmRequestDTO);
         systemConfigurationService.insertSf6Monitor(entity);
     }
+
     /**
      * 修改smoam告警信息 3
      */
     @RequestMapping("/updateSmoamMonitor")
-    public void updateSmoamMonitor(SmoamAlarmRequestDTO stomAlarmRequestDTO){
-        SmoamAlarmEntity entity =  BeanUtil.smoamAlarmRequestDTOToSmoamAlarmEntity(stomAlarmRequestDTO);
+    public void updateSmoamMonitor(SmoamAlarmRequestDTO stomAlarmRequestDTO) {
+        SmoamAlarmEntity entity = BeanUtil.smoamAlarmRequestDTOToSmoamAlarmEntity(stomAlarmRequestDTO);
         systemConfigurationService.updateSmoamMonitor(entity);
     }
 
@@ -1377,8 +1386,8 @@ public class SystemConfigurationController extends BaseAction {
      * 插入smoam告警信息3
      */
     @RequestMapping("/insertSmoamMonitor")
-    public void insertSmoamMonitor(SmoamAlarmRequestDTO stomAlarmRequestDTO){
-        SmoamAlarmEntity entity =  BeanUtil.smoamAlarmRequestDTOToSmoamAlarmEntity(stomAlarmRequestDTO);
+    public void insertSmoamMonitor(SmoamAlarmRequestDTO stomAlarmRequestDTO) {
+        SmoamAlarmEntity entity = BeanUtil.smoamAlarmRequestDTOToSmoamAlarmEntity(stomAlarmRequestDTO);
         systemConfigurationService.insertSmoamMonitor(entity);
 
     }
@@ -1387,8 +1396,8 @@ public class SystemConfigurationController extends BaseAction {
      * 修改scom告警信息4
      */
     @RequestMapping("/updateScomMonitor")
-    public void updateScomMonitor(ScomAlarmRequestDTO scomAlarmRequestDTO){
-        ScomAlarmEntity entity =  BeanUtil.scomAlarmRequestDTOToScomAlarmEntity(scomAlarmRequestDTO);
+    public void updateScomMonitor(ScomAlarmRequestDTO scomAlarmRequestDTO) {
+        ScomAlarmEntity entity = BeanUtil.scomAlarmRequestDTOToScomAlarmEntity(scomAlarmRequestDTO);
         systemConfigurationService.updateScomMonitor(entity);
     }
 
@@ -1396,8 +1405,8 @@ public class SystemConfigurationController extends BaseAction {
      * 插入Scom告警信息4
      */
     @RequestMapping("/insertScomMonitor")
-    public void insertScomMonitor(ScomAlarmRequestDTO scomAlarmRequestDTO){
-        ScomAlarmEntity entity =  BeanUtil.scomAlarmRequestDTOToScomAlarmEntity(scomAlarmRequestDTO);
+    public void insertScomMonitor(ScomAlarmRequestDTO scomAlarmRequestDTO) {
+        ScomAlarmEntity entity = BeanUtil.scomAlarmRequestDTOToScomAlarmEntity(scomAlarmRequestDTO);
         systemConfigurationService.insertScomMonitor(entity);
     }
 
@@ -1423,13 +1432,22 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/getExportList")
     @ResponseBody
-    public Map getExportList(){
+    public Map getExportList() {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<DeviceEntity> dataList = systemConfigurationService
                 .getExportList();
         jsonMap.put("dataList", dataList);
         return jsonMap;
     }
+
+    /**
+     * I1TOI2获取所有设备 由于获取数据一样,直接调用getExportList方法
+     */
+    @RequestMapping("/getAllDevice")
+    public void getAllDevice(HttpServletResponse response) {
+        getExportList();
+    }
+
     /**
      * 获取i1toi2_data_inst表数据
      */
@@ -1574,7 +1592,7 @@ public class SystemConfigurationController extends BaseAction {
      * 插入I2数据
      */
     @RequestMapping("/i2TableCommmit")
-    public void insertI2Table(I2TableEntity entity){
+    public void insertI2Table(I2TableEntity entity) {
         int insertFlag = systemConfigurationService.getinsertFlag(entity);
         if (insertFlag > 0)
             systemConfigurationService.updateI2Table(entity);
@@ -1586,14 +1604,13 @@ public class SystemConfigurationController extends BaseAction {
      * 删除I2数据
      */
     @RequestMapping("/delete_I2")
-    public void delete_I2(I2TableEntity entity){
+    public void delete_I2(I2TableEntity entity) {
         systemConfigurationService.delete_I2(entity);
     }
 
     @RequestMapping("/getIEC61850LD_LN")
-    public void getIEC61850LD_LN(I2TableEntity entity,
-                                 HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    @ResponseBody
+    public Map getIEC61850LD_LN(I2TableEntity entity) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         String str_i1type = entity.getI1type();
         List<YcDataInstEntity> dataList = null;
@@ -1606,15 +1623,17 @@ public class SystemConfigurationController extends BaseAction {
         }
 
         jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        return jsonMap;
     }
 
 
     @RequestMapping("/updataXml")//todo
     @ResponseBody
-    public List updataXml(String iedName,String  jsonList ){
+    public List updataXml(String iedName, String jsonList) {
         JSONArray jsonArray = JSON.parseArray(jsonList);
-        if (jsonArray.size() == 0) { return null; }
+        if (jsonArray.size() == 0) {
+            return null;
+        }
         List<YclysEntity> list = new ArrayList<YclysEntity>();
         for (int i = 0; i < jsonArray.size(); i++) {
             for (int k = 0; k < 3; k++) {
@@ -1746,7 +1765,6 @@ public class SystemConfigurationController extends BaseAction {
     }
 
 
-
     /**
      * 同步节点信息到数据库
      *
@@ -1766,7 +1784,7 @@ public class SystemConfigurationController extends BaseAction {
             temp_entity.setLd_inst_name(jsonObj.get("ld_inst_name").toString());
             temp_entity.setLd_inst_desc(jsonObj.get("ld_inst_desc").toString());
             temp_entity.setLn_inst_name(jsonObj.get("ln_inst_name").toString());
-            temp_entity.setLn_inst_desc(jsonObj.get("ln_inst_desc").toString());
+            temp_entity.setLn_inst_desc(jsonObj.get("ln_inst_desc") == null ? null : jsonObj.get("ln_inst_desc").toString());
 
             int ii = 1;
             String i_Device = systemConfigurationService.ZJ103DeviceIDMax();
@@ -1808,15 +1826,18 @@ public class SystemConfigurationController extends BaseAction {
 
     /**
      * 测量量映射配置同步到数据库
+     *
      * @param response
      * @param request
      * @throws Exception
      */
     @RequestMapping("/updataDB")
     @ResponseBody
-    public Boolean updataDB(String list){
+    public Boolean updataDB(String list) {
         JSONArray jsonArray = JSON.parseArray(list);
-        if (jsonArray.size()==0) { return true;}
+        if (jsonArray.size() == 0) {
+            return true;
+        }
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObj = jsonArray.getJSONObject(i);
             Data_instEntity temp_entity = new Data_instEntity();
@@ -1864,11 +1885,11 @@ public class SystemConfigurationController extends BaseAction {
                     systemConfigurationService.insertyc(temp_entity);
                 }
             }
-            if (("SG").equals(arr_type[1])||("SE").equals(arr_type[1])||("SP").equals(arr_type[1])||("CO").equals(arr_type[1])) {
+            if (("SG").equals(arr_type[1]) || ("SE").equals(arr_type[1]) || ("SP").equals(arr_type[1]) || ("CO").equals(arr_type[1])) {
                 temp_entity.setFc(arr_type[1]);
-                if(arr_type[1].equals("SP")){
+                if (arr_type[1].equals("SP")) {
                     temp_entity.setYx_refname(arr_type[3]);
-                }else if(arr_type[1].equals("CO")){
+                } else if (arr_type[1].equals("CO")) {
                     temp_entity.setYx_refname(type);
                 }
                 // st则对yx表进行操作
@@ -2044,6 +2065,7 @@ public class SystemConfigurationController extends BaseAction {
 
     /**
      * IED接入配置，倒入icd文件
+     *
      * @param request
      * @return
      * @throws Exception
@@ -2183,236 +2205,57 @@ public class SystemConfigurationController extends BaseAction {
         } catch (IOException e) {
             e.printStackTrace();
         }
-         return list;
+        return list;
     }
-
-    private void createExl(String dirName, String fileName) {
-        // 获取根目录
-        String path = UrlUtil.getUrlUtil().getOsicfg() + dirName
-                + File.separator;
-        // 创建Exl文件
-        File icdFile = new File(path + fileName);
-        // 目录不存在则创建
-        if (!icdFile.exists()) {
-            try {
-                icdFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 
     /**
-     * 导入Excel到数据库
+     * Excel表格导出接口
+     * http://localhost:8080/ExcelDownload
      *
-     * @param File
-     * @param response
-     * @param request
-     * @throws Exception
+     * @param response response对象
+     * @throws IOException 抛IO异常
      */
-    @RequestMapping("/getRefname_upload")
-    public void getRefname_upload(HttpServletResponse response,
-                                  HttpServletRequest request) throws Exception {
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        request.setCharacterEncoding("utf-8");
-
-        String fileName = "";
-        String Uploader = "";
-        // 获取文件夹名
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        factory.setSizeThreshold(2 * 1024 * 1024);
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        upload.setHeaderEncoding("utf-8");
-
-        List<FileItem> fileList = upload.parseRequest(request);// 获取request的文件
-        // Iterator iter = fileItems.iterator()取其迭代器
-        // iter.hasNext()检查序列中是否还有元素
-        for (Iterator iter = fileList.iterator(); iter.hasNext(); ) {
-            // 获得序列中的下一个元素
-            FileItem item = (FileItem) iter.next();
-            String s = item.getString("utf-8");
-            // 上传文件的名称和完整路径
-            fileName = item.getName();
-            if (fileName == null) {
-                Uploader = s;
-            } else {
-                long size = item.getSize();
-                // 判断是否选择了文件
-                if ((fileName == null || fileName.equals("")) && size == 0) {
-                    continue;
-                }
-                // 截取文件名字符串
-                fileName = fileName.substring(fileName.lastIndexOf("\\") + 1,
-                        fileName.length());
-                fileName = Uploader + "-" + fileName;
-                String path = UrlUtil.getUrlUtil().getOsicfg() + File.separator;
-                File file = new File(path);
-                // 如果不存在则创建 startup.cfg
-                File i1toi2_Import = new File(path + "i1toi2_Import");
-                // 目录不存在则创建
-                if (!i1toi2_Import.exists() && !i1toi2_Import.isDirectory()) {
-                    i1toi2_Import.mkdirs();
-                }
-                // 保存文件在服务器的物理磁盘中：第一个参数是：完整路径（不包括文件名）第二个参数是：文件名称
-                // item.write(file);
-                // 修改文件名和物料名一致，且强行修改了文件扩展名为gif
-                // item.write(new File(uploadPath, itemNo + ".gif"));
-                // 将文件保存到目录下，不修改文件名
-                // createExl(dir_iedName, fileName);
-                File Exl_InFile = new File(UrlUtil.getUrlUtil().getOsicfg()
-                        + File.separator + "i1toi2_Import");
-                item.write(new File(Exl_InFile, fileName));
-                jsonMap.put("File", 1);
-            }
-        }
-
-        // 根据创建出来的Exl文件入数据库
-        String refname = null;
-        String refdesc = null;
-        Workbook readwb = null;
-        // 读取数据流
-        File Exl_OutFile = new File(UrlUtil.getUrlUtil().getOsicfg()
-                + File.separator + "i1toi2_Import" + File.separator + fileName);
-        InputStream instream = new FileInputStream(Exl_OutFile);
-        if (instream != null) {
-            jsonMap.put("Excel", 2);
-        }
-        // JXL的读取
-        readwb = Workbook.getWorkbook(instream);
-        // 获取第X个Sheet表0代表Sheet1
-        Sheet readsheet = readwb.getSheet(0);
-        // 获取Sheet表中所包含的总列数
-        int rsColumns = readsheet.getColumns();
-        // 获取Sheet表中所包含的总行数
-        int rsRows = readsheet.getRows();
-        // 获取指定单元格的对象引用
-        for (int i = 1; i < rsRows; i++) {
-            for (int j = 0; j < rsColumns; j++) {
-                Cell cell = readsheet.getCell(j, i);
-                if (j == 0) {
-                    refname = cell.getContents();
-                }
-                if (j == 1) {
-                    refdesc = cell.getContents();
-                }
-                System.out.print(cell.getContents() + " ");
-            }
-            // 将逐条读取到的EXCEL逐条插入到数据库中
-            Refname_descEntity entity = new Refname_descEntity(refname, refdesc);
-
-            int insertFlag = systemConfigurationService.getrefnameFlag(entity);
-            if (insertFlag > 0)
-                systemConfigurationService.update_refname(entity);
-            else
-                systemConfigurationService.add_refname(entity);
-            System.out.println();
-        }
-        if (!Exl_OutFile.exists()) {
-            System.out.println("文件不存在");
-
-        } else {
-            System.out.println("存在文件");
-            Exl_OutFile.delete();// 删除文件
-        }
-        HtmlUtil.writerJson(response, jsonMap);
-    }
-
     @RequestMapping("/getRefnameZip")
-    public void getRefnameZip(HttpServletResponse response,
-                              HttpServletRequest request) throws Exception {
-        List<DataEntity> dataList = systemConfigurationService
-                .getYXDataRefname();
-        List<String> refs = new ArrayList<String>();
+    public void excelDownload(HttpServletResponse response){
+
+        List<String> dataList = systemConfigurationService.getYXDataRefname();
+        Set<String> refs = new HashSet<>();
         for (int i = 0; i < dataList.size(); i++) {
-            String refname = dataList.get(i).getRefname();
+            String refname = dataList.get(i);
             String[] refnames = refname.split("\\$");
             refname = refnames[(refnames.length - 1)];
             refs.add(refname);
         }
-        // 去重复
-
-        for (int i = 0; i < refs.size() - 1; i++) {
-            for (int j = refs.size() - 1; j > i; j--) {
-                if (refs.get(j).equals(refs.get(i))) {
-                    refs.remove(j);
-                }
-            }
+        List<RefNameCell> resultList = new ArrayList<RefNameCell>();
+        for (String str : refs) {
+            RefNameCell refnameCell = new RefNameCell();
+            refnameCell.setRefName(str);
+            refnameCell.setRefDesc("");
+            resultList.add(refnameCell);
         }
-        // System.out.println(refs);
-        // String path=UrlUtil.getUrlUtil().getXlsUrl()+File.separator;
-        String path = "/CAC/web/SCAC-3000/jsp/com.scott" + File.separator;
-        path = path + "out.xls";
-        File file = new File(path);
-        if (!file.exists()) {
-            System.out.println("文件不存在");
-
-        } else {
-            System.out.println("存在文件");
-            file.delete();// 删除文件
-        }
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        WritableWorkbook wwb;
-        // 新建立一个jxl文件,即在d盘下生成testJXL.xls
-        // OutputStream os = new FileOutputStream(path);
-        // JxlWrite jxlwrite = new JxlWrite();
-        // jxlwrite.writeExcel(path);
-        // wwb=Workbook.createWorkbook(os);
-        String worksheet = "测量点名称配置";// 输出的excel文件工作表名
-        String[] title = {"测量点名", "描述"};// excel工作表的标题
-        WritableWorkbook workbook;
-        try {
-            // 创建可写入的Excel工作薄,运行生成的文件在tomcat/bin下
-            // workbook = Workbook.createWorkbook(new File("output.xls"));
-            System.out.println("begin");
-
-            OutputStream os = new FileOutputStream(path);
-            workbook = Workbook.createWorkbook(os);
-
-            WritableSheet sheet = workbook.createSheet(worksheet, 0); // 添加第一个工作表
-            // WritableSheet sheet1 = workbook.createSheet("MySheet1", 1);
-            // //可添加第二个工作
-            /*
-             * jxl.write.Label label = new jxl.write.Label(0, 2,
-             * "A label record"); //put a label in cell A3, Label(column,row)
-             * sheet.addCell(label);
-             */
-
-            Label label;
-            for (int i = 0; i < title.length; i++) {
-                // Label(列号,行号 ,内容 )
-                label = new Label(i, 0, title[i]); // put the title in
-                // row1
-                sheet.addCell(label);
-            }
-            for (int i = 0; i < refs.size(); i++) {
-                label = new Label(0, i + 1, refs.get(i)); // put the
-                // title in
-                // row1
-                sheet.addCell(label);
-            }
-
-            workbook.write();
-            workbook.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("end");
-        Runtime r = Runtime.getRuntime();
-        Process p = null;
-        // String cmd[]={"notepad","exec.java"};
-        String cmd[] = {path, "out.xls"};
-        try {
-            p = r.exec(cmd);
-        } catch (Exception e) {
-            System.out.println("error executing: " + cmd[0]);
-        }
+        String sheet1Name = "测量点名称配置";
+        String excelName = "测量点名称配置";
+        ExcelUtils.writeExcel(response,excelName,sheet1Name,resultList, RefNameCell.class);
     }
 
 
+
+    @RequestMapping(value = "/getRefname_upload", method = RequestMethod.POST)
+    public void readExcel(@RequestParam(value="uploadFile", required = false) MultipartFile file){
+        long t1 = System.currentTimeMillis();
+        List<RefNameCell> list = ExcelUtils.readExcel("", RefNameCell.class, file);
+        for(RefNameCell refNameCell:list){
+            int insertFlag = systemConfigurationService.getrefnameFlag(refNameCell.getRefName());
+            if (insertFlag > 0)
+                systemConfigurationService.update_refname(refNameCell.getRefName(),refNameCell.getRefDesc());
+            else
+                systemConfigurationService.add_refname(refNameCell.getRefName(),refNameCell.getRefDesc());
+        }
+
+        long t2 = System.currentTimeMillis();
+        System.out.println(String.format("read over! cost:%sms", (t2 - t1)));
+        list.forEach(
+                b -> System.out.println(JSON.toJSONString(b))
+        );
+    }
 }
