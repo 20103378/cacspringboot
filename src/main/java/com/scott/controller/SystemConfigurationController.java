@@ -9,8 +9,10 @@ import com.base.entity.dto.*;
 import com.base.page.BasePage;
 import com.base.util.HtmlUtil;
 import com.base.util.edit.BeanUtil;
+import com.base.util.edit.DateUtil;
 import com.base.util.edit.ICDUtils;
 import com.base.util.UrlUtil;
+import com.base.util.excel.I2TableCell;
 import com.base.util.excel.RefNameCell;
 import com.base.util.excel.ExcelUtils;
 import com.base.web.BaseAction;
@@ -46,6 +48,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.Boolean;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -347,9 +350,9 @@ public class SystemConfigurationController extends BaseAction {
     public Boolean add_refname(Refname_descEntity entity) {
         int F = systemConfigurationService.getrefnameFlag(entity.getRefname());
         if (F > 0) {
-            systemConfigurationService.update_refname(entity.getRefname(),entity.getRefdesc());
+            systemConfigurationService.update_refname(entity.getRefname(), entity.getRefdesc());
         } else {
-            systemConfigurationService.add_refname(entity.getRefname(),entity.getRefdesc());
+            systemConfigurationService.add_refname(entity.getRefname(), entity.getRefdesc());
         }
         return true;
     }
@@ -1434,32 +1437,30 @@ public class SystemConfigurationController extends BaseAction {
     @ResponseBody
     public Map getExportList() {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        List<DeviceEntity> dataList = systemConfigurationService
-                .getExportList();
+        List<DeviceEntity> dataList = systemConfigurationService.getExportList();
         jsonMap.put("dataList", dataList);
         return jsonMap;
     }
 
-    /**
-     * I1TOI2获取所有设备 由于获取数据一样,直接调用getExportList方法
-     */
-    @RequestMapping("/getAllDevice")
-    public void getAllDevice(HttpServletResponse response) {
-        getExportList();
-    }
+//    /**
+//     * I1TOI2获取所有设备 由于获取数据一样,直接调用getExportList方法
+//     */
+//    @RequestMapping("/getAllDevice")
+//    public void getAllDevice(HttpServletResponse response) {
+//        getExportList();
+//    }
 
     /**
      * 获取i1toi2_data_inst表数据
      */
     @RequestMapping("/getI2Data")
-    public void getI2Data(BasePage page, HttpServletResponse response,
-                          HttpServletRequest request) throws Exception {
+    @ResponseBody
+    public Map getI2Data(BasePage page){
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        List<I2TableEntity> dataList = systemConfigurationService
-                .getI2Data(page);
+        List<I2TableEntity> dataList = systemConfigurationService.getI2Data(page);
         jsonMap.put("total", page.getPager().getRowCount());
         jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        return jsonMap;
     }
 
 //    @RequestMapping("/getI2Data_103")
@@ -1530,19 +1531,6 @@ public class SystemConfigurationController extends BaseAction {
 //        HtmlUtil.writerJson(response, jsonMap);
 //    }
 
-    /**
-     * 获取i1toi2_data_inst表数据 用来导出Exl
-     */
-    @RequestMapping("/getI2Data_export")
-    public void getI2Data_export(BasePage page, HttpServletResponse response,
-                                 HttpServletRequest request) throws Exception {
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        List<I2TableEntity> dataList = systemConfigurationService
-                .getI2Data_export(page);
-        jsonMap.put("total", page.getPager().getRowCount());
-        jsonMap.put("dataList", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
-    }
 
     /**
      * 获取I1中的refname
@@ -1556,42 +1544,39 @@ public class SystemConfigurationController extends BaseAction {
      * @param ld_name和ln_name
      */
     @RequestMapping("/getycNameList")
-    public void getycNameList(YcDataInstEntity entity,
-                              HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    @ResponseBody
+    public Map getycNameList(YcDataInstEntity entity) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
-        List<YcDataInstEntity> dataList = systemConfigurationService
-                .getycNameList(entity);
+        List<YcDataInstEntity> dataList = systemConfigurationService.getycNameList(entity);
         jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        return jsonMap;
     }
 
     @RequestMapping("/getyxNameList")
-    public void getyxNameList(YcDataInstEntity entity,
-                              HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    @ResponseBody
+    public Map getyxNameList(YcDataInstEntity entity) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<YcDataInstEntity> dataList = systemConfigurationService
                 .getyxNameList(entity);
         jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        return jsonMap;
     }
 
     @RequestMapping("/getykNameList")
-    public void getykNameList(YcDataInstEntity entity,
-                              HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
+    @ResponseBody
+    public Map getykNameList(YcDataInstEntity entity){
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<YcDataInstEntity> dataList = systemConfigurationService
                 .getykNameList(entity);
         jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        return jsonMap;
     }
 
     /*
      * 插入I2数据
      */
     @RequestMapping("/i2TableCommmit")
+    @ResponseBody
     public void insertI2Table(I2TableEntity entity) {
         int insertFlag = systemConfigurationService.getinsertFlag(entity);
         if (insertFlag > 0)
@@ -1604,8 +1589,9 @@ public class SystemConfigurationController extends BaseAction {
      * 删除I2数据
      */
     @RequestMapping("/delete_I2")
-    public void delete_I2(I2TableEntity entity) {
-        systemConfigurationService.delete_I2(entity);
+    @ResponseBody
+    public void delete_I2(String i2id) {
+        systemConfigurationService.delete_I2(i2id);
     }
 
     @RequestMapping("/getIEC61850LD_LN")
@@ -1621,7 +1607,6 @@ public class SystemConfigurationController extends BaseAction {
         } else if (str_i1type.equals("3")) {
             dataList = systemConfigurationService.getykIEC61850LD_LN(entity);
         }
-
         jsonMap.put("rows", dataList);
         return jsonMap;
     }
@@ -1940,131 +1925,9 @@ public class SystemConfigurationController extends BaseAction {
     }
 
 
-    /**
-     * 导入Excel到数据库
-     *
-     * @param File
-     * @param response
-     * @param request
-     * @throws Exception
-     */
-    @RequestMapping("/uploadExcel")
-    public void uploadExcel(HttpServletResponse response,
-                            HttpServletRequest request) throws Exception {
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        request.setCharacterEncoding("utf-8");
-        Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
-                "yyyy-MM-dd-HH-mm-ss");// 可以方便地修改日期格式
-        String DayTime = dateFormat.format(now);
-        String fileName = "";
-        String Uploader = "";
-        // 获取文件夹名
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        factory.setSizeThreshold(2 * 1024 * 1024);
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        upload.setHeaderEncoding("utf-8");
-
-        List<FileItem> fileList = upload.parseRequest(request);// 获取request的文件
-        // Iterator iter = fileItems.iterator()取其迭代器
-        // iter.hasNext()检查序列中是否还有元素
-        for (Iterator iter = fileList.iterator(); iter.hasNext(); ) {
-            // 获得序列中的下一个元素
-            FileItem item = (FileItem) iter.next();
-            String s = item.getString("utf-8");
-            // 上传文件的名称和完整路径
-            fileName = item.getName();
-            if (fileName == null) {
-                Uploader = s;
-            } else {
-                long size = item.getSize();
-                // 判断是否选择了文件
-                if ((fileName == null || fileName.equals("")) && size == 0) {
-                    continue;
-                }
-                // 截取文件名字符串
-                fileName = fileName.substring(fileName.lastIndexOf("\\") + 1,
-                        fileName.length());
-                fileName = Uploader + "-" + DayTime + "-" + fileName;
-                String path = UrlUtil.getUrlUtil().getOsicfg() + File.separator;
-                File file = new File(path);
-                // 如果不存在则创建 startup.cfg
-                File i1toi2_Import = new File(path + "i1toi2_Import");
-                // 目录不存在则创建
-                if (!i1toi2_Import.exists() && !i1toi2_Import.isDirectory()) {
-                    i1toi2_Import.mkdirs();
-                }
-                // 保存文件在服务器的物理磁盘中：第一个参数是：完整路径（不包括文件名）第二个参数是：文件名称
-                // item.write(file);
-                // 修改文件名和物料名一致，且强行修改了文件扩展名为gif
-                // item.write(new File(uploadPath, itemNo + ".gif"));
-                // 将文件保存到目录下，不修改文件名
-                // createExl(dir_iedName, fileName);
-                File Exl_InFile = new File(UrlUtil.getUrlUtil().getOsicfg()
-                        + File.separator + "i1toi2_Import");
-                item.write(new File(Exl_InFile, fileName));
-                jsonMap.put("File", 1);
-            }
-        }
-
-        // 根据创建出来的Exl文件入数据库
-        String i2id = null;
-        String i1type = null;
-        String i1id = null;
-        String i2_refname = null;
-        String i2_desc = null;
-        Workbook readwb = null;
-        // 读取数据流
-        File Exl_OutFile = new File(UrlUtil.getUrlUtil().getOsicfg()
-                + File.separator + "i1toi2_Import" + File.separator + fileName);
-        InputStream instream = new FileInputStream(Exl_OutFile);
-        if (instream != null) {
-            jsonMap.put("Excel", 2);
-        }
-        // JXL的读取
-        readwb = Workbook.getWorkbook(instream);
-        // 获取第X个Sheet表0代表Sheet1
-        Sheet readsheet = readwb.getSheet(0);
-        // 获取Sheet表中所包含的总列数
-        int rsColumns = readsheet.getColumns();
-        // 获取Sheet表中所包含的总行数
-        int rsRows = readsheet.getRows();
-        // 获取指定单元格的对象引用
-        for (int i = 1; i < rsRows; i++) {
-            for (int j = 0; j < rsColumns; j++) {
-                Cell cell = readsheet.getCell(j, i);
-                if (j == 0) {
-                    i2id = cell.getContents();
-                }
-                if (j == 1) {
-                    i1type = cell.getContents();
-                }
-                if (j == 2) {
-                    i1id = cell.getContents();
-                }
-                if (j == 3) {
-                    i2_refname = cell.getContents();
-                }
-                if (j == 4) {
-                    i2_desc = cell.getContents();
-                }
-                System.out.print(cell.getContents() + " ");
-            }
-            // 将逐条读取到的EXCEL逐条插入到数据库中
-            I2TableEntity entity = new I2TableEntity(i2id, i1type, i1id,
-                    i2_refname, i2_desc);
-            int insertFlag = systemConfigurationService.getinsertFlag(entity);
-            if (insertFlag > 0)
-                systemConfigurationService.updateI2Table(entity);
-            else
-                systemConfigurationService.insertI2Table(entity);
-            System.out.println();
-        }
-        HtmlUtil.writerJson(response, jsonMap);
-    }
 
     /**
-     * IED接入配置，倒入icd文件
+     * IED接入配置，导入icd文件
      *
      * @param request
      * @return
@@ -2137,86 +2000,48 @@ public class SystemConfigurationController extends BaseAction {
         return "创建成功";
     }
 
-    // 从数据库读取点序号
-    @RequestMapping("/getDxhFromDB")
-    @ResponseBody
-    public List getDxhFromDB(YclysEntity entity) {
-        List<YclysEntity> list = new ArrayList<YclysEntity>();
-        if (entity.getFc().equals("ST")) {
-            list = systemConfigurationService.getyxByld(entity);
-        } else if (entity.getFc().equals("MX")) {
-            list = systemConfigurationService.getycByld(entity);
-        } else if (entity.getFc().equals("SG/SE")) {
-            list = systemConfigurationService.getykByld(entity);
-        } else if (entity.getFc().equals("CO")) {
-            entity.setLdinst(entity.getLdinst().replace("MONT", ""));
-            list = systemConfigurationService.getykByld(entity);
-        }
-        return list;
-    }
 
-    // 从数据库读取点序号
-    @RequestMapping("/getDxhFromCFG")
-    @ResponseBody
-    public List getDxhFromCFG(YclysEntity entity) {
-        List<YcDataInstEntity> list = new ArrayList<YcDataInstEntity>();
-        String index = "";
-        // 获取文件夹路径
-        String cfg = "/datamap.cfg";
-        String file_path = UrlUtil.getUrlUtil().getOsicfg() + entity.getLdinst().substring(0, entity.getLdinst().indexOf("MONT")) + cfg;
-        if (entity.getFc().equals("ST")) {
-            index = "DI";
-        } else if (entity.getFc().equals("MX")) {
-            index = "AI";
-        } else if (entity.getFc().equals("CO")) {
-            index = "FV";
+
+
+    /**
+     * 远程映射配置导出
+     */
+    @RequestMapping("/getI2Data_export")
+    public void getI2Data_export(HttpServletResponse response) {
+        List<I2TableCell> resultList = systemConfigurationService.getI2Data_export();
+        String sheet1Name = "CAC远传映射配置表";
+        String excelName = "CAC远传映射配置表"+ DateUtil.formatFullTime(LocalDateTime.now());
+        ExcelUtils.writeExcel(response, excelName, sheet1Name, resultList, I2TableCell.class);
+    }
+    /**
+     * 远程映射配置导入
+     *
+     * @param File
+     * @param response
+     * @param request
+     * @throws Exception
+     */
+    @RequestMapping(value = "/uploadExcel", method = RequestMethod.POST)
+    public void uploadExcel(@RequestParam(value = "uploadFile", required = false) MultipartFile file) {
+        List<I2TableCell> list = ExcelUtils.readExcel("", I2TableCell.class, file);
+        for (I2TableCell i2TableCell : list) {
+            // 将逐条读取到的EXCEL逐条插入到数据库中
+            I2TableEntity entity = new I2TableEntity(i2TableCell.getI2id(), i2TableCell.getI1type(), i2TableCell.getI1id(), i2TableCell.getI2_refname(), i2TableCell.getI2_desc());
+            int insertFlag = systemConfigurationService.getinsertFlag(entity);
+            if (insertFlag > 0)
+                systemConfigurationService.updateI2Table(entity);
+            else
+                systemConfigurationService.insertI2Table(entity);
         }
-        try {
-            File file = new File(file_path);
-            FileInputStream fs = new FileInputStream(file);
-            InputStreamReader read = new InputStreamReader(fs, "UTF-8");
-            BufferedReader reader = new BufferedReader(read);
-            String line;
-            String[] arr;
-            while ((line = reader.readLine()) != null) {
-                String[] arr_ln;
-                String[] arr_id;
-                YcDataInstEntity temp = new YcDataInstEntity();
-                if (index.equals("")) {
-                } else if (line.indexOf(index) < 0) {
-                } else {
-                    arr = line.split("\t");
-                    temp.setLd_inst_name(arr[0]);
-                    arr_ln = arr[1].split("\\$");
-                    temp.setLn_inst_name(arr_ln[0]);
-                    temp.setYc_refname(arr_ln[2]);
-                    arr_id = arr[2].split("\\$");
-                    int _zh = Integer.parseInt(arr_id[1]);
-                    int _dh = Integer.parseInt(arr_id[2]);
-                    temp.setYc_id("" + (_zh * 2048 + _dh));
-                    temp.setIed_type_id(arr[1]);
-                    list.add(temp);
-                }
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return list;
     }
 
     /**
-     * Excel表格导出接口
-     * http://localhost:8080/ExcelDownload
+     * 测量点描述导出
      *
-     * @param response response对象
-     * @throws IOException 抛IO异常
+     * @param response
      */
     @RequestMapping("/getRefnameZip")
-    public void excelDownload(HttpServletResponse response){
+    public void excelDownload(HttpServletResponse response) {
 
         List<String> dataList = systemConfigurationService.getYXDataRefname();
         Set<String> refs = new HashSet<>();
@@ -2233,28 +2058,102 @@ public class SystemConfigurationController extends BaseAction {
             refnameCell.setRefDesc("");
             resultList.add(refnameCell);
         }
-        String sheet1Name = "测量点名称配置";String excelName = "测量点名称配置";
-        ExcelUtils.writeExcel(response,excelName,sheet1Name,resultList, RefNameCell.class);
+        String sheet1Name = "测量点名称配置";
+        String excelName = "测量点名称配置";
+        ExcelUtils.writeExcel(response, excelName, sheet1Name, resultList, RefNameCell.class);
     }
 
 
-
+    /**
+     * 测量点描述导入
+     *
+     * @param file
+     */
     @RequestMapping(value = "/getRefname_upload", method = RequestMethod.POST)
-    public void readExcel(@RequestParam(value="uploadFile", required = false) MultipartFile file){
-        long t1 = System.currentTimeMillis();
+    public void readExcel(@RequestParam(value = "uploadFile", required = false) MultipartFile file) {
         List<RefNameCell> list = ExcelUtils.readExcel("", RefNameCell.class, file);
-        for(RefNameCell refNameCell:list){
+        for (RefNameCell refNameCell : list) {
             int insertFlag = systemConfigurationService.getrefnameFlag(refNameCell.getRefName());
             if (insertFlag > 0)
-                systemConfigurationService.update_refname(refNameCell.getRefName(),refNameCell.getRefDesc());
+                systemConfigurationService.update_refname(refNameCell.getRefName(), refNameCell.getRefDesc());
             else
-                systemConfigurationService.add_refname(refNameCell.getRefName(),refNameCell.getRefDesc());
+                systemConfigurationService.add_refname(refNameCell.getRefName(), refNameCell.getRefDesc());
         }
-
-        long t2 = System.currentTimeMillis();
-        System.out.println(String.format("read over! cost:%sms", (t2 - t1)));
-        list.forEach(
-                b -> System.out.println(JSON.toJSONString(b))
-        );
     }
+
+
 }
+
+
+
+
+    //    // 从数据库读取点序号
+//    @RequestMapping("/getDxhFromDB")
+//    @ResponseBody
+//    public List getDxhFromDB(YclysEntity entity) {
+//        List<YclysEntity> list = new ArrayList<YclysEntity>();
+//        if (entity.getFc().equals("ST")) {
+//            list = systemConfigurationService.getyxByld(entity);
+//        } else if (entity.getFc().equals("MX")) {
+//            list = systemConfigurationService.getycByld(entity);
+//        } else if (entity.getFc().equals("SG/SE")) {
+//            list = systemConfigurationService.getykByld(entity);
+//        } else if (entity.getFc().equals("CO")) {
+//            entity.setLdinst(entity.getLdinst().replace("MONT", ""));
+//            list = systemConfigurationService.getykByld(entity);
+//        }
+//        return list;
+//    }
+
+//    // 从数据库读取点序号
+//    @RequestMapping("/getDxhFromCFG")
+//    @ResponseBody
+//    public List getDxhFromCFG(YclysEntity entity) {
+//        List<YcDataInstEntity> list = new ArrayList<YcDataInstEntity>();
+//        String index = "";
+//        // 获取文件夹路径
+//        String cfg = "/datamap.cfg";
+//        String file_path = UrlUtil.getUrlUtil().getOsicfg() + entity.getLdinst().substring(0, entity.getLdinst().indexOf("MONT")) + cfg;
+//        if (entity.getFc().equals("ST")) {
+//            index = "DI";
+//        } else if (entity.getFc().equals("MX")) {
+//            index = "AI";
+//        } else if (entity.getFc().equals("CO")) {
+//            index = "FV";
+//        }
+//        try {
+//            File file = new File(file_path);
+//            FileInputStream fs = new FileInputStream(file);
+//            InputStreamReader read = new InputStreamReader(fs, "UTF-8");
+//            BufferedReader reader = new BufferedReader(read);
+//            String line;
+//            String[] arr;
+//            while ((line = reader.readLine()) != null) {
+//                String[] arr_ln;
+//                String[] arr_id;
+//                YcDataInstEntity temp = new YcDataInstEntity();
+//                if (index.equals("")) {
+//                } else if (line.indexOf(index) < 0) {
+//                } else {
+//                    arr = line.split("\t");
+//                    temp.setLd_inst_name(arr[0]);
+//                    arr_ln = arr[1].split("\\$");
+//                    temp.setLn_inst_name(arr_ln[0]);
+//                    temp.setYc_refname(arr_ln[2]);
+//                    arr_id = arr[2].split("\\$");
+//                    int _zh = Integer.parseInt(arr_id[1]);
+//                    int _dh = Integer.parseInt(arr_id[2]);
+//                    temp.setYc_id("" + (_zh * 2048 + _dh));
+//                    temp.setIed_type_id(arr[1]);
+//                    list.add(temp);
+//                }
+//            }
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return list;
+//    }

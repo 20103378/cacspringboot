@@ -170,9 +170,6 @@ jeecg.refnameConfig = function(){
 				var File_xls =  $("#File_xls").val();
 
 			        if(File_xls){
-			        	if(File_xls.indexOf("/")==-1 || File_xls.indexOf("\\")==-1){
-			        		File_xls=File_xls.substring(File_xls.lastIndexOf("\\")+1);
-							 }
 						 jeecg.progress('正在上传','请稍后...');
 						 $('#RefnameForm').form({
 			            	async:false,
@@ -186,7 +183,6 @@ jeecg.refnameConfig = function(){
 			                	};
 			                	uploadWin.window("close");
 								$('#refname_desc_tb').datagrid('reload');
-// $('#i2List').datagrid('reload');
 			                }
 			        	});
 			            // 提交 form

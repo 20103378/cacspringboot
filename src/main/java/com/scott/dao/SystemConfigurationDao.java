@@ -4,6 +4,7 @@ package com.scott.dao;
 import com.base.dao.BaseDao;
 import com.base.entity.dto.DeviceRequestDTO;
 import com.base.page.BasePage;
+import com.base.util.excel.I2TableCell;
 import com.scott.entity.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -345,7 +346,7 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
 
     void delete_103(ZJ103Entity DeviceID);
 
-    List<I2TableEntity> getI2Data_export(BasePage page);
+    List<I2TableCell> getI2Data_export();
 
     List<YcDataInstEntity> getycNameList(YcDataInstEntity entity);
 
@@ -365,7 +366,7 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
 
     void updateI2Table(I2TableEntity entity);
 
-    void delete_I2(I2TableEntity entity);
+    void delete_I2(String i2id);
 
     List<YcDataInstEntity> getycIEC61850LD_LN(I2TableEntity entity);
 

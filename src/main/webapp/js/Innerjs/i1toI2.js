@@ -17,13 +17,8 @@ jeecg.i1toI2 = function(){
 	var _this = {
 			upload:function(){
 				$("#ExceluploadFileBtn").unbind('click').click(function() {
-					var Uploader= $("#ExcelUploader").val();
-					if(Uploader){
 					var fileUrl =  $("#ExcelfileUrl").val();
 				        if(fileUrl){
-							 if(fileUrl.indexOf("/")==-1 || fileUrl.indexOf("\\")==-1){
-							 fileUrl=fileUrl.substring(fileUrl.lastIndexOf("\\")+1);
-							 }
 							 jeecg.progress('正在导入','请稍后...^3^');
 							 $('#ExcelpdfForm').form({
 				            	async:false,
@@ -32,25 +27,18 @@ jeecg.i1toI2 = function(){
 				                },
 				                success:function(data){
 				                	jeecg.closeProgress();
-				                	if(data.indexOf(1)<0){
-				                		alert("导入文件失败！");
-				                	}else if(data.indexOf(2)<0){
-				                		alert("导入文件成功，导入数据库失败");
-				                	}else{
-				                		alert("导入成功!");
-				                	};
+									if(data){
+										alert("上传成功!");
+									};
 				                	uploadWin.window("close");
 				                	$('#i2List').datagrid('reload');
 				                }
 				        	});
 				            // 提交 form
-				            $('#ExcelpdfForm').attr("action", "uploadExcel").submit();;
+				            $('#ExcelpdfForm').attr("action", "uploadExcel").submit();
 				         }else{
 				         	alert("上传的文件不可为空");
 				         }
-					}else{
-						alert("必须填写提交人");
-					}
 				});
 			 },
 		 setDeviceName:function(){
@@ -59,13 +47,13 @@ jeecg.i1toI2 = function(){
 		         async: false,
 		         cache: false,
 		         type: 'POST',
-		         url: "getAllDevice",
+		         url: "getExportList",
 		         success:function(data){
 		         	debugger
-		        	 var device_data,json;
+		        	 var device_data;
 		        	 device_data=[];
 		        	 for(var i=0;i<data.dataList.length;i++){
-		        		 device_data.push({"text":data.dataList[i].deviceName,"value":data.dataList[i].IEC61850LD_LN});
+		        		 device_data.push({"text":data.dataList[i].deviceName,"value":data.dataList[i].iec61850LD_LN});
 		        	 };
 		        	 $("#sel_dname").combobox("loadData", device_data);
 		 			 $("#sel_dname").combobox('select',device_data[0].value);
@@ -98,7 +86,8 @@ jeecg.i1toI2 = function(){
 			 $("#sel_type").combobox('select',type_data[0].value);
 		 },
 		 setName:function(){
-			 var type=$("#sel_type").combobox('getValue');
+			 debugger
+			 var type=$("#sel_type").combobox('getValue');//设备类型
 			 var name=$("#sel_dname").combobox('getValue');
 			 var ld_name=name.substring(0,name.indexOf("/"));
 			 var ln_name=name.substring((name.indexOf("/")+1));
@@ -119,7 +108,8 @@ jeecg.i1toI2 = function(){
 				data:formData,
 				url:_url,
 				success:function(data){
-					 var name_data,json;
+					debugger
+					 var name_data;
 		        	 name_data=[];
 		        	 if(data.rows.length==0){
 		        		 $("#sel_instName").combobox("loadData", {"text":"无数据","value":"无数据"});
@@ -207,14 +197,15 @@ jeecg.i1toI2 = function(){
 
 		 },
 		 i1ToI2_sub:function(){
+			 debugger
 			 var i2id=$("#txt_I2_ID").val();
 			 if(i2id==""){
 				 $("#msg_I2_ID").html("ID不能为空!");
 				 return;
 			 }
-			 var i1type=$("#sel_type").combobox('getValue');
-			 var i1id=$("#sel_instName").combobox('getValue');
-			 var i2_refname=$("#sel_instName").combobox('getText');
+			 var i1type=$("#sel_type").combobox('getValue');//设备类型
+			 var i1id=$("#sel_instName").combobox('getValue'); //yc_id
+			 var i2_refname=$("#sel_instName").combobox('getText');//yc_name
 			 if(i2_refname=="无数据"){
 				 alert("没有设备!");
 				 return;
@@ -244,28 +235,28 @@ jeecg.i1toI2 = function(){
 
 
 		 },
-		 export_Exl:function(){
-			 var myDate = new Date();
-			 var Day=myDate.toLocaleDateString();
-			 var mytime=myDate.toLocaleTimeString();
-			 alert("注意：导出的Excel文件为只读文件,修改后请另存为 .xls 文件");
-				$.ajax({
-			        async: false,
-			        cache: false,
-			        type: 'POST',
-			        url: "getI2Data_export",
-			        error: function(){// 请求失败处理函数
-			        	alert("连接数据库失败");
-			        },
-			        success: function(data){
-				        	var head_data,json;
-				        	head_data = [];
-				        	head_data.push({"title":"远传点号","value":"i2id"},{"title":"上传类型","value":"i1type"},
-				        			{"title":"I1编号","value":"i1id"},{"title":"名称","value":"i2_refname"},{"title":"备注","value":"i2_desc"});
-				        	tableExport(data,head_data,"excel","CAC远传映射配置表"+Day+mytime);
-			        }
-				});
-			},
+		 // export_Exl:function(){
+			//  var myDate = new Date();
+			//  var Day=myDate.toLocaleDateString();
+			//  var mytime=myDate.toLocaleTimeString();
+			//  alert("注意：导出的Excel文件为只读文件,修改后请另存为 .xls 文件");
+			// 	$.ajax({
+			//         async: false,
+			//         cache: false,
+			//         type: 'POST',
+			//         url: "getI2Data_export",
+			//         error: function(){// 请求失败处理函数
+			//         	alert("连接数据库失败");
+			//         },
+			//         success: function(data){
+			// 	        	var head_data,json;
+			// 	        	head_data = [];
+			// 	        	head_data.push({"title":"远传点号","value":"i2id"},{"title":"上传类型","value":"i1type"},
+			// 	        			{"title":"I1编号","value":"i1id"},{"title":"名称","value":"i2_refname"},{"title":"备注","value":"i2_desc"});
+			// 	        	tableExport(data,head_data,"excel","CAC远传映射配置表"+Day+mytime);
+			//         }
+			// 	});
+			// },
 		 Import_Exl:function(){
 				uploadWin.window('open');
 		 },
@@ -373,8 +364,9 @@ jeecg.i1toI2 = function(){
 			  	            text: '导出',
 			  	            iconCls: '',
 			  	            handler: function () {
-			  	            	_this.export_Exl();
-			  	            }
+			  	            	// _this.export_Exl();
+								window.location.href = "getI2Data_export";
+							}
 			  	        }, "-", {
 			  	            id: '',
 			  	            text: '导入',

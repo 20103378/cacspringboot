@@ -648,7 +648,10 @@ public class ICDUtils {
                             // 开始遍历每个LN
                             List<String> entityList = new ArrayList<>();
                             for (Element el20 : lnList) {
-                                ln_inst_name = el20.getAttributeValue("lnClass") + el20.getAttributeValue("inst");
+                                String prefix = el20.getAttributeValue("prefix");if(prefix==null) prefix="";
+                                String lnClass = el20.getAttributeValue("lnClass");if(lnClass==null) lnClass="";
+                                String inst = el20.getAttributeValue("inst");if(inst==null) inst="";
+                                ln_inst_name = prefix+lnClass+inst;
                                 entityList.add(ld_inst_name + "/" + ln_inst_name);
                             }
                             map.put(ld_inst_name,entityList);

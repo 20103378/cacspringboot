@@ -3,6 +3,7 @@ package com.scott.service;
 import com.base.entity.dto.DeviceRequestDTO;
 import com.base.page.BasePage;
 import com.base.service.BaseService;
+import com.base.util.excel.I2TableCell;
 import com.scott.dao.SystemConfigurationDao;
 import com.scott.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -299,10 +300,8 @@ public class SystemConfigurationService<T> extends BaseService<T> {
     }
 
     //导出EXCEL
-    public List<I2TableEntity> getI2Data_export(BasePage page) {
-        Integer rowCount = I2ListCount(page);
-        page.getPager().setRowCount(rowCount);
-        return getDao().getI2Data_export(page);
+    public List<I2TableCell> getI2Data_export() {
+        return getDao().getI2Data_export();
     }
 
     //查询i1表中的字段名
@@ -344,8 +343,8 @@ public class SystemConfigurationService<T> extends BaseService<T> {
         getDao().updateI2Table(entity);
     }
 
-    public void delete_I2(I2TableEntity entity) {
-        getDao().delete_I2(entity);
+    public void delete_I2(String i2id) {
+        getDao().delete_I2(i2id);
     }
 
     //获取遥信遥测遥控的61850ln_id

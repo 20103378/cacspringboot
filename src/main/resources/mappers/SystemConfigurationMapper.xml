@@ -126,6 +126,14 @@
 		<result column="i2_refname" property="i2_refname" />
 		<result column="i2_desc" property="i2_desc" />
 	</resultMap>
+	<!-- i2数据 -->
+	<resultMap id="I2TableCellMap" type="com.base.util.excel.I2TableCell">
+		<result column="i2id" property="i2id" />
+		<result column="i1type" property="i1type" />
+		<result column="i1id" property="i1id" />
+		<result column="i2_refname" property="i2_refname" />
+		<result column="i2_desc" property="i2_desc" />
+	</resultMap>
 	<!-- yc_data_inst表 -->
 	<resultMap id="YcDataResultMap" type="com.scott.entity.YcDataInstEntity">
 		<result column="yc_id" property="yc_id" />
@@ -700,16 +708,13 @@
 		pubdevice_zj103 SET CommAddress=#{CommAddress},DevPhase=#{DevPhase}
 		WHERE DeviceID=#{DeviceID}
 	</select>
-	<select id="getI2Data_export" resultMap="I2ResultMap"
-		parameterType="Object">
+	<select id="getI2Data_export" resultMap="I2TableCellMap">
 		SELECT * FROM i1toi2_data_inst
 	</select>
 	<!-- 查询yc_data_inst数据 -->
 	<select id="getycNameList" resultMap="YcDataResultMap"
 		parameterType="Object">
-		SELECT * FROM `iec61850_yc_data_inst` where
-		ld_inst_name=#{ld_inst_name} and
-		ln_inst_name=#{ln_inst_name}
+		SELECT * FROM `iec61850_yc_data_inst` where ld_inst_name=#{ld_inst_name} and ln_inst_name=#{ln_inst_name}
 	</select>
 	<select id="getykNameList" resultMap="YkDataResultMap"
 		parameterType="Object">
@@ -758,7 +763,7 @@
 		i1type=#{i1type},i1id=#{i1id},i2_refname=#{i2_refname},i2_desc=#{i2_desc}
 		where i2id=#{i2id}
 	</update>
-	<delete id="delete_I2" parameterType="Object">
+	<delete id="delete_I2" parameterType="java.lang.String">
 		delete from
 		i1toi2_data_inst where i2id = #{i2id}
 	</delete>

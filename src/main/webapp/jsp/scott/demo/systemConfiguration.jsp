@@ -384,14 +384,8 @@
             <div id="ExcelUpload-window" title="Excel上传" style="width:400px;height:150px;font-size: 16">
                 <div data-options="region:'north',split:true" style="padding:10px">
                     <form id="ExcelpdfForm" action="" enctype="multipart/form-data" method="post">
-                        提交人：<input id="ExcelUploader" type="text"
-                                   style="width: 160px;"
-                                   class="easyui-validatebox"
-                                   required="true"
-                                   missingMessage="必须填写提交人"
-                                   name="uploader"/>
                         <p>请选择需要导入的Excel文件</p>
-                        <input id="ExcelfileUrl" accept=".xls" type="file" style="width: 160px;" name="uploadFile"/>
+                        <input id="ExcelfileUrl" accept=".xlsx" type="file" style="width: 160px;" name="uploadFile"/>
                         <input id="ExceluploadFileBtn" type="button" value="上传" class="btn" style="margin-top: 0px;"/>
                     </form>
                 </div>
