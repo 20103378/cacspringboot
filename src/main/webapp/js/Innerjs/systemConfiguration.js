@@ -1036,15 +1036,14 @@ jeecg.systemConfiguration = function () {
                 });
 
 
-
-               $("#select_all").unbind('click').click(function() {
-                    $('input[name="checkbox"]').attr("checked",this.checked);
-                });
-                var $subBox = $("input[name='checkbox']");
-                $subBox.unbind('click').click(function(){
-                    $("#select_all").attr("checked",$subBox.length == $("input[name='checkbox']:checked").length ? true : false);
-                });
-                $("#select_all").attr("checked",$subBox.length == $("input[name='checkbox']:checked").length ? true : false);
+            $("#select_all").unbind('click').click(function () {
+                $('input[name="checkbox"]').attr("checked", this.checked);
+            });
+            var $subBox = $("input[name='checkbox']");
+            $subBox.unbind('click').click(function () {
+                $("#select_all").attr("checked", $subBox.length == $("input[name='checkbox']:checked").length ? true : false);
+            });
+            $("#select_all").attr("checked", $subBox.length == $("input[name='checkbox']:checked").length ? true : false);
 
             // // 全选框点击事件
             // $('#select_all').unbind('click').click(function () {
@@ -1327,6 +1326,11 @@ jeecg.systemConfiguration = function () {
             formData['PosX'] = a[0];
             formData['PosY'] = a[1];
             formData['IEC61850LD_LN'] = $("#IEC61850LD_LN").combobox('getValue');
+            debugger
+            if (formData['DeviceName']=="" ||formData['DeviceName']==null) {
+                alert("装置名称不能为空！");
+                return;
+            }
 
             // formData['IEC61850LD_LN'] = $("#IEC61850LD_LN").combobox('getValue');
             //
