@@ -9,10 +9,8 @@ import com.base.entity.dto.*;
 import com.base.page.BasePage;
 import com.base.util.HtmlUtil;
 import com.base.util.edit.BeanUtil;
-import com.base.util.edit.DateUtil;
 import com.base.util.edit.ICDUtils;
 import com.base.util.UrlUtil;
-import com.base.util.excel.I2TableCell;
 import com.base.util.excel.RefNameCell;
 import com.base.util.excel.ExcelUtils;
 import com.base.web.BaseAction;
@@ -222,21 +220,6 @@ public class SystemConfigurationController extends BaseAction {
         return map;
     }
 
-//    /**
-//     * 重启
-//     *
-//     * @throws IOException
-//     * @throws InterruptedException
-//     */
-//    @RequestMapping("/restart")
-//    public void restart(HttpServletResponse response, HttpServletRequest request) throws InterruptedException, IOException {
-//        // String Sttoppath="/CAC/I1DataMgr_stop.sh"; //停止程序路径
-//        String shpath = "reboot"; // SHD启动程序路径
-//        // Runtime.getRuntime().exec(Sttoppath);
-//        Runtime.getRuntime().exec(shpath);
-//        System.out.println("已停止I1DataMgr_stop.sh程序");
-//    }
-
     /**
      * 获取主设备IED61850LDs数据
      */
@@ -403,214 +386,6 @@ public class SystemConfigurationController extends BaseAction {
         List<EquipmentSpaceEntity> dataList = systemConfigurationService.getEquipmentSpace();
         return dataList;
     }
-
-//    /**
-//     * 导入红外测温设备
-//     */
-//    @RequestMapping("/upload_Infrared_Excel")
-//    public void upload_Infrared_Excel(HttpServletResponse response, HttpServletRequest request) throws Exception {
-//        // Map<String, Object> jsonMap = new HashMap<String, Object>();
-//        // List<DeviceEntity> dataList
-//        // =systemConfigurationService.getDeviceList(page);
-//        // jsonMap.put("total", page.getPager().getRowCount());
-//        // jsonMap.put("rows", dataList);
-//        // HtmlUtil.writerJson(response, jsonMap);
-//        Map<String, Object> jsonMap = new HashMap<String, Object>();
-//        request.setCharacterEncoding("utf-8");
-//        Date now = new Date();
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");// 可以方便地修改日期格式
-//        String DayTime = dateFormat.format(now);
-//        String fileName = "";
-//        String Uploader = "";
-//        // 获取文件夹名
-//        DiskFileItemFactory factory = new DiskFileItemFactory();
-//        factory.setSizeThreshold(2 * 1024 * 1024);
-//        ServletFileUpload upload = new ServletFileUpload(factory);
-//        upload.setHeaderEncoding("utf-8");
-//
-//        List<FileItem> fileList = upload.parseRequest(request);// 获取request的文件
-//        // Iterator iter = fileItems.iterator()取其迭代器
-//        // iter.hasNext()检查序列中是否还有元素
-//        for (Iterator iter = fileList.iterator(); iter.hasNext(); ) {
-//            // 获得序列中的下一个元素
-//            FileItem item = (FileItem) iter.next();
-//            String s = item.getString("utf-8");
-//            // 上传文件的名称和完整路径
-//            fileName = item.getName();
-//            if (fileName == null) {
-//                Uploader = s;
-//            } else {
-//                long size = item.getSize();
-//                // 判断是否选择了文件
-//                if ((fileName == null || fileName.equals("")) && size == 0) {
-//                    continue;
-//                }
-//                // 截取文件名字符串
-//                fileName = fileName.substring(fileName.lastIndexOf("\\") + 1, fileName.length());
-//                fileName = DayTime + "-" + fileName;
-//                String path = UrlUtil.getUrlUtil().getOsicfg() + File.separator;
-//                File file = new File(path);
-//                // 如果不存在则创建 startup.cfg
-//                File i1toi2_Import = new File(path + "pubdevice_Infrared");
-//                // 目录不存在则创建
-//                if (!i1toi2_Import.exists() && !i1toi2_Import.isDirectory()) {
-//                    i1toi2_Import.mkdirs();
-//                }
-//                // 保存文件在服务器的物理磁盘中：第一个参数是：完整路径（不包括文件名）第二个参数是：文件名称
-//                // item.write(file);
-//                // 修改文件名和物料名一致，且强行修改了文件扩展名为gif
-//                // item.write(new File(uploadPath, itemNo + ".gif"));
-//                // 将文件保存到目录下，不修改文件名
-//                // createExl(dir_iedName, fileName);
-//                File Exl_InFile = new File(UrlUtil.getUrlUtil().getOsicfg() + File.separator + "pubdevice_Infrared");
-//                item.write(new File(Exl_InFile, fileName));
-//                jsonMap.put("File", 1);
-//            }
-//        }
-//
-//        // 根据创建出来的Exl文件入数据库
-//        String DeviceID = null;
-//        String DeviceName = null;
-//        Workbook readwb = null;
-//        // 读取数据流
-//
-//        File Exl_OutFile = new File(UrlUtil.getUrlUtil().getOsicfg() + File.separator + "pubdevice_Infrared" + File.separator + fileName);
-//        InputStream instream = new FileInputStream(Exl_OutFile);
-//        if (instream != null) {
-//            jsonMap.put("Excel", 2);
-//        }
-//        // JXL的读取
-//        readwb = Workbook.getWorkbook(instream);
-//        // 获取第X个Sheet表0代表Sheet1
-//        Sheet readsheet = readwb.getSheet(0);
-//        // 获取Sheet表中所包含的总列数
-//        int rsColumns = readsheet.getColumns();
-//        // 获取Sheet表中所包含的总行数
-//        int rsRows = readsheet.getRows();
-//        // 获取指定单元格的对象引用
-//        for (int i = 1; i < rsRows; i++) {
-//            for (int j = 0; j < rsColumns; j++) {
-//                Cell cell = readsheet.getCell(j, i);
-//                if (j == 0) {
-//                    DeviceID = cell.getContents();
-//                    if (DeviceID.indexOf("A") != 0) {
-//                        int ii = Integer.parseInt(DeviceID);
-//                        if (ii < 10) {
-//                            DeviceID = "A000" + DeviceID;
-//                        } else if (ii < 100) {
-//                            DeviceID = "A00" + DeviceID;
-//                        } else if (ii < 1000) {
-//                            DeviceID = "A0" + DeviceID;
-//                        } else {
-//                            DeviceID = "A" + DeviceID;
-//                        }
-//                    }
-//                }
-//                if (j == 1) {
-//                    DeviceName = cell.getContents();
-//                }
-//                System.out.print(cell.getContents() + " ");
-//            }
-//            // 将逐条读取到的EXCEL逐条插入到数据库中
-//            InfraredTableEntity entity = new InfraredTableEntity(DeviceID, DeviceName);
-//            int insertFlag = systemConfigurationService.getInfraredFlag(entity);
-//            if (insertFlag > 0)
-//                systemConfigurationService.updateInfraredTable(entity);
-//            else
-//                systemConfigurationService.insertInfraredTable(entity);
-//
-//        }
-//        // 删除Excel文件
-//        File file = new File(UrlUtil.getUrlUtil().getOsicfg() + File.separator
-//                + "pubdevice_Infrared" + File.separator + fileName);
-//        if (file.isFile() && file.exists()) {
-//            file.delete();
-//        }
-//        HtmlUtil.writerJson(response, jsonMap);
-//    }
-
-//    @RequestMapping("/getInfrared_Excel")
-//    public void getInfrared_Excel(HttpServletResponse response,
-//                                  HttpServletRequest request) throws Exception {
-//        String fileName_xml = "";
-//        // 根据index选择不同xml文件
-//        String srcFileName = request.getSession().getServletContext().getRealPath("");
-//        new UrlUtil();
-//        srcFileName = srcFileName + UrlUtil.getUrlUtil().getMapPath();
-//        String destFileName = srcFileName + "ZIP";
-//        System.out.println(destFileName);
-//        // 复制文件
-//        // if("GIS".equals(select_name)){
-//        // fileName_xml = "data_gis.xml";
-//        // fileName_swf = "DevMap_gis.swf";
-//        // }else if("JLC".equals(select_name)){
-//        // fileName_xml = "data_jlc.xml";
-//        // fileName_swf = "DevMap_jlc.swf";
-//        // }else if("FT".equals(select_name)){
-//        // fileName_xml = "data_ft.xml";
-//        // fileName_swf = "DevMap_ft.swf";
-//        // }else if("ZLC".equals(select_name)){
-//        // fileName_xml = "data_zlc.xml";
-//        // fileName_swf = "DevMap_zlc.swf";
-//        // }
-//        File srcFile_xml = new File(UrlUtil.getUrlUtil().getOsicfg() + File.separator + "pubdevice_Infrared" + File.separator + "data.xls");
-//        // File srcFile_swf = new File(srcFileName+"/"+fileName_swf);
-//        // File destFile_xml = new File(destFileName+"/"+fileName_xml);
-//        // File destFile_swf = new File(destFileName+"/"+fileName_swf);
-//        File destFile = new File(destFileName);
-//        File ZipFile = new File(srcFileName + "MapZip.zip");
-//        System.out.println(ZipFile);
-//        if (destFile.isDirectory() || destFile.exists()) {
-//            File[] files = destFile.listFiles();// 声明目录下所有的文件 files[];
-//            for (int i = 0; i < files.length; i++) {// 遍历目录下所有的文件
-//                files[i].delete();// 把每个文件用这个方法进行迭代
-//            }
-//        }
-//        if (!destFile.exists()) {
-//            destFile.mkdirs();
-//        }
-//        if (ZipFile.exists()) {
-//            ZipFile.delete();
-//        }
-//
-//        int byteread = 0; // 读取的字节数
-//        InputStream in_xml = null;
-//        InputStream in_swf = null;
-//        OutputStream out_xml = null;
-//        OutputStream out_swf = null;
-//        try {
-//            in_xml = new FileInputStream(srcFile_xml);
-//            // in_swf = new FileInputStream(srcFile_swf);
-//            // out_xml = new FileOutputStream(destFile_xml);
-//            // out_swf = new FileOutputStream(destFile_swf);
-//            byte[] buffer = new byte[1024];
-//            while ((byteread = in_xml.read(buffer)) != -1) {
-//                out_xml.write(buffer, 0, byteread);
-//            }
-//            while ((byteread = in_swf.read(buffer)) != -1) {
-//                out_swf.write(buffer, 0, byteread);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                if (out_xml != null)
-//                    out_xml.close();
-//                if (out_swf != null)
-//                    out_swf.close();
-//                if (in_xml != null)
-//                    in_xml.close();
-//                if (in_swf != null)
-//                    in_swf.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        ICDUtils.compressedFile(destFileName, srcFileName);
-//        // List<EquipmentSpaceEntity>
-//        // dataList=systemConfigurationService.getEquipmentSapce();
-//        // HtmlUtil.writerJson(response, dataList);
-//    }
 
     /**
      * 生成XML文件
@@ -1227,33 +1002,6 @@ public class SystemConfigurationController extends BaseAction {
         return list2;
     }
 
-//    /**
-//     * 获取工况压力告警信息 5
-//     */
-//    @RequestMapping("/getSconditionMonitor")
-//    public List getSconditionMonitor(SconditionAlarmEntity entity){
-//        List<SconditionAlarmEntity> list = systemConfigurationService
-//                .getSconditionMonitor(entity);
-//        List<BaseMonitorEntity> list2 = new ArrayList<BaseMonitorEntity>();
-//        String[] arrName = {"顶层油温上限(℃)"};
-//        if (list.size() != 0) {
-//            String[] arrValue = { list.get(0).getOilTempThresHold()};
-//            for (int i = 0; i < arrName.length; i++) {
-//                BaseMonitorEntity e = new BaseMonitorEntity();
-//                e.setStrName(arrName[i]);
-//                e.setStrValue(arrValue[i]);
-//                list2.add(e);
-//            }
-//        } else {
-//            for (int i = 0; i < arrName.length; i++) {
-//                BaseMonitorEntity e = new BaseMonitorEntity();
-//                e.setStrName(arrName[i]);
-//                e.setStrValue("");
-//                list2.add(e);
-//            }
-//        }
-//        return list2;
-//    }
 
     /**
      * 获取复选框信息，将告警设置应用到同类装置，
@@ -1309,17 +1057,6 @@ public class SystemConfigurationController extends BaseAction {
                 .getScomMonitor(deviceID);
         return list;
     }
-//    /**
-//     * 获取工况告警ID列表 type-5
-//     */
-//    @RequestMapping("/getSconditionMonitorID")
-//    @ResponseBody
-//    public List getSconditionMonitorID(SconditionAlarmEntity entity){
-//        List<SconditionAlarmEntity> list = systemConfigurationService
-//                .getSconditionMonitor(entity);
-//        return list;
-//    }
-
 
     /**
      * 修改Stom告警信息1
@@ -1397,23 +1134,6 @@ public class SystemConfigurationController extends BaseAction {
         systemConfigurationService.insertScomMonitor(entity);
     }
 
-//    /**
-//     * 修改工况告警信息
-//     */
-//    @RequestMapping("/updateSconditionMonitor")
-//    public void updateSconditionMonitor(SconditionAlarmEntity entity){
-//        systemConfigurationService.updateSconditionMonitor(entity);
-//    }
-
-//    /**
-//     * 插入工况告警信息
-//     */
-//    @RequestMapping("/insertSconditionMonitor")
-//    public void insertSconditionMonitor(SconditionAlarmEntity entity){
-//        systemConfigurationService.insertSconditionMonitor(entity);
-//
-//    }
-
     /**
      * 获取设备数据
      */
@@ -1426,20 +1146,12 @@ public class SystemConfigurationController extends BaseAction {
         return jsonMap;
     }
 
-//    /**
-//     * I1TOI2获取所有设备 由于获取数据一样,直接调用getExportList方法
-//     */
-//    @RequestMapping("/getAllDevice")
-//    public void getAllDevice(HttpServletResponse response) {
-//        getExportList();
-//    }
-
     /**
      * 获取i1toi2_data_inst表数据
      */
     @RequestMapping("/getI2Data")
     @ResponseBody
-    public Map getI2Data(BasePage page){
+    public Map getI2Data(BasePage page) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<I2TableEntity> dataList = systemConfigurationService.getI2Data(page);
         jsonMap.put("total", page.getPager().getRowCount());
@@ -1447,136 +1159,6 @@ public class SystemConfigurationController extends BaseAction {
         return jsonMap;
     }
 
-//    @RequestMapping("/getI2Data_103")
-//    public void getI2Data_103(BasePage page, HttpServletResponse response,
-//                              HttpServletRequest request) throws Exception {
-//        Map<String, Object> jsonMap = new HashMap<String, Object>();
-//        List<ZJ103Entity> dataList = systemConfigurationService
-//                .getI2Data_103(page);
-//        jsonMap.put("total", page.getPager().getRowCount());
-//        jsonMap.put("rows", dataList);
-//        HtmlUtil.writerJson(response, jsonMap);
-//    }
-
-//    @RequestMapping("/delete_103")
-//    public void delete_103(BasePage page, String[] DeviceIDs,
-//                           HttpServletResponse response, HttpServletRequest request)
-//            throws Exception {
-//        Map<String, Object> jsonMap = new HashMap<String, Object>();
-//        int aa = 0;
-//        for (int i = 0; i < DeviceIDs.length; i++) {
-//            ZJ103Entity DeviceID = new ZJ103Entity();
-//            DeviceID.setDeviceID(DeviceIDs[i]);
-//            aa++;
-//            systemConfigurationService.delete_103(DeviceID);
-//        }
-//        List<ZJ103Entity> dataList = systemConfigurationService
-//                .getI2Data_103(page);
-//        jsonMap.put("aa", aa);
-//        jsonMap.put("total", page.getPager().getRowCount());
-//        jsonMap.put("rows", dataList);
-//        HtmlUtil.writerJson(response, jsonMap);
-//    }
-//
-//    @RequestMapping("/updata_103")
-//    public void updata_103(BasePage page, String[] DeviceIDs, String[] CommAds,
-//                           HttpServletResponse response, HttpServletRequest request)
-//            throws Exception {
-//        Map<String, Object> jsonMap = new HashMap<String, Object>();
-//        for (int i = 0; i < DeviceIDs.length; i++) {
-//            ZJ103Entity DeviceID = new ZJ103Entity();
-//            DeviceID.setDeviceID(DeviceIDs[i]);
-//            DeviceID.setCommAddress(Integer.parseInt(CommAds[i]));
-//            systemConfigurationService.Updata_103(DeviceID);
-//        }
-//        List<ZJ103Entity> dataList = systemConfigurationService
-//                .getI2Data_103(page);
-//        jsonMap.put("total", page.getPager().getRowCount());
-//        jsonMap.put("rows", dataList);
-//        HtmlUtil.writerJson(response, jsonMap);
-//    }
-
-//    @RequestMapping("/submit_103_devPhase")
-//    public void submit_103_devPhase(BasePage page, String[] DeviceIDs,
-//                                    String[] devPhases, String[] CommAds, HttpServletResponse response,
-//                                    HttpServletRequest request) throws Exception {
-//        Map<String, Object> jsonMap = new HashMap<String, Object>();
-//        for (int i = 0; i < DeviceIDs.length; i++) {
-//            ZJ103Entity DeviceID = new ZJ103Entity();
-//            DeviceID.setDeviceID(DeviceIDs[i]);
-//            DeviceID.setDevPhase(Integer.parseInt(devPhases[i]));
-//            DeviceID.setCommAddress(Integer.parseInt(CommAds[i]));
-//            systemConfigurationService.submit_103_devPhase(DeviceID);
-//        }
-//        List<ZJ103Entity> dataList = systemConfigurationService
-//                .getI2Data_103(page);
-//        jsonMap.put("total", page.getPager().getRowCount());
-//        jsonMap.put("rows", dataList);
-//        HtmlUtil.writerJson(response, jsonMap);
-//    }
-
-
-    /**
-     * 获取I1中的refname
-     *
-     * @param ld_name和ln_name
-     *
-     */
-    /**
-     * 获取I1中的refname
-     *
-     * @param ld_name和ln_name
-     */
-    @RequestMapping("/getycNameList")
-    @ResponseBody
-    public Map getycNameList(YcDataInstEntity entity) {
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        List<YcDataInstEntity> dataList = systemConfigurationService.getycNameList(entity);
-        jsonMap.put("rows", dataList);
-        return jsonMap;
-    }
-
-    @RequestMapping("/getyxNameList")
-    @ResponseBody
-    public Map getyxNameList(YcDataInstEntity entity) {
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        List<YcDataInstEntity> dataList = systemConfigurationService
-                .getyxNameList(entity);
-        jsonMap.put("rows", dataList);
-        return jsonMap;
-    }
-
-    @RequestMapping("/getykNameList")
-    @ResponseBody
-    public Map getykNameList(YcDataInstEntity entity){
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        List<YcDataInstEntity> dataList = systemConfigurationService
-                .getykNameList(entity);
-        jsonMap.put("rows", dataList);
-        return jsonMap;
-    }
-
-    /*
-     * 插入I2数据
-     */
-    @RequestMapping("/i2TableCommmit")
-    @ResponseBody
-    public void insertI2Table(I2TableEntity entity) {
-        int insertFlag = systemConfigurationService.getinsertFlag(entity);
-        if (insertFlag > 0)
-            systemConfigurationService.updateI2Table(entity);
-        else
-            systemConfigurationService.insertI2Table(entity);
-    }
-
-    /*
-     * 删除I2数据
-     */
-    @RequestMapping("/delete_I2")
-    @ResponseBody
-    public void delete_I2(String i2id) {
-        systemConfigurationService.delete_I2(i2id);
-    }
 
     @RequestMapping("/getIEC61850LD_LN")
     @ResponseBody
@@ -1909,7 +1491,6 @@ public class SystemConfigurationController extends BaseAction {
     }
 
 
-
     /**
      * IED接入配置，导入icd文件
      *
@@ -1985,40 +1566,6 @@ public class SystemConfigurationController extends BaseAction {
     }
 
 
-
-
-    /**
-     * 远程映射配置导出
-     */
-    @RequestMapping("/getI2Data_export")
-    public void getI2Data_export(HttpServletResponse response) {
-        List<I2TableCell> resultList = systemConfigurationService.getI2Data_export();
-        String sheet1Name = "CAC远传映射配置表";
-        String excelName = "CAC远传映射配置表"+ DateUtil.formatFullTime(LocalDateTime.now());
-        ExcelUtils.writeExcel(response, excelName, sheet1Name, resultList, I2TableCell.class);
-    }
-    /**
-     * 远程映射配置导入
-     *
-     * @param File
-     * @param response
-     * @param request
-     * @throws Exception
-     */
-    @RequestMapping(value = "/uploadExcel", method = RequestMethod.POST)
-    public void uploadExcel(@RequestParam(value = "uploadFile", required = false) MultipartFile file) {
-        List<I2TableCell> list = ExcelUtils.readExcel("", I2TableCell.class, file);
-        for (I2TableCell i2TableCell : list) {
-            // 将逐条读取到的EXCEL逐条插入到数据库中
-            I2TableEntity entity = new I2TableEntity(i2TableCell.getI2id(), i2TableCell.getI1type(), i2TableCell.getI1id(), i2TableCell.getI2_refname(), i2TableCell.getI2_desc());
-            int insertFlag = systemConfigurationService.getinsertFlag(entity);
-            if (insertFlag > 0)
-                systemConfigurationService.updateI2Table(entity);
-            else
-                systemConfigurationService.insertI2Table(entity);
-        }
-    }
-
     /**
      * 测量点描述导出
      *
@@ -2064,80 +1611,5 @@ public class SystemConfigurationController extends BaseAction {
                 systemConfigurationService.add_refname(refNameCell.getRefName(), refNameCell.getRefDesc());
         }
     }
-
-
 }
 
-
-
-
-    //    // 从数据库读取点序号
-//    @RequestMapping("/getDxhFromDB")
-//    @ResponseBody
-//    public List getDxhFromDB(YclysEntity entity) {
-//        List<YclysEntity> list = new ArrayList<YclysEntity>();
-//        if (entity.getFc().equals("ST")) {
-//            list = systemConfigurationService.getyxByld(entity);
-//        } else if (entity.getFc().equals("MX")) {
-//            list = systemConfigurationService.getycByld(entity);
-//        } else if (entity.getFc().equals("SG/SE")) {
-//            list = systemConfigurationService.getykByld(entity);
-//        } else if (entity.getFc().equals("CO")) {
-//            entity.setLdinst(entity.getLdinst().replace("MONT", ""));
-//            list = systemConfigurationService.getykByld(entity);
-//        }
-//        return list;
-//    }
-
-//    // 从数据库读取点序号
-//    @RequestMapping("/getDxhFromCFG")
-//    @ResponseBody
-//    public List getDxhFromCFG(YclysEntity entity) {
-//        List<YcDataInstEntity> list = new ArrayList<YcDataInstEntity>();
-//        String index = "";
-//        // 获取文件夹路径
-//        String cfg = "/datamap.cfg";
-//        String file_path = UrlUtil.getUrlUtil().getOsicfg() + entity.getLdinst().substring(0, entity.getLdinst().indexOf("MONT")) + cfg;
-//        if (entity.getFc().equals("ST")) {
-//            index = "DI";
-//        } else if (entity.getFc().equals("MX")) {
-//            index = "AI";
-//        } else if (entity.getFc().equals("CO")) {
-//            index = "FV";
-//        }
-//        try {
-//            File file = new File(file_path);
-//            FileInputStream fs = new FileInputStream(file);
-//            InputStreamReader read = new InputStreamReader(fs, "UTF-8");
-//            BufferedReader reader = new BufferedReader(read);
-//            String line;
-//            String[] arr;
-//            while ((line = reader.readLine()) != null) {
-//                String[] arr_ln;
-//                String[] arr_id;
-//                YcDataInstEntity temp = new YcDataInstEntity();
-//                if (index.equals("")) {
-//                } else if (line.indexOf(index) < 0) {
-//                } else {
-//                    arr = line.split("\t");
-//                    temp.setLd_inst_name(arr[0]);
-//                    arr_ln = arr[1].split("\\$");
-//                    temp.setLn_inst_name(arr_ln[0]);
-//                    temp.setYc_refname(arr_ln[2]);
-//                    arr_id = arr[2].split("\\$");
-//                    int _zh = Integer.parseInt(arr_id[1]);
-//                    int _dh = Integer.parseInt(arr_id[2]);
-//                    temp.setYc_id("" + (_zh * 2048 + _dh));
-//                    temp.setIed_type_id(arr[1]);
-//                    list.add(temp);
-//                }
-//            }
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return list;
-//    }

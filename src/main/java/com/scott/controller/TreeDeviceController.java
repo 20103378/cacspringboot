@@ -335,21 +335,6 @@ public class TreeDeviceController extends BaseAction {
         List<TreeDeviceEntity> entityList = treeDeviceService.getImgList();
         return entityList;
     }
-
-    /*@RequestMapping("/getAmcImgList")
-    public void getAmcImgList(HttpServletResponse response) throws Exception {
-        TreeViewUtil<TreeDeviceEntity> util = new TreeViewUtil<TreeDeviceEntity>();
-        Map<String, Object> param = new HashMap<String, Object>();
-        List<TreeDeviceEntity> EntityList = treeDeviceService.getAmcImgList(param);
-        HtmlUtil.writerJson(response, EntityList);
-    }*/
-    /*@RequestMapping("/getOtherAmcImgList")
-    public void getOtherAmcImgList(String SampleTime,HttpServletResponse response) throws Exception {
-        TreeViewUtil<TreeDeviceEntity> util = new TreeViewUtil<TreeDeviceEntity>();
-        Map<String, Object> param = new HashMap<String, Object>();
-        List<TreeDeviceEntity> EntityList = treeDeviceService.getOtherAmcImgList(SampleTime);
-        HtmlUtil.writerJson(response, EntityList);
-    }*/
     @RequestMapping("/getOtherImgList")
     @ResponseBody
     public Map getOtherImgList(String SampleTime) {
@@ -360,27 +345,6 @@ public class TreeDeviceController extends BaseAction {
         return map;
     }
 
-//    @RequestMapping("/getRemarkImgList")
-//    public void getRemarkImgList(HttpServletResponse response) {
-//        List<String> EntityName = treeDeviceService.getRemarkImgList();
-//        HtmlUtil.writerJson(response, EntityName);
-//    }
-
-//    @RequestMapping("/getImgListBySelect")
-//    @ResponseBody
-//    public List getImgListBySelect(String space, String deviceType) {
-//        List<TreeDeviceEntity> entityList = treeDeviceService.getImgListBySelect(space, deviceType);
-//        return entityList;
-//    }
-//
-//    @RequestMapping("/getOtherImgListBySelect")
-//    @ResponseBody
-//    public List getOtherImgListBySelect(String space, String deviceType) {
-//        //todo 当前的数值
-//        List<TreeDeviceEntity> entityList = treeDeviceService.getOtherImgListBySelect(space, deviceType);
-//        computDeviceImgStatus(entityList);
-//        return entityList;
-//    }
 
     /**
      * 计算设备运行状态

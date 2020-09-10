@@ -9,7 +9,6 @@ import com.base.web.BaseAction;
 import com.scott.entity.*;
 import com.scott.page.HistoryPage;
 import com.scott.service.DeviceHealthStateService;
-import com.scott.service.LEDConfigurationService;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -203,84 +202,7 @@ public class DeviceHealthStateController extends BaseAction {
         return dataList;
     }
 
-//    //根据区域名称找到stom的数据列表
-//    @RequestMapping("/getStomDetailListBySpace")
-//    public void getStomDetailListBySpace(String space,
-//                                         HttpServletResponse response) throws Exception {
-//        space = new String(space.getBytes("iso8859-1"), "utf-8");
-//        List<StomYxEntity> date = deviceHealthStateService.getStomDetailDateBySpace(space);
-//        List<StomYxEntity> data = deviceHealthStateService.getStomDetailBySpace(space);
-////		List<StomAlarmEntity> Alarm = deviceHealthStateService.getStomAlarm();
-//        List<StomYxEntity> dataList = new ArrayList<StomYxEntity>();
-//        for (int ii = 0; ii < data.size(); ii++) {
-//            dataList.add(date.get(ii));
-//            dataList.add(data.get(ii));
-//        }
-//        HtmlUtil.writerJson(response, dataList);
-//    }
 
-
-//    //根据区域名称查找sf6的数据信息
-//    @RequestMapping("/getSf6DetailListBySpace")
-//    public void getSf6DetailListBySpace(String space,
-//                                        HttpServletResponse response) throws Exception {
-//        space = new String(space.getBytes("iso8859-1"), "utf-8");
-//        List<Sf6YxEntity> date = deviceHealthStateService.getSf6DetailDateBySpace(space);
-//        List<Sf6YxEntity> data = deviceHealthStateService.getSf6DetailBySpace(space);
-////		List<Sf6AlarmEntity> Alarm = deviceHealthStateService.getSf6Alarm();
-//        List<Sf6YxEntity> dataList = new ArrayList<Sf6YxEntity>();
-//        for (int ii = 0; ii < data.size(); ii++) {
-//            dataList.add(date.get(ii));
-//            dataList.add(data.get(ii));
-//        }
-//        HtmlUtil.writerJson(response, dataList);
-//    }
-//
-//
-//    @RequestMapping("/getSmoamDetailListBySpace")
-//    public void getSmoamDetailListBySpace(String space,
-//                                          HttpServletResponse response) throws Exception {
-//        space = new String(space.getBytes("iso8859-1"), "utf-8");
-//        List<SmoamYxEntity> date = deviceHealthStateService.getSmoamDetailDateBySpace(space);
-//        List<SmoamYxEntity> data = deviceHealthStateService.getSmoamDetailBySpace(space);
-////		List<SmoamAlarmEntity> Alarm = deviceHealthStateService.getSmoamAlarm();
-//        List<SmoamYxEntity> dataList = new ArrayList<SmoamYxEntity>();
-//        for (int ii = 0; ii < data.size(); ii++) {
-//            dataList.add(date.get(ii));
-//            dataList.add(data.get(ii));
-//        }
-//        HtmlUtil.writerJson(response, dataList);
-//    }
-//
-//    @RequestMapping("/getScomDetailListBySpace")
-//    public void getScomDetailListBySpace(String space,
-//                                         HttpServletResponse response) throws Exception {
-//        space = new String(space.getBytes("iso8859-1"), "utf-8");
-//        List<ScomYxEntity> date = deviceHealthStateService.getScomDetailDateBySpace(space);
-//        List<ScomYxEntity> data = deviceHealthStateService.getScomDetailBySpace(space);
-////		List<ScomAlarmEntity> Alarm = deviceHealthStateService.getScomAlarm();
-//        List<ScomYxEntity> dataList = new ArrayList<ScomYxEntity>();
-//        for (int ii = 0; ii < data.size(); ii++) {
-//            dataList.add(date.get(ii));
-//            dataList.add(data.get(ii));
-//        }
-//        HtmlUtil.writerJson(response, dataList);
-//    }
-//
-//    @RequestMapping("/getSpdmDetailListBySpace")
-//    public void getSpdmDetailListBySpace(String space,
-//                                         HttpServletResponse response) throws Exception {
-//        space = new String(space.getBytes("iso8859-1"), "utf-8");
-//        List<SpdmYxEntity> date = deviceHealthStateService.getSpdmDetailDateBySpace(space);
-//        List<SpdmYxEntity> data = deviceHealthStateService.getSpdmDetailBySpace(space);
-////		List<SpdmAlarmEntity> Alarm = deviceHealthStateService.getSpdmAlarm();
-//        List<SpdmYxEntity> dataList = new ArrayList<SpdmYxEntity>();
-//        for (int ii = 0; ii < data.size(); ii++) {
-//            dataList.add(date.get(ii));
-//            dataList.add(data.get(ii));
-//        }
-//        HtmlUtil.writerJson(response, dataList);
-//    }
 
     /**
      * 获取油色谱历史数据
