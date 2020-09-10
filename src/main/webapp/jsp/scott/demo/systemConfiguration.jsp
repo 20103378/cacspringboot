@@ -333,64 +333,65 @@
                 </div>
             </div>
         </div>
-        <div title="远传映射配置" data-options="closable:false" style="padding:10px;">
-            <div id="list3">
-                <table id="i2List"></table>
-            </div>
-            <div id="editI2-window" title="I2添加修改" style="width:800px;height:500px;font-size: 16">
-                <div data-options="region:'north',split:true" style="height:185px;padding:10px">
-                    <form id="editForm4" class="ui-form" method="post">
-                        <table id="tab_I1ToI2">
-                            <tr>
-                                <td>远传点号</td>
-                                <td><input id="txt_I2_ID"/></td>
-                                <td><label id="msg_I2_ID">*</label></td>
-                            </tr>
-                            <tr>
-                                <td>设备</td>
-                                <td><select id="sel_dname" class="easyui-combobox" style="width:100px;"
-                                            panelHeight="150">
-                                </select></td>
-                                <td><label id="msg_dname"> </label></td>
-                            </tr>
-                            <tr>
-                                <td>类型</td>
-                                <td><select id="sel_type" class="easyui-combobox" style="width:100px;"
-                                            panelHeight="150">
-                                </select></td>
-                                <td><label id="msg_type"> </label></td>
-                            </tr>
-                            <tr>
-                                <td>名称</td>
-                                <td><select id="sel_instName" class="easyui-combobox" style="width:100px;"
-                                            panelHeight="150">
-                                </select></td>
-                                <td><label id="msg_instName"></label></td>
-                            </tr>
-                            <tr>
-                                <td>备注</td>
-                                <td><input id="txt_desc"/></td>
-                                <td><label id="msg_desc"> </label></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td><input type="button" id="bt_sub" value="提交"/></td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </form>
-                </div>
-            </div>
-            <div id="ExcelUpload-window" title="Excel上传" style="width:400px;height:150px;font-size: 16">
-                <div data-options="region:'north',split:true" style="padding:10px">
-                    <form id="ExcelpdfForm" action="" enctype="multipart/form-data" method="post">
-                        <p>请选择需要导入的Excel文件</p>
-                        <input id="ExcelfileUrl" accept=".xlsx" type="file" style="width: 160px;" name="uploadFile"/>
-                        <input id="ExceluploadFileBtn" type="button" value="上传" class="btn" style="margin-top: 0px;"/>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <div data-options="closable:false"></div>
+    <%--        <div title="远传映射配置" data-options="closable:false" style="padding:10px;">--%>
+<%--            <div id="list3">--%>
+<%--                <table id="i2List"></table>--%>
+<%--            </div>--%>
+<%--            <div id="editI2-window" title="I2添加修改" style="width:800px;height:500px;font-size: 16">--%>
+<%--                <div data-options="region:'north',split:true" style="height:185px;padding:10px">--%>
+<%--                    <form id="editForm4" class="ui-form" method="post">--%>
+<%--                        <table id="tab_I1ToI2">--%>
+<%--                            <tr>--%>
+<%--                                <td>远传点号</td>--%>
+<%--                                <td><input id="txt_I2_ID"/></td>--%>
+<%--                                <td><label id="msg_I2_ID">*</label></td>--%>
+<%--                            </tr>--%>
+<%--                            <tr>--%>
+<%--                                <td>设备</td>--%>
+<%--                                <td><select id="sel_dname" class="easyui-combobox" style="width:100px;"--%>
+<%--                                            panelHeight="150">--%>
+<%--                                </select></td>--%>
+<%--                                <td><label id="msg_dname"> </label></td>--%>
+<%--                            </tr>--%>
+<%--                            <tr>--%>
+<%--                                <td>类型</td>--%>
+<%--                                <td><select id="sel_type" class="easyui-combobox" style="width:100px;"--%>
+<%--                                            panelHeight="150">--%>
+<%--                                </select></td>--%>
+<%--                                <td><label id="msg_type"> </label></td>--%>
+<%--                            </tr>--%>
+<%--                            <tr>--%>
+<%--                                <td>名称</td>--%>
+<%--                                <td><select id="sel_instName" class="easyui-combobox" style="width:100px;"--%>
+<%--                                            panelHeight="150">--%>
+<%--                                </select></td>--%>
+<%--                                <td><label id="msg_instName"></label></td>--%>
+<%--                            </tr>--%>
+<%--                            <tr>--%>
+<%--                                <td>备注</td>--%>
+<%--                                <td><input id="txt_desc"/></td>--%>
+<%--                                <td><label id="msg_desc"> </label></td>--%>
+<%--                            </tr>--%>
+<%--                            <tr>--%>
+<%--                                <td></td>--%>
+<%--                                <td><input type="button" id="bt_sub" value="提交"/></td>--%>
+<%--                                <td></td>--%>
+<%--                            </tr>--%>
+<%--                        </table>--%>
+<%--                    </form>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div id="ExcelUpload-window" title="Excel上传" style="width:400px;height:150px;font-size: 16">--%>
+<%--                <div data-options="region:'north',split:true" style="padding:10px">--%>
+<%--                    <form id="ExcelpdfForm" action="" enctype="multipart/form-data" method="post">--%>
+<%--                        <p>请选择需要导入的Excel文件</p>--%>
+<%--                        <input id="ExcelfileUrl" accept=".xlsx" type="file" style="width: 160px;" name="uploadFile"/>--%>
+<%--                        <input id="ExceluploadFileBtn" type="button" value="上传" class="btn" style="margin-top: 0px;"/>--%>
+<%--                    </form>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
         <div data-options="closable:false"></div>
 <%--        <div title="浙江103远传映射配置" data-options="closable:false" style="padding:10px;">--%>
 <%--            <div>--%>
@@ -524,7 +525,7 @@
 </div>
 <script type="text/javascript" src="<%=basePath%>/js/commons/tableExport.js"></script>
 <script type="text/javascript" src="<%=basePath%>/js/Innerjs/systemConfiguration.js"></script>
-<script type="text/javascript" src="<%=basePath%>/js/Innerjs/i1toI2.js"></script>
+<%--<script type="text/javascript" src="<%=basePath%>/js/Innerjs/i1toI2.js"></script>--%>
 <%--<script type="text/javascript" src="<%=basePath%>/js/Innerjs/i1toI2_103.js"></script>--%>
 <script type="text/javascript" src="<%=basePath%>/js/Innerjs/LEDConfiguration.js"></script>
 <script type="text/javascript" src="<%=basePath%>/js/Innerjs/SpaceConfiguration.js"></script>

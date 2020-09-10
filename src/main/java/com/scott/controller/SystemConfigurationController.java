@@ -20,9 +20,6 @@ import com.scott.entity.*;
 import com.scott.page.DevicePage;
 import com.scott.service.LEDConfigurationService;
 import com.scott.service.SystemConfigurationService;
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -381,19 +378,6 @@ public class SystemConfigurationController extends BaseAction {
         }
     }
 
-//    /**
-//     * 添加主设备
-//     */
-//    @RequestMapping("/add_equipment")
-//    @ResponseBody
-//    public Boolean add_equipment(EquipmentEntity entity) {
-//        EquipmentEntity equipmentEntity = systemConfigurationService.findEquipmentByIEC61850LD(entity.getIec61850LD());
-//        if(equipmentEntity ==null){
-//            systemConfigurationService.add_equipment(entity);
-//            return true;
-//        }
-//        return false;
-//    }
 
     /**
      * 删除主设备信息
