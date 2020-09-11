@@ -1,7 +1,6 @@
 package com.scott.controller;
 
 import com.base.entity.BaseEntity;
-import com.base.util.HtmlUtil;
 import com.base.web.BaseAction;
 import com.scott.entity.AlarmRecordEntity;
 import com.scott.page.AlarmRecordPage;
@@ -9,9 +8,9 @@ import com.scott.service.EventRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,17 +43,16 @@ public class EventRecordController extends BaseAction {
     /**
      * 获取告警事件记录  yes
      * @param page
-     * @param response
+     * @param
      * @throws Exception
      */
+    @ResponseBody
     @RequestMapping("/getAlarmRecordList")
-    public void getAlarmRecordList(AlarmRecordPage page,
-                                   HttpServletResponse response) throws Exception {
+    public Map<String, Object> getAlarmRecordList(AlarmRecordPage page) throws Exception {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<AlarmRecordEntity> dataList = eventRecordService.getAlarmRecordList(page);
         jsonMap.put("total", page.getPager().getRowCount());
         jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        return jsonMap;
     }
-
 }

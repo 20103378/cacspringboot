@@ -370,10 +370,10 @@
 		INSERT INTO
 		pubdevice(DeviceID,EquipmentID,DeviceProductID,DeviceType,IED_IP,DeviceName,
 		DeviceLocation,StartOperateTime,ManufactoryName,Remark,PosX,PosY,IEC61850LD_LN,Space,StopUse,
-		StopSoundAlarm)
+		StopSoundAlarm,Phase)
 		VALUES(#{DeviceID},#{EquipmentID},#{DeviceProductID},#{DeviceType},#{IED_IP}
 		,#{DeviceName},#{DeviceLocation},#{StartOperateTime},#{ManufactoryName},#{Remark},#{PosX},
-		#{PosY},#{IEC61850LD_LN},#{Space},#{StopUse},#{StopSoundAlarm})
+		#{PosY},#{IEC61850LD_LN},#{Space},#{StopUse},#{StopSoundAlarm},#{Phase})
 	</insert>
 
 

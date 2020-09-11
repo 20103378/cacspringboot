@@ -189,10 +189,10 @@
                                 <%--                    							</select>--%>
                                 <%--		               						</td>--%>
 
-                                <td><label>相别:</label>
-                                    <select id="phase" class="easyui-combobox" style="width:145px;" panelHeight="150">
-                                    </select>
-                                </td>
+<%--                                <td><label>相别:</label>--%>
+<%--                                    <select id="phase" class="easyui-combobox" style="width:145px;" panelHeight="150">--%>
+<%--                                    </select>--%>
+<%--                                </td>--%>
                                 <td><label>区域位置:</label>
                                     <select id="spaceId" class="easyui-combobox" style="width:145px;" panelHeight="150">
                                     </select>
@@ -265,8 +265,12 @@
                                 <%--		               							<select id="tSpace" class="easyui-combobox" style="width:100px;" panelHeight="150">--%>
                                 <%--                    							</select>--%>
                                 <%--		               						</td>--%>
+<%--                                <td><label>相别:</label>--%>
+<%--                                    <input id="tPhase" type="text">--%>
+<%--                                </td>--%>
                                 <td><label>相别:</label>
-                                    <input id="tPhase" type="text">
+                                    <select id="phase" class="easyui-combobox" style="width:145px;" panelHeight="150">
+                                    </select>
                                 </td>
                             </tr>
                             <tr>

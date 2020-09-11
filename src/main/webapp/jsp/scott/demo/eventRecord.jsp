@@ -30,9 +30,9 @@
 						<td>&nbsp;&nbsp;监测设备选择&nbsp;:&nbsp;
 						<select id="ddlDevType" class="easyui-combobox" style="width:100px;">
 							<option value="1">油色谱及微水</option>
-							<option value="4">铁芯泄漏电流</option> 
-							<option value="2">SF6气体压力</option> 
-							<option value="3">避雷器泄漏电流及动作次数</option>  
+							<option value="2">SF6气体压力</option>
+							<option value="3">避雷器泄漏电流及动作次数</option>
+							<option value="4">铁芯泄漏电流</option>
 						</select></td>
 						<td>&nbsp;&nbsp;告警类型选择&nbsp;:&nbsp;
 						<select id="ddlAlarmType" class="easyui-combobox" style="width:100px;">
