@@ -453,6 +453,4 @@ public class TreeDeviceController extends BaseAction {
         EntityList = treeDeviceService.getSpdmData(param);
         HtmlUtil.writerJson(response, EntityList);
     }
-
-
 }

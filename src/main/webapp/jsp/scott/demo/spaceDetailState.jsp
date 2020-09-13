@@ -52,10 +52,9 @@
 			data-options="tools:'#tab-tools'" style="width: 700px; height: 250px">
         	<div title="类型设备实时信息"  data-options="closable:false" style="padding:10px;">
         		<table>
-					<td>设备区域：</td>
+<%--					<td>设备区域：</td>--%>
 					<td>
-						<select id="DeviceArea" class="easyui-combobox" style="width:200px;height:30px" panelHeight="200px">
-						</select>
+<%--						<select id="DeviceArea" class="easyui-combobox" style="width:200px;height:30px" panelHeight="200px"></select>--%>
 						查询日期: <input id="startTime" value="" class="easyui-datebox"
 						data-options="formatter:myformatter,parser:myparser"
 						style="width: 100px"> 查询时间:
@@ -87,7 +86,8 @@
 							<option value="24">24</option>
 					    </select>&nbsp;
 						<a id="search_but" href="#" class="easyui-linkbutton" iconCls="icon-search">查询</a>&nbsp;
-						<!--input type="button" value="导出" onclick="$('#data_list_0_tb').tableExport({type:'pdf',escape:'false'})"-->
+						<a id="reset_but" href="#" class="easyui-linkbutton" iconCls="icon-search">重置</a>&nbsp;
+	<!--input type="button" value="导出" onclick="$('#data_list_0_tb').tableExport({type:'pdf',escape:'false'})"-->
 
 						<a id="Detail_but" href="#" class="easyui-linkbutton" iconCls="icon-sum">导出</a>
 					</td>

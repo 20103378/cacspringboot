@@ -4,28 +4,40 @@ var _et = null;
 var _off = false;
 var _time = null;
 $(function () {
-    jeecg.spaceDetailState.setTime();
-    jeecg.spaceDetailState.showSelect();
+    // jeecg.spaceDetailState.setTime();
+    // jeecg.spaceDetailState.showSelect();
 //	jeecg.spaceDetailState.showDevice();
     jeecg.spaceDetailState.showDataList();
-    $('#DeviceArea').combobox({
-        onChange: function () {
-            $("#showdata_div").empty();
-            // var space = $("#DeviceArea").combo("getValue");
-            // if (space == "0") {
-                jeecg.spaceDetailState.showDataList();
-            // } else {
-            //     getDeviceBySpace(space);
-            // }
-        }
-    });
+    // $('#DeviceArea').combobox({
+    //     onChange: function () {
+    //         $("#showdata_div").empty();
+    //         // var space = $("#DeviceArea").combo("getValue");
+    //         // if (space == "0") {
+    //             jeecg.spaceDetailState.showDataList();
+    //         // } else {
+    //         //     getDeviceBySpace(space);
+    //         // }
+    //     }
+    // });
     $("#Detail_but").unbind('click').click(function () {
         export_Word();
     });
     $("#search_but").unbind('click').click(function () {
+        debugger
+        var date = $('#startTime').datebox('getValue');
+        if(date==""){
+            alert("请选择时间")
+            return ;
+        }
         $("#showdata_div").empty();
-
         _off = true;
+        jeecg.spaceDetailState.showDataList();
+    });
+    $("#reset_but").unbind('click').click(function () {
+        $("#showdata_div").empty();
+        _off = false;
+        _time = null;
+        $("#startTime").datebox("setValue", null);
         jeecg.spaceDetailState.showDataList();
     });
 });
@@ -38,25 +50,25 @@ jeecg.spaceDetailState = function () {
             }
             $("#startTime").datebox("setValue", _st);
         },
-        showSelect: function () {
-            var chart = [];
-            var Type = $("#txtType").val();
-            $.ajax({
-                async: false,
-                cache: false,
-                type: 'POST',
-                url: ctxPath + '/treeDevice/getSpaceNameByType?Type=' + Type,
-                success: function (data) {
-                    //循环用于向chart插入refname，为动态下拉框提供元素
-                    chart.push({"text": "全部", "value": "0"});
-                    for (var j = 0; j < data.length; j++) {
-                        chart.push({"text": data[j], "value": data[j]});//将chart组合为columns
-                    }
-                    $("#DeviceArea").combobox("loadData", chart);
-                    $("#DeviceArea").combobox('select', chart[0].value);
-                }
-            });
-        },
+        // showSelect: function () {
+        //     var chart = [];
+        //     var Type = $("#txtType").val();
+        //     $.ajax({
+        //         async: false,
+        //         cache: false,
+        //         type: 'POST',
+        //         url: ctxPath + '/treeDevice/getSpaceNameByType?Type=' + Type,
+        //         success: function (data) {
+        //             //循环用于向chart插入refname，为动态下拉框提供元素
+        //             chart.push({"text": "全部", "value": "0"});
+        //             for (var j = 0; j < data.length; j++) {
+        //                 chart.push({"text": data[j], "value": data[j]});//将chart组合为columns
+        //             }
+        //             $("#DeviceArea").combobox("loadData", chart);
+        //             $("#DeviceArea").combobox('select', chart[0].value);
+        //         }
+        //     });
+        // },
 //         showDevice: function () {
 //             var type = $("#txtType").val();
 //             $.ajax({
@@ -144,8 +156,8 @@ jeecg.spaceDetailState = function () {
                             html1 += "<tr><td>乙烯(ppm)</td><td style='color:#c0e76f;'>" + data[n].c2H4ppm + "</td><td>--</td><td>" + sampleTime + "</td></tr>";
                             html1 += "<tr><td>乙炔(ppm)</td><td style='color:#c0e76f;'>" + data[n].c2H2ppm + "</td><td style='color:#ebdc5b'>" + Almret + "</td><td>"+ sampleTime + "</td></tr>";
                             html1 += "<tr><td>氢气(ppm)</td><td style='color:#c0e76f;'>" + data[n].h2ppm + "</td><td style='color:#ebdc5b'>" + H2Almret + "</td><td>" + sampleTime + "</td></tr>";
-                            html1 += "<tr><td>一氧化碳(ppm)</td><td style='color:#c0e76f;'>" + data[n].cOppm + "</td><td>--</td><td>" + sampleTime + "</td></tr>";
-                            html1 += "<tr><td>二氧化碳(ppm)</td><td style='color:#c0e76f;'>" + data[n].cO2ppm + "</td><td>--</td><td>" + sampleTime + "</td></tr>";
+                            html1 += "<tr><td>一氧化碳(ppm)</td><td style='color:#c0e76f;'>" + data[n].coppm + "</td><td>--</td><td>" + sampleTime + "</td></tr>";
+                            html1 += "<tr><td>二氧化碳(ppm)</td><td style='color:#c0e76f;'>" + data[n].co2ppm + "</td><td>--</td><td>" + sampleTime + "</td></tr>";
                             html1 += "<tr><td>总烃(ppm)</td><td style='color:#c0e76f;'>" + data[n].totHyd + "</td><td style='color:#ebdc5b'>" + TAlmret + "</td><td>" + sampleTime + "</td></tr>";
                             html1 += "<tr><td>油位(ppm)</td><td style='color:#c0e76f;'>" + data[n].oilTmp + "</td><td>--</td><td>" + sampleTime + "</td></tr>";
                             html1 += "<tr><td>油色谱微水(ppm)</td><td style='color:#c0e76f;'>" + data[n].mst + "</td><td>--</td><td>" + sampleTime + "</td></tr>";
@@ -715,13 +727,13 @@ function export_Word() {
                 debugger
                 var head_data;
                 head_data = [];
-                head_data.push({"title": "甲烷", "value": "CH4ppm"},
+                head_data.push({"title": "甲烷", "value": "ch4ppm"},
                     {"title": "乙烯", "value": "c2H4ppm"}, {"title": "乙炔", "value": "c2H2ppm"},
                     {"title": "乙炔阈值状态", "value": "c2H2Alm"}, {"title": "氢气", "value": "h2ppm"}, {
                         "title": "氢气阈值状态",
                         "value": "h2Alm"
                     },
-                    {"title": "一氧化碳", "value": "COppm"}, {"title": "二氧化碳", "value": "CO2ppm"}, {
+                    {"title": "一氧化碳", "value": "coppm"}, {"title": "二氧化碳", "value": "co2ppm"}, {
                         "title": "总烃",
                         "value": "totHyd"
                     },
