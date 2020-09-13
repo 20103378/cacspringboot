@@ -50,23 +50,25 @@ public class TreeDeviceController extends BaseAction {
      * @throws Exception
      */
     @RequestMapping("/getZoneEmuList")
-    public void getZoneEmuList(HttpServletResponse response) {
+    @ResponseBody
+    public List getZoneEmuList() {
         TreeViewUtil<TreeDeviceEntity> util = new TreeViewUtil<>();
         List<TreeDeviceEntity> entityList = new ArrayList<>();
-////        //获取单位信息
-//        List<TreeDeviceEntity> InfoName = treeDeviceService.getUnitinfo();
+//        //获取单位信息
+        List<TreeDeviceEntity> InfoName = treeDeviceService.getUnitinfo();
         //获取空间名称
         List<TreeDeviceEntity> spaceName = treeDeviceService.getPubspaceName();
         //获取设备
         List<TreeDeviceEntity> equipment = treeDeviceService.getEquipmentName();
         //获去所有的设备名称
         List<TreeDeviceEntity> deviceName = treeDeviceService.getZoneEmuList();
-//        entityList.addAll(InfoName);
+
+        entityList.addAll(InfoName);
         entityList.addAll(spaceName);
         entityList.addAll(equipment);
         entityList.addAll(deviceName);
         List<TreeNode> lst = util.getTreeNodeByDatas(false, "", entityList);
-        HtmlUtil.writerJson(response, lst);
+        return lst;
     }
 
     @RequestMapping("/getDeviceTypeEnum")

@@ -21,10 +21,31 @@ public interface TreeDeviceDao<T, T1, T2, T3, T4, T5, T6> extends BaseDao<T> {
 	 List<T> getIDandTypeToinjectXml(String space);
 	 List<T> getIDandTypeToinjectXmlInSpace();
 
-	 List<T> getZoneEmuList();
+
+
+	/**
+	 * 获得站点信息
+	 * @return
+	 */
 	 List<T> getUnitinfo();
+
+	/**
+	 * 获得区域信息
+	 * @return
+	 */
 	 List<T> getPubspaceName();
+
+	/**
+	 * 获得逻辑设备信息
+	 * @return
+	 */
 	 List<T> getEquipmentName();
+
+	/**
+	 * 获得逻辑节点信息
+	 * @return
+	 */
+	List<T> getZoneEmuList();
 
 	/**
 	 * 根据type获取空间名称（如type=1:低端换流变）
