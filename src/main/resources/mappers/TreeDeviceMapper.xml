@@ -116,9 +116,9 @@
 	SELECT SpaceId as id ,SpaceName  as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name ,
 			'0' as ln_inst_name FROM  pubspace
 </select>
+    <select id="getPubspaceNameByType" resultType="String" parameterType="java.lang.String">
     <!--根据type获取空间名称（如type=1:低端换流变）  -->
-    <select id="getPubspaceNameByType" resultMap="NodeResultMap" parameterType="Object">
-	SELECT Space as text FROM  pubdevice where DeviceType = #{Type} Group by Space;
+	SELECT e.SpaceId from  pubdevice d inner join pubequipment e on d.EquipmentID = e.EquipmentID  and d.DeviceType = #{Type} Group by e.SpaceId;
 </select>
     <!--获得仿真数据（实时数据）  -->
     <select id="getEmuListDataID" resultMap="ListResultMap" parameterType="Object">
@@ -260,7 +260,6 @@
     </select>-->
 
 
-
     <!--获取设备数据列表  -->
     <select id="getPubDeviceTypeList" resultType="java.lang.Integer">
      select distinct DeviceType  from pubdevice where  DeviceType != '5'
@@ -273,7 +272,7 @@
 	Group BY nodetype;
 </select>
     <!--获取其他数据列表  -->
-    <select id="getOtherImgList" resultMap="NodeResultMap" >
+    <select id="getOtherImgList" resultMap="NodeResultMap">
         SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as
         value
         FROM pubdevice b left JOIN iec61850c_realdata a

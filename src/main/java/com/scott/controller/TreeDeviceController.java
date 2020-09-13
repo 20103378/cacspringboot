@@ -326,7 +326,7 @@ public class TreeDeviceController extends BaseAction {
     @RequestMapping("/getSpaceNameByType")
     @ResponseBody
     public List getSpaceNameByType(String Type) {
-        List<TreeDeviceEntity> spaceName = treeDeviceService.getPubspaceNameByType(Type);
+        List<String> spaceName = treeDeviceService.getPubspaceNameByType(Type);
         return spaceName;
 
     }

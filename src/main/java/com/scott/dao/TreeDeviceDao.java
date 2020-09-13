@@ -56,7 +56,7 @@ public interface TreeDeviceDao<T, T1, T2, T3, T4, T5, T6> extends BaseDao<T> {
      * @param Type
      * @return
      */
-    List<T> getPubspaceNameByType(String Type);
+    List<String> getPubspaceNameByType(@Param("Type") String Type);
 
 
     List<Integer> getPubDeviceTypeList();

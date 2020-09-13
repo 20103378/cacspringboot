@@ -44,7 +44,7 @@ public class TreeDeviceService<T,T1,T2,T3,T4,T5,T6> extends BaseService<T> {
 	public List<T> getIDandTypeToinjectXml(String space){
 		return getDao().getIDandTypeToinjectXml(space);
 	}
-    public List<T> getPubspaceNameByType(String Type)
+    public List<String> getPubspaceNameByType(String Type)
     {
         return getDao().getPubspaceNameByType(Type);
     }

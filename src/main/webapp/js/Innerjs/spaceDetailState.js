@@ -47,17 +47,10 @@ jeecg.spaceDetailState = function () {
                 type: 'POST',
                 url: ctxPath + '/treeDevice/getSpaceNameByType?Type=' + Type,
                 success: function (data) {
-                    var Sel;
-                    Sel = data;//提取data为rows
-                    //循环用于Sel.refname去重复||nn[]ajax内共享
-                    var nn = [];
-                    for (var j = 0; j < Sel.length; j++) {
-                        nn.push(Sel[j].text);
-                    }
                     //循环用于向chart插入refname，为动态下拉框提供元素
                     chart.push({"text": "全部", "value": "0"});
-                    for (var j = 0; j < nn.length; j++) {
-                        chart.push({"text": nn[j], "value": nn[j]});//将chart组合为columns
+                    for (var j = 0; j < data.length; j++) {
+                        chart.push({"text": data[j], "value": data[j]});//将chart组合为columns
                     }
                     $("#DeviceArea").combobox("loadData", chart);
                     $("#DeviceArea").combobox('select', chart[0].value);
