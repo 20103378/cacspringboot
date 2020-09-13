@@ -86,7 +86,7 @@
 					<table id="AMC104ConnState" title="I2连接状态"></table>
 					</div>
                 </div>
-               
+
 				<div title="历史记录" data-options="closable:false"
 				style="padding: 10px;">
 				选择时间: <input id="ck_Time" value="" class="easyui-datebox"

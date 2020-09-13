@@ -72,18 +72,8 @@ jeecg.deviceHealthState = function () {
                 url: ctxPath + '/treeDevice/getOtherImgList',//data
                 success: function (data) {
                     otherData = data.entityList;
-                }
-            });
-            $.ajax({
-                async: false,
-                cache: false,
-                type: 'POST',
-                url: ctxPath + '/treeDevice/getImgList',
-                error: function () {// 请求失败处理函数
-                    jeecg.alert('错误信息', '数据请求失败', 'error'); //device
-                },
-                success: function (data) {
                     showdata("showdata", data, otherData);
+
                 }
             });
         }
@@ -101,9 +91,9 @@ function showdata(id, data, otherData) {
     var n = 0;//每一排的计数工具
 
     html1 += "<div class='ims' id='ims' style='width:100%; height:100%; overflow:auto;'>";
-    for (var i = 0, l = data.length; i < l; i++) {
+    for (var i = 0, l = otherData.length; i < l; i++) {
         //alert(otherData[i].id);
-        var ln_name = data[i].nodetype;
+        var ln_name = otherData[i].nodetype;
         if (ln == null) {
             ln = ln_name;
             if (ln == "1") {
@@ -199,7 +189,7 @@ function showdata(id, data, otherData) {
 
         var name = otherData[i].text;
         var name_title = name.replace(/\s+/g, "")
-        var data_Current = JSON.stringify(data[i]);
+        var data_Current = JSON.stringify(otherData[i]);
 
         html1 += "<div id='" + otherData[i].id + "' class='tt-inner' style='margin:1px;background:#8acff0;float:left;width: 500px; height: 50px; text-align:center; overflow:hidden; border:1px' onclick='toCurrentData(" + data_Current + ")' >" +
             "<span style='width: 430px;float:left;font-family:Microsoft YaHei;font-size:15;font-weight:bold'>" + name + "</span>" +

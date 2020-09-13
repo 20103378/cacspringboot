@@ -203,9 +203,8 @@ public class DeviceHealthStateController extends BaseAction {
     }
 
 
-
     /**
-     * 获取油色谱历史数据
+     * 1 获取油色谱历史数据
      *
      * @param url
      * @param classifyId
@@ -213,13 +212,34 @@ public class DeviceHealthStateController extends BaseAction {
      * @
      */
     @RequestMapping("/getstomHistoryData")
-    public void getstomHistoryData(HistoryPage page,
-                                   HttpServletResponse response) {
+    @ResponseBody
+    public Map getstomHistoryData(HistoryPage page) {
         Map<String, Object> jsonMap = new HashMap<String, Object>();
         List<stom_dataEntity> dataList = deviceHealthStateService.getYSPHistory(page);
         jsonMap.put("total", page.getPager().getRowCount());
         jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
+        return jsonMap;
+    }
+
+    /**
+     * 1 导出油色谱历史数据
+     *
+     * @param url
+     * @param classifyId
+     * @return
+     * @
+     */
+    @RequestMapping("/exportstomHistoryData")
+    @ResponseBody
+    public Map exportstomexportData(HistoryPage page) {
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        List<stom_dataEntity> dataList = deviceHealthStateService.exportYSPHistory(page);
+        String id = page.getId();
+        String deviceName = deviceHealthStateService.getDeviceName(id);
+        dataList.get(0).setDeviceName(deviceName);
+        jsonMap.put("total", page.getPager().getRowCount());
+        jsonMap.put("dataList", dataList);
+        return jsonMap;
     }
 
     /**
@@ -252,26 +272,7 @@ public class DeviceHealthStateController extends BaseAction {
         HtmlUtil.writerJson(response, jsonMap);
     }
 
-    /**
-     * 导出油色谱历史数据
-     *
-     * @param url
-     * @param classifyId
-     * @return
-     * @
-     */
-    @RequestMapping("/exportstomHistoryData")
-    public void exportstomexportData(HistoryPage page,
-                                     HttpServletResponse response) {
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        List<stom_dataEntity> dataList = deviceHealthStateService.exportYSPHistory(page);
-        String id = page.getId();
-        String Dname = deviceHealthStateService.getDeviceName(id);
-        dataList.get(0).setDeviceName(Dname);
-        jsonMap.put("total", page.getPager().getRowCount());
-        jsonMap.put("dataList", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
-    }
+
 
     /**
      * 获取红外测温历史数据
@@ -716,67 +717,38 @@ public class DeviceHealthStateController extends BaseAction {
     }
 
     @RequestMapping("/getYXData")
-    public void getYXData(HistoryPage page,
-                          HttpServletResponse response, HttpServletRequest request) throws Exception {
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        //获取ln和ld
-        request.setCharacterEncoding("utf-8");
-        response.setCharacterEncoding("utf-8");
-        String id = request.getParameter("id");
-        List<DataEntity> dataList = new ArrayList<DataEntity>();
+    @ResponseBody
+    public Map getYXData(String id) {
+        Map<String, Object> jsonMap = new HashMap<String, Object>(4);
+        List<IEC61850cRealDataEntity> dataList = new ArrayList<>();
         String IEC61850LD_LN = deviceHealthStateService.getyxLDLN(id);
         IEC61850LD_LN = IEC61850LD_LN + "$";
-        List<DataEntity> dataLists = deviceHealthStateService.getYXData(IEC61850LD_LN);
+        List<IEC61850cRealDataEntity> dataLists = deviceHealthStateService.getYXData(IEC61850LD_LN);
         for (int i = 0; i < dataLists.size(); i++) {
-            if ("1".equals(dataLists.get(i).getIed_type_id())) {
-                String refname = dataLists.get(i).getRefname();
-                String[] refnames = refname.split("\\$");
-                refname = refnames[(refnames.length - 1)];
-                String ref = deviceHealthStateService.getyxDesc(refname);
-                if ("".equals(ref) || ref == null) {
-                    dataLists.get(i).setRefname(refname);
-                } else {
-                    dataLists.get(i).setRefname(ref);
-                }
-                dataList.add(dataLists.get(i));
-            } else if ("0".equals(dataLists.get(i).getIed_type_id())) {
-                if (true
-//                        dataLists.get(i).getRefname().indexOf("$ST$GasUnPresAlm") > -1 ||
-//                        dataLists.get(i).getRefname().indexOf("$ST$MoDevConf") > -1 ||
-//                        dataLists.get(i).getRefname().indexOf("$ST$MoDevConF") > -1 ||
-//                        dataLists.get(i).getRefname().indexOf("$ST$SupDevRun") > -1 ||
-//                        dataLists.get(i).getRefname().indexOf("$ST$DschCnt") > -1
-                ) {
-                    String refname = dataLists.get(i).getRefname();
-                    String[] refnames = refname.split("\\$");
-                    refname = refnames[(refnames.length - 1)];
-                    String ref = deviceHealthStateService.getyxDesc(refname);
-                    if ("".equals(ref) || ref == null) {
-                        dataLists.get(i).setRefname(refname);
+            String refname = dataLists.get(i).getRefname();
+            String[] refnames = refname.split("\\$");
+            refname = refnames[(refnames.length - 1)];
+            String ref = deviceHealthStateService.getyxDesc(refname);
+            if ("".equals(ref) || ref == null) {
+                dataLists.get(i).setRefname(refname);
+            } else {
+                dataLists.get(i).setRefname(ref);
+            }
+            if("0".equals(dataLists.get(i).getIed_type_id())){
+                if (!(dataLists.get(i).getRefname().indexOf("放电频次") > -1)) {
+                    if ("0".equals(dataLists.get(i).getValue())) {
+                        dataLists.get(i).setValue("正常");
                     } else {
-                        dataLists.get(i).setRefname(ref);
+                        dataLists.get(i).setValue("异常");
                     }
-                    if (!(dataLists.get(i).getRefname().indexOf("放电频次") > -1)) {
-                        if ("0".equals(dataLists.get(i).getValue())) {
-                            dataLists.get(i).setValue("正常");
-                        } else {
-                            dataLists.get(i).setValue("异常");
-                        }
-                    }
-                    dataList.add(dataLists.get(i));
                 }
             }
+            dataList.add(dataLists.get(i));
         }
-         /*List<DataEntity> dataLists = deviceHealthStateService.getYXData(id);
-         for(int i=0 ; i<dataLists.size() ; i++){
-        	 if(!("".equals(dataLists.get(i)))&&dataLists.get(i)!=null){
-            	dataList.add(dataLists.get(i));
-        	 }
-         }*/
-        jsonMap.put("total", page.getPager().getRowCount());
-        jsonMap.put("rows", dataList);
-        HtmlUtil.writerJson(response, jsonMap);
-    }
+        jsonMap.put("total",dataList.size());
+        jsonMap.put("rows",dataList);
+        return jsonMap;
+}
 
     /**
      * 获取遥信历史数据开始

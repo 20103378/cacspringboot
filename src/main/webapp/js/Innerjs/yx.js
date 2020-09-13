@@ -55,12 +55,7 @@ jeecg.yx = function () {
         },
         // 套管实时数据
         SetSbushYxData: function () {
-            // var DeviceType = $("#txtType").val();
-            var ln_inst_name = $('#txtName').val();
-            ln_inst_name = ln_inst_name.replace("#", "@");
-            // alert(ln_inst_name);
             var id = $("#txtID").val();
-            var _box = null;
             var table_name = '#yx_data-list_amc';
             _this.showData.dataGrid.url = "getYXData?id=" + id;
             debugger
@@ -152,11 +147,6 @@ jeecg.yx = function () {
                     sortable: true,
                     formatter: function (value, row, index) {
                         var value = row.value;
-                        // if(value=="0"){
-                        // value="正常";
-                        // }else if(value=="1"){
-                        // value="异常";
-                        // }
                         return value;
                     }
                 }]]

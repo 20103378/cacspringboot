@@ -118,8 +118,18 @@ public interface DeviceHealthStateDao<T> extends BaseDao<T> {
 
     int YSPHistoryCount(BasePage page);
 
+    /**
+     * 获取油色谱历史数据
+     * @param page
+     * @return
+     */
     List<stom_dataEntity> getYSPHistory(BasePage page);
 
+    /**
+     * 导出油色谱
+     * @param page
+     * @return
+     */
     List<stom_dataEntity> exportYSPHistory(BasePage page);
 
     String getDeviceName(String id);
@@ -168,6 +178,11 @@ public interface DeviceHealthStateDao<T> extends BaseDao<T> {
 
     List<DeviceEntity> getDeviceByType(String DeviceType);
 
+    /**
+     * 查询逻辑节点信息
+     * @param deviceID
+     * @return
+     */
     DeviceEntity getDeviceByDeviceId(String deviceID);
 
 
@@ -204,7 +219,7 @@ public interface DeviceHealthStateDao<T> extends BaseDao<T> {
 
     String getyxDesc(String refname);
 
-    List<DataEntity> getYXData(String IEC61850LD_LN);
+    List<IEC61850cRealDataEntity> getYXData(String IEC61850LD_LN);
 
 //    List<DataEntity> getYCData(HistoryPage page);
 

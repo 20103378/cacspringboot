@@ -1,98 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scott.dao.TreeDeviceDao">
 
-<!-- Result Map-->
-<resultMap id="NodeResultMap" type="com.scott.entity.TreeDeviceEntity" >
-	<result column="id" property="id"/>
-	<result column="text" property="text"/>
-	<result column="parentid" property="parentid"/>
-	<result column="nodetype" property="nodetype"/>
-	<result column="value" property="value"/>
-	<result column="remark" property="remark"/>
-</resultMap>
-<resultMap id="SpaceResultMap" type="com.scott.entity.EquipmentSpaceEntity" >
-	<result column="SpaceId" property="SpaceId"/>
-	<result column="SpaceName" property="SpaceName"/>
-	<result column="ObjectVoltage" property="ObjectVoltage"/>
-	<result column="SpaceTag" property="SpaceTag"/>
-</resultMap>
-<resultMap id="ListResultMap" type="com.scott.entity.DeviceStateEntity" >
-	<result column="DeviceID" property="DeviceID"/>
-	<result column="name" property="name"/>
-	<result column="remark" property="remark"/>
-	<result column="DeviceType" property="DeviceType"/>
-</resultMap>
-<resultMap id="ListResultMapYSP" type="com.scott.entity.stom_dataEntity" >
-	<result column="SampleTime" property="SampleTime"/>
-	<result column="H2ppm" property="H2ppm"/>
-	<result column="COppm" property="COppm"/>
-	<result column="CO2ppm" property="CO2ppm"/>
-	<result column="CH4ppm" property="CH4ppm"/>
-	<result column="C2H2ppm" property="C2H2ppm"/>
-	<result column="C2H4ppm" property="C2H4ppm"/>
-	<result column="C2H6ppm" property="C2H6ppm"/>
-	<result column="TotHyd" property="TotHyd"/>
-	<result column="N2" property="N2"/>
-	<result column="Mst" property="Mst"/>
-	<result column="OilTmp" property="OilTmp"/>
-	<result column="GasPres" property="GasPres"/>
-	<result column="Remark" property="Remark"/>
-</resultMap>
-<resultMap id="ListResultMapSf6" type="com.scott.entity.Sf6_dataEntity" >
-	<result column="DeviceID" property="DeviceID"/>
-	<result column="SampleTime" property="SampleTime"/>
-	<result column="Tmp" property="Tmp"/>
-	<result column="Pres" property="Pres"/>
-	<result column="Hum" property="Hum"/>
-	<result column="Remark" property="Remark"/>
-</resultMap>
-<resultMap id="ListResultMapSMOAM" type="com.scott.entity.SMOAM_dataEntity" >
-	<result column="DeviceID" property="DeviceID"/>
-	<result column="SampleTime" property="SampleTime"/>
-	<result column="TotA" property="TotA"/>
-	<result column="RisA" property="RisA"/>
-	<result column="RisCaRte" property="RisCaRte"/>
-	<result column="LastLigTm" property="LastLigTm"/>
-	<result column="LigCnt" property="LigCnt"/>
-	<result column="Remark" property="Remark"/>
-</resultMap>
-<resultMap id="ListResultMapSCOM" type="com.scott.entity.SCOM_dataEntity" >
-	<result column="DeviceID" property="DeviceID"/>
-	<result column="SampleTime" property="SampleTime"/>
-	<result column="CGAmp" property="CGAmp"/>
-	<result column="Remark" property="Remark"/>
-</resultMap>
-<resultMap id="ListResultMapSPDM" type="com.scott.entity.Spdm_dataEntity" >
-	<result column="DeviceID" property="DeviceID"/>
-	<result column="SampleTime" property="SampleTime"/>
-	<result column="AcuPaDsch" property="AcuPaDsch"/>
-	<result column="UhfPaDsch" property="UhfPaDsch"/>
-	<result column="Phase" property="Phase"/>
-	<result column="PlsNum" property="PlsNum"/>
-	<result column="Remark" property="Remark"/>
-</resultMap>
-<!--根据space名称获取设备id和devicetype  -->
-<select id="getIDandTypeToinjectXml" resultMap="NodeResultMap" parameterType="Object">
+    <!-- Result Map-->
+    <resultMap id="NodeResultMap" type="com.scott.entity.TreeDeviceEntity">
+        <result column="id" property="id"/>
+        <result column="text" property="text"/>
+        <result column="parentid" property="parentid"/>
+        <result column="nodetype" property="nodetype"/>
+        <result column="value" property="value"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    <resultMap id="SpaceResultMap" type="com.scott.entity.EquipmentSpaceEntity">
+        <result column="SpaceId" property="SpaceId"/>
+        <result column="SpaceName" property="SpaceName"/>
+        <result column="ObjectVoltage" property="ObjectVoltage"/>
+        <result column="SpaceTag" property="SpaceTag"/>
+    </resultMap>
+    <resultMap id="ListResultMap" type="com.scott.entity.DeviceStateEntity">
+        <result column="DeviceID" property="DeviceID"/>
+        <result column="name" property="name"/>
+        <result column="remark" property="remark"/>
+        <result column="DeviceType" property="DeviceType"/>
+    </resultMap>
+    <resultMap id="ListResultMapYSP" type="com.scott.entity.stom_dataEntity">
+        <result column="SampleTime" property="SampleTime"/>
+        <result column="H2ppm" property="H2ppm"/>
+        <result column="COppm" property="COppm"/>
+        <result column="CO2ppm" property="CO2ppm"/>
+        <result column="CH4ppm" property="CH4ppm"/>
+        <result column="C2H2ppm" property="C2H2ppm"/>
+        <result column="C2H4ppm" property="C2H4ppm"/>
+        <result column="C2H6ppm" property="C2H6ppm"/>
+        <result column="TotHyd" property="TotHyd"/>
+        <result column="N2" property="N2"/>
+        <result column="Mst" property="Mst"/>
+        <result column="OilTmp" property="OilTmp"/>
+        <result column="GasPres" property="GasPres"/>
+        <result column="Remark" property="Remark"/>
+    </resultMap>
+    <resultMap id="ListResultMapSf6" type="com.scott.entity.Sf6_dataEntity">
+        <result column="DeviceID" property="DeviceID"/>
+        <result column="SampleTime" property="SampleTime"/>
+        <result column="Tmp" property="Tmp"/>
+        <result column="Pres" property="Pres"/>
+        <result column="Hum" property="Hum"/>
+        <result column="Remark" property="Remark"/>
+    </resultMap>
+    <resultMap id="ListResultMapSMOAM" type="com.scott.entity.SMOAM_dataEntity">
+        <result column="DeviceID" property="DeviceID"/>
+        <result column="SampleTime" property="SampleTime"/>
+        <result column="TotA" property="TotA"/>
+        <result column="RisA" property="RisA"/>
+        <result column="RisCaRte" property="RisCaRte"/>
+        <result column="LastLigTm" property="LastLigTm"/>
+        <result column="LigCnt" property="LigCnt"/>
+        <result column="Remark" property="Remark"/>
+    </resultMap>
+    <resultMap id="ListResultMapSCOM" type="com.scott.entity.SCOM_dataEntity">
+        <result column="DeviceID" property="DeviceID"/>
+        <result column="SampleTime" property="SampleTime"/>
+        <result column="CGAmp" property="CGAmp"/>
+        <result column="Remark" property="Remark"/>
+    </resultMap>
+    <resultMap id="ListResultMapSPDM" type="com.scott.entity.Spdm_dataEntity">
+        <result column="DeviceID" property="DeviceID"/>
+        <result column="SampleTime" property="SampleTime"/>
+        <result column="AcuPaDsch" property="AcuPaDsch"/>
+        <result column="UhfPaDsch" property="UhfPaDsch"/>
+        <result column="Phase" property="Phase"/>
+        <result column="PlsNum" property="PlsNum"/>
+        <result column="Remark" property="Remark"/>
+    </resultMap>
+    <!--根据space名称获取设备id和devicetype  -->
+    <select id="getIDandTypeToinjectXml" resultMap="NodeResultMap" parameterType="Object">
 	select DeviceID as id, DeviceType as nodetype from pubdevice where space= #{space}
 </select>
-<!--获取id和type注入xml  -->
-<select id="getIDandTypeToinjectXmlInSpace" resultMap="NodeResultMap" parameterType="Object">
+    <!--获取id和type注入xml  -->
+    <select id="getIDandTypeToinjectXmlInSpace" resultMap="NodeResultMap" parameterType="Object">
 	select DeviceID as id, DeviceType as nodetype from pubdevice where space in ('站用变' , '低端换流变 ', '高端换流变');
 </select>
-<!--获取设备区域 （500kV|太安变电站|500kV|500kV第三串联络|A相|Ⅰ母侧A相绝缘盆子靠5732断路器|UHF-146）等 -->
-<select id="getZoneEmuList" resultMap="NodeResultMap" >
+    <!--获取设备区域 （500kV|太安变电站|500kV|500kV第三串联络|A相|Ⅰ母侧A相绝缘盆子靠5732断路器|UHF-146）等 -->
+    <select id="getZoneEmuList" resultMap="NodeResultMap">
 
 	select  DeviceID as id, DeviceName as text, EquipmentID as parentid,   DeviceType  as  nodetype, IEC61850LD_LN as ld_inst_name ,'0' as ln_inst_name  from pubdevice
 </select>
-<!-- 获取发布空间计数   -->
-<select id="getPubspaceCount" resultType="java.lang.Integer" parameterType="Object">
+    <!-- 获取发布空间计数   -->
+    <select id="getPubspaceCount" resultType="java.lang.Integer" parameterType="Object">
 	SELECT count(1) FROM  pubspace;
 </select>
-<!--获取单位信息  -->
-<select id="getUnitinfo" resultMap="NodeResultMap" parameterType="Object">
+    <!--获取单位信息  -->
+    <select id="getUnitinfo" resultMap="NodeResultMap" parameterType="Object">
 	SELECT 	id as id ,
 			Station as text ,
 			'0' as parentid ,
@@ -101,8 +101,8 @@
 			'0' as ln_inst_name
 			FROM  pubunitinfo
 </select>
-<!--获取设备名称  -->
-<select id="getEquipmentName" resultMap="NodeResultMap" parameterType="Object">
+    <!--获取设备名称  -->
+    <select id="getEquipmentName" resultMap="NodeResultMap" parameterType="Object">
 	select equipmentID as id,
 			EquipmentName as text,
 			SpaceId as parentid,
@@ -111,17 +111,17 @@
 			'0' as ln_inst_name
 			from pubequipment
 </select>
-<!--获取发布空间名称  -->
-<select id="getPubspaceName" resultMap="NodeResultMap" parameterType="Object">
+    <!--获取发布空间名称  -->
+    <select id="getPubspaceName" resultMap="NodeResultMap" parameterType="Object">
 	SELECT SpaceId as id ,SpaceName  as text, '1' as parentid , '0' as nodetype ,'0' as ld_inst_name ,
 			'0' as ln_inst_name FROM  pubspace
 </select>
-<!--根据type获取空间名称（如type=1:低端换流变）  -->
-<select id="getPubspaceNameByType" resultMap="NodeResultMap" parameterType="Object">
+    <!--根据type获取空间名称（如type=1:低端换流变）  -->
+    <select id="getPubspaceNameByType" resultMap="NodeResultMap" parameterType="Object">
 	SELECT Space as text FROM  pubdevice where DeviceType = #{Type} Group by Space;
 </select>
-<!--获得仿真数据（实时数据）  -->
-<select id="getEmuListDataID" resultMap="ListResultMap" parameterType="Object">
+    <!--获得仿真数据（实时数据）  -->
+    <select id="getEmuListDataID" resultMap="ListResultMap" parameterType="Object">
 	select a.devicename name,b.remark remark ,a.DeviceType DeviceType,a.DeviceID DeviceID from pubdevice a,stom_data b where equipmentID=#{equipmentID} and a.DeviceID =b.deviceid
 	UNION
 	select a.devicename name,b.remark remark ,a.DeviceType DeviceType,a.DeviceID DeviceID from pubdevice a,sf6_data b where equipmentID=#{equipmentID} and a.DeviceID =b.deviceid
@@ -130,365 +130,359 @@
 	UNION
 	select a.devicename name,b.remark remark ,a.DeviceType DeviceType,a.DeviceID DeviceID from pubdevice a,scom_data b where equipmentID=#{equipmentID} and a.DeviceID =b.deviceid
 </select>
-<!--
-<select id="getAmcImgList" resultMap="NodeResultMap" parameterType="Object">
-select
-		CONCAT('C_yx', a.yx_id) AS id,
-		IF (
-			ISNULL(a.yx_desc) || a.yx_desc = '',
-			CONCAT(
-				a.ln_inst_name,
-				'-',
-				a.ld_inst_name
-			),
-			a.yx_desc
-		) AS text,
-			'amc' AS nodetype,
-			a.ln_inst_name
-		FROM
-			iec61850_yx_data_inst_amc a,iec61850_yx_data_amc  b
-		WHERE
-			a.ln_inst_name NOT LIKE '%LPHD%'
-		and a.yx_id=b.yx_id
-union
-	select
-		CONCAT('C_yc', a.yc_id) AS id,
-		IF (
-			ISNULL(a.yc_desc) || a.yc_desc = '',
-			CONCAT(
-				a.ln_inst_name,
-				'-',
-				a.ld_inst_name
-			),
-			a.yc_desc
-		) AS text,
-			'amc' AS nodetype,
-			a.ln_inst_name
-		FROM
-			iec61850_yc_data_inst_amc a,iec61850_yc_data_amc  b
-		WHERE
-			a.ln_inst_name NOT LIKE '%LPHD%'
-		and a.yc_id=b.yc_id
-union
-	select
-		CONCAT('A', a.yk_id) AS id,
-		IF (
-			ISNULL(a.yk_desc) || a.yk_desc = '',
-			CONCAT(
-				a.ln_inst_name,
-				'-',
-				a.ld_inst_name
-			),
-			a.yk_desc
-		) AS text,
-			'amc' AS nodetype,
-			a.ln_inst_name
-		FROM
-			iec61850_yk_data_inst_amc a,iec61850_yk_data_amc  b
-		WHERE
-			a.ln_inst_name NOT LIKE '%LPHD%'
-		and a.yk_id=b.yk_id
-		GROUP BY
-			ln_inst_name,text
-</select>-->
-<!--
-<select id="getOtherAmcImgList" resultMap="NodeResultMap" parameterType="Object">
-SELECT
-		CONCAT('C_yx', a.yx_id) AS id,
-		IF (
-			ISNULL(a.yx_desc) || a.yx_desc= '',
-			CONCAT(
-				a.ln_inst_name,
-				'-',
-				a.ld_inst_name
-			),
-			a.yx_desc
-		) AS text,
-			'amc' AS nodetype,
-			a.ln_inst_name,
-			b.yx_value as remark
-		FROM
-			iec61850_yx_data_inst_amc a,(select yx_id ,yx_value, yx_time
-from iec61850_yx_data_amc a where yx_time = ( select max(yx_time) as yx_time
-from iec61850_yx_data_amc b where  a.yx_id = b.yx_id) ) b
-		WHERE
-			a.ln_inst_name NOT LIKE '%LPHD%'
-		and a.yx_id=b.yx_id and b.yx_value>0
-union
-	select
-		CONCAT('C_yc', a.yc_id) AS id,
-		IF (
-			ISNULL(a.yc_desc) || a.yc_desc = '',
-			CONCAT(
-				a.ln_inst_name,
-				'-',
-				a.ld_inst_name
-			),
-			a.yc_desc
-		) AS text,
-			'amc' AS nodetype,
-			a.ln_inst_name,
-			b.yc_value as remark
-		FROM
-			iec61850_yc_data_inst_amc a,(select yc_id ,yc_value, yc_time
-from iec61850_yc_data_amc a where yc_time = ( select max(yc_time) as yc_time
-from iec61850_yc_data_amc b where  a.yc_id = b.yc_id) ) b
-		WHERE
-			a.ln_inst_name NOT LIKE '%LPHD%'
-		and a.yc_id=b.yc_id and b.yc_value>0
-union
-	select
-		CONCAT('A_yk', a.yk_id) AS id,
-		IF (
-			ISNULL(a.yk_desc) || a.yk_desc = '',
-			CONCAT(
-				a.ln_inst_name,
-				'-',
-				a.ld_inst_name
-			),
-			a.yk_desc
-		) AS text,
-			'amc' AS nodetype,
-			a.ln_inst_name
-		FROM
-			iec61850_yk_data_inst_amc a,iec61850_yk_data_amc  b
-		WHERE
-			a.ln_inst_name NOT LIKE '%LPHD%'
-		and a.yk_id=b.yk_id and b.yk_value>0
-		GROUP BY
-			ln_inst_name , text
-</select>-->
+    <!--
+    <select id="getAmcImgList" resultMap="NodeResultMap" parameterType="Object">
+    select
+            CONCAT('C_yx', a.yx_id) AS id,
+            IF (
+                ISNULL(a.yx_desc) || a.yx_desc = '',
+                CONCAT(
+                    a.ln_inst_name,
+                    '-',
+                    a.ld_inst_name
+                ),
+                a.yx_desc
+            ) AS text,
+                'amc' AS nodetype,
+                a.ln_inst_name
+            FROM
+                iec61850_yx_data_inst_amc a,iec61850_yx_data_amc  b
+            WHERE
+                a.ln_inst_name NOT LIKE '%LPHD%'
+            and a.yx_id=b.yx_id
+    union
+        select
+            CONCAT('C_yc', a.yc_id) AS id,
+            IF (
+                ISNULL(a.yc_desc) || a.yc_desc = '',
+                CONCAT(
+                    a.ln_inst_name,
+                    '-',
+                    a.ld_inst_name
+                ),
+                a.yc_desc
+            ) AS text,
+                'amc' AS nodetype,
+                a.ln_inst_name
+            FROM
+                iec61850_yc_data_inst_amc a,iec61850_yc_data_amc  b
+            WHERE
+                a.ln_inst_name NOT LIKE '%LPHD%'
+            and a.yc_id=b.yc_id
+    union
+        select
+            CONCAT('A', a.yk_id) AS id,
+            IF (
+                ISNULL(a.yk_desc) || a.yk_desc = '',
+                CONCAT(
+                    a.ln_inst_name,
+                    '-',
+                    a.ld_inst_name
+                ),
+                a.yk_desc
+            ) AS text,
+                'amc' AS nodetype,
+                a.ln_inst_name
+            FROM
+                iec61850_yk_data_inst_amc a,iec61850_yk_data_amc  b
+            WHERE
+                a.ln_inst_name NOT LIKE '%LPHD%'
+            and a.yk_id=b.yk_id
+            GROUP BY
+                ln_inst_name,text
+    </select>-->
+    <!--
+    <select id="getOtherAmcImgList" resultMap="NodeResultMap" parameterType="Object">
+    SELECT
+            CONCAT('C_yx', a.yx_id) AS id,
+            IF (
+                ISNULL(a.yx_desc) || a.yx_desc= '',
+                CONCAT(
+                    a.ln_inst_name,
+                    '-',
+                    a.ld_inst_name
+                ),
+                a.yx_desc
+            ) AS text,
+                'amc' AS nodetype,
+                a.ln_inst_name,
+                b.yx_value as remark
+            FROM
+                iec61850_yx_data_inst_amc a,(select yx_id ,yx_value, yx_time
+    from iec61850_yx_data_amc a where yx_time = ( select max(yx_time) as yx_time
+    from iec61850_yx_data_amc b where  a.yx_id = b.yx_id) ) b
+            WHERE
+                a.ln_inst_name NOT LIKE '%LPHD%'
+            and a.yx_id=b.yx_id and b.yx_value>0
+    union
+        select
+            CONCAT('C_yc', a.yc_id) AS id,
+            IF (
+                ISNULL(a.yc_desc) || a.yc_desc = '',
+                CONCAT(
+                    a.ln_inst_name,
+                    '-',
+                    a.ld_inst_name
+                ),
+                a.yc_desc
+            ) AS text,
+                'amc' AS nodetype,
+                a.ln_inst_name,
+                b.yc_value as remark
+            FROM
+                iec61850_yc_data_inst_amc a,(select yc_id ,yc_value, yc_time
+    from iec61850_yc_data_amc a where yc_time = ( select max(yc_time) as yc_time
+    from iec61850_yc_data_amc b where  a.yc_id = b.yc_id) ) b
+            WHERE
+                a.ln_inst_name NOT LIKE '%LPHD%'
+            and a.yc_id=b.yc_id and b.yc_value>0
+    union
+        select
+            CONCAT('A_yk', a.yk_id) AS id,
+            IF (
+                ISNULL(a.yk_desc) || a.yk_desc = '',
+                CONCAT(
+                    a.ln_inst_name,
+                    '-',
+                    a.ld_inst_name
+                ),
+                a.yk_desc
+            ) AS text,
+                'amc' AS nodetype,
+                a.ln_inst_name
+            FROM
+                iec61850_yk_data_inst_amc a,iec61850_yk_data_amc  b
+            WHERE
+                a.ln_inst_name NOT LIKE '%LPHD%'
+            and a.yk_id=b.yk_id and b.yk_value>0
+            GROUP BY
+                ln_inst_name , text
+    </select>-->
 
-<!--获取设备数据列表 	where   DeviceType != '5'-->
-<select id="getImgList" resultMap="NodeResultMap">
 
-select
-	DeviceID as id,
-	DeviceName as text,
-	DeviceType as nodetype,
-	'0' as ln_inst_name
-	from 	pubdevice
-	order by DeviceType
-</select>
-	<!--获取设备数据列表  -->
-	<select id="getPubDeviceTypeList" resultType="java.lang.Integer">
+
+    <!--获取设备数据列表  -->
+    <select id="getPubDeviceTypeList" resultType="java.lang.Integer">
      select distinct DeviceType  from pubdevice where  DeviceType != '5'
    </select>
-<!-- 获取设备类型 -->
-<select id="getDeviceType" resultMap="NodeResultMap" parameterType="Object">
+    <!-- 获取设备类型 -->
+    <select id="getDeviceType" resultMap="NodeResultMap" parameterType="Object">
 	select  DeviceType as nodetype
 	from	pubdevice
 	where   DeviceType != '5'
 	Group BY nodetype;
 </select>
-<!--获取其他数据列表  -->
-<select id="getOtherImgList" resultMap="NodeResultMap" parameterType="Object">
-	SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as value
-	FROM pubdevice b  left JOIN iec61850c_realdata a
-	ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%')
-	GROUP BY b.DeviceID order by DeviceType
-	<!--
-	CONCAT('%',b.IEC61850LD_LN,'%')
+    <!--获取其他数据列表  -->
+    <select id="getOtherImgList" resultMap="NodeResultMap" >
+        SELECT a.dopath,b.IEC61850LD_LN,b.DeviceID as id,b.DeviceName as text,b.DeviceType as nodetype ,Max(a.time) as
+        value
+        FROM pubdevice b left JOIN iec61850c_realdata a
+        ON a.dopath LIKE CONCAT(b.IEC61850LD_LN,'%')
+        GROUP BY b.DeviceID order by DeviceType
+        <!--
+        CONCAT('%',b.IEC61850LD_LN,'%')
 
-    select  a.DeviceID as id,
-			a.DeviceName as text,
-			a.DeviceType as nodetype ,
-			0 as ln_inst_name,
-			b.Remark as remark
-	from 	pubdevice a,
-			sf6_data b
-	where 	a.DeviceID=b.DeviceID
-	and SampleTime>#{SampleTime}
-	UNION
-	select  a.DeviceID ,
-			a.DeviceName ,
-			a.DeviceType ,
-			0 as ln_inst_name,
-			b.Remark
-	from 	pubdevice a,
-			scom_data b
-	where 	a.DeviceID=b.DeviceID
-	and SampleTime>#{SampleTime}
-	UNION
-	select  a.DeviceID ,
-			a.DeviceName ,
-			a.DeviceType ,
-			0 as ln_inst_name,
-			b.Remark
-	from 	pubdevice a,
-			smoam_data b
-	where 	a.DeviceID=b.DeviceID
-	and SampleTime>#{SampleTime}
-	UNION
-	select  a.DeviceID ,
-			a.DeviceName ,
-			a.DeviceType ,
-			0 as ln_inst_name,
-			b.Remark
-	from 	pubdevice a,
-			spdm_data b
-	where 	a.DeviceID=b.DeviceID
-			and a.Space != '微气象'
-			and SampleTime>#{SampleTime}
-	UNION
-	select  a.DeviceID ,
-			a.DeviceName ,
-			a.DeviceType ,
-			0 as ln_inst_name,
-			b.Remark
-	from 	pubdevice a,
-			stom_data b
-	where 	a.DeviceID=b.DeviceID
-	and SampleTime>#{SampleTime}
-	UNION
-	select  a.DeviceID ,
-			a.DeviceName ,
-			a.DeviceType ,
-			0 as ln_inst_name,
-			b.Remark
-	from 	pubdevice a,
-			weather_data b
-	where 	a.DeviceID=b.DeviceID
-	and SampleTime>#{SampleTime} -->
-	<!--  
-	UNION
-	select  a.DeviceID ,
-			a.DeviceName ,
-			'hwcw' as DeviceType,
-			0 as ln_inst_name,
-			b.Remark
-	from 	pubdevice_Infrared a,
-			Infrared_data b
-	where 	a.DeviceID=b.DeviceID
-	and SampleTime>#{SampleTime}
-	ORDER BY nodetype ,text;-->
-</select>
-<!--按选择获取即时消息 -->
-<select id="getImgListBySelect" resultMap="NodeResultMap" parameterType="Object">
-	select  DeviceID as id,
-			DeviceName as text,
-			DeviceType as nodetype
-	from 	pubdevice
-	where   DeviceType != '5'
-	<if test='Space != "0" '>
-	and Space = #{Space}</if>
-	<if test='DeviceType != "0" '>
-	and DeviceType = #{DeviceType}</if>
-	ORDER BY nodetype ,text;
-</select>
-<select id="getRemarkImgList" resultType="String" parameterType="Object">
-select  DeviceID
-	from 	sf6_data
-	where 	remark = '1'
+        select  a.DeviceID as id,
+                a.DeviceName as text,
+                a.DeviceType as nodetype ,
+                0 as ln_inst_name,
+                b.Remark as remark
+        from 	pubdevice a,
+                sf6_data b
+        where 	a.DeviceID=b.DeviceID
+        and SampleTime>#{SampleTime}
+        UNION
+        select  a.DeviceID ,
+                a.DeviceName ,
+                a.DeviceType ,
+                0 as ln_inst_name,
+                b.Remark
+        from 	pubdevice a,
+                scom_data b
+        where 	a.DeviceID=b.DeviceID
+        and SampleTime>#{SampleTime}
+        UNION
+        select  a.DeviceID ,
+                a.DeviceName ,
+                a.DeviceType ,
+                0 as ln_inst_name,
+                b.Remark
+        from 	pubdevice a,
+                smoam_data b
+        where 	a.DeviceID=b.DeviceID
+        and SampleTime>#{SampleTime}
+        UNION
+        select  a.DeviceID ,
+                a.DeviceName ,
+                a.DeviceType ,
+                0 as ln_inst_name,
+                b.Remark
+        from 	pubdevice a,
+                spdm_data b
+        where 	a.DeviceID=b.DeviceID
+                and a.Space != '微气象'
+                and SampleTime>#{SampleTime}
+        UNION
+        select  a.DeviceID ,
+                a.DeviceName ,
+                a.DeviceType ,
+                0 as ln_inst_name,
+                b.Remark
+        from 	pubdevice a,
+                stom_data b
+        where 	a.DeviceID=b.DeviceID
+        and SampleTime>#{SampleTime}
+        UNION
+        select  a.DeviceID ,
+                a.DeviceName ,
+                a.DeviceType ,
+                0 as ln_inst_name,
+                b.Remark
+        from 	pubdevice a,
+                weather_data b
+        where 	a.DeviceID=b.DeviceID
+        and SampleTime>#{SampleTime} -->
+        <!--
+        UNION
+        select  a.DeviceID ,
+                a.DeviceName ,
+                'hwcw' as DeviceType,
+                0 as ln_inst_name,
+                b.Remark
+        from 	pubdevice_Infrared a,
+                Infrared_data b
+        where 	a.DeviceID=b.DeviceID
+        and SampleTime>#{SampleTime}
+        ORDER BY nodetype ,text;-->
+    </select>
+    <!--按选择获取即时消息 -->
+    <select id="getImgListBySelect" resultMap="NodeResultMap" parameterType="Object">
+        select DeviceID as id,
+        DeviceName as text,
+        DeviceType as nodetype
+        from pubdevice
+        where DeviceType != '5'
+        <if test='Space != "0" '>
+            and Space = #{Space}
+        </if>
+        <if test='DeviceType != "0" '>
+            and DeviceType = #{DeviceType}
+        </if>
+        ORDER BY nodetype ,text;
+    </select>
+    <select id="getRemarkImgList" resultType="String" parameterType="Object">
+        select DeviceID
+        from sf6_data
+        where remark = '1'
 
-	UNION
-select  DeviceID
-	from 	scom_data
-	where 	remark = '1'
+        UNION
+        select DeviceID
+        from scom_data
+        where remark = '1'
 
-	UNION
-select  DeviceID
-	from 	smoam_data
-	where 	remark = '1'
-	UNION
-select  DeviceID
-	from 	spdm_data
-	where 	remark = '1'
-	UNION
-select  DeviceID
-	from 	stom_data
-	where 	remark = '1'
-<!-- 	
-	UNION
-select  DeviceID
-	from 	Infrared_data
-	where 	remark = '1'
- -->
-</select>
-<!--通过选择获取其他信息  -->
-<select id="getOtherImgListBySelect" resultMap="NodeResultMap" parameterType="Object">
-	select  a.DeviceID as id,
-			a.DeviceName as text,
-			a.DeviceType as nodetype ,
-			b.Remark
-	from 	pubdevice a left join sf6_data b
-	on 	a.DeviceID=b.DeviceID
-	<if test='Space != "0" '>
-	and a.Space = #{Space}
-	</if>
-	<if test='DeviceType != "0" '>
-	and a.DeviceType = #{DeviceType}
-	</if>
-	UNION
-	select  a.DeviceID ,
-			a.DeviceName ,
-			a.DeviceType ,
-			b.Remark
-	from 	pubdevice a left join scom_data b
-	on 	a.DeviceID=b.DeviceID
-	<if test='Space != "0" '>
-	and a.Space = #{Space}
-	</if>
-	<if test='DeviceType != "0" '>
-	and a.DeviceType = #{DeviceType}
-	</if>
-	UNION
-	select  a.DeviceID ,
-			a.DeviceName ,
-			a.DeviceType ,
-			b.Remark
-	from 	pubdevice a left join smoam_data b
-	on 	a.DeviceID=b.DeviceID
-	<if test='Space != "0" '>
-	and a.Space = #{Space}
-	</if>
-	<if test='DeviceType != "0" '>
-	and a.DeviceType = #{DeviceType}
-	</if>
-	UNION
-	select  a.DeviceID ,
-			a.DeviceName ,
-			a.DeviceType ,
-			b.Remark
-	from 	pubdevice a left join spdm_data b
-	on 	a.DeviceID=b.DeviceID
-			and a.Space != '微气象'
-	<if test='Space != "0" '>
-	and a.Space = #{Space}
-	</if>
-	<if test='DeviceType != "0" '>
-	and a.DeviceType = #{DeviceType}
-	</if>
-	UNION
-	select  a.DeviceID ,
-			a.DeviceName ,
-			a.DeviceType ,
-			b.Remark
-	from 	pubdevice a left join stom_data b
-	on 	a.DeviceID=b.DeviceID
-	<if test='Space != "0" '>
-	and a.Space = #{Space}
-	</if>
-	<if test='DeviceType != "0" '>
-	and a.DeviceType = #{DeviceType}
-	</if>
-	UNION
-	select  a.DeviceID ,
-			a.DeviceName ,
-			a.DeviceType ,
-			b.Remark
-	from 	pubdevice a left join weather_data b
-	on 	a.DeviceID=b.DeviceID
-	<if test='Space != "0" '>
-	and a.Space = #{Space}
-	</if>
-	<if test='DeviceType != "0" '>
-	and a.DeviceType = #{DeviceType}
-	</if>
-	ORDER BY nodetype ,text;
-</select>
-<!--获取仿真数据  -->
-<select id="getEmuListData" resultMap="ListResultMap" parameterType="Object">
+        UNION
+        select DeviceID
+        from smoam_data
+        where remark = '1'
+        UNION
+        select DeviceID
+        from spdm_data
+        where remark = '1'
+        UNION
+        select DeviceID
+        from stom_data
+        where remark = '1'
+        <!--
+            UNION
+        select  DeviceID
+            from 	Infrared_data
+            where 	remark = '1'
+         -->
+    </select>
+    <!--通过选择获取其他信息  -->
+    <select id="getOtherImgListBySelect" resultMap="NodeResultMap" parameterType="Object">
+        select a.DeviceID as id,
+        a.DeviceName as text,
+        a.DeviceType as nodetype ,
+        b.Remark
+        from pubdevice a left join sf6_data b
+        on a.DeviceID=b.DeviceID
+        <if test='Space != "0" '>
+            and a.Space = #{Space}
+        </if>
+        <if test='DeviceType != "0" '>
+            and a.DeviceType = #{DeviceType}
+        </if>
+        UNION
+        select a.DeviceID ,
+        a.DeviceName ,
+        a.DeviceType ,
+        b.Remark
+        from pubdevice a left join scom_data b
+        on a.DeviceID=b.DeviceID
+        <if test='Space != "0" '>
+            and a.Space = #{Space}
+        </if>
+        <if test='DeviceType != "0" '>
+            and a.DeviceType = #{DeviceType}
+        </if>
+        UNION
+        select a.DeviceID ,
+        a.DeviceName ,
+        a.DeviceType ,
+        b.Remark
+        from pubdevice a left join smoam_data b
+        on a.DeviceID=b.DeviceID
+        <if test='Space != "0" '>
+            and a.Space = #{Space}
+        </if>
+        <if test='DeviceType != "0" '>
+            and a.DeviceType = #{DeviceType}
+        </if>
+        UNION
+        select a.DeviceID ,
+        a.DeviceName ,
+        a.DeviceType ,
+        b.Remark
+        from pubdevice a left join spdm_data b
+        on a.DeviceID=b.DeviceID
+        and a.Space != '微气象'
+        <if test='Space != "0" '>
+            and a.Space = #{Space}
+        </if>
+        <if test='DeviceType != "0" '>
+            and a.DeviceType = #{DeviceType}
+        </if>
+        UNION
+        select a.DeviceID ,
+        a.DeviceName ,
+        a.DeviceType ,
+        b.Remark
+        from pubdevice a left join stom_data b
+        on a.DeviceID=b.DeviceID
+        <if test='Space != "0" '>
+            and a.Space = #{Space}
+        </if>
+        <if test='DeviceType != "0" '>
+            and a.DeviceType = #{DeviceType}
+        </if>
+        UNION
+        select a.DeviceID ,
+        a.DeviceName ,
+        a.DeviceType ,
+        b.Remark
+        from pubdevice a left join weather_data b
+        on a.DeviceID=b.DeviceID
+        <if test='Space != "0" '>
+            and a.Space = #{Space}
+        </if>
+        <if test='DeviceType != "0" '>
+            and a.DeviceType = #{DeviceType}
+        </if>
+        ORDER BY nodetype ,text;
+    </select>
+    <!--获取仿真数据  -->
+    <select id="getEmuListData" resultMap="ListResultMap" parameterType="Object">
 	select a.devicename name,b.remark remark ,a.DeviceType DeviceType,a.DeviceID DeviceID from pubdevice a,stom_data b where a.DeviceID =b.deviceid
 	UNION
 	select a.devicename name,b.remark remark ,a.DeviceType DeviceType,a.DeviceID DeviceID from pubdevice a,sf6_data b where  a.DeviceID =b.deviceid
@@ -498,32 +492,32 @@ select  DeviceID
 	select a.devicename name,b.remark remark ,a.DeviceType DeviceType,a.DeviceID DeviceID from pubdevice a,scom_data b where a.DeviceID =b.deviceid
 </select>
 
-<select id="getSf6ListData" resultMap="ListResultMapSf6" parameterType="Object">
+    <select id="getSf6ListData" resultMap="ListResultMapSf6" parameterType="Object">
 	select DeviceID,SampleTime,Tmp,Pres,Hum,Remark from sf6_data where DeviceID=#{DeviceID}
 </select>
-<select id="getStomListData" resultMap="ListResultMapYSP" parameterType="Object">
+    <select id="getStomListData" resultMap="ListResultMapYSP" parameterType="Object">
 	select * from stom_data where DeviceID=#{DeviceID}
 </select>
-<select id="getSmoamListData" resultMap="ListResultMapSMOAM" parameterType="Object">
+    <select id="getSmoamListData" resultMap="ListResultMapSMOAM" parameterType="Object">
 	select * from smoam_data where DeviceID=#{DeviceID}
 </select>
-<select id="getScomListData" resultMap="ListResultMapSCOM" parameterType="Object">
+    <select id="getScomListData" resultMap="ListResultMapSCOM" parameterType="Object">
 	select * from scom_data where DeviceID=#{DeviceID}
 </select>
-<select id="getSpdmData" resultMap="ListResultMapSPDM" parameterType="Object">
+    <select id="getSpdmData" resultMap="ListResultMapSPDM" parameterType="Object">
 	select * from spdm_data where DeviceID=#{DeviceID}
 </select>
 
-<select id="getSf6AllData" resultMap="ListResultMapSf6" parameterType="Object">
+    <select id="getSf6AllData" resultMap="ListResultMapSf6" parameterType="Object">
 	select DeviceID,SampleTime,Tmp,Pres,Hum,Remark from sf6_data
 </select>
-<select id="getStomAllData" resultMap="ListResultMapYSP" parameterType="Object">
+    <select id="getStomAllData" resultMap="ListResultMapYSP" parameterType="Object">
 	select * from stom_data
 </select>
-<select id="getSmoamAllData" resultMap="ListResultMapSMOAM" parameterType="Object">
+    <select id="getSmoamAllData" resultMap="ListResultMapSMOAM" parameterType="Object">
 	select * from smoam_data
 </select>
-<select id="getScomAllData" resultMap="ListResultMapSCOM" parameterType="Object">
+    <select id="getScomAllData" resultMap="ListResultMapSCOM" parameterType="Object">
 	select * from scom_data
 </select>
 

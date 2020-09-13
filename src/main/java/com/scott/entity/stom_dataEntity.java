@@ -24,6 +24,7 @@ public class stom_dataEntity extends BaseEntity {
 	private Double C2H4ppm;
 	private Double C2H6ppm;
 	private Double TotHyd;//总烃
+	private Double O2;
 	private Double N2;
 	private Double OilTmp;
 	private Double GasPres;//载气压力

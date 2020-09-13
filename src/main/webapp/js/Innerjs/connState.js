@@ -12,7 +12,7 @@ jeecg.connState = function() {
 		},
 		treeInit : function() {
 			$('#ZoneEmuList').tree({
-				url : ctxPath + '/connState/getEmuListData.do',
+				url : ctxPath + '/connState/getEmuListData',
 				checkbox : false,
 				cascadeCheck : false,
 				animate : true,
@@ -53,7 +53,7 @@ jeecg.connState = function() {
 						async : false,
 						cache : false,
 						type : 'POST',
-						url : ctxPath + '/connState/get104connHistoryData.do', //刷新显示历史连接信息
+						url : ctxPath + '/connState/get104connHistoryData', //刷新显示历史连接信息
 						data : formData,
 						error : function() {// 请求失败处理函数
 						},
@@ -121,7 +121,7 @@ jeecg.connState = function() {
 						async : false,
 						cache : false,
 						type : 'POST',
-						url : ctxPath + '/connState/getHistoryData.do', //刷新显示历史连接信息
+						url : ctxPath + '/connState/getHistoryData', //刷新显示历史连接信息
 						data : formData,
 						error : function() {// 请求失败处理函数
 						},
@@ -193,7 +193,7 @@ jeecg.connState = function() {
 		AMCstateInit : function() {
 			var table_name = "#AMCState";
 			_box = null;
-			_this.AMCState.dataGrid.url = "getAMCListData.do";
+			_this.AMCState.dataGrid.url = "getAMCListData";
 			_box = new YDataGrid(_this.AMCState, table_name, false, false,
 					false, false);
 			_box.init();
@@ -274,11 +274,11 @@ jeecg.connState = function() {
 				} ] ]
 			}
 		},
-		
+
 		iec104conn : function() {
 			var table_name = "#AMC104ConnState";
 			_box = null;
-			_this.iec104connState.dataGrid.url = "get104connData.do";
+			_this.iec104connState.dataGrid.url = "get104connData";
 			_box = new YDataGrid(_this.iec104connState, table_name, false,
 					false, false, false);
 			_box.init();
@@ -287,7 +287,7 @@ jeecg.connState = function() {
 				async : false,
 				cache : false,
 				type : 'POST',
-				url : "get104connSelect.do",
+				url : "get104connSelect",
 				error : function() {// 请求失败处理函数
 				},
 				success : function(data) {
@@ -427,7 +427,7 @@ jeecg.connState = function() {
 						async : false,
 						cache : false,
 						type : 'POST',
-						url : ctxPath + '/connState/getDataByID.do',
+						url : ctxPath + '/connState/getDataByID',
 						data : formData,
 						error : function() {
 							jeecg.alert('错误信息', '数据请求失败', 'error');
@@ -538,22 +538,22 @@ function TimeAndMin() {
 }
 
 $(function(){
-	$('#ProgramState').datagrid({		
-		columns:[[       
+	$('#ProgramState').datagrid({
+		columns:[[
 			{field:'exeName',title:'程序名称',width:300},
 			{field:'exeState',title:'程序状态',width:200,formatter:function(value,row,index){
 				if(value == 0){
 					return "未运行";
 				}else if(value == 1){
-					now = parseInt(new Date().getTime());   			
+					now = parseInt(new Date().getTime());
 					//得到采集时间戳
-					date = row.updateStateTimestamp.replace(/-/g,'/'); 
+					date = row.updateStateTimestamp.replace(/-/g,'/');
 					time = new Date(date).getTime();
 					if(now - time < 5*60*1000){
 						return "已运行";
 					}else{
 						return "未运行";
-					}	
+					}
 				}
 			}},
 			{field:'exeStateTimestamp',title:'程序开始运行时间',width:300},
@@ -562,8 +562,8 @@ $(function(){
 	    ]]
 	});
 	//cac与各装置通讯日志
-	$('#CACState').datagrid({		
-		columns:[[       
+	$('#CACState').datagrid({
+		columns:[[
 			{field:'state_time',title:'时间',width:300},
 			{field:'ied_name',title:'装置名称',width:200},
 			{field:'ied_ip',title:'ip',width:300},
@@ -571,8 +571,8 @@ $(function(){
 	    ]]
 	});
 	//cac与cag通讯日志
-	$('#CAGState').datagrid({		
-		columns:[[       
+	$('#CAGState').datagrid({
+		columns:[[
 			{field:'state_time',title:'时间',width:300},
 			{field:'client_name',title:'装置名称',width:200},
 			{field:'client_ip',title:'ip',width:300},
@@ -583,19 +583,19 @@ $(function(){
 	getCAGStateListData();
 	getProgramListData();
 	window.setInterval(update, 2*60*1000);
-	
+
 });
 /*//cac与各装置通讯日志
 $(function(){
-	
-	
+
+
 });
 //cac与cag通讯日志
 $(function(){
-	
+
 	window.setInterval(getCACStateListData, 2*60*1000);
 	window.setInterval(getCAGStateListData, 2*60*1000);
-	
+
 });*/
 function update(){
 	getCACStateListData();
@@ -606,7 +606,7 @@ function getProgramListData(){
 	$.ajax({
 		type:'post',
 		dataType:'json',
-		url:'getProgramListData.do',
+		url:'getProgramListData',
 		success:function(data){
 			$("#ProgramState").datagrid('loadData', { total: data.total,rows:data.rows });
 		}
@@ -617,7 +617,7 @@ function getCACStateListData(){
 	$.ajax({
 		type:'post',
 		dataType:'json',
-		url:'getCACStateListData.do',
+		url:'getCACStateListData',
 		success:function(data){
 			$("#CACState").datagrid('loadData', { total: data.total,rows:data.rows });
 		}
@@ -628,7 +628,7 @@ function getCAGStateListData(){
 	$.ajax({
 		type:'post',
 		dataType:'json',
-		url:'getCAGStateListData.do',
+		url:'getCAGStateListData',
 		success:function(data){
 			$("#CAGState").datagrid('loadData', { total: data.total,rows:data.rows });
 		}

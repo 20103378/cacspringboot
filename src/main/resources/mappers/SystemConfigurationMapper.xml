@@ -10,7 +10,7 @@
 		<result column="name" property="name" />
 		<result column="content" property="address" />
 	</resultMap>
-	<resultMap id="ycDataResult" type="com.scott.entity.DataEntity">
+	<resultMap id="ycDataResult" type="com.scott.entity.IEC61850cRealDataEntity">
 		<result property="value" column="yc_value" />
 		<result property="refname" column="yc_refname" />
 		<result property="time" column="yc_time" />

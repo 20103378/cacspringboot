@@ -83,13 +83,13 @@ jeecg.history = function () {
                     break;
                 case "19":
                     _box = null;
-                    _this.showSPDMData.dataGrid.url = "getSPDMHistoryData.do?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
+                    _this.showSPDMData.dataGrid.url = "getSPDMHistoryData?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
                     _box = new YDataGrid(_this.showSPDMData, table_name, false, true, true, true);
                     _box.init();
                     break;
                 case "20":
                     _box = null;
-                    _this.showSpdcData.dataGrid.url = "getSpdcHistoryData.do?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
+                    _this.showSpdcData.dataGrid.url = "getSpdcHistoryData?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
                     _box = new YDataGrid(_this.showSpdcData, table_name, false, true, true, true);
                     _box.init();
                     break;
@@ -98,13 +98,13 @@ jeecg.history = function () {
                 //     ln_inst_name = ln_inst_name.replace("#", "@");
                 //     id = id.substring(2);
                 //     _box = null;
-                //     _this.showYXData.dataGrid.url = "getYXHistoryDataByRefname.do?ln_inst_name=" + ln_inst_name + "&id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
+                //     _this.showYXData.dataGrid.url = "getYXHistoryDataByRefname?ln_inst_name=" + ln_inst_name + "&id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
                 //     _box = new YDataGrid(_this.showYXData, table_name, false, true, true, true);
                 //     _box.init();
                 //     break;
                 case "hwcw":
                     _box = null;
-                    _this.showInfraredData.dataGrid.url = "getInfraredHistoryData.do?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
+                    _this.showInfraredData.dataGrid.url = "getInfraredHistoryData?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
                     _box = new YDataGrid(_this.showInfraredData, table_name, false, true, true, true);
                     _box.init();
             }
@@ -276,7 +276,7 @@ jeecg.history = function () {
         showYSPData: {
             dataGrid: {
                 title: $("#txtName").val(),
-                url: 'getstomHistoryData.do',
+                url: 'getstomHistoryData',
                 columns: [[{
                     field: 'deviceID',
                     title: '设备ID',
@@ -312,7 +312,7 @@ jeecg.history = function () {
                         align: 'center',
                         sortable: true,
                         formatter: function (value, row, index) {
-                            return row.COppm;
+                            return row.coppm;
                         }
                     },
                     {
@@ -322,7 +322,7 @@ jeecg.history = function () {
                         align: 'center',
                         sortable: true,
                         formatter: function (value, row, index) {
-                            return row.CO2ppm;
+                            return row.co2ppm;
                         }
                     },
                     {
@@ -332,7 +332,7 @@ jeecg.history = function () {
                         align: 'center',
                         sortable: true,
                         formatter: function (value, row, index) {
-                            return row.CH4ppm;
+                            return row.ch4ppm;
                         }
                     },
                     {
@@ -374,7 +374,20 @@ jeecg.history = function () {
                         formatter: function (value, row, index) {
                             return row.totHyd;
                         }
-                    }, {
+                    },{
+                        field: 'o2',
+                        title: '氧气(ppm)',
+                        width: fixWidth(0.06),
+                        align: 'center',
+                        sortable: true,
+                        formatter: function (value, row, index) {
+                            if (row.n2 == null) {
+                                return "无数据";
+                            }
+                            return row.o2;
+                        }
+                    },
+                    {
                         field: 'n2',
                         title: '氮气(ppm)',
                         width: fixWidth(0.06),
@@ -445,7 +458,7 @@ jeecg.history = function () {
         showSF6Data: {
             dataGrid: {
                 title: $("#txtName").val(),
-//					url:'getSf6HistoryData.do',
+//					url:'getSf6HistoryData',
                 columns: [[{
                     field: 'deviceID',
                     title: '设备ID',
@@ -634,7 +647,7 @@ jeecg.history = function () {
         showSCOMData: {
             dataGrid: {
                 title: $("#txtName").val(),
-                //			url:'getSCOMHistoryData.do',
+                //			url:'getSCOMHistoryData',
                 columns: [[{
                     field: 'deviceID',
                     title: '设备ID',
@@ -679,7 +692,7 @@ jeecg.history = function () {
         showSPDMData: {
             dataGrid: {
                 title: $("#txtName").val(),
-                //			url:'getSCOMHistoryData.do',
+                //			url:'getSCOMHistoryData',
                 columns: [[{
                     field: 'deviceID',
                     title: '设备ID',
@@ -763,7 +776,7 @@ jeecg.history = function () {
         showYXData: {
             dataGrid: {
                 title: $("#txtName").val(),
-//				url:'getstomHistoryData.do',
+//				url:'getstomHistoryData',
                 columns: [[{
                     field: 'refname',
                     title: '参数名',
@@ -830,7 +843,7 @@ function getSelections() {
 $("#export").unbind('click').click(function () {
     var DeviceType = $("#txtType").val();
     if (DeviceType == 1) {
-        var _url = "exportstomHistoryData.do?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
+        var _url = "exportstomHistoryData?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
         $.ajax({
             async: false,
             cache: false,
@@ -843,18 +856,19 @@ $("#export").unbind('click').click(function () {
                 var head_data, json;
                 head_data = [];
                 head_data.push({"title": "设备ID", "value": "deviceID"}, {"title": "采集时间", "value": "sampleTime"},
-                    {"title": "氢气(ppm)", "value": "h2ppm"}, {"title": "一氧化碳(ppm", "value": "COppm"},
-                    {"title": "二氧化碳(ppm)", "value": "CO2ppm"}, {"title": "甲烷(ppm)", "value": "CH4ppm"},
+                    {"title": "氢气(ppm)", "value": "h2ppm"}, {"title": "一氧化碳(ppm", "value": "coppm"},
+                    {"title": "二氧化碳(ppm)", "value": "co2ppm"}, {"title": "甲烷(ppm)", "value": "ch4ppm"},
                     {"title": "乙炔(ppm)", "value": "c2H2ppm"}, {"title": "乙烯(ppm)", "value": "c2H4ppm"},
                     {"title": "乙烷(ppm)", "value": "c2H6ppm"}, {"title": "总可燃气体(ppm)", "value": "totHyd"},
-                    {"title": "氮气(ppm)", "value": "n2"}, {"title": "油位(ppm)", "value": "oilTmp"},
-                    {"title": "载气压力(ppm)", "value": "gasPres"}, {"title": "微水(ppm)", "value": "mst"});
+                    {"title": "氧气(ppm)", "value": "o2"},{"title": "氮气(ppm)", "value": "n2"},
+                    {"title": "油位(ppm)", "value": "oilTmp"}, {"title": "载气压力(ppm)", "value": "gasPres"},
+                    {"title": "微水(ppm)", "value": "mst"});
                 tableExport(data, head_data, "excel", "油色谱历史数据表_" + data.dataList[0].deviceName);
             }
         });
     }
     if (DeviceType == 2) {
-        var _url = "exportSf6HistoryData.do?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
+        var _url = "exportSf6HistoryData?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
         $.ajax({
             async: false,
             cache: false,
@@ -874,7 +888,7 @@ $("#export").unbind('click').click(function () {
         });
     }
     if (DeviceType == 3) {
-        var _url = "exportSMOAMHistoryData.do?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
+        var _url = "exportSMOAMHistoryData?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
         $.ajax({
             async: false,
             cache: false,
@@ -900,7 +914,7 @@ $("#export").unbind('click').click(function () {
         });
     }
     if (DeviceType == 4) {
-        var _url = "exportSCOMHistoryData.do?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
+        var _url = "exportSCOMHistoryData?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
         $.ajax({
             async: false,
             cache: false,
@@ -919,7 +933,7 @@ $("#export").unbind('click').click(function () {
         });
     }
     if (DeviceType == 8) {
-        var _url = "exportSPDMHistoryData.do?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
+        var _url = "exportSPDMHistoryData?id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
         $.ajax({
             async: false,
             cache: false,
@@ -941,7 +955,7 @@ $("#export").unbind('click').click(function () {
     // if (DeviceType == "amc") {
     //     ln_inst_name = $('#txtName').val();
     //     ln_inst_name = ln_inst_name.replace("#", "@");
-    //     var _url = "exportYXHistory.do?ln_inst_name=" + ln_inst_name + "&id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
+    //     var _url = "exportYXHistory?ln_inst_name=" + ln_inst_name + "&id=" + id + "&startTime=" + startTime + "&endTime=" + endTime + "&state=" + state;
     //     $.ajax({
     //         async: false,
     //         cache: false,

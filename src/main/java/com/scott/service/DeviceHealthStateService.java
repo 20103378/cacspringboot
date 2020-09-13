@@ -387,7 +387,7 @@ public class DeviceHealthStateService<T> extends BaseService<T> {
         return getDao().getyxDesc(refname);
     }
 
-    public List<DataEntity> getYXData(String IEC61850LD_LN) {
+    public List<IEC61850cRealDataEntity> getYXData(String IEC61850LD_LN) {
         return getDao().getYXData(IEC61850LD_LN);
     }
 

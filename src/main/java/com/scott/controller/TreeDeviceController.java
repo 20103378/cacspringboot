@@ -331,17 +331,11 @@ public class TreeDeviceController extends BaseAction {
 
     }
 
-    @RequestMapping("/getImgList")
-    @ResponseBody
-    public List getImgList() {
-        List<TreeDeviceEntity> entityList = treeDeviceService.getImgList();
-        return entityList;
-    }
     @RequestMapping("/getOtherImgList")
     @ResponseBody
-    public Map getOtherImgList(String SampleTime) {
+    public Map getOtherImgList() {
         Map map = new HashMap(3);
-        List<TreeDeviceEntity> entityList = treeDeviceService.getOtherImgList(SampleTime);
+        List<TreeDeviceEntity> entityList = treeDeviceService.getOtherImgList();
         computDeviceImgStatus(entityList);
         map.put("entityList", entityList);
         return map;

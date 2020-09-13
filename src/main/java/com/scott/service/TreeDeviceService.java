@@ -48,10 +48,6 @@ public class TreeDeviceService<T,T1,T2,T3,T4,T5,T6> extends BaseService<T> {
     {
         return getDao().getPubspaceNameByType(Type);
     }
-	public List<T> getImgList()
-	{
-		return getDao().getImgList();
-	}
 	public List<Integer> getPubDeviceTypeList(){
 		return getDao().getPubDeviceTypeList();
 	}
@@ -64,9 +60,9 @@ public class TreeDeviceService<T,T1,T2,T3,T4,T5,T6> extends BaseService<T> {
     {
         return getDao().getOtherAmcImgList(SampleTime);
     }*/
-	public List<T> getOtherImgList(String SampleTime)
+	public List<T> getOtherImgList()
     {
-        return getDao().getOtherImgList(SampleTime);
+        return getDao().getOtherImgList();
     }
 	public List<String> getRemarkImgList()
     {
