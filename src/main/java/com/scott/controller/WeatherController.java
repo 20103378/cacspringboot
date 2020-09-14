@@ -2,6 +2,7 @@ package com.scott.controller;
 
 import com.base.web.BaseAction;
 import com.scott.entity.WeatherEntity;
+import com.scott.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -24,12 +25,12 @@ public class WeatherController extends BaseAction {
     // Servrice start
     @Autowired(required = false)
     // 自动注入，不需要生成set方法了，required=false表示没有实现类，也不会报错。
-    private com.scott.service.WeatherService<WeatherEntity> WeatherService;
+    private com.scott.service.WeatherService<WeatherEntity> weatherService;
 
     @RequestMapping("/getCurrentWeather")
     @ResponseBody
     public WeatherEntity getOsicfgXml(){
-        List<WeatherEntity> weather = WeatherService.getWeather();
+        List<WeatherEntity> weather = weatherService.getWeather();
         WeatherEntity data = new WeatherEntity();
         if(CollectionUtils.isEmpty(weather)){
             data.setTemperature("--");
