@@ -810,60 +810,60 @@ public class DeviceHealthStateController extends BaseAction {
         HtmlUtil.writerJson(response, jsonMap);
     }
 
-    @RequestMapping("/UpdateMap")
-    public void UpdateMap(HttpServletResponse response, HttpServletRequest request) throws Exception {
-        //开始解析参数
-        String info = request.getParameter("info");
-        String[] data = info.split(",");
-        String id = data[0];
-        String y = data[1];
-        String x = data[2];
-        String index = data[3];
-        //根据index选择不同xml文件
-        String rootPath = request.getSession().getServletContext().getRealPath("");
-        new UrlUtil();
-        rootPath = rootPath + UrlUtil.getUrlUtil().getMapPath();
-        if (index.equals("1")) {
-            rootPath += "data_gis.xml";
-        } else if (index.equals("2")) {
-            rootPath += "data_ft.xml";
-        } else if (index.equals("3")) {
-            rootPath += "data_zlc.xml";
-        } else if (index.equals("4")) {
-            rootPath += "data_jlc.xml";
-        } else if (index.equals("5")) {
-            rootPath += "data_zyb.xml";
-        }
-        SAXBuilder bulider = new SAXBuilder();
-        InputStream inSt = new FileInputStream(rootPath);
-        Document document = bulider.build(inSt);
-        XPath path = XPath.newInstance("/map/state[devid='" + id + "']/loc");
-        List<Element> list = path.selectNodes(document);
-        Element item = list.get(0);
-        String s = item.getText();
-        item.setText(x + "," + y);
-        String t = item.getText();
-        inSt.close();
-        // 将doc对象输出到文件
-        try {
-            // 创建xml文件输出流
-            XMLOutputter xmlopt = new XMLOutputter();
-
-            // 创建文件输出流
-            FileOutputStream writer = new FileOutputStream(rootPath);
-
-            // 指定文档格式
-            Format fm = Format.getPrettyFormat();
-            fm.setEncoding("UTF-8");
-            xmlopt.setFormat(fm);
-
-            // 将doc写入到指定的文件中
-            xmlopt.output(document, writer);
-            writer.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @RequestMapping("/UpdateMap")
+//    public void UpdateMap(HttpServletResponse response, HttpServletRequest request) throws Exception {
+//        //开始解析参数
+//        String info = request.getParameter("info");
+//        String[] data = info.split(",");
+//        String id = data[0];
+//        String y = data[1];
+//        String x = data[2];
+//        String index = data[3];
+//        //根据index选择不同xml文件
+//        String rootPath = request.getSession().getServletContext().getRealPath("");
+//        new UrlUtil();
+//        rootPath = rootPath + UrlUtil.getUrlUtil().getMapPath();
+//        if (index.equals("1")) {
+//            rootPath += "data_gis.xml";
+//        } else if (index.equals("2")) {
+//            rootPath += "data_ft.xml";
+//        } else if (index.equals("3")) {
+//            rootPath += "data_zlc.xml";
+//        } else if (index.equals("4")) {
+//            rootPath += "data_jlc.xml";
+//        } else if (index.equals("5")) {
+//            rootPath += "data_zyb.xml";
+//        }
+//        SAXBuilder bulider = new SAXBuilder();
+//        InputStream inSt = new FileInputStream(rootPath);
+//        Document document = bulider.build(inSt);
+//        XPath path = XPath.newInstance("/map/state[devid='" + id + "']/loc");
+//        List<Element> list = path.selectNodes(document);
+//        Element item = list.get(0);
+//        String s = item.getText();
+//        item.setText(x + "," + y);
+//        String t = item.getText();
+//        inSt.close();
+//        // 将doc对象输出到文件
+//        try {
+//            // 创建xml文件输出流
+//            XMLOutputter xmlopt = new XMLOutputter();
+//
+//            // 创建文件输出流
+//            FileOutputStream writer = new FileOutputStream(rootPath);
+//
+//            // 指定文档格式
+//            Format fm = Format.getPrettyFormat();
+//            fm.setEncoding("UTF-8");
+//            xmlopt.setFormat(fm);
+//
+//            // 将doc写入到指定的文件中
+//            xmlopt.output(document, writer);
+//            writer.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
     private void setStomYxAlarmData(List<StomYxEntity> dataList) {
