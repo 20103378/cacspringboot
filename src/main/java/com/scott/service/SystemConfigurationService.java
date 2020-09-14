@@ -66,8 +66,10 @@ public class SystemConfigurationService<T> extends BaseService<T> {
      *
      * @return
      */
-    public List<Refname_descEntity> getrefname() {
-        return getDao().getrefname();
+    public List<Refname_descEntity> getrefname(BasePage page) {
+        Integer rowCount = getDao().getRefNameListCount();
+        page.getPager().setRowCount(rowCount);
+        return getDao().getrefname(page);
     }
 
     ;

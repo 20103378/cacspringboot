@@ -376,11 +376,20 @@
 		#{PosY},#{IEC61850LD_LN},#{Space},#{StopUse},#{StopSoundAlarm},#{Phase})
 	</insert>
 
-
+	<select id="getRefNameListCount" resultType="java.lang.Integer">
+		select count(1) from refname_desc
+	</select>
 	<!-- 获取站点信息 -->
 	<select id="getrefname" resultMap="RefnameDescResultMap"
 		parameterType="Object">
 		select * from refname_desc
+		<if test="pager.orderCondition != null and pager.orderCondition != ''">
+			${pager.orderCondition}
+		</if>
+		<if
+			test="pager.mysqlQueryCondition != null and pager.mysqlQueryCondition != ''">
+			${pager.mysqlQueryCondition}
+		</if>
 	</select>
 	<!-- 查询refnameFlag -->
 	<select id="getrefnameFlag" resultType="java.lang.Integer"

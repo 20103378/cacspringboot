@@ -6,8 +6,8 @@ $(function () {
 		// 开始初始化下拉框
 		jeecg.refnameConfig.setEditWin();
 		jeecg.refnameConfig.setSel();
-		// 加载主设备添加删除窗口
-		jeecg.SpaceConfiguration.upload();
+		// // 加载主设备添加删除窗口
+		// jeecg.SpaceConfiguration.upload();
 	  	$("#bt_refname_desc_downld").unbind('click').click(function(){
 	  		jeecg.refnameConfig.space_sub();
 	  	});
@@ -51,8 +51,8 @@ jeecg.refnameConfig = function(){
 			var _box = null;
 			var tablename="#refname_desc_tb";
 // _this.data_config.dataGrid.url="getrefname",
-			_box = new YDataGrid(_this.data_config,tablename,true,false,true,false);
-// _box.grid.datagrid.defaults.onDblClickRow=_this.update;
+			_box = new YDataGrid(_this.data_config,tablename,true,false,true,true);
+			// _box.grid.datagrid.defaults.onDblClickRow=_this.update;
 			_box.init();
 
 		},

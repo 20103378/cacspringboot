@@ -317,9 +317,12 @@ public class SystemConfigurationController extends BaseAction {
      */
     @RequestMapping("/getrefname")
     @ResponseBody
-    public List getrefname() {
-        List<Refname_descEntity> dataList = systemConfigurationService.getrefname();
-        return dataList;
+    public Map getrefname(BasePage page) {
+        List<Refname_descEntity> dataList = systemConfigurationService.getrefname(page);
+        Map<String, Object> jsonMap = new HashMap<String, Object>();
+        jsonMap.put("total", page.getPager().getRowCount());
+        jsonMap.put("rows", dataList);
+        return jsonMap;
     }
 
     /**

@@ -53,10 +53,15 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
     int equipmentListCount();
 
     /**
+     * 获取测量点个数
+     * @return
+     */
+    int getRefNameListCount();
+    /**
      * 	获取测量点
      * @return
      */
-    List<Refname_descEntity> getrefname();
+    List<Refname_descEntity> getrefname(BasePage page);
 
     /**
      * 查询是否存在refname映射
@@ -429,4 +434,6 @@ public interface SystemConfigurationDao<T> extends BaseDao<T> {
      * @return
      */
     Integer getDeviceCountByEquipmentID(String equipmentID);
+
+
 }
