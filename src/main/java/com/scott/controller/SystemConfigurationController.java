@@ -387,443 +387,6 @@ public class SystemConfigurationController extends BaseAction {
         return dataList;
     }
 
-    /**
-     * 生成XML文件
-     */
-    @RequestMapping("/getDeviceBySpace")
-    public void getDeviceBySpace(String select_name, String path, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        select_name = new String(select_name.getBytes("iso-8859-1"), "utf-8");
-        List<DeviceEntity> DeviceList = new ArrayList<DeviceEntity>();
-        String rootPath = path;
-        // String rootPath2="d:/";
-        String rootPath2 = request.getSession().getServletContext().getRealPath("");
-        new UrlUtil();
-        rootPath2 = rootPath2 + UrlUtil.getUrlUtil().getMapPath();
-        // fileName表示你创建的文件名；为xml类型；
-        String fileName = "books.xml";
-        // String fileName2 ="books.xml";
-        if (select_name.equals("GIS区域")) {
-            DeviceList = systemConfigurationService.getDeviceBySpace(select_name);
-            fileName = "data_gis.xml";
-        } else if (select_name.equals("低端换流变") || select_name.equals("高端换流变") || select_name.equals("站用变")) {
-            DeviceList = systemConfigurationService.getDeviceBySpace_ft(select_name);
-            fileName = "data_ft.xml";
-        } else if (select_name.equals("直流场")) {
-            DeviceList = systemConfigurationService.getDeviceBySpace(select_name);
-            fileName = "data_zlc.xml";
-        } else if (select_name.equals("交流场")) {
-            DeviceList = systemConfigurationService.getDeviceBySpace(select_name);
-            fileName = "data_jlc.xml";
-        }
-        // else if(select_name.equals("站用变")){
-        // fileName="data_zyb.xml";
-        // }
-        System.out.println(rootPath);
-        File file = new File(rootPath2, fileName);
-        // 创建根节点 并设置它的属性 ;
-        Element root = new Element("map");
-        // 将根节点添加到文档中；
-        Document Doc = new Document(root);
-        // 判断是否存在xml文件
-        if (file.isFile() && file.exists()) {
-            file.delete();
-        }
-        CreatMapInfoFile(DeviceList, rootPath2, fileName);
-    }
-
-    /**
-     * 更换XML文件
-     */
-    @RequestMapping("/ModDeviceBySpace")
-    public void ModDeviceBySpace(String select_name, String path, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        select_name = new String(select_name.getBytes("iso-8859-1"), "utf-8");
-        List<DeviceEntity> DeviceList = systemConfigurationService.getDeviceBySpace(select_name);
-        String rootPath = path;
-        // String rootPath2="d:/";
-        String rootPath2 = request.getSession().getServletContext().getRealPath("");
-        new UrlUtil();
-        rootPath2 = rootPath2 + UrlUtil.getUrlUtil().getMapPath();
-        // fileName表示你创建的文件名；为xml类型；
-        String fileName = "books.xml";
-        // String fileName2 ="books.xml";
-        if (select_name.equals("GIS区域")) {
-            fileName = "data_gis.xml";
-        } else if (select_name.equals("低端换流变") || select_name.equals("高端换流变")) {
-            fileName = "data_ft.xml";
-        } else if (select_name.equals("直流场")) {
-            fileName = "data_zlc.xml";
-        } else if (select_name.equals("交流场")) {
-            fileName = "data_jlc.xml";
-        } else if (select_name.equals("站用变")) {
-            fileName = "data_zyb.xml";
-        }
-        System.out.println(rootPath);
-
-        File file = new File(rootPath2, fileName);
-        // 创建根节点 并设置它的属性 ;
-        Element root = new Element("map");
-        // 将根节点添加到文档中；
-        Document Doc = new Document(root);
-        // 判断是否存在xml文件
-        if (file.isFile() && file.exists()) {
-            RepMapInfoFile(DeviceList, rootPath2, fileName);
-        } else {
-            CreatMapInfoFile(DeviceList, rootPath2, fileName);
-        }
-    }
-
-    /**
-     * 生成XML文件标签部分
-     *
-     * @throws IOException
-     * @throws FileNotFoundException
-     */
-    public static void CreatMapInfoFile(List<DeviceEntity> DeviceList, String rootPath, String fileName) throws JDOMException, IOException {
-        // 创建根节点 并设置它的属性 ;
-        Element root = new Element("map");
-        // 将根节点添加到文档中；
-        Document Doc = new Document(root);
-        Element elements_1 = new Element("state").setAttribute("id", "default_point");
-        elements_1.addContent(new Element("color").setText("0xFF0000"));
-        elements_1.addContent(new Element("size").setText("5"));
-        root.addContent(elements_1);
-        Element elements_2 = new Element("state").setAttribute("id", "refresh_rate");
-        elements_2.addContent(new Element("color").setText("1000"));
-        root.addContent(elements_2);
-        Element elements_3 = new Element("state").setAttribute("id", "background_color");
-        elements_3.addContent(new Element("color").setText("1000"));
-        root.addContent(elements_3);
-        Element elements_4 = new Element("state").setAttribute("id", "map_switch");
-        elements_4.addContent(new Element("color").setText("1"));
-        root.addContent(elements_4);
-        for (int i = 0; i < DeviceList.size(); i++) {
-            // 创建节点 state;
-            Element elements = new Element("state").setAttribute("id", "point");
-            // 给 state 节点添加子节点并赋值；
-            elements.addContent(new Element("devid").setText(DeviceList.get(i).getDeviceID()));
-            elements.addContent(new Element("name").setText(DeviceList.get(i).getDeviceName() + "," + DeviceList.get(i).getStartOperateTime()));
-            elements.addContent(new Element("dtype").setText(String.valueOf(DeviceList.get(i).getDeviceType())));
-            elements.addContent(new Element("info").setText(DeviceList.get(i).getRemark()));
-            elements.addContent(new Element("data").setText("0,0,0,0,0,0,0,0,0,0,0"));
-            int X = i / 10 + 15;
-            int Y = i % 10 + 90;
-            String XYpoint = "-" + X + "," + Y;
-            elements.addContent(new Element("loc").setText(XYpoint));
-            //
-            root.addContent(elements);
-        }
-        Format format = Format.getPrettyFormat();
-        XMLOutputter XMLOut = new XMLOutputter(format);
-
-        // InputStream inSt = new FileInputStream(file_path+"boss.xml");
-        XMLOut.output(Doc, new FileOutputStream(rootPath + "/" + fileName));
-
-    }
-
-    /**
-     * 替换XML文件标签部分
-     *
-     * @throws IOException
-     * @throws FileNotFoundException
-     */
-    public static void RepMapInfoFile(List<DeviceEntity> DeviceList,
-                                      String rootPath, String fileName) throws JDOMException, IOException {
-        // 如不存在则新增
-
-        for (int i = 0; i < DeviceList.size(); i++) {// 循环数据库设备
-            Document document;
-            SAXBuilder bulider = new SAXBuilder();
-            InputStream inSt = new FileInputStream(rootPath + "/" + fileName);
-            document = bulider.build(inSt);
-            Element root_find = document.getRootElement(); // 获取根节点对象
-            List<Element> RemoteAddressList = root_find.getChildren("state");
-            boolean aa = false;
-            for (Element el2 : RemoteAddressList) {
-                Element devid = el2.getChild("devid");
-                Element devname = el2.getChild("name");
-                Element dtype = el2.getChild("dtype");
-                if (devid != null) {
-                    if (devid.getText().equals(DeviceList.get(i).getDeviceID())) {// 判断XML点在数据库中是否存在，如存在则修改
-                        System.out.println("XML文件的DevidId是" + devid.getText());
-                        System.out.println("数据库的DevidId是" + DeviceList.get(i).getDeviceID());
-                        // System.out.println("开始将"+devid.getText()+"替换成"+DeviceList.get(i).getDeviceID());
-                        // devid.setText(DeviceList.get(i).getDeviceID());
-                        System.out.println("开始将" + devname.getText() + "替换成" + DeviceList.get(i).getDeviceName());
-                        devname.setText(DeviceList.get(i).getDeviceName());
-                        System.out.println("开始将" + dtype.getText() + "替换成" + DeviceList.get(i).getDeviceType());
-                        dtype.setText(String.valueOf(DeviceList.get(i).getDeviceType()));
-                        aa = true;
-                        break;// 如果替换则跳出当前for循环寻找下一个
-                    }
-                }
-            }
-            if (aa == false) {
-
-                // 创建节点 state;
-                Element elements = new Element("state").setAttribute("id", "point");
-                // 给 state 节点添加子节点并赋值；
-                elements.addContent(new Element("devid").setText(DeviceList.get(i).getDeviceID()));
-                elements.addContent(new Element("name").setText(DeviceList.get(i).getDeviceName()));
-                elements.addContent(new Element("dtype").setText(String.valueOf(DeviceList.get(i).getDeviceType())));
-                elements.addContent(new Element("info").setText("0"));
-                elements.addContent(new Element("data").setText("0,0,0,0,0,0,0,0,0,0,0"));
-                int X = i / 10 + 15;
-                int Y = i % 10 + 90;
-                String XYpoint = "-" + X + "," + Y;
-                elements.addContent(new Element("loc").setText(XYpoint));
-                //
-                root_find.addContent(elements.detach());
-            }
-        }
-    }
-
-    @RequestMapping("/getchangeXmlSwitchTo0")
-    public void getchangeXmlSwitchTo0(String select_name, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        select_name = new String(select_name.getBytes("iso-8859-1"), "utf-8");
-        String rootPath2 = request.getSession().getServletContext().getRealPath("");
-        new UrlUtil();
-        rootPath2 = rootPath2 + UrlUtil.getUrlUtil().getMapPath();
-        // fileName表示你创建的文件名；为xml类型；
-        String fileName = "data.xml";
-
-        if (select_name.equals("GIS区域")) {
-            fileName = "data_gis.xml";
-        } else if (select_name.equals("低端换流变") || select_name.equals("高端换流变")) {
-            fileName = "data_ft.xml";
-        } else if (select_name.equals("直流场")) {
-            fileName = "data_zlc.xml";
-        } else if (select_name.equals("交流场")) {
-            fileName = "data_jlc.xml";
-        } else if (select_name.equals("站用变")) {
-            fileName = "data_zyb.xml";
-        }
-
-        Document document;
-        SAXBuilder bulider = new SAXBuilder();
-        InputStream inSt = new FileInputStream(rootPath2 + "/" + fileName);
-        document = bulider.build(inSt);
-        Element root_find = document.getRootElement(); // 获取根节点对象
-
-        List<Element> RemoteAddressList = root_find.getChildren("state");
-
-        for (Element el2 : RemoteAddressList) {
-            if ("map_switch".equals(el2.getAttributeValue("id"))) {
-                Element color0 = el2.getChild("color");
-                color0.setText("0");
-                break;
-            }
-        }
-        Format format = Format.getPrettyFormat();
-        XMLOutputter XMLOut = new XMLOutputter(format);
-
-        // InputStream inSt = new FileInputStream(file_path+"boss.xml");
-        XMLOut.output(document, new FileOutputStream(rootPath2 + "/" + fileName));
-    }
-
-    @RequestMapping("/getchangeXmlSwitchTo1")
-    public void getchangeXmlSwitchTo1(String select_name,
-                                      HttpServletResponse response, HttpServletRequest request)
-            throws Exception {
-        select_name = new String(select_name.getBytes("iso-8859-1"), "utf-8");
-
-        String rootPath2 = request.getSession().getServletContext()
-                .getRealPath("");
-        new UrlUtil();
-        rootPath2 = rootPath2 + UrlUtil.getUrlUtil().getMapPath();
-        // fileName表示你创建的文件名；为xml类型；
-        String fileName = "data.xml";
-
-        if (select_name.equals("GIS区域")) {
-            fileName = "data_gis.xml";
-        } else if (select_name.equals("低端换流变") || select_name.equals("高端换流变")) {
-            fileName = "data_ft.xml";
-        } else if (select_name.equals("直流场")) {
-            fileName = "data_zlc.xml";
-        } else if (select_name.equals("交流场")) {
-            fileName = "data_jlc.xml";
-        } else if (select_name.equals("站用变")) {
-            fileName = "data_zyb.xml";
-        }
-
-        Document document;
-        SAXBuilder bulider = new SAXBuilder();
-        InputStream inSt = new FileInputStream(rootPath2 + "/" + fileName);
-        document = bulider.build(inSt);
-        Element root_find = document.getRootElement(); // 获取根节点对象
-        List<Element> RemoteAddressList = root_find.getChildren("state");
-        for (Element el2 : RemoteAddressList) {
-            if ("map_switch".equals(el2.getAttributeValue("id"))) {
-                Element color1 = el2.getChild("color");
-                color1.setText("1");
-                break;
-            }
-        }
-        Format format = Format.getPrettyFormat();
-        XMLOutputter XMLOut = new XMLOutputter(format);
-        // InputStream inSt = new FileInputStream(file_path+"boss.xml");
-        XMLOut.output(document, new FileOutputStream(rootPath2 + "/" + fileName));
-    }
-
-    @RequestMapping("/getSpaceZip")
-    public void getSpaceZip(String select_name, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        String fileName_xml = "";
-        String fileName_swf = "";
-        // 根据index选择不同xml文件
-        String srcFileName = request.getSession().getServletContext().getRealPath("");
-        new UrlUtil();
-        srcFileName = srcFileName + UrlUtil.getUrlUtil().getMapPath();
-        String destFileName = srcFileName + "ZIP";
-        System.out.println(destFileName);
-        // 复制文件
-        if ("GIS".equals(select_name)) {
-            fileName_xml = "data_gis.xml";
-            fileName_swf = "DevMap_gis.swf";
-        } else if ("JLC".equals(select_name)) {
-            fileName_xml = "data_jlc.xml";
-            fileName_swf = "DevMap_jlc.swf";
-        } else if ("FT".equals(select_name)) {
-            fileName_xml = "data_ft.xml";
-            fileName_swf = "DevMap_ft.swf";
-        } else if ("ZLC".equals(select_name)) {
-            fileName_xml = "data_zlc.xml";
-            fileName_swf = "DevMap_zlc.swf";
-        }
-        File srcFile_xml = new File(srcFileName + "/" + fileName_xml);
-        File srcFile_swf = new File(srcFileName + "/" + fileName_swf);
-        File destFile_xml = new File(destFileName + "/" + fileName_xml);
-        File destFile_swf = new File(destFileName + "/" + fileName_swf);
-        File destFile = new File(destFileName);
-        File ZipFile = new File(srcFileName + "MapZip.zip");
-        System.out.println(ZipFile);
-        if (destFile.isDirectory() || destFile.exists()) {
-            File[] files = destFile.listFiles();// 声明目录下所有的文件 files[];
-            for (int i = 0; i < files.length; i++) {// 遍历目录下所有的文件
-                files[i].delete();// 把每个文件用这个方法进行迭代
-            }
-        }
-        if (!destFile.exists()) {
-            destFile.mkdirs();
-        }
-        if (ZipFile.exists()) {
-            ZipFile.delete();
-        }
-
-        int byteread = 0; // 读取的字节数
-        InputStream in_xml = null;
-        InputStream in_swf = null;
-        OutputStream out_xml = null;
-        OutputStream out_swf = null;
-        try {
-            in_xml = new FileInputStream(srcFile_xml);
-            in_swf = new FileInputStream(srcFile_swf);
-            out_xml = new FileOutputStream(destFile_xml);
-            out_swf = new FileOutputStream(destFile_swf);
-            byte[] buffer = new byte[1024];
-            while ((byteread = in_xml.read(buffer)) != -1) {
-                out_xml.write(buffer, 0, byteread);
-            }
-            while ((byteread = in_swf.read(buffer)) != -1) {
-                out_swf.write(buffer, 0, byteread);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (out_xml != null)
-                    out_xml.close();
-                if (out_swf != null)
-                    out_swf.close();
-                if (in_xml != null)
-                    in_xml.close();
-                if (in_swf != null)
-                    in_swf.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        ICDUtils.compressedFile(destFileName, srcFileName);
-        // List<EquipmentSpaceEntity>
-        // dataList=systemConfigurationService.getEquipmentSapce();
-        // HtmlUtil.writerJson(response, dataList);
-    }
-
-
-    /**
-     * 上传SpaceMap
-     */
-    @RequestMapping("/getSpaceMap")
-    public void getSpaceMap(String select_name, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        Map<String, Object> jsonMap = new HashMap<String, Object>();
-        String Graphsurl = request.getSession().getServletContext().getRealPath("");
-        new UrlUtil();
-        Graphsurl = Graphsurl + UrlUtil.getUrlUtil().getMapPath();
-        request.setCharacterEncoding("utf-8");
-        Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");// 可以方便地修改日期格式
-        String DayTime = dateFormat.format(now);
-        String fileName = "";
-        String fileName_xml = "";
-        String fileName_swf = "";
-        // 获取文件夹名
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        factory.setSizeThreshold(2 * 1024 * 1024);
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        upload.setHeaderEncoding("utf-8");
-        if ("GIS".equals(select_name)) {
-            fileName_xml = "data_gis.xml";
-            fileName_swf = "DevMap_gis.swf";
-        } else if ("JLC".equals(select_name)) {
-            fileName_xml = "data_jlc.xml";
-            fileName_swf = "DevMap_jlc.swf";
-        } else if ("FT".equals(select_name)) {
-            fileName_xml = "data_ft.xml";
-            fileName_swf = "DevMap_ft.swf";
-        } else if ("ZLC".equals(select_name)) {
-            fileName_xml = "data_zlc.xml";
-            fileName_swf = "DevMap_zlc.swf";
-        }
-        File afile_xml = new File(Graphsurl + fileName_xml);
-        File afile_swf = new File(Graphsurl + fileName_swf);
-        File afile_file = new File(Graphsurl + "version");
-        if (!afile_file.exists() && !afile_file.isDirectory()) {
-            afile_file.mkdirs();
-        }
-        afile_xml.renameTo(new File(afile_file + "/" + DayTime + "-" + fileName_xml));
-        afile_swf.renameTo(new File(afile_file + "/" + DayTime + "-" + fileName_swf));
-
-        List<FileItem> fileList = upload.parseRequest(request);// 获取request的文件
-        // Iterator iter = fileItems.iterator()取其迭代器
-        // iter.hasNext()检查序列中是否还有元素
-        for (Iterator iter = fileList.iterator(); iter.hasNext(); ) {
-            // 获得序列中的下一个元素
-            FileItem item = (FileItem) iter.next();
-            String s = item.getString("utf-8");
-            // 上传文件的名称和完整路径
-            fileName = item.getName();
-            long size = item.getSize();
-            // 判断是否选择了文件
-            if ((fileName == null || fileName.equals("")) && size == 0) {
-                continue;
-            }
-            // 保存文件在服务器的物理磁盘中：第一个参数是：完整路径（不包括文件名）第二个参数是：文件名称
-            // item.write(file);
-            // 修改文件名和物料名一致，且强行修改了文件扩展名为gif
-            // item.write(new File(uploadPath, itemNo + ".gif"));
-            // 将文件保存到目录下，不修改文件名
-            // createExl(dir_iedName, fileName);
-            File Exl_InFile = new File(Graphsurl);
-            // 截取文件名字符串
-            fileName = fileName.substring(fileName.length() - 3, fileName.length());
-            if ("xml".equals(fileName)) {
-                item.write(new File(Exl_InFile, fileName_xml));
-            } else if ("swf".equals(fileName)) {
-                item.write(new File(Exl_InFile, fileName_swf));
-            }
-            jsonMap.put("File", 1);
-        }
-        HtmlUtil.writerJson(response, jsonMap);
-    }
-
 
     /**
      * 获取下一个主设备ID
@@ -1611,5 +1174,444 @@ public class SystemConfigurationController extends BaseAction {
                 systemConfigurationService.add_refname(refNameCell.getRefName(), refNameCell.getRefDesc());
         }
     }
+
+
+    //    /**
+//     * 生成XML文件
+//     */
+//    @RequestMapping("/getDeviceBySpace")
+//    public void getDeviceBySpace(String select_name, String path, HttpServletResponse response, HttpServletRequest request) throws Exception {
+//        select_name = new String(select_name.getBytes("iso-8859-1"), "utf-8");
+//        List<DeviceEntity> DeviceList = new ArrayList<DeviceEntity>();
+//        String rootPath = path;
+//        // String rootPath2="d:/";
+//        String rootPath2 = request.getSession().getServletContext().getRealPath("");
+//        new UrlUtil();
+//        rootPath2 = rootPath2 + UrlUtil.getUrlUtil().getMapPath();
+//        // fileName表示你创建的文件名；为xml类型；
+//        String fileName = "books.xml";
+//        // String fileName2 ="books.xml";
+//        if (select_name.equals("GIS区域")) {
+//            DeviceList = systemConfigurationService.getDeviceBySpace(select_name);
+//            fileName = "data_gis.xml";
+//        } else if (select_name.equals("低端换流变") || select_name.equals("高端换流变") || select_name.equals("站用变")) {
+//            DeviceList = systemConfigurationService.getDeviceBySpace_ft(select_name);
+//            fileName = "data_ft.xml";
+//        } else if (select_name.equals("直流场")) {
+//            DeviceList = systemConfigurationService.getDeviceBySpace(select_name);
+//            fileName = "data_zlc.xml";
+//        } else if (select_name.equals("交流场")) {
+//            DeviceList = systemConfigurationService.getDeviceBySpace(select_name);
+//            fileName = "data_jlc.xml";
+//        }
+//        // else if(select_name.equals("站用变")){
+//        // fileName="data_zyb.xml";
+//        // }
+//        System.out.println(rootPath);
+//        File file = new File(rootPath2, fileName);
+//        // 创建根节点 并设置它的属性 ;
+//        Element root = new Element("map");
+//        // 将根节点添加到文档中；
+//        Document Doc = new Document(root);
+//        // 判断是否存在xml文件
+//        if (file.isFile() && file.exists()) {
+//            file.delete();
+//        }
+//        CreatMapInfoFile(DeviceList, rootPath2, fileName);
+//    }
+//
+//    /**
+//     * 更换XML文件
+//     */
+//    @RequestMapping("/ModDeviceBySpace")
+//    public void ModDeviceBySpace(String select_name, String path, HttpServletResponse response, HttpServletRequest request) throws Exception {
+//        select_name = new String(select_name.getBytes("iso-8859-1"), "utf-8");
+//        List<DeviceEntity> DeviceList = systemConfigurationService.getDeviceBySpace(select_name);
+//        String rootPath = path;
+//        // String rootPath2="d:/";
+//        String rootPath2 = request.getSession().getServletContext().getRealPath("");
+//        new UrlUtil();
+//        rootPath2 = rootPath2 + UrlUtil.getUrlUtil().getMapPath();
+//        // fileName表示你创建的文件名；为xml类型；
+//        String fileName = "books.xml";
+//        // String fileName2 ="books.xml";
+//        if (select_name.equals("GIS区域")) {
+//            fileName = "data_gis.xml";
+//        } else if (select_name.equals("低端换流变") || select_name.equals("高端换流变")) {
+//            fileName = "data_ft.xml";
+//        } else if (select_name.equals("直流场")) {
+//            fileName = "data_zlc.xml";
+//        } else if (select_name.equals("交流场")) {
+//            fileName = "data_jlc.xml";
+//        } else if (select_name.equals("站用变")) {
+//            fileName = "data_zyb.xml";
+//        }
+//        System.out.println(rootPath);
+//
+//        File file = new File(rootPath2, fileName);
+//        // 创建根节点 并设置它的属性 ;
+//        Element root = new Element("map");
+//        // 将根节点添加到文档中；
+//        Document Doc = new Document(root);
+//        // 判断是否存在xml文件
+//        if (file.isFile() && file.exists()) {
+//            RepMapInfoFile(DeviceList, rootPath2, fileName);
+//        } else {
+//            CreatMapInfoFile(DeviceList, rootPath2, fileName);
+//        }
+//    }
+
+//    /**
+//     * 生成XML文件标签部分
+//     *
+//     * @throws IOException
+//     * @throws FileNotFoundException
+//     */
+//    public static void CreatMapInfoFile(List<DeviceEntity> DeviceList, String rootPath, String fileName) throws JDOMException, IOException {
+//        // 创建根节点 并设置它的属性 ;
+//        Element root = new Element("map");
+//        // 将根节点添加到文档中；
+//        Document Doc = new Document(root);
+//        Element elements_1 = new Element("state").setAttribute("id", "default_point");
+//        elements_1.addContent(new Element("color").setText("0xFF0000"));
+//        elements_1.addContent(new Element("size").setText("5"));
+//        root.addContent(elements_1);
+//        Element elements_2 = new Element("state").setAttribute("id", "refresh_rate");
+//        elements_2.addContent(new Element("color").setText("1000"));
+//        root.addContent(elements_2);
+//        Element elements_3 = new Element("state").setAttribute("id", "background_color");
+//        elements_3.addContent(new Element("color").setText("1000"));
+//        root.addContent(elements_3);
+//        Element elements_4 = new Element("state").setAttribute("id", "map_switch");
+//        elements_4.addContent(new Element("color").setText("1"));
+//        root.addContent(elements_4);
+//        for (int i = 0; i < DeviceList.size(); i++) {
+//            // 创建节点 state;
+//            Element elements = new Element("state").setAttribute("id", "point");
+//            // 给 state 节点添加子节点并赋值；
+//            elements.addContent(new Element("devid").setText(DeviceList.get(i).getDeviceID()));
+//            elements.addContent(new Element("name").setText(DeviceList.get(i).getDeviceName() + "," + DeviceList.get(i).getStartOperateTime()));
+//            elements.addContent(new Element("dtype").setText(String.valueOf(DeviceList.get(i).getDeviceType())));
+//            elements.addContent(new Element("info").setText(DeviceList.get(i).getRemark()));
+//            elements.addContent(new Element("data").setText("0,0,0,0,0,0,0,0,0,0,0"));
+//            int X = i / 10 + 15;
+//            int Y = i % 10 + 90;
+//            String XYpoint = "-" + X + "," + Y;
+//            elements.addContent(new Element("loc").setText(XYpoint));
+//            //
+//            root.addContent(elements);
+//        }
+//        Format format = Format.getPrettyFormat();
+//        XMLOutputter XMLOut = new XMLOutputter(format);
+//
+//        // InputStream inSt = new FileInputStream(file_path+"boss.xml");
+//        XMLOut.output(Doc, new FileOutputStream(rootPath + "/" + fileName));
+//
+//    }
+//
+//    /**
+//     * 替换XML文件标签部分
+//     *
+//     * @throws IOException
+//     * @throws FileNotFoundException
+//     */
+//    public static void RepMapInfoFile(List<DeviceEntity> DeviceList,
+//                                      String rootPath, String fileName) throws JDOMException, IOException {
+//        // 如不存在则新增
+//
+//        for (int i = 0; i < DeviceList.size(); i++) {// 循环数据库设备
+//            Document document;
+//            SAXBuilder bulider = new SAXBuilder();
+//            InputStream inSt = new FileInputStream(rootPath + "/" + fileName);
+//            document = bulider.build(inSt);
+//            Element root_find = document.getRootElement(); // 获取根节点对象
+//            List<Element> RemoteAddressList = root_find.getChildren("state");
+//            boolean aa = false;
+//            for (Element el2 : RemoteAddressList) {
+//                Element devid = el2.getChild("devid");
+//                Element devname = el2.getChild("name");
+//                Element dtype = el2.getChild("dtype");
+//                if (devid != null) {
+//                    if (devid.getText().equals(DeviceList.get(i).getDeviceID())) {// 判断XML点在数据库中是否存在，如存在则修改
+//                        System.out.println("XML文件的DevidId是" + devid.getText());
+//                        System.out.println("数据库的DevidId是" + DeviceList.get(i).getDeviceID());
+//                        // System.out.println("开始将"+devid.getText()+"替换成"+DeviceList.get(i).getDeviceID());
+//                        // devid.setText(DeviceList.get(i).getDeviceID());
+//                        System.out.println("开始将" + devname.getText() + "替换成" + DeviceList.get(i).getDeviceName());
+//                        devname.setText(DeviceList.get(i).getDeviceName());
+//                        System.out.println("开始将" + dtype.getText() + "替换成" + DeviceList.get(i).getDeviceType());
+//                        dtype.setText(String.valueOf(DeviceList.get(i).getDeviceType()));
+//                        aa = true;
+//                        break;// 如果替换则跳出当前for循环寻找下一个
+//                    }
+//                }
+//            }
+//            if (aa == false) {
+//
+//                // 创建节点 state;
+//                Element elements = new Element("state").setAttribute("id", "point");
+//                // 给 state 节点添加子节点并赋值；
+//                elements.addContent(new Element("devid").setText(DeviceList.get(i).getDeviceID()));
+//                elements.addContent(new Element("name").setText(DeviceList.get(i).getDeviceName()));
+//                elements.addContent(new Element("dtype").setText(String.valueOf(DeviceList.get(i).getDeviceType())));
+//                elements.addContent(new Element("info").setText("0"));
+//                elements.addContent(new Element("data").setText("0,0,0,0,0,0,0,0,0,0,0"));
+//                int X = i / 10 + 15;
+//                int Y = i % 10 + 90;
+//                String XYpoint = "-" + X + "," + Y;
+//                elements.addContent(new Element("loc").setText(XYpoint));
+//                //
+//                root_find.addContent(elements.detach());
+//            }
+//        }
+//    }
+//
+//    @RequestMapping("/getchangeXmlSwitchTo0")
+//    public void getchangeXmlSwitchTo0(String select_name, HttpServletResponse response, HttpServletRequest request) throws Exception {
+//        select_name = new String(select_name.getBytes("iso-8859-1"), "utf-8");
+//        String rootPath2 = request.getSession().getServletContext().getRealPath("");
+//        new UrlUtil();
+//        rootPath2 = rootPath2 + UrlUtil.getUrlUtil().getMapPath();
+//        // fileName表示你创建的文件名；为xml类型；
+//        String fileName = "data.xml";
+//
+//        if (select_name.equals("GIS区域")) {
+//            fileName = "data_gis.xml";
+//        } else if (select_name.equals("低端换流变") || select_name.equals("高端换流变")) {
+//            fileName = "data_ft.xml";
+//        } else if (select_name.equals("直流场")) {
+//            fileName = "data_zlc.xml";
+//        } else if (select_name.equals("交流场")) {
+//            fileName = "data_jlc.xml";
+//        } else if (select_name.equals("站用变")) {
+//            fileName = "data_zyb.xml";
+//        }
+//
+//        Document document;
+//        SAXBuilder bulider = new SAXBuilder();
+//        InputStream inSt = new FileInputStream(rootPath2 + "/" + fileName);
+//        document = bulider.build(inSt);
+//        Element root_find = document.getRootElement(); // 获取根节点对象
+//
+//        List<Element> RemoteAddressList = root_find.getChildren("state");
+//
+//        for (Element el2 : RemoteAddressList) {
+//            if ("map_switch".equals(el2.getAttributeValue("id"))) {
+//                Element color0 = el2.getChild("color");
+//                color0.setText("0");
+//                break;
+//            }
+//        }
+//        Format format = Format.getPrettyFormat();
+//        XMLOutputter XMLOut = new XMLOutputter(format);
+//
+//        // InputStream inSt = new FileInputStream(file_path+"boss.xml");
+//        XMLOut.output(document, new FileOutputStream(rootPath2 + "/" + fileName));
+//    }
+//
+//    @RequestMapping("/getchangeXmlSwitchTo1")
+//    public void getchangeXmlSwitchTo1(String select_name,
+//                                      HttpServletResponse response, HttpServletRequest request)
+//            throws Exception {
+//        select_name = new String(select_name.getBytes("iso-8859-1"), "utf-8");
+//
+//        String rootPath2 = request.getSession().getServletContext()
+//                .getRealPath("");
+//        new UrlUtil();
+//        rootPath2 = rootPath2 + UrlUtil.getUrlUtil().getMapPath();
+//        // fileName表示你创建的文件名；为xml类型；
+//        String fileName = "data.xml";
+//
+//        if (select_name.equals("GIS区域")) {
+//            fileName = "data_gis.xml";
+//        } else if (select_name.equals("低端换流变") || select_name.equals("高端换流变")) {
+//            fileName = "data_ft.xml";
+//        } else if (select_name.equals("直流场")) {
+//            fileName = "data_zlc.xml";
+//        } else if (select_name.equals("交流场")) {
+//            fileName = "data_jlc.xml";
+//        } else if (select_name.equals("站用变")) {
+//            fileName = "data_zyb.xml";
+//        }
+//
+//        Document document;
+//        SAXBuilder bulider = new SAXBuilder();
+//        InputStream inSt = new FileInputStream(rootPath2 + "/" + fileName);
+//        document = bulider.build(inSt);
+//        Element root_find = document.getRootElement(); // 获取根节点对象
+//        List<Element> RemoteAddressList = root_find.getChildren("state");
+//        for (Element el2 : RemoteAddressList) {
+//            if ("map_switch".equals(el2.getAttributeValue("id"))) {
+//                Element color1 = el2.getChild("color");
+//                color1.setText("1");
+//                break;
+//            }
+//        }
+//        Format format = Format.getPrettyFormat();
+//        XMLOutputter XMLOut = new XMLOutputter(format);
+//        // InputStream inSt = new FileInputStream(file_path+"boss.xml");
+//        XMLOut.output(document, new FileOutputStream(rootPath2 + "/" + fileName));
+//    }
+//
+//    @RequestMapping("/getSpaceZip")
+//    public void getSpaceZip(String select_name, HttpServletResponse response, HttpServletRequest request) throws Exception {
+//        String fileName_xml = "";
+//        String fileName_swf = "";
+//        // 根据index选择不同xml文件
+//        String srcFileName = request.getSession().getServletContext().getRealPath("");
+//        new UrlUtil();
+//        srcFileName = srcFileName + UrlUtil.getUrlUtil().getMapPath();
+//        String destFileName = srcFileName + "ZIP";
+//        System.out.println(destFileName);
+//        // 复制文件
+//        if ("GIS".equals(select_name)) {
+//            fileName_xml = "data_gis.xml";
+//            fileName_swf = "DevMap_gis.swf";
+//        } else if ("JLC".equals(select_name)) {
+//            fileName_xml = "data_jlc.xml";
+//            fileName_swf = "DevMap_jlc.swf";
+//        } else if ("FT".equals(select_name)) {
+//            fileName_xml = "data_ft.xml";
+//            fileName_swf = "DevMap_ft.swf";
+//        } else if ("ZLC".equals(select_name)) {
+//            fileName_xml = "data_zlc.xml";
+//            fileName_swf = "DevMap_zlc.swf";
+//        }
+//        File srcFile_xml = new File(srcFileName + "/" + fileName_xml);
+//        File srcFile_swf = new File(srcFileName + "/" + fileName_swf);
+//        File destFile_xml = new File(destFileName + "/" + fileName_xml);
+//        File destFile_swf = new File(destFileName + "/" + fileName_swf);
+//        File destFile = new File(destFileName);
+//        File ZipFile = new File(srcFileName + "MapZip.zip");
+//        System.out.println(ZipFile);
+//        if (destFile.isDirectory() || destFile.exists()) {
+//            File[] files = destFile.listFiles();// 声明目录下所有的文件 files[];
+//            for (int i = 0; i < files.length; i++) {// 遍历目录下所有的文件
+//                files[i].delete();// 把每个文件用这个方法进行迭代
+//            }
+//        }
+//        if (!destFile.exists()) {
+//            destFile.mkdirs();
+//        }
+//        if (ZipFile.exists()) {
+//            ZipFile.delete();
+//        }
+//
+//        int byteread = 0; // 读取的字节数
+//        InputStream in_xml = null;
+//        InputStream in_swf = null;
+//        OutputStream out_xml = null;
+//        OutputStream out_swf = null;
+//        try {
+//            in_xml = new FileInputStream(srcFile_xml);
+//            in_swf = new FileInputStream(srcFile_swf);
+//            out_xml = new FileOutputStream(destFile_xml);
+//            out_swf = new FileOutputStream(destFile_swf);
+//            byte[] buffer = new byte[1024];
+//            while ((byteread = in_xml.read(buffer)) != -1) {
+//                out_xml.write(buffer, 0, byteread);
+//            }
+//            while ((byteread = in_swf.read(buffer)) != -1) {
+//                out_swf.write(buffer, 0, byteread);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                if (out_xml != null)
+//                    out_xml.close();
+//                if (out_swf != null)
+//                    out_swf.close();
+//                if (in_xml != null)
+//                    in_xml.close();
+//                if (in_swf != null)
+//                    in_swf.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        ICDUtils.compressedFile(destFileName, srcFileName);
+//        // List<EquipmentSpaceEntity>
+//        // dataList=systemConfigurationService.getEquipmentSapce();
+//        // HtmlUtil.writerJson(response, dataList);
+//    }
+//
+//
+//    /**
+//     * 上传SpaceMap
+//     */
+//    @RequestMapping("/getSpaceMap")
+//    public void getSpaceMap(String select_name, HttpServletResponse response, HttpServletRequest request) throws Exception {
+//        Map<String, Object> jsonMap = new HashMap<String, Object>();
+//        String Graphsurl = request.getSession().getServletContext().getRealPath("");
+//        new UrlUtil();
+//        Graphsurl = Graphsurl + UrlUtil.getUrlUtil().getMapPath();
+//        request.setCharacterEncoding("utf-8");
+//        Date now = new Date();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");// 可以方便地修改日期格式
+//        String DayTime = dateFormat.format(now);
+//        String fileName = "";
+//        String fileName_xml = "";
+//        String fileName_swf = "";
+//        // 获取文件夹名
+//        DiskFileItemFactory factory = new DiskFileItemFactory();
+//        factory.setSizeThreshold(2 * 1024 * 1024);
+//        ServletFileUpload upload = new ServletFileUpload(factory);
+//        upload.setHeaderEncoding("utf-8");
+//        if ("GIS".equals(select_name)) {
+//            fileName_xml = "data_gis.xml";
+//            fileName_swf = "DevMap_gis.swf";
+//        } else if ("JLC".equals(select_name)) {
+//            fileName_xml = "data_jlc.xml";
+//            fileName_swf = "DevMap_jlc.swf";
+//        } else if ("FT".equals(select_name)) {
+//            fileName_xml = "data_ft.xml";
+//            fileName_swf = "DevMap_ft.swf";
+//        } else if ("ZLC".equals(select_name)) {
+//            fileName_xml = "data_zlc.xml";
+//            fileName_swf = "DevMap_zlc.swf";
+//        }
+//        File afile_xml = new File(Graphsurl + fileName_xml);
+//        File afile_swf = new File(Graphsurl + fileName_swf);
+//        File afile_file = new File(Graphsurl + "version");
+//        if (!afile_file.exists() && !afile_file.isDirectory()) {
+//            afile_file.mkdirs();
+//        }
+//        afile_xml.renameTo(new File(afile_file + "/" + DayTime + "-" + fileName_xml));
+//        afile_swf.renameTo(new File(afile_file + "/" + DayTime + "-" + fileName_swf));
+//
+//        List<FileItem> fileList = upload.parseRequest(request);// 获取request的文件
+//        // Iterator iter = fileItems.iterator()取其迭代器
+//        // iter.hasNext()检查序列中是否还有元素
+//        for (Iterator iter = fileList.iterator(); iter.hasNext(); ) {
+//            // 获得序列中的下一个元素
+//            FileItem item = (FileItem) iter.next();
+//            String s = item.getString("utf-8");
+//            // 上传文件的名称和完整路径
+//            fileName = item.getName();
+//            long size = item.getSize();
+//            // 判断是否选择了文件
+//            if ((fileName == null || fileName.equals("")) && size == 0) {
+//                continue;
+//            }
+//            // 保存文件在服务器的物理磁盘中：第一个参数是：完整路径（不包括文件名）第二个参数是：文件名称
+//            // item.write(file);
+//            // 修改文件名和物料名一致，且强行修改了文件扩展名为gif
+//            // item.write(new File(uploadPath, itemNo + ".gif"));
+//            // 将文件保存到目录下，不修改文件名
+//            // createExl(dir_iedName, fileName);
+//            File Exl_InFile = new File(Graphsurl);
+//            // 截取文件名字符串
+//            fileName = fileName.substring(fileName.length() - 3, fileName.length());
+//            if ("xml".equals(fileName)) {
+//                item.write(new File(Exl_InFile, fileName_xml));
+//            } else if ("swf".equals(fileName)) {
+//                item.write(new File(Exl_InFile, fileName_swf));
+//            }
+//            jsonMap.put("File", 1);
+//        }
+//        HtmlUtil.writerJson(response, jsonMap);
+//    }
+
 }
 
