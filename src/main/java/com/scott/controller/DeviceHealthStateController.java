@@ -1,7 +1,6 @@
 package com.scott.controller;
 
 import com.base.entity.PubDeviceTypeEnum;
-import com.base.util.GetXml;
 import com.base.util.HtmlUtil;
 import com.base.util.UrlUtil;
 import com.base.util.edit.DateUtil;
@@ -9,12 +8,6 @@ import com.base.web.BaseAction;
 import com.scott.entity.*;
 import com.scott.page.HistoryPage;
 import com.scott.service.DeviceHealthStateService;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
-import org.jdom.xpath.XPath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -654,56 +647,6 @@ public class DeviceHealthStateController extends BaseAction {
             }
         }
         HtmlUtil.writerJson(response, maps);
-    }
-
-    /**
-     * 获取infxml文件
-     *
-     * @param url
-     * @param classifyId
-     * @return
-     * @
-     */
-    @RequestMapping("/getInfXml")
-    public void getInfXml(
-            HttpServletResponse response, HttpServletRequest request) throws Exception {
-        String strXml = null;
-        //获取根据id获取device表中的LN
-        String id = request.getParameter("DeviceID");//获取DeviceID
-        String type = request.getParameter("Type");//获取Type
-        String ln = deviceHealthStateService.getDeviceLN(id);//获取设备
-        String file_path = "";
-        if ("1".equals(type)) {
-            file_path = UrlUtil.getUrlUtil().getYspinf();
-        }
-        if ("2".equals(type)) {
-            file_path = UrlUtil.getUrlUtil().getSf6inf();
-        }
-        if ("3".equals(type)) {
-            file_path = UrlUtil.getUrlUtil().getBlqinf();
-        }
-        if ("19".equals(type)) {
-            file_path = UrlUtil.getUrlUtil().getJfinf();
-        }
-        if ("4".equals(type)) {
-            file_path = UrlUtil.getUrlUtil().getScominf();
-        }
-        ln = ln.substring(ln.indexOf("/") + 1);
-        String xmlName = "";
-        File f = new File(file_path);//组成文件类，问题：\\CAC\\iec61850\\fileserv\\HZSH_SF6121地址指向的是哪里
-        String[] files = f.list();//文件名，问题：获取到的files为null
-        for (int i = 0; i < files.length; i++) {
-            if (files[i].indexOf(ln) >= 0) {
-                xmlName = files[i];
-                break;
-            }
-        }
-        GetXml xml = new GetXml(file_path + xmlName);
-        strXml = xml.XmlToString();
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        out.print(strXml);
-        out.flush();
     }
 
 

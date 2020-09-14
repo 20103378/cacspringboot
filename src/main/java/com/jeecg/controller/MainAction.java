@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 @Controller
 public class MainAction extends BaseAction {
 	private final static Logger logger = LoggerFactory.getLogger(MainAction.class);
-	private String message = null;
 
 	@Autowired(required = false)
 	private SysMenuService<SysMenu> sysMenuService;
@@ -66,12 +65,10 @@ public class MainAction extends BaseAction {
 	@Auth(verifyLogin = false, verifyURL = false)
 	@RequestMapping("/checkuser")
 	@ResponseBody
-	public Boolean checkuser(RequestUserVO user, HttpServletRequest req,
-                          HttpServletResponse response) throws Exception {
+	public Boolean checkuser(RequestUserVO user, HttpServletRequest req) throws Exception {
 		SysUser u = sysUserService.queryLogin(user.getEmail(),
 				MethodUtil.MD5(user.getPwd()));
 		if (u != null) {
-			message = "用户: " + u.getNickName() + "登录成功";
 			// -------------------------------------------------------
 			// 登录次数加1 修改登录时间
 			int loginCount = 0;
@@ -84,13 +81,10 @@ public class MainAction extends BaseAction {
 			// 设置User到Session
 			SessionUtils.setUser(req, u);
 			// 记录成功登录日志
-//			log.debug(message);
-//			sendSuccessMessage(response, message);
 			return true;
 			// -------------------------------------------------------
 		} else {
 			return false;
-//			sendFailureMessage(response, "用户名或密码错误!");
 		}
 	}
 
@@ -103,10 +97,9 @@ public class MainAction extends BaseAction {
 	 */
 	@Auth(verifyLogin = false, verifyURL = false)
 	@RequestMapping("/logout")
-	public void logout(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public String logout(HttpServletRequest request) {
 		SessionUtils.removeUser(request);
-		response.sendRedirect("login");
+		return "redirect:/";
 	}
 
 	/**
